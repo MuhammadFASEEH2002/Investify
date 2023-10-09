@@ -48,11 +48,11 @@ const Homepage = () => {
               </button>
             </div>
           </div>
-          {/* title section */}
+          {/* Title section */}
           <HomepageTitle />
-          {/* aboutus section */}
+          {/* Aboutus section */}
           <HomepageAboutus />
-          {/* services section */}
+          {/* Services section */}
           <HomepageServices />
           {/* Footer */}
           <div className="homepage-footer flex flex-row align-center justify-center">
