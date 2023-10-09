@@ -1,3 +1,14 @@
+/* imports */
+@import url('https://fonts.googleapis.com/css2?family=Exo&display=swap');
+
+/*EXO font*/
+
+.main {
+    height: 100svh;
+    width: 100svw;
+    overflow-x: hidden;
+}
+
 /* Reusable css */
 *,
 *::after,

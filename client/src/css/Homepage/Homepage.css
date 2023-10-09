@@ -1,13 +1,3 @@
-/* imports */
-@import url('https://fonts.googleapis.com/css2?family=Exo&display=swap');
-
-/*EXO font*/
-
-.main {
-    height: 100svh;
-    width: 100svw;
-    overflow-x: hidden;
-}
 
 /* ---------------------------------------------------------Homepage------------------------------------------------------------------------ */
 .homepage-main {
@@ -18,7 +8,6 @@
 .homepage-header {
     width: 100%;
     padding: 0.5%;
-    background-color: #42B2FE;
     background: linear-gradient(to right, #42B2FE, #001F44);
     position: sticky;
     top: 0%;
@@ -69,7 +58,8 @@
 }
 
 .homepage-title {
-    background-color: #BADFF9;
+    /* background-color: #BADFF9; */
+    background-color: #EAEDEF;
 }
 
 .homepage-title-image-section,
@@ -109,7 +99,10 @@
 }
 
 .homepage-aboutus {
-    background-color: #42B2FE;
+    /* background-color: #42B2FE;
+     */
+    background: linear-gradient(to right, #42B2FE, #001F44);
+
 }
 
 .homepage-aboutus-image {
@@ -128,7 +121,8 @@
 
 
 .homepage-services {
-    background-color: #BADFF9;
+    background-color: #EAEDEF;
+
 }
 
 .homepage-services-image {
@@ -138,6 +132,8 @@
 
 .homepage-footer {
     background-color: #42B2FE;
+    background: linear-gradient(to right, #42B2FE, #001F44);
+
 }
 
 .homepage-footer-logo-section {

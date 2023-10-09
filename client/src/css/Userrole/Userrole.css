@@ -1,0 +1,19 @@
+.userrole-main {
+    width: 100%;
+    height: 100%;
+    font-family: 'Exo', sans-serif;
+    background-color: #EAEDEF;
+}
+.userrole-header {
+    width: 100%;
+    padding: 0.5%;
+}
+.userrole-header-logo-section{
+    width: 100%;
+}
+.userrole-logo {
+    height: 60px;
+    width: 50px;
+    background-image: url(../../../public/images/logo.png);
+    background-size: 100% 100%;
+}
