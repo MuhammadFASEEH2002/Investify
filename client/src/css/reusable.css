@@ -61,3 +61,6 @@
 .justify-end {
     justify-content: flex-end;
 }
+.justify-even{
+    justify-content: space-evenly;
+}

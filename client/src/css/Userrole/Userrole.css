@@ -8,7 +8,7 @@
     width: 100%;
     padding: 0.5%;
 }
-.userrole-header-logo-section{
+.userrole-header-logo-section,.userrole-decsionbutton-section{
     width: 100%;
 }
 .userrole-logo {
@@ -16,4 +16,34 @@
     width: 50px;
     background-image: url(../../../public/images/logo.png);
     background-size: 100% 100%;
+}
+.userrole-text-section{
+    width: 100%;
+}
+.userrole-text{
+    margin-top: 5%;
+    width: 60%;
+    text-align: center;
+}
+.userrole-decsionbutton-section{
+    padding-top: 3%;
+}
+.userrole-decisionbutton{
+    width: 300px;
+    height: 250px;
+    background: linear-gradient(to right, #42B2FE, #001F44);
+ padding: 1%;
+ border-radius: 10px;
+ cursor: pointer;
+}
+.userrole-decisionbutton-heading,.userrole-decisionbutton-text{
+color: white;
+text-align: center;
+}
+.userrole-decisionbutton-heading{
+    font-size: 1.8rem;
+    margin-bottom: 10%;
+}
+.userrole-decisionbutton-text{
+    font-size: 1rem;
 }
