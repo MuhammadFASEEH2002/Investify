@@ -41,7 +41,7 @@ const Homepage = () => {
               </ul>
               <button
                 className="getstarted-button"
-                onClick={() => navigate("/login/user-role")}
+                onClick={() => navigate("/user-login")}
               >
                 Get Started
               </button>
