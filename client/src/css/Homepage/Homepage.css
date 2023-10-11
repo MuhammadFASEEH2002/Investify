@@ -45,7 +45,7 @@
     font-weight: 600;
     border-radius: 10px;
     cursor: pointer;
-    border: 0.8px solid black;
+    border: 0.8px solid grey;
 }
 .getstarted-button:hover {
    background-color: black;
