@@ -1,7 +1,6 @@
 import React from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import "../../css/reusable.css";
 import "../../css/Homepage/Homepage.css";
 import HomepageTitle from "./components/HomepageTitle";

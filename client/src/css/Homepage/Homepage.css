@@ -286,6 +286,7 @@
     .homepage-services-image {
         height: 130px;
         width: 130px;
+        margin-bottom: 21%;
     }
 
     .homepage-title-text,
@@ -304,12 +305,15 @@
     }
 
     .homepage-title,
-    .homepage-services {
+    .homepage-aboutus {
         flex-direction: column;
     }
 
-    .homepage-aboutus {
+    .homepage-services {
         flex-direction: column-reverse;
+    }
+    .homepage-footer{
+        flex-direction: column;
     }
 
     .homepage-footer-logo {
@@ -327,7 +331,12 @@
     .homepage-footer-text-heading {
         font-size: 0.8rem;
     }
-
+    .homepage-footer-logo-section{
+        justify-content: center;
+    }
+    .homepage-footer-text-section ul{
+        margin: 5%;
+    }
     .homepage-footer-text-section ul li a {
         font-size: 0.65rem;
     }
@@ -335,5 +344,11 @@
     .homepage-services-text-section,
     .homepage-aboutus-text-section {
         align-items: center;
+        text-align: justify;
+    }
+    .homepage-footer-social-icons {
+     
+        margin: 4%;
+      
     }
 }

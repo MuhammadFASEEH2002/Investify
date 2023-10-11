@@ -31,10 +31,14 @@
 .userrole-decisionbutton{
     width: 300px;
     height: 250px;
-    background: linear-gradient(to right, #42B2FE, #001F44);
+    /* background: linear-gradient(to right, #42B2FE, #001F44); */
+    background-color: #42B2FE;
  padding: 1%;
  border-radius: 10px;
  cursor: pointer;
+}
+.userrole-decisionbutton:hover{
+    background-color:#001F44 ;
 }
 .userrole-decisionbutton-heading,.userrole-decisionbutton-text{
 color: white;
@@ -46,4 +50,44 @@ text-align: center;
 }
 .userrole-decisionbutton-text{
     font-size: 1rem;
+}
+@media screen and (max-width: 768px) {
+    .userrole-text{
+       font-size: 1.8rem;
+       width: 70%;
+    }
+    .userrole-decisionbutton{
+        width: 250px;
+        height: 200px;
+    }
+    .userrole-decisionbutton-heading{
+        font-size: 1.5rem;
+    }
+    .userrole-decisionbutton-text{
+        font-size: 0.8rem;
+    }
+}
+@media screen and (max-width: 468px) {
+    .userrole-logo {
+        height: 30px;
+        width: 30px;
+    }
+    .userrole-text{
+       font-size: 1.4rem;
+       width: 90%;
+    }
+    .userrole-decsionbutton-section{
+        flex-direction: column;
+    }
+    .userrole-decisionbutton{
+        width: 180px;
+        height: 150px;
+        margin: 1%;
+    }
+    .userrole-decisionbutton-heading{
+        font-size: 1.2rem;
+    }
+    .userrole-decisionbutton-text{
+        font-size: 0.6rem;
+    }
 }
