@@ -1,0 +1,55 @@
+.userregistration-main {
+    width: 100%;
+    height: 100%;
+    font-family: 'Exo', sans-serif;
+    background-color: #EAEDEF;
+}
+.userregistration-header {
+    width: 100%;
+    padding: 0.5%;
+}
+.userregistration-header-logo-section,.userregisteration-heading-section,.userregistration-inputarea{
+    width: 100%;
+}
+.userregistration-logo {
+    height: 60px;
+    width: 50px;
+    background-image: url(../../../public/images/logo.png);
+    background-size: 100% 100%;
+}
+.userregisteration-heading{
+    margin-left: 20px;
+}
+.userregistration-loginmessage{
+    width: 100%;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+.userregistration-loginmessage h1{
+    font-size: 1rem;
+}
+.userregistration-loginmessage h1 span{
+    font-size: 0.8rem;
+}
+.userregistration-form{
+    margin-top: 20px;
+
+}
+.userregistration-form-left{
+width: 50%;
+margin-left: 10px;
+}
+.userregistration-inputfields{
+width: 45%;
+margin: 10px;
+}
+.userregistration-inputfields-label{
+    font-size: 1rem;
+    
+    }
+    .userregistration-inputarea-inputboxes{
+        width: 100%;
+        padding: 2% 1% 2% 1%;
+        border-radius: 5px;
+        border: 0.8px solid grey;
+}

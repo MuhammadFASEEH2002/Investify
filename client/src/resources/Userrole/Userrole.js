@@ -28,12 +28,12 @@ const Userrole = () => {
             <DecisionButton
               heading="I Want to Invest"
               text="Join our network as an investor, explore promising businesses, and start making strategic investments."
-              onClick={() => navigate("/login/investor-login")}
+              onClick={() => navigate("/user-registration")}
             />
             <DecisionButton
               heading="I Want to List My Business"
               text="Showcase your business, attract potential investors, and take the next step towards growth."
-              onClick={() => navigate("/login/investee-login")}
+              onClick={() => navigate("/user-registration")}
             />
           </div>
         </div>

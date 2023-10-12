@@ -98,7 +98,7 @@ const Userlogin = () => {
                 </h3>
                 <button
                   className="userlogin-loginarea-right-signupbutton"
-                  onClick={() => navigate("/user-registeration/user-role")}
+                  onClick={() => navigate("/user-registration/user-role")}
                 >
                   Sign Up
                 </button>

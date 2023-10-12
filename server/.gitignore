@@ -1,0 +1,13 @@
+# Ignore node_modules folder
+node_modules/
+
+# Ignore environment variables file
+.env
+
+# Ignore build output (if any)
+/build
+
+# Ignore log files (if any)
+/logs
+
+# Ignore any other generated or temporary files specific to your server folder
