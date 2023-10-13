@@ -35,7 +35,7 @@
     margin-top: 20px;
 
 }
-.userregistration-form-left{
+.userregistration-form-left,.userregistration-form-right{
 width: 50%;
 margin-left: 10px;
 }

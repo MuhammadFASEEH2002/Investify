@@ -1,4 +1,3 @@
-
 /* ---------------------------------------------------------Homepage------------------------------------------------------------------------ */
 .homepage-main {
     width: 100%;
@@ -47,9 +46,10 @@
     cursor: pointer;
     border: 0.8px solid grey;
 }
+
 .getstarted-button:hover {
-   background-color: black;
-   color: white;
+    background-color: black;
+    color: white;
 }
 
 .homepage-title,
@@ -192,6 +192,7 @@
 .whatsapp {
     background-image: url(../../../public/images/whatsapp.png);
 }
+
 /* For Tablets */
 @media screen and (max-width: 768px) {
     .homepage-header-logo-section {
@@ -249,10 +250,11 @@
         font-size: 0.7rem;
     }
 }
+
 /* For Mobile */
 @media screen and (max-width: 468px) {
     .homepage-header {
-        padding: 1%;
+        padding: 10px;
     }
 
     .homepage-header-logo-section {
@@ -277,7 +279,7 @@
     }
 
     .homepage-header-navigationButtons-section ul li {
-        margin-right: 5%;
+        margin-right: 8%;
         font-size: 0.7rem;
     }
 
@@ -312,7 +314,8 @@
     .homepage-services {
         flex-direction: column-reverse;
     }
-    .homepage-footer{
+
+    .homepage-footer {
         flex-direction: column;
     }
 
@@ -331,12 +334,15 @@
     .homepage-footer-text-heading {
         font-size: 0.8rem;
     }
-    .homepage-footer-logo-section{
+
+    .homepage-footer-logo-section {
         justify-content: center;
     }
-    .homepage-footer-text-section ul{
+
+    .homepage-footer-text-section ul {
         margin: 5%;
     }
+
     .homepage-footer-text-section ul li a {
         font-size: 0.65rem;
     }
@@ -346,6 +352,7 @@
         align-items: center;
         text-align: justify;
     }
+
     .homepage-footer-social-icons {
         margin: 4%;
     }
