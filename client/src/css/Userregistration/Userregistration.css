@@ -1,55 +1,116 @@
 .userregistration-main {
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     font-family: 'Exo', sans-serif;
     background-color: #EAEDEF;
 }
+
 .userregistration-header {
     width: 100%;
     padding: 0.5%;
 }
-.userregistration-header-logo-section,.userregisteration-heading-section,.userregistration-inputarea{
+
+.userregistration-header-logo-section,
+.userregisteration-heading-section,
+.userregistration-inputarea {
     width: 100%;
 }
+
 .userregistration-logo {
     height: 60px;
     width: 50px;
     background-image: url(../../../public/images/logo.png);
     background-size: 100% 100%;
 }
-.userregisteration-heading{
+
+.userregisteration-heading {
     margin-left: 20px;
 }
-.userregistration-loginmessage{
+
+.userregistration-loginmessage {
     width: 100%;
     margin-left: 20px;
     margin-top: 10px;
 }
-.userregistration-loginmessage h1{
+
+.userregistration-loginmessage h1 {
     font-size: 1rem;
+    margin-right: 5px;
 }
-.userregistration-loginmessage h1 span{
+
+.userregistration-loginmessage h1 span {
     font-size: 0.8rem;
 }
-.userregistration-form{
+
+.userregistration-form {
     margin-top: 20px;
+    width: 100%;
+}
+
+.userregistration-form-left,
+.userregistration-form-right {
+    width: 50%;
+    margin-left: 10px;
+}
+
+.userregistration-inputfields {
+    width: 45%;
+    margin: 10px;
+}
+
+.userregistration-inputfields-label {
+    font-size: 1rem;
 
 }
-.userregistration-form-left,.userregistration-form-right{
-width: 50%;
-margin-left: 10px;
+
+.userregistration-inputarea-inputboxes {
+    width: 100%;
+    padding: 10px 8px 10px 8px;
+    border-radius: 5px;
+    border: 0.5px solid grey;
 }
-.userregistration-inputfields{
-width: 45%;
-margin: 10px;
-}
-.userregistration-inputfields-label{
-    font-size: 1rem;
-    
+
+@media screen and (max-width: 768px) {
+    .userregistration-form {
+        flex-direction: column;
+
     }
-    .userregistration-inputarea-inputboxes{
+
+    .userregistration-form-left,
+    .userregistration-form-right {
         width: 100%;
-        padding: 2% 1% 2% 1%;
-        border-radius: 5px;
-        border: 0.8px solid grey;
+
+    }
+}
+
+@media screen and (max-width: 468px) {
+    .userregistration-header {
+        padding: 10px;
+    }
+
+    .userregistation-header-logo-section {
+        width: 20%;
+    }
+
+    .userregistration-logo {
+        height: 30px;
+        width: 30px;
+    }
+    .userregisteration-heading {
+        font-size: 1.5rem;
+    }
+
+    .userregistration-loginmessage,.userregistration-loginmessage h1,  .userregistration-loginmessage h1 span {
+        font-size: 0.8rem;
+    }
+    .userregistration-inputfields {
+        width: 50%;
+       
+    }
+    .userregistration-form-left,
+    .userregistration-form-right {
+       margin: 0;
+
+    }
+    
 }
