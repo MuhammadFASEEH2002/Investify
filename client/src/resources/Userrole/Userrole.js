@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../css/reusable.css";
 import "../../css/Userrole/Userrole.css";
 import DecisionButton from "./components/DecisionButton";
 
 const Userrole = () => {
+  const [userDecision, setUserDecision] = useState(null);
   useEffect(() => {
     document.title = "Investify | User-Role";
   });
@@ -28,12 +29,16 @@ const Userrole = () => {
             <DecisionButton
               heading="I Want to Invest"
               text="Join our network as an investor, explore promising businesses, and start making strategic investments."
-              onClick={() => navigate("/user-registration")}
+              onClick={() => {
+                setUserDecision("investor");
+                navigate("/user-registration");}}
             />
             <DecisionButton
               heading="I Want to List My Business"
               text="Showcase your business, attract potential investors, and take the next step towards growth."
-              onClick={() => navigate("/user-registration")}
+              onClick={() =>{ 
+                setUserDecision("investee");
+                navigate("/user-registration");}}
             />
           </div>
         </div>

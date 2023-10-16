@@ -1,6 +1,6 @@
 .userregistration-main {
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     font-family: 'Exo', sans-serif;
     background-color: #EAEDEF;
 }
@@ -22,7 +22,9 @@
     background-image: url(../../../public/images/logo.png);
     background-size: 100% 100%;
 }
-
+.userregisteration-text-section{
+    margin-top: 20px;
+}
 .userregisteration-heading {
     margin-left: 20px;
 }
@@ -58,7 +60,7 @@
     margin: 10px;
 }
 
-.userregistration-inputfields-label {
+.userregistration-inputfields-label, .userregistration-rules-label {
     font-size: 1rem;
 
 }
@@ -70,7 +72,38 @@
     border: 0.5px solid grey;
 }
 
+.useregistration-rules-area{
+padding-top: 30px;
+}
+.userregistration-rules-label {
+   padding-left: 20px;
+
+}
+.userregistration-rules-checkbox{
+    height: 20px;
+    width: 20px;
+}
+.useregistration-registerbutton-section{
+width: 100%;
+margin-top: 20px;
+}
+.useregistration-registerbutton{
+
+    padding: 13px 40px 13px 40px;
+    font-size: 1.2rem;
+    border: 0.8px solid grey;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #42B2FE;
+
+}
+
 @media screen and (max-width: 768px) {
+    .userregistration-main {
+ 
+        height: 150%;
+     
+    }
     .userregistration-form {
         flex-direction: column;
 

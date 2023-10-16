@@ -45,12 +45,12 @@
     border-radius: 10px;
     cursor: pointer;
     border: 0.8px solid grey;
+    background-color: white;
 }
 
-.getstarted-button:hover {
+/* .getstarted-button:hover {
     background-color: black;
-    color: white;
-}
+} */
 
 .homepage-title,
 .homepage-aboutus,
