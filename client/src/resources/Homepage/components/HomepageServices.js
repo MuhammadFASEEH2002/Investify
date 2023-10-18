@@ -3,11 +3,11 @@ import React from "react";
 
 const HomepageServices = () => {
   return (
-
     <>
       <HStack
         width={"100%"}
-        padding={[15, 6, 15, 6]}
+        padding={"20px 15px 20px 15px"}
+
         backgroundColor={"#EAEDEF"}
         flexDirection={{ base: "column-reverse", md: "row", lg: "row" }}
         alignItems={"center"}

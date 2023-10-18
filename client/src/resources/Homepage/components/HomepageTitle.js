@@ -1,5 +1,5 @@
 import React from "react";
-import { HStack, Heading, Stack, Text } from "@chakra-ui/react";
+import { HStack, Heading, Stack } from "@chakra-ui/react";
 
 const HomepageTitle = () => {
   return (
@@ -21,7 +21,8 @@ const HomepageTitle = () => {
     <>
       <HStack
         width={"100%"}
-        padding={[15, 6, 15, 6]}
+        padding={"20px 15px 20px 15px"}
+
         backgroundColor={"#EAEDEF"}
         flexDirection={{ base: "column", md: "row", lg: "row" }}
         alignItems={"center"}
@@ -43,7 +44,7 @@ const HomepageTitle = () => {
             fontWeight={"medium"}
             textAlign={"center"}
           >
-            About Us
+            Investify
           </Heading>
           <Heading
             color={"black"}
@@ -51,7 +52,7 @@ const HomepageTitle = () => {
             textAlign={"center"}
             fontWeight={"light"}
           >
-           Your Gateway to Business Investment Opportunities
+            Your Gateway to Business Investment Opportunities
           </Heading>
         </Stack>
       </HStack>

@@ -6,7 +6,7 @@ const HomepageAboutus = () => {
     <>
       <HStack
         width={"100%"}
-        padding={[15, 6, 15, 6]}
+        padding={"20px 15px 20px 15px"}
         bgGradient="linear(to-r, #42B2FE, #001F44)"
         flexDirection={{ base: "column", md: "row", lg: "row" }}
         alignItems={"center"}
