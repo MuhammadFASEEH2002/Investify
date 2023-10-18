@@ -101,7 +101,7 @@ margin-top: 20px;
 @media screen and (max-width: 768px) {
     .userregistration-main {
  
-        height: 150%;
+      height: auto;
      
     }
     .userregistration-form {

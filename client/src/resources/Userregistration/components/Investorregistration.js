@@ -42,6 +42,7 @@ const Investorregistration = () => {
               <input
                 type="email"
                 className="userregistration-inputarea-inputboxes"
+                placeholder="e.g "
               />
             </div>
             <div className="userregistration-inputfields flex flex-column">

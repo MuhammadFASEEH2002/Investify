@@ -1,24 +1,49 @@
-import React from 'react'
+import { HStack, Heading, Stack, Text } from "@chakra-ui/react";
+import React from "react";
 
 const HomepageServices = () => {
   return (
-    <div
-            className="homepage-services flex flex-row align-center justify-center"
-            id="homepage-services"
-          >
-            <div className="homepage-services-text-section flex flex-column align-start justify-center">
-              <h1 className="homepage-services-text-heading">Services</h1>
-              <p className="homepage-services-text">
-                The main objective of our platform is to support new startups
-                and small-scale businesses by connecting them with the right
-                investors to solve their problems related to funding.
-              </p>
-            </div>
-            <div className="homepage-services-image-section flex align-center justify-end">
-              <div className="homepage-services-image"></div>
-            </div>
-          </div>
-  )
-}
 
-export default HomepageServices
+    <>
+      <HStack
+        width={"100%"}
+        padding={[15, 6, 15, 6]}
+        backgroundColor={"#EAEDEF"}
+        flexDirection={{ base: "column-reverse", md: "row", lg: "row" }}
+        alignItems={"center"}
+        justifyContent={"center"}
+      >
+        <Stack width={"100%"}>
+          <Heading
+            color={"black"}
+            fontSize={{ base: "1.4rem", md: "1.7rem", lg: "3rem" }}
+            fontWeight={"medium"}
+            textAlign={"center"}
+          >
+            Services
+          </Heading>
+          <Text
+            color={"black"}
+            fontSize={{ base: "0.8rem", md: "1rem", lg: "1.5rem" }}
+            textAlign={"justify"}
+          >
+            The main objective of our platform is to support new startups and
+            small-scale businesses by connecting them with the right investors
+            to solve their problems related to funding.
+          </Text>
+        </Stack>
+        <Stack width={"40%"} alignItems={"center"} justifyContent={"center"}>
+          <Stack
+            width={{ base: 130, md: 180, lg: 300 }}
+            height={{ base: 130, md: 180, lg: 300 }}
+            backgroundSize={"100% 100%"}
+            backgroundImage="url('/images/homepage-services-image.png')"
+            marginBottom={{ base: 10, md: 0, lg: 0 }}
+          ></Stack>
+        </Stack>
+      </HStack>
+    </>
+  );
+};
+
+export default HomepageServices;

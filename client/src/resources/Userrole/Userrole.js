@@ -31,6 +31,7 @@ const Userrole = () => {
               text="Join our network as an investor, explore promising businesses, and start making strategic investments."
               onClick={() => {
                 setUserDecision("investor");
+                localStorage.setItem("userDecision", "investor");
                 navigate("/user-registration");}}
             />
             <DecisionButton
@@ -38,6 +39,7 @@ const Userrole = () => {
               text="Showcase your business, attract potential investors, and take the next step towards growth."
               onClick={() =>{ 
                 setUserDecision("investee");
+                localStorage.setItem("userDecision", "investee");
                 navigate("/user-registration");}}
             />
           </div>
