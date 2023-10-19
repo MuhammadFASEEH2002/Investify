@@ -11,6 +11,7 @@ const HomepageServices = () => {
         flexDirection={{ base: "column-reverse", md: "row", lg: "row" }}
         alignItems={"center"}
         justifyContent={"center"}
+        id="homepage-services"
       >
         <Stack width={"100%"}>
           <Heading

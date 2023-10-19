@@ -2,7 +2,22 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../css/reusable.css";
 import "../../css/Userrole/Userrole.css";
+import {
+  HStack,
+  Heading,
+  Stack,
+  Text,
+  Button,
+  Radio,
+  RadioGroup,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Link,
+  Center,
+} from "@chakra-ui/react";
 import DecisionButton from "./components/DecisionButton";
+import Logo from "../../components/Logo";
 
 const Userrole = () => {
   const [userDecision, setUserDecision] = useState(null);
@@ -12,7 +27,7 @@ const Userrole = () => {
   const navigate = useNavigate();
   return (
     <>
-      <div className="main">
+      {/* <div className="main">
         <div className="userrole-main">
           <div className="userrole-header flex flex-row align-center justify-center">
             <div className="userrole-header-logo-section flex flex-row align-center justify-start">
@@ -44,7 +59,34 @@ const Userrole = () => {
             />
           </div>
         </div>
-      </div>
+      </div> */}
+      <Stack className="main">
+        <Stack
+          width={"100%"}
+          height={"100%"}
+          backgroundColor={"#EAEDEF"}
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          <HStack
+            width={"100%"}
+            padding={"10px 5px 10px 5px"}
+            position={"absolute"}
+            top={0}
+          >
+            <Stack>
+              <Logo />
+            </Stack>
+          </HStack>
+          <Stack>
+            <Heading>
+              {" "}
+              Welcome to Investify – Your Gateway to Business Investment
+              Opportunities.
+            </Heading>
+          </Stack>
+        </Stack>
+      </Stack>
     </>
   );
 };

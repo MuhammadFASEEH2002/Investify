@@ -26,6 +26,7 @@ const HomepageTitle = () => {
         flexDirection={{ base: "column", md: "row", lg: "row" }}
         alignItems={"center"}
         justifyContent={"center"}
+        id="homepage-title"
       >
         <Stack width={"40%"} alignItems={"center"} justifyContent={"center"}>
           <Stack
