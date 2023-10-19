@@ -1,10 +1,21 @@
 import React from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { HStack, Heading, Stack, Text } from "@chakra-ui/react";
+import {
+  HStack,
+  Heading,
+  Stack,
+  Text,
+  UnorderedList,
+  ListItem,
+  Link,
+  Button,
+  ButtonGroup,
+} from "@chakra-ui/react";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 import "../../css/reusable.css";
-import "../../css/Homepage/Homepage.css";
+// import "../../css/Homepage/Homepage.css";npm install @chakra-ui/icons
 import HomepageTitle from "./components/HomepageTitle";
 import HomepageAboutus from "./components/HomepageAboutus";
 import HomepageServices from "./components/HomepageServices";
@@ -85,35 +96,67 @@ const Homepage = () => {
     <>
       <Stack className="main">
         <Stack width={"100%"} spacing={0}>
-          <Stack
-       
+          <HStack
             width={"100%"}
-            // padding={["150px", "5px", "7px", "5px"]}
-            paddingTop={"10px"}
-            paddingLeft={"5px"}
-            paddingRight={"5px"}
-            paddingBottom={"10px"}
+            padding={"10px 5px 10px 5px"}
             bgGradient="linear(to-r, #42B2FE, #001F44)"
             position={"sticky"}
-            // top={0}
-            // zIndex={3}
-            flexDirection={"row"}
+            top={0}
+            zIndex={3}
           >
             <Stack
-              width={"50%"}
+           
+              width={{base:"20%", md:"30%", lg:"50%"}}
+
               alignItems={"center"}
               justifyContent={"start"}
               flexDirection={"row"}
             >
               <Stack
-           height={"60px"}
-                width={"50px"}
+                height={{base:"30px", md:"60px", lg:"60px"}}
+                width={{base:"30px", md:"50px", lg:"50px"}}
                 backgroundImage="url('/images/logo.png')"
                 backgroundSize={"100% 100%"}
               ></Stack>
             </Stack>
-            <Stack width={"50%"}></Stack>
-          </Stack>
+            <Stack
+
+              width={{base:"80%", md:"70%", lg:"50%"}}
+
+              alignItems={"center"}
+              justifyContent={"center"}
+            >
+              <UnorderedList
+                style={{ display: "flex", flexDirection: "row" }}
+                width={"60%"}
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
+                {navigationButtons.map((item) => (
+                  <ListItem
+                    key={item.id}
+              marginLeft={{base:"10px", md:"15px", lg:"25px"}}
+              marginRight={{base:"10px", md:"15px", lg:"25px"}}
+                  fontSize={{base:"0.8rem",md:"1rem", lg:"1rem"}}
+                    listStyleType={"none"}
+                  >
+                    <Link
+                      href={item.link}
+                      textDecoration={"none"}
+                      color={"white"}
+                    >
+                      {item.title}
+                    </Link>
+                  </ListItem>
+                ))}
+              </UnorderedList>
+            </Stack>
+            <Stack alignItems={"flex-start"}>
+              <Button colorScheme="gray" rightIcon={<ArrowForwardIcon />} marginRight={"10px"}>
+                Get Started
+              </Button>
+            </Stack>
+          </HStack>
           {/* Title section */}
           <HomepageTitle />
           {/* Aboutus section */}

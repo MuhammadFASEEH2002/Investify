@@ -11,11 +11,12 @@ const HomepageAboutus = () => {
         flexDirection={{ base: "column", md: "row", lg: "row" }}
         alignItems={"center"}
         justifyContent={"center"}
+        id="homepage-aboutus"
       >
         <Stack width={"40%"} alignItems={"center"} justifyContent={"center"}>
           <Stack
-            width={{ base: 130, md: 180, lg: 300 }}
-            height={{ base: 130, md: 180, lg: 300 }}
+            width={{ base: "130px", md: "180px", lg: "300px" }}
+            height={{ base: "130px", md: "180px", lg: "300px" }}
             backgroundSize={"100% 100%"}
             backgroundImage="url('/images/homepage-aboutus-image.png')"
             marginBottom={{ base: 10, md: 0, lg: 0 }}
