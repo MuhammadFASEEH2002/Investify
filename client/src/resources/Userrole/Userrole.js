@@ -79,11 +79,38 @@ const Userrole = () => {
             </Stack>
           </HStack>
           <Stack>
-            <Heading>
-              {" "}
+            <Heading 
+          fontSize={{ base: "1rem", md: "1.5rem", lg: "2rem" }}
+          textAlign={"center"}
+          >
               Welcome to Investify – Your Gateway to Business Investment
               Opportunities.
             </Heading>
+            <HStack
+              alignItems={"center"}
+              justifyContent={"center"}
+              flexDirection={{ base: "column", md: "row", lg: "row" }}
+              paddingTop={"20px"}
+            >
+              <DecisionButton
+                heading="I Want to Invest"
+                text="Join our network as an investor, explore promising businesses, and start making strategic investments."
+                onClick={() => {
+                  setUserDecision("investor");
+                  localStorage.setItem("userDecision", "investor");
+                  navigate("/user-registration");
+                }}
+              />
+              <DecisionButton
+                heading="I Want to List My Business"
+                text="Showcase your business, attract potential investors, and take the next step towards growth."
+                onClick={() => {
+                  setUserDecision("investee");
+                  localStorage.setItem("userDecision", "investee");
+                  navigate("/user-registration");
+                }}
+              />
+            </HStack>
           </Stack>
         </Stack>
       </Stack>
