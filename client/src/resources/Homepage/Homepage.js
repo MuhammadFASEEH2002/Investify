@@ -33,7 +33,12 @@ const Homepage = () => {
 
   return (
     <>
-      <Stack className="main">
+      <Stack
+       
+        overflowX={"hidden"}
+        width={"100svw"}
+        height={"100svh"}
+      >
         <Stack width={"100%"} spacing={"0px"}>
           <HStack
             width={"100%"}
@@ -49,7 +54,7 @@ const Homepage = () => {
               justifyContent={"start"}
               flexDirection={"row"}
             >
-             <Logo/>
+              <Logo />
             </Stack>
             <Stack
               width={{ base: "80%", md: "70%", lg: "50%" }}

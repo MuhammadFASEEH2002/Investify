@@ -27,40 +27,7 @@ const Userrole = () => {
   const navigate = useNavigate();
   return (
     <>
-      {/* <div className="main">
-        <div className="userrole-main">
-          <div className="userrole-header flex flex-row align-center justify-center">
-            <div className="userrole-header-logo-section flex flex-row align-center justify-start">
-              <div className="userrole-logo"></div>
-            </div>
-          </div>
-          <div className="userrole-text-section flex align-center justify-center">
-            <h1 className="userrole-text">
-              Welcome to Investify – Your Gateway to Business Investment
-              Opportunities.
-            </h1>
-          </div>
-          <div className="userrole-decsionbutton-section flex flex-row align-center justify-even">
-            <DecisionButton
-              heading="I Want to Invest"
-              text="Join our network as an investor, explore promising businesses, and start making strategic investments."
-              onClick={() => {
-                setUserDecision("investor");
-                localStorage.setItem("userDecision", "investor");
-                navigate("/user-registration");}}
-            />
-            <DecisionButton
-              heading="I Want to List My Business"
-              text="Showcase your business, attract potential investors, and take the next step towards growth."
-              onClick={() =>{ 
-                setUserDecision("investee");
-                localStorage.setItem("userDecision", "investee");
-                navigate("/user-registration");}}
-            />
-          </div>
-        </div>
-      </div> */}
-      <Stack className="main">
+      <Stack overflowX={"hidden"} width={"100svw"} height={"100svh"}>
         <Stack
           width={"100%"}
           height={"100%"}
@@ -79,10 +46,10 @@ const Userrole = () => {
             </Stack>
           </HStack>
           <Stack>
-            <Heading 
-          fontSize={{ base: "1rem", md: "1.5rem", lg: "2rem" }}
-          textAlign={"center"}
-          >
+            <Heading
+              fontSize={{ base: "1rem", md: "1.5rem", lg: "2rem" }}
+              textAlign={"center"}
+            >
               Welcome to Investify – Your Gateway to Business Investment
               Opportunities.
             </Heading>
