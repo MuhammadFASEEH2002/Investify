@@ -1,126 +1,202 @@
-import React, { useState } from "react";
-import Select from "react-select";
+import React, { useState, useEffect } from "react";
+// import Select from "react-select";
 import "../../../css/reusable.css";
 import "../../../css/Userregistration/Userregistration.css";
+import {
+  HStack,
+  Stack,
+  Text,
+  Button,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Select,
+} from "@chakra-ui/react";
 
-const cityOptions = [
-  { value: "karachi", label: "Karachi" },
-  { value: "lahore", label: "Lahore" },
-  { value: "islamabad", label: "Islamabad" },
-];
+// const cityOptions = [
+//   { value: "karachi", label: "Karachi" },
+//   { value: "lahore", label: "Lahore" },
+//   { value: "islamabad", label: "Islamabad" },
+// ];
 
-const countryOptions = [
-  { value: "pak", label: "Pakistan" },
-];
+// const countryOptions = [{ value: "pak", label: "Pakistan" }];
 
 const Investorregistration = () => {
-  const [selectedCity, setSelectedCity] = useState(null);
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCity, setSelectedCity] = useState("");
+  const handleCityChange = (event) => {
+    setSelectedCity(event.target.value);
+  };
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value);
+  };
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handlePasswordClick = () => setShowPassword(!showPassword);
+  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const handleConfirmPasswordClick = () =>
+    setShowConfirmPassword(!showConfirmPassword);
+  // useEffect(() => {
+  //   console.log(selectedCity);
+  //   console.log(selectedCountry);
+  // });
   return (
     <>
-      <div className="userregistration-form flex flex-row align-start justify-center">
-        <div className="userregistration-form-left flex flex-column align-center justify-center">
-          <div className="userregistration-inputarea flex flex-row align-center justify-start">
-            <div className="userregistration-inputfields flex flex-column">
-              <h5 className="userregistration-inputfields-label">First Name</h5>
-              <input
+      <HStack width={"100%"}>
+        <Stack width={"50%"}>
+          <HStack marginLeft={"20px"}>
+            <Stack width={"50%"}>
+              <Text>First Name</Text>
+              <Input
                 type="text"
-                className="userregistration-inputarea-inputboxes"
+                placeholder="e.g Muhammad"
+                width={"90%"}
+                variant={"filled"}
+                border={"0.5px solid grey"}
+                isRequired
               />
-            </div>
-            <div className="userregistration-inputfields flex flex-column">
-              <h5 className="userregistration-inputfields-label">Last Name</h5>
-              <input
+            </Stack>
+            <Stack width={"50%"}>
+              <Text>Last Name</Text>
+              <Input
                 type="text"
-                className=" userregistration-inputarea-inputboxes"
+                placeholder="e.g Faseeh"
+                width={"90%"}
+                variant={"filled"}
+                border={"0.5px solid grey"}
+                isRequired
               />
-            </div>
-          </div>
-          <div className="userregistration-inputarea flex flex-row align-center justify-start">
-            <div className="userregistration-inputfields flex flex-column">
-              <h5 className="userregistration-inputfields-label">Email</h5>
-              <input
+            </Stack>
+          </HStack>
+          <HStack marginLeft={"20px"}>
+            <Stack width={"50%"}>
+              <Text>Email</Text>
+              <Input
                 type="email"
-                className="userregistration-inputarea-inputboxes"
-                placeholder="e.g "
+                placeholder="e.g faseeh@gmail.com"
+                width={"90%"}
+                variant={"filled"}
+                border={"0.5px solid grey"}
+                isRequired
               />
-            </div>
-            <div className="userregistration-inputfields flex flex-column">
-              <h5 className="userregistration-inputfields-label">CNIC</h5>
-              <input
+            </Stack>
+            <Stack width={"50%"}>
+              <Text>CNIC</Text>
+              <Input
                 type="number"
-                className=" userregistration-inputarea-inputboxes"
+                placeholder="e.g 4210111234567"
+                width={"90%"}
+                variant={"filled"}
+                border={"0.5px solid grey"}
+                isRequired
               />
-            </div>
-          </div>
-          <div className="userregistration-inputarea flex flex-row align-center justify-start">
-            <div className="userregistration-inputfields flex flex-column">
-              <h5 className="userregistration-inputfields-label">Password</h5>
-              <input
-                type="password"
-                className="userregistration-inputarea-inputboxes"
-              />
-            </div>
-            <div className="userregistration-inputfields flex flex-column">
-              <h5 className="userregistration-inputfields-label">
-                Confirm Password
-              </h5>
-              <input
-                type="password"
-                className=" userregistration-inputarea-inputboxes"
-              />
-            </div>
-          </div>
-        </div>
+            </Stack>
+          </HStack>
+          <HStack marginLeft={"20px"}>
+            <Stack width={"50%"}>
+              <Text>Password</Text>
+              <InputGroup width={"90%"}>
+                <Input
+                  pr="4.5rem"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter password"
+                  variant={"filled"}
+                  border={"0.5px solid grey"}
+                  isRequired
+                />
+                <InputRightElement width="4.5rem">
+                  <Button h="1.75rem" size="sm" onClick={handlePasswordClick}>
+                    {showPassword ? "Hide" : "Show"}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+            </Stack>
+            <Stack width={"50%"}>
+              <Text>Confirm Password</Text>
+              <InputGroup width={"90%"}>
+                <Input
+                  pr="4.5rem"
+                  type={showConfirmPassword ? "text" : "password"}
+                  placeholder="Enter password"
+                  variant={"filled"}
+                  border={"0.5px solid grey"}
+                  isRequired
+                />
+                <InputRightElement width="4.5rem">
+                  <Button
+                    h="1.75rem"
+                    size="sm"
+                    onClick={handleConfirmPasswordClick}
+                  >
+                    {showConfirmPassword ? "Hide" : "Show"}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+            </Stack>
+          </HStack>
+        </Stack>
+        {/* registeration form right area */}
 
-        <div className="userregistration-form-right flex flex-column align-center justify-center">
-          <div className="userregistration-inputarea flex flex-row align-center justify-start">
-            <div className="userregistration-inputfields flex flex-column">
-              <h5 className="userregistration-inputfields-label">Phone</h5>
-              <input
+        <Stack
+          width={"50%"}
+          justifyContent={"center"}
+          alignItems={"flex-start"}
+        >
+          <HStack width={"100%"}>
+            <Stack width={"50%"}>
+              <Text>Phone Number</Text>
+              <Input
                 type="number"
-                className="userregistration-inputarea-inputboxes"
+                placeholder="e.g 03001123456"
+                width={"90%"}
+                variant={"filled"}
+                border={"0.5px solid grey"}
+                isRequired
               />
-            </div>
-            <div className="userregistration-inputfields flex flex-column">
-              <h5 className="userregistration-inputfields-label">
-                Date of Birth
-              </h5>
-              <input
+            </Stack>
+            <Stack width={"50%"}>
+              <Text>Date of Birth</Text>
+              <Input
                 type="date"
-                className=" userregistration-inputarea-inputboxes"
+                width={"90%"}
+                variant={"filled"}
+                border={"0.5px solid grey"}
+                isRequired
               />
-            </div>
-          </div>
-          <div className="userregistration-inputarea flex flex-row align-center justify-start">
-            <div className="userregistration-inputfields flex flex-column">
-              <h5 className="userregistration-inputfields-label">City</h5>
-              {/* <input
-                type="email"
-                className="userregistration-inputarea-inputboxes"
-              /> */}
+            </Stack>
+          </HStack>
+          <HStack width={"100%"}>
+            <Stack width={"50%"}>
+              <Text>City</Text>
               <Select
-                options={cityOptions}
-                value={selectedCity}
-                onChange={setSelectedCity}
-                // className="userregistration-inputarea-inputboxes"
-              />
-            </div>
-            <div className="userregistration-inputfields flex flex-column">
-              <h5 className="userregistration-inputfields-label">Country</h5>
-              {/* <input
-                type="number"
-                className=" userregistration-inputarea-inputboxes"
-              /> */}
+                placeholder="Select City"
+                variant={"outline"}
+                border={"0.5px solid grey"}
+                width={"90%"}
+                onChange={handleCityChange}
+                isRequired
+              >
+                <option value="Karachi">Karachi</option>
+                <option value="Lahore">Lahore</option>
+                <option value="Islamabad">Islamabad</option>
+              </Select>
+            </Stack>
+            <Stack width={"50%"}>
+              <Text>Country</Text>
               <Select
-                options={countryOptions}
-                value={selectedCountry}
-                onChange={setSelectedCountry}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+                placeholder="Select Country"
+                variant={"outline"}
+                border={"0.5px solid grey"}
+                width={"90%"}
+                onChange={handleCountryChange}
+                isRequired
+              >
+                <option value="Pakistan">Pakistan</option>
+              
+              </Select>
+            </Stack>
+          </HStack>
+        </Stack>
+      </HStack>
     </>
   );
 };

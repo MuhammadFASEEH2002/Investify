@@ -13,7 +13,7 @@ const Userregistration = () => {
     if (savedUserDecision) {
       setUserDecision(savedUserDecision);
       document.title = `Investify | ${savedUserDecision}`;
-      localStorage.removeItem("userDecision");
+      // localStorage.removeItem("userDecision");
     }
     // document.title = `Investify | ${savedUserDecision}`;
     // localStorage.removeItem("userDecision");
