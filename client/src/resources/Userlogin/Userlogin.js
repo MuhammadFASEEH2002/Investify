@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "../../css/reusable.css";
-// import "../../css/Userlogin/Userlogin.css";
 import { useNavigate } from "react-router-dom";
 import {
   HStack,

@@ -11,9 +11,6 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
-
-import "../../css/reusable.css";
-// import "../../css/Homepage/Homepage.css";npm install @chakra-ui/icons
 import HomepageTitle from "./components/HomepageTitle";
 import HomepageAboutus from "./components/HomepageAboutus";
 import HomepageServices from "./components/HomepageServices";

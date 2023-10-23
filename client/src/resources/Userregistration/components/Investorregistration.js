@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import Select from "react-select";
-import "../../../css/reusable.css";
-import "../../../css/Userregistration/Userregistration.css";
 import {
   HStack,
   Stack,
@@ -13,13 +10,6 @@ import {
   Select,
 } from "@chakra-ui/react";
 
-// const cityOptions = [
-//   { value: "karachi", label: "Karachi" },
-//   { value: "lahore", label: "Lahore" },
-//   { value: "islamabad", label: "Islamabad" },
-// ];
-
-// const countryOptions = [{ value: "pak", label: "Pakistan" }];
 
 const Investorregistration = () => {
   const [selectedCity, setSelectedCity] = useState("");

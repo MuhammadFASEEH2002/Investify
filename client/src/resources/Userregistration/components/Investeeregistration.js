@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   HStack,
   Stack,
@@ -10,6 +9,7 @@ import {
   InputRightElement,
   Select,
 } from "@chakra-ui/react";
+
 const Investeeregistration = () => {
   const [selectedCity, setSelectedCity] = useState("");
   const handleCityChange = (event) => {
@@ -177,7 +177,6 @@ const Investeeregistration = () => {
                 isRequired
               >
                 <option value="Pakistan">Pakistan</option>
-              
               </Select>
             </Stack>
           </HStack>
@@ -194,7 +193,6 @@ const Investeeregistration = () => {
               >
                 <option value="Pakistan">Pakistan</option>
                 <option value="Pakistan">Pakistan</option>
-
               </Select>
             </Stack>
           </HStack>
