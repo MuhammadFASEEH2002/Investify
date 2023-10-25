@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   HStack,
   Stack,
@@ -8,11 +8,28 @@ import {
   InputGroup,
   InputRightElement,
   Select,
+  Checkbox,
 } from "@chakra-ui/react";
 
-
 const Investorregistration = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [cnic, setCnic] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
+  // const handleFirstNameChange = (event) => {
+  //   setFirstName(event.target.value);
+  // };
+  // const handleLasttNameChange = (event) => {
+  //   setLastName(event.target.value);
+  // };
+  const handleInputChange = (event, setState) => {
+    setState(event.target.value);
+  };
   const handleCityChange = (event) => {
     setSelectedCity(event.target.value);
   };
@@ -25,10 +42,48 @@ const Investorregistration = () => {
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const handleConfirmPasswordClick = () =>
     setShowConfirmPassword(!showConfirmPassword);
-  // useEffect(() => {
-  //   console.log(selectedCity);
-  //   console.log(selectedCountry);
-  // });
+
+  const register = () => {
+    console.log({
+      firstName,
+      lastName,
+      password,
+      email,
+      cnic,
+      password,
+      dateOfBirth,
+      phoneNumber,
+      selectedCity,
+      selectedCountry,
+    });
+    fetch("http://localhost:3001/Auth/investor-registration", {
+      method: "POST",
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        password,
+        email,
+        cnic,
+        password,
+        dateOfBirth,
+        phoneNumber,
+        selectedCity,
+        selectedCountry,
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.token) {
+          window.localStorage.setItem("token", res.token);
+          alert("you have registered");
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <>
       <HStack width={"100%"}>
@@ -43,6 +98,7 @@ const Investorregistration = () => {
                 variant={"filled"}
                 border={"0.5px solid grey"}
                 isRequired
+                onChange={(event) => handleInputChange(event, setFirstName)}
               />
             </Stack>
             <Stack width={"50%"}>
@@ -54,6 +110,7 @@ const Investorregistration = () => {
                 variant={"filled"}
                 border={"0.5px solid grey"}
                 isRequired
+                onChange={(event) => handleInputChange(event, setLastName)}
               />
             </Stack>
           </HStack>
@@ -67,6 +124,7 @@ const Investorregistration = () => {
                 variant={"filled"}
                 border={"0.5px solid grey"}
                 isRequired
+                onChange={(event) => handleInputChange(event, setEmail)}
               />
             </Stack>
             <Stack width={"50%"}>
@@ -78,6 +136,7 @@ const Investorregistration = () => {
                 variant={"filled"}
                 border={"0.5px solid grey"}
                 isRequired
+                onChange={(event) => handleInputChange(event, setCnic)}
               />
             </Stack>
           </HStack>
@@ -92,6 +151,7 @@ const Investorregistration = () => {
                   variant={"filled"}
                   border={"0.5px solid grey"}
                   isRequired
+                  onChange={(event) => handleInputChange(event, setPassword)}
                 />
                 <InputRightElement width="4.5rem">
                   <Button h="1.75rem" size="sm" onClick={handlePasswordClick}>
@@ -110,6 +170,9 @@ const Investorregistration = () => {
                   variant={"filled"}
                   border={"0.5px solid grey"}
                   isRequired
+                  onChange={(event) =>
+                    handleInputChange(event, setConfirmPassword)
+                  }
                 />
                 <InputRightElement width="4.5rem">
                   <Button
@@ -141,6 +204,7 @@ const Investorregistration = () => {
                 variant={"filled"}
                 border={"0.5px solid grey"}
                 isRequired
+                onChange={(event) => handleInputChange(event, setPhoneNumber)}
               />
             </Stack>
             <Stack width={"50%"}>
@@ -151,6 +215,7 @@ const Investorregistration = () => {
                 variant={"filled"}
                 border={"0.5px solid grey"}
                 isRequired
+                onChange={(event) => handleInputChange(event, setDateOfBirth)}
               />
             </Stack>
           </HStack>
@@ -181,12 +246,23 @@ const Investorregistration = () => {
                 isRequired
               >
                 <option value="Pakistan">Pakistan</option>
-              
               </Select>
             </Stack>
           </HStack>
         </Stack>
       </HStack>
+      <Stack alignItems={"center"} justifyContent={"center"}>
+        <Checkbox> I agree to Investify terms and conditions</Checkbox>
+        <Button
+          colorScheme="teal"
+          variant="solid"
+          marginRight={"10px"}
+          size={{ base: "md", md: "md", lg: "lg" }}
+          onClick={register}
+        >
+          Register
+        </Button>
+      </Stack>
     </>
   );
 };

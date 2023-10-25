@@ -30,13 +30,13 @@ const InvestorSchema = new mongo.Schema({
         required : true
     },
 
-    phone:{
+    phoneNumber:{
         type : Number,
         unique:true,
         required : true
     },
 
-    dob:{
+    dateOfBirth:{
         type:Date,
         required:true
     },

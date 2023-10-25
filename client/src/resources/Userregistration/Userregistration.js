@@ -49,7 +49,7 @@ const Userregistration = () => {
           ) : (
             <p>No user decision available.</p>
           )}
-          <Stack alignItems={"center"} justifyContent={"center"}>
+          {/* <Stack alignItems={"center"} justifyContent={"center"}>
             <Checkbox> I agree to Investify terms and conditions</Checkbox>
             <Button
               colorScheme="teal"
@@ -57,9 +57,9 @@ const Userregistration = () => {
               marginRight={"10px"}
               size={{ base: "md", md: "md", lg: "lg" }}
             >
-              Sign In
+              Register
             </Button>
-          </Stack>
+          </Stack> */}
         </Stack>
       </Stack>
     </>
