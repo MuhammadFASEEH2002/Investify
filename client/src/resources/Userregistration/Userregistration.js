@@ -38,8 +38,8 @@ const Userregistration = () => {
               <Logo />
             </Stack>
           </HStack>
-          <Heading> CREATE YOUR INVESTOR ACCOUNT</Heading>
-          <Text>
+          <Heading marginLeft={"20px"}> CREATE YOUR INVESTOR ACCOUNT</Heading>
+          <Text marginLeft={"20px"}>
             Already a member?<Link>Log In</Link>
           </Text>
           {userDecision === "investor" ? (
@@ -49,17 +49,6 @@ const Userregistration = () => {
           ) : (
             <p>No user decision available.</p>
           )}
-          {/* <Stack alignItems={"center"} justifyContent={"center"}>
-            <Checkbox> I agree to Investify terms and conditions</Checkbox>
-            <Button
-              colorScheme="teal"
-              variant="solid"
-              marginRight={"10px"}
-              size={{ base: "md", md: "md", lg: "lg" }}
-            >
-              Register
-            </Button>
-          </Stack> */}
         </Stack>
       </Stack>
     </>

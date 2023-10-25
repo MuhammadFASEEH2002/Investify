@@ -1,13 +1,13 @@
 const express = require('express')
 const app = express();
 const mongo = require('mongoose')
-const env = require('dotenv').config()
+// const env = require('dotenv').config()
 const cors = require('cors')
-const PORT = process.env.PORT || 3001
+const PORT =  3001
 // const verifyToken = require('./middleware/verifyToken')
 const AuthRouter = require('./controllers/Auth')
 
-mongo.connect(process.env.MONGO_URL)
+mongo.connect("mongodb://127.0.0.1:27017/Investify")
 .then(res => console.log('MongoDB connected'))
 .catch(err => console.log('MongoDb Connection Failed' , err))
 

@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 const Investorregistration = () => {
+  // Input field states
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,22 +22,18 @@ const Investorregistration = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-  // const handleFirstNameChange = (event) => {
-  //   setFirstName(event.target.value);
-  // };
-  // const handleLasttNameChange = (event) => {
-  //   setLastName(event.target.value);
-  // };
+  const [checkbox, setCheckbox] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState("");
+
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
   };
-  const handleCityChange = (event) => {
-    setSelectedCity(event.target.value);
-  };
-  const [selectedCountry, setSelectedCountry] = useState("");
-  const handleCountryChange = (event) => {
-    setSelectedCountry(event.target.value);
-  };
+  // const handleCityChange = (event) => {
+  //   setSelectedCity(event.target.value);
+  // };
+  // const handleCountryChange = (event) => {
+  //   setSelectedCountry(event.target.value);
+  // };
   const [showPassword, setShowPassword] = React.useState(false);
   const handlePasswordClick = () => setShowPassword(!showPassword);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
@@ -44,45 +41,65 @@ const Investorregistration = () => {
     setShowConfirmPassword(!showConfirmPassword);
 
   const register = () => {
-    console.log({
-      firstName,
-      lastName,
-      password,
-      email,
-      cnic,
-      password,
-      dateOfBirth,
-      phoneNumber,
-      selectedCity,
-      selectedCountry,
-    });
-    fetch("http://localhost:3001/Auth/investor-registration", {
-      method: "POST",
-      body: JSON.stringify({
-        firstName,
-        lastName,
-        password,
-        email,
-        cnic,
-        password,
-        dateOfBirth,
-        phoneNumber,
-        selectedCity,
-        selectedCountry,
-      }),
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.token) {
-          window.localStorage.setItem("token", res.token);
-          alert("you have registered");
-        }
-      })
-      .catch((err) => console.log(err));
+    // console.log({
+    //   firstName,
+    //   lastName,
+    //   password,
+    //   email,
+    //   cnic,
+    //   password,
+    //   dateOfBirth,
+    //   phoneNumber,
+    //   selectedCity,
+    //   selectedCountry,
+    // });
+    if (
+      firstName.trim() !== "" &&
+      lastName.trim() !== "" &&
+      email.trim() !== "" &&
+      cnic.trim() !== "" &&
+      password.trim() !== "" &&
+      confirmPassword.trim() !== "" &&
+      phoneNumber.trim() !== "" &&
+      dateOfBirth.trim() !== "" &&
+      selectedCity.trim() !== "" &&
+      checkbox &&
+      selectedCountry.trim() !== ""
+    ) {
+      if (password === confirmPassword) {
+        fetch("http://localhost:3001/Auth/investor-registration", {
+          method: "POST",
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            password,
+            email,
+            cnic,
+            password,
+            dateOfBirth,
+            phoneNumber,
+            selectedCity,
+            selectedCountry,
+          }),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.token) {
+              window.localStorage.setItem("token", res.token);
+              alert("you have registered");
+            }
+          })
+          .catch((err) => console.log(err));
+      } else {
+        alert("Password doesnot match");
+      }
+    } else {
+      alert("Fields are empty");
+    }
   };
   return (
     <>
@@ -227,7 +244,7 @@ const Investorregistration = () => {
                 variant={"outline"}
                 border={"0.5px solid grey"}
                 width={"90%"}
-                onChange={handleCityChange}
+                onChange={(event) => handleInputChange(event, setSelectedCity)}
                 isRequired
               >
                 <option value="Karachi">Karachi</option>
@@ -242,7 +259,9 @@ const Investorregistration = () => {
                 variant={"outline"}
                 border={"0.5px solid grey"}
                 width={"90%"}
-                onChange={handleCountryChange}
+                onChange={(event) =>
+                  handleInputChange(event, setSelectedCountry)
+                }
                 isRequired
               >
                 <option value="Pakistan">Pakistan</option>
@@ -252,7 +271,12 @@ const Investorregistration = () => {
         </Stack>
       </HStack>
       <Stack alignItems={"center"} justifyContent={"center"}>
-        <Checkbox> I agree to Investify terms and conditions</Checkbox>
+        <Checkbox
+          onChange={(event) => handleInputChange(event, setCheckbox)}
+          checked={setCheckbox}
+        >
+          I agree to Investify terms and conditions
+        </Checkbox>
         <Button
           colorScheme="teal"
           variant="solid"

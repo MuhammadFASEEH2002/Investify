@@ -8,22 +8,43 @@ import {
   InputGroup,
   InputRightElement,
   Select,
+  Checkbox
 } from "@chakra-ui/react";
 
 const Investeeregistration = () => {
+  const [businessName, setBusinessName] = useState("");
+  const [email, setEmail] = useState("");
+  const [cnic, setCnic] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [zipcode, setZipcode] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-  const handleCityChange = (event) => {
-    setSelectedCity(event.target.value);
-  };
   const [selectedCountry, setSelectedCountry] = useState("");
-  const handleCountryChange = (event) => {
-    setSelectedCountry(event.target.value);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [checkbox, setCheckbox] = useState(false);
+
+
+  const handleInputChange = (event, setState) => {
+    setState(event.target.value);
   };
+  // const handleCityChange = (event) => {
+  //   setSelectedCity(event.target.value);
+  // };
+  // const handleCountryChange = (event) => {
+  //   setSelectedCountry(event.target.value);
+  // };
+  // const handleCategoryChange = (event) => {
+  //   setSelectedCountry(event.target.value);
+  // };
   const [showPassword, setShowPassword] = React.useState(false);
   const handlePasswordClick = () => setShowPassword(!showPassword);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const handleConfirmPasswordClick = () =>
+  const handleConfirmPasswordClick = () =>{
     setShowConfirmPassword(!showConfirmPassword);
+  }
+  const register = () => {}
   return (
     <>
       <HStack width={"100%"}>
@@ -38,6 +59,8 @@ const Investeeregistration = () => {
                 variant={"filled"}
                 border={"0.5px solid grey"}
                 isRequired
+                onChange={(event) => handleInputChange(event, setBusinessName)}
+                
               />
             </Stack>
             <Stack width={"50%"}>
@@ -49,6 +72,8 @@ const Investeeregistration = () => {
                 variant={"filled"}
                 border={"0.5px solid grey"}
                 isRequired
+                onChange={(event) => handleInputChange(event, setEmail)}
+
               />
             </Stack>
           </HStack>
@@ -62,6 +87,7 @@ const Investeeregistration = () => {
                 variant={"filled"}
                 border={"0.5px solid grey"}
                 isRequired
+                onChange={(event) => handleInputChange(event, setPhoneNumber)}
               />
             </Stack>
             <Stack width={"50%"}>
@@ -73,6 +99,8 @@ const Investeeregistration = () => {
                 variant={"filled"}
                 border={"0.5px solid grey"}
                 isRequired
+                onChange={(event) => handleInputChange(event, setCnic)}
+
               />
             </Stack>
           </HStack>
@@ -87,6 +115,8 @@ const Investeeregistration = () => {
                   variant={"filled"}
                   border={"0.5px solid grey"}
                   isRequired
+                onChange={(event) => handleInputChange(event, setPassword)}
+
                 />
                 <InputRightElement width="4.5rem">
                   <Button h="1.75rem" size="sm" onClick={handlePasswordClick}>
@@ -105,6 +135,8 @@ const Investeeregistration = () => {
                   variant={"filled"}
                   border={"0.5px solid grey"}
                   isRequired
+                onChange={(event) => handleInputChange(event, setConfirmPassword)}
+
                 />
                 <InputRightElement width="4.5rem">
                   <Button
@@ -136,6 +168,8 @@ const Investeeregistration = () => {
                 variant={"filled"}
                 border={"0.5px solid grey"}
                 isRequired
+                onChange={(event) => handleInputChange(event, setAddress)}
+
               />
             </Stack>
             <Stack width={"50%"}>
@@ -147,6 +181,7 @@ const Investeeregistration = () => {
                 variant={"filled"}
                 border={"0.5px solid grey"}
                 isRequired
+                onChange={(event) => handleInputChange(event, setZipcode)}
               />
             </Stack>
           </HStack>
@@ -158,8 +193,9 @@ const Investeeregistration = () => {
                 variant={"outline"}
                 border={"0.5px solid grey"}
                 width={"90%"}
-                onChange={handleCityChange}
                 isRequired
+                onChange={(event) => handleInputChange(event, setSelectedCity)}
+
               >
                 <option value="Karachi">Karachi</option>
                 <option value="Lahore">Lahore</option>
@@ -173,7 +209,8 @@ const Investeeregistration = () => {
                 variant={"outline"}
                 border={"0.5px solid grey"}
                 width={"90%"}
-                onChange={handleCountryChange}
+                onChange={(event) => handleInputChange(event, setSelectedCountry)}
+
                 isRequired
               >
                 <option value="Pakistan">Pakistan</option>
@@ -188,16 +225,33 @@ const Investeeregistration = () => {
                 variant={"outline"}
                 border={"0.5px solid grey"}
                 width={"90%"}
-                onChange={handleCountryChange}
+                onChange={(event) => handleInputChange(event, setSelectedCategory)}
+
                 isRequired
               >
-                <option value="Pakistan">Pakistan</option>
-                <option value="Pakistan">Pakistan</option>
+                <option value="Restaurant">Restaurant</option>
+                <option value="Informmation Technology (IT)">Informmation Technology (IT)</option>
+                <option value="Retail Business">Retail Business</option>
+
               </Select>
             </Stack>
           </HStack>
         </Stack>
       </HStack>
+      <Stack alignItems={"center"} justifyContent={"center"}>
+        <Checkbox
+             onChange={(event) => handleInputChange(event, setCheckbox)}
+             checked={setCheckbox}> I agree to Investify terms and conditions</Checkbox>
+        <Button
+          colorScheme="teal"
+          variant="solid"
+          marginRight={"10px"}
+          size={{ base: "md", md: "md", lg: "lg" }}
+          onClick={register}
+        >
+          Register
+        </Button>
+      </Stack>
     </>
   );
 };
