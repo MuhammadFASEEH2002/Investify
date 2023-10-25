@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../../css/reusable.css";
+
 import { useNavigate } from "react-router-dom";
 import {
   HStack,
