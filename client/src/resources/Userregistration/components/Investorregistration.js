@@ -42,7 +42,29 @@ const Investorregistration = () => {
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const handleConfirmPasswordClick = () =>
     setShowConfirmPassword(!showConfirmPassword);
-
+    const handleDOBChange = (event) => {
+      const inputDate = event.target.value;
+      const currentDate = new Date();
+  
+      // Convert inputDate to a Date object
+      const enteredDate = new Date(inputDate);
+  
+      // Calculate the age difference in milliseconds
+      const ageDifference = currentDate - enteredDate;
+  
+      // Calculate the age in years
+      const ageInYears = ageDifference / (1000 * 60 * 60 * 24 * 365.25);
+  
+      // Check if the age is greater than or equal to 18
+      if (ageInYears >= 18) {
+        // Person is above 18 years old
+        setDateOfBirth(inputDate);
+        console.log("Valid date of birth");
+      } else {
+        // Person is below 18 years old
+        console.log("Invalid date of birth. Must be above 18 years old.");
+      }
+    };
     const register = () => {
       // console.log({
       //   firstName,

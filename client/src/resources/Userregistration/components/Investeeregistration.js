@@ -8,7 +8,7 @@ import {
   InputGroup,
   InputRightElement,
   Select,
-  Checkbox
+  Checkbox,
 } from "@chakra-ui/react";
 
 const Investeeregistration = () => {
@@ -25,25 +25,18 @@ const Investeeregistration = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [checkbox, setCheckbox] = useState(false);
 
-
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
   };
-  // const handleCityChange = (event) => {
-  //   setSelectedCity(event.target.value);
-  // };
-  // const handleCountryChange = (event) => {
-  //   setSelectedCountry(event.target.value);
-  // };
-  // const handleCategoryChange = (event) => {
-  //   setSelectedCountry(event.target.value);
-  // };
+  const handleCheckboxChange = (event, setState) => {
+    setState(event.target.checked);
+  };
   const [showPassword, setShowPassword] = React.useState(false);
   const handlePasswordClick = () => setShowPassword(!showPassword);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
-  const handleConfirmPasswordClick = () =>{
+  const handleConfirmPasswordClick = () => {
     setShowConfirmPassword(!showConfirmPassword);
-  }
+  };
   const register = () => {
     // console.log({
     //   firstName,
@@ -62,39 +55,45 @@ const Investeeregistration = () => {
       email &&
       cnic &&
       password &&
-      confirmPassword &&
+      address &&
+      zipcode &&
       phoneNumber &&
-      dateOfBirth &&
       selectedCity &&
-     checkbox &&
-      selectedCountry
+      selectedCountry &&
+      selectedCategory &&
+      checkbox
     ) {
       if (password === confirmPassword) {
-        fetch("http://localhost:3001/Auth/investor-registration", {
+        fetch("http://localhost:3001/Auth/investee-registration", {
           method: "POST",
           body: JSON.stringify({
-           businessName,
+            businessName,
             email,
             cnic,
             password,
-      address,
+            address,
+            zipcode,
             phoneNumber,
             selectedCity,
             selectedCountry,
-            selectedCategory
+            selectedCategory,
           }),
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
         })
-          .then((res) => res.json())
-          .then((res) => {
-            if (res.token) {
-              window.localStorage.setItem("token", res.token);
-              alert("you have registered");
-            }
-          })
+        .then((res) => {
+          return res.json()
+        })
+        .then((res) => {
+          if (res.status) {
+            // window.localStorage.setItem("token", res.token);
+            alert("you have registered");
+          }else{
+            alert(res.message)
+          }
+        })
           .catch((err) => console.log(err));
       } else {
         alert("Password doesnot match");
@@ -118,7 +117,6 @@ const Investeeregistration = () => {
                 border={"0.5px solid grey"}
                 isRequired
                 onChange={(event) => handleInputChange(event, setBusinessName)}
-                
               />
             </Stack>
             <Stack width={"50%"}>
@@ -131,7 +129,6 @@ const Investeeregistration = () => {
                 border={"0.5px solid grey"}
                 isRequired
                 onChange={(event) => handleInputChange(event, setEmail)}
-
               />
             </Stack>
           </HStack>
@@ -158,7 +155,6 @@ const Investeeregistration = () => {
                 border={"0.5px solid grey"}
                 isRequired
                 onChange={(event) => handleInputChange(event, setCnic)}
-
               />
             </Stack>
           </HStack>
@@ -173,8 +169,7 @@ const Investeeregistration = () => {
                   variant={"filled"}
                   border={"0.5px solid grey"}
                   isRequired
-                onChange={(event) => handleInputChange(event, setPassword)}
-
+                  onChange={(event) => handleInputChange(event, setPassword)}
                 />
                 <InputRightElement width="4.5rem">
                   <Button h="1.75rem" size="sm" onClick={handlePasswordClick}>
@@ -193,8 +188,9 @@ const Investeeregistration = () => {
                   variant={"filled"}
                   border={"0.5px solid grey"}
                   isRequired
-                onChange={(event) => handleInputChange(event, setConfirmPassword)}
-
+                  onChange={(event) =>
+                    handleInputChange(event, setConfirmPassword)
+                  }
                 />
                 <InputRightElement width="4.5rem">
                   <Button
@@ -227,7 +223,6 @@ const Investeeregistration = () => {
                 border={"0.5px solid grey"}
                 isRequired
                 onChange={(event) => handleInputChange(event, setAddress)}
-
               />
             </Stack>
             <Stack width={"50%"}>
@@ -253,7 +248,6 @@ const Investeeregistration = () => {
                 width={"90%"}
                 isRequired
                 onChange={(event) => handleInputChange(event, setSelectedCity)}
-
               >
                 <option value="Karachi">Karachi</option>
                 <option value="Lahore">Lahore</option>
@@ -267,8 +261,9 @@ const Investeeregistration = () => {
                 variant={"outline"}
                 border={"0.5px solid grey"}
                 width={"90%"}
-                onChange={(event) => handleInputChange(event, setSelectedCountry)}
-
+                onChange={(event) =>
+                  handleInputChange(event, setSelectedCountry)
+                }
                 isRequired
               >
                 <option value="Pakistan">Pakistan</option>
@@ -283,14 +278,16 @@ const Investeeregistration = () => {
                 variant={"outline"}
                 border={"0.5px solid grey"}
                 width={"90%"}
-                onChange={(event) => handleInputChange(event, setSelectedCategory)}
-
+                onChange={(event) =>
+                  handleInputChange(event, setSelectedCategory)
+                }
                 isRequired
               >
                 <option value="Restaurant">Restaurant</option>
-                <option value="Informmation Technology (IT)">Informmation Technology (IT)</option>
+                <option value="Informmation Technology (IT)">
+                  Informmation Technology (IT)
+                </option>
                 <option value="Retail Business">Retail Business</option>
-
               </Select>
             </Stack>
           </HStack>
@@ -298,8 +295,12 @@ const Investeeregistration = () => {
       </HStack>
       <Stack alignItems={"center"} justifyContent={"center"}>
         <Checkbox
-             onChange={(event) => handleInputChange(event, setCheckbox)}
-             checked={setCheckbox}> I agree to Investify terms and conditions</Checkbox>
+        onChange={(event) => handleCheckboxChange(event, setCheckbox)}
+        checked={setCheckbox}
+        >
+          {" "}
+          I agree to Investify terms and conditions
+        </Checkbox>
         <Button
           colorScheme="teal"
           variant="solid"
