@@ -4,7 +4,6 @@ const InvestorSchema = new mongo.Schema({
    
     firstname:{
         type:String,
-  
         required:true
     },
 

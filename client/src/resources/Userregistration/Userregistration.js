@@ -4,8 +4,6 @@ import {
   Heading,
   Stack,
   Text,
-  Button,
-  Checkbox,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import Investorregistration from "./components/Investorregistration";
@@ -19,10 +17,8 @@ const Userregistration = () => {
     if (savedUserDecision) {
       setUserDecision(savedUserDecision);
       document.title = `Investify | ${savedUserDecision}`;
-      // localStorage.removeItem("userDecision");
+   
     }
-    // document.title = `Investify | ${savedUserDecision}`;
-    // localStorage.removeItem("userDecision");
   }, []);
 
   return (

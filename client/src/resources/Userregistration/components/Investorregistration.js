@@ -22,11 +22,14 @@ const Investorregistration = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-  const [checkbox, setCheckbox] = useState(false);
+  const [checkbox, setCheckbox] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
 
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
+  };
+  const handleCheckboxChange = (event, setState) => {
+    setState(event.target.checked);
   };
   // const handleCityChange = (event) => {
   //   setSelectedCity(event.target.value);
@@ -40,67 +43,70 @@ const Investorregistration = () => {
   const handleConfirmPasswordClick = () =>
     setShowConfirmPassword(!showConfirmPassword);
 
-  const register = () => {
-    // console.log({
-    //   firstName,
-    //   lastName,
-    //   password,
-    //   email,
-    //   cnic,
-    //   password,
-    //   dateOfBirth,
-    //   phoneNumber,
-    //   selectedCity,
-    //   selectedCountry,
-    // });
-    if (
-      firstName.trim() !== "" &&
-      lastName.trim() !== "" &&
-      email.trim() !== "" &&
-      cnic.trim() !== "" &&
-      password.trim() !== "" &&
-      confirmPassword.trim() !== "" &&
-      phoneNumber.trim() !== "" &&
-      dateOfBirth.trim() !== "" &&
-      selectedCity.trim() !== "" &&
-      checkbox &&
-      selectedCountry.trim() !== ""
-    ) {
-      if (password === confirmPassword) {
-        fetch("http://localhost:3001/Auth/investor-registration", {
-          method: "POST",
-          body: JSON.stringify({
-            firstName,
-            lastName,
-            password,
-            email,
-            cnic,
-            password,
-            dateOfBirth,
-            phoneNumber,
-            selectedCity,
-            selectedCountry,
-          }),
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            if (res.token) {
-              window.localStorage.setItem("token", res.token);
-              alert("you have registered");
-            }
+    const register = () => {
+      // console.log({
+      //   firstName,
+      //   lastName,
+      //   password,
+      //   email,
+      //   cnic,
+      //   password,
+      //   dateOfBirth,
+      //   phoneNumber,
+      //   selectedCity,
+      //   selectedCountry,
+      // });
+      if (
+        firstName &&
+        lastName &&
+        email &&
+        cnic &&
+        password &&
+        confirmPassword &&
+        phoneNumber &&
+        dateOfBirth &&
+        selectedCity &&
+       checkbox &&
+        selectedCountry
+      ) {
+        if (password === confirmPassword) {
+          fetch("http://localhost:3001/Auth/investor-registration", {
+            method: "POST",
+            body: JSON.stringify({
+              firstName,
+              lastName,
+              password,
+              email,
+              cnic,
+              dateOfBirth,
+              phoneNumber,
+              selectedCity,
+              selectedCountry,
+            }),
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
           })
-          .catch((err) => console.log(err));
+            .then((res) => {
+              return res.json()
+            })
+            .then((res) => {
+              if (res.status) {
+                // window.localStorage.setItem("token", res.token);
+                alert("you have registered");
+              }else{
+                alert(res.message)
+              }
+            })
+            .catch((err) => alert(err));
+        } else {
+          alert("Password doesnot match");
+        }
       } else {
-        alert("Password doesnot match");
+        alert("Fields are empty");
       }
-    } else {
-      alert("Fields are empty");
-    }
-  };
+    };
   return (
     <>
       <HStack width={"100%"}>
@@ -272,7 +278,7 @@ const Investorregistration = () => {
       </HStack>
       <Stack alignItems={"center"} justifyContent={"center"}>
         <Checkbox
-          onChange={(event) => handleInputChange(event, setCheckbox)}
+          onChange={(event) => handleCheckboxChange(event, setCheckbox)}
           checked={setCheckbox}
         >
           I agree to Investify terms and conditions

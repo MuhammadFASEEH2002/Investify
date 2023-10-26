@@ -44,7 +44,65 @@ const Investeeregistration = () => {
   const handleConfirmPasswordClick = () =>{
     setShowConfirmPassword(!showConfirmPassword);
   }
-  const register = () => {}
+  const register = () => {
+    // console.log({
+    //   firstName,
+    //   lastName,
+    //   password,
+    //   email,
+    //   cnic,
+    //   password,
+    //   dateOfBirth,
+    //   phoneNumber,
+    //   selectedCity,
+    //   selectedCountry,
+    // });
+    if (
+      businessName &&
+      email &&
+      cnic &&
+      password &&
+      confirmPassword &&
+      phoneNumber &&
+      dateOfBirth &&
+      selectedCity &&
+     checkbox &&
+      selectedCountry
+    ) {
+      if (password === confirmPassword) {
+        fetch("http://localhost:3001/Auth/investor-registration", {
+          method: "POST",
+          body: JSON.stringify({
+           businessName,
+            email,
+            cnic,
+            password,
+      address,
+            phoneNumber,
+            selectedCity,
+            selectedCountry,
+            selectedCategory
+          }),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.token) {
+              window.localStorage.setItem("token", res.token);
+              alert("you have registered");
+            }
+          })
+          .catch((err) => console.log(err));
+      } else {
+        alert("Password doesnot match");
+      }
+    } else {
+      alert("Fields are empty");
+    }
+  };
   return (
     <>
       <HStack width={"100%"}>
