@@ -28,15 +28,23 @@ const Userregistration = () => {
         width={"100svw"}
         height={{ base: "200svh", md: "100svh", lg: "100svh" }}
       >
-        <Stack width={"100%"} height={"100%"}>
+        <Stack width={"100%"} height={"100%"} 
+              backgroundColor={"#DFF0F1"}
+              >
           <HStack width={"100%"} padding={"10px 5px 10px 5px"}>
             <Stack>
               <Logo />
             </Stack>
           </HStack>
-          <Heading marginLeft={"20px"}> CREATE YOUR INVESTOR ACCOUNT</Heading>
+          <Heading marginLeft={"20px"}> CREATE YOUR  {userDecision === "investor" ? (
+           <span>INVESTOR</span>
+          ) : userDecision === "investee" ? (
+            <span>INVESTEE</span>
+          ) : (
+            <p>No user decision available.</p>
+          )} ACCOUNT</Heading>
           <Text marginLeft={"20px"}>
-            Already a member?<Link>Log In</Link>
+            Already a member?<Link to={"/user-login"}>Log In</Link>
           </Text>
           {userDecision === "investor" ? (
             <Investorregistration />

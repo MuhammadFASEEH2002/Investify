@@ -9,9 +9,13 @@ import {
   InputRightElement,
   Select,
   Checkbox,
+  useToast,
+
 } from "@chakra-ui/react";
 
 const Investeeregistration = () => {
+  const toast = useToast();
+
   const [businessName, setBusinessName] = useState("");
   const [email, setEmail] = useState("");
   const [cnic, setCnic] = useState("");
@@ -88,18 +92,42 @@ const Investeeregistration = () => {
         })
         .then((res) => {
           if (res.status) {
-            // window.localStorage.setItem("token", res.token);
-            alert("you have registered");
-          }else{
-            alert(res.message)
+            toast({
+              title: "Investor Account Created",
+              description: "Redirecting to Login Screen",
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+            });
+          } else {
+            // alert(res.message);
+            toast({
+              title: "Authentication Error",
+              description: res.message,
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
           }
         })
           .catch((err) => console.log(err));
       } else {
-        alert("Password doesnot match");
+        toast({
+          title: "Passwords Doesnot Match",
+          description: "Both passwords should be same",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
       }
     } else {
-      alert("Fields are empty");
+      toast({
+        title: "Fields Are Empty",
+        description: "Kindly fill all the fields with correct data",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     }
   };
   return (

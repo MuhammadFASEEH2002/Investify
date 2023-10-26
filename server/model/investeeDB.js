@@ -2,7 +2,7 @@ const mongo = require('mongoose');
 
 const InvesteeSchema = new mongo.Schema({
    
-    businessname:{
+    businessName:{
         type:String,
         unique:true,
         required:true
@@ -35,7 +35,7 @@ const InvesteeSchema = new mongo.Schema({
         required : true
     },
 
-    phone:{
+    phoneNumber:{
         type : Number,
         unique:true,
         required : true
@@ -60,4 +60,4 @@ const InvesteeSchema = new mongo.Schema({
 
 const Investee = mongo.model('Investee' , InvesteeSchema);
 
-module.exports = Investor;
+module.exports = Investee;

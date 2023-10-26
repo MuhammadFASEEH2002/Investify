@@ -2,12 +2,12 @@ const mongo = require('mongoose');
 
 const InvestorSchema = new mongo.Schema({
    
-    firstname:{
+    firstName:{
         type:String,
         required:true
     },
 
-    lastname:{
+    lastName:{
         type:String,
         required:true
     },
@@ -34,12 +34,6 @@ const InvestorSchema = new mongo.Schema({
         unique:true,
         required : true
     },
-
-    dateOfBirth:{
-        type:Date,
-        required:true
-    },
-
     country:{
         type:String,
         required:true

@@ -9,9 +9,11 @@ import {
   InputRightElement,
   Select,
   Checkbox,
+  useToast,
 } from "@chakra-ui/react";
 
 const Investorregistration = () => {
+  const toast = useToast();
   // Input field states
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -20,119 +22,117 @@ const Investorregistration = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [checkbox, setCheckbox] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
+  const [showPassword, setShowPassword] = React.useState(false);
 
+  // Input State change handling fucntions
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
   };
   const handleCheckboxChange = (event, setState) => {
     setState(event.target.checked);
   };
-  // const handleCityChange = (event) => {
-  //   setSelectedCity(event.target.value);
-  // };
-  // const handleCountryChange = (event) => {
-  //   setSelectedCountry(event.target.value);
-  // };
-  const [showPassword, setShowPassword] = React.useState(false);
   const handlePasswordClick = () => setShowPassword(!showPassword);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const handleConfirmPasswordClick = () =>
     setShowConfirmPassword(!showConfirmPassword);
-    const handleDOBChange = (event) => {
-      const inputDate = event.target.value;
-      const currentDate = new Date();
-  
-      // Convert inputDate to a Date object
-      const enteredDate = new Date(inputDate);
-  
-      // Calculate the age difference in milliseconds
-      const ageDifference = currentDate - enteredDate;
-  
-      // Calculate the age in years
-      const ageInYears = ageDifference / (1000 * 60 * 60 * 24 * 365.25);
-  
-      // Check if the age is greater than or equal to 18
-      if (ageInYears >= 18) {
-        // Person is above 18 years old
-        setDateOfBirth(inputDate);
-        console.log("Valid date of birth");
-      } else {
-        // Person is below 18 years old
-        console.log("Invalid date of birth. Must be above 18 years old.");
-      }
-    };
-    const register = () => {
-      // console.log({
-      //   firstName,
-      //   lastName,
-      //   password,
-      //   email,
-      //   cnic,
-      //   password,
-      //   dateOfBirth,
-      //   phoneNumber,
-      //   selectedCity,
-      //   selectedCountry,
-      // });
-      if (
-        firstName &&
-        lastName &&
-        email &&
-        cnic &&
-        password &&
-        confirmPassword &&
-        phoneNumber &&
-        dateOfBirth &&
-        selectedCity &&
-       checkbox &&
-        selectedCountry
-      ) {
-        if (password === confirmPassword) {
-          fetch("http://localhost:3001/Auth/investor-registration", {
-            method: "POST",
-            body: JSON.stringify({
-              firstName,
-              lastName,
-              password,
-              email,
-              cnic,
-              dateOfBirth,
-              phoneNumber,
-              selectedCity,
-              selectedCountry,
-            }),
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
+  const register = () => {
+    // console.log({
+    //   firstName,
+    //   lastName,
+    //   password,
+    //   email,
+    //   cnic,
+    //   password,
+    //   dateOfBirth,
+    //   phoneNumber,
+    //   selectedCity,
+    //   selectedCountry,
+    // });
+    if (
+      firstName &&
+      lastName &&
+      email &&
+      cnic &&
+      password &&
+      confirmPassword &&
+      phoneNumber &&
+      selectedCity &&
+      checkbox &&
+      selectedCountry
+    ) {
+      if (password === confirmPassword) {
+        fetch("http://localhost:3001/Auth/investor-registration", {
+          method: "POST",
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            password,
+            email,
+            cnic,
+            phoneNumber,
+            selectedCity,
+            selectedCountry,
+          }),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => {
+            return res.json();
           })
-            .then((res) => {
-              return res.json()
-            })
-            .then((res) => {
-              if (res.status) {
-                // window.localStorage.setItem("token", res.token);
-                alert("you have registered");
-              }else{
-                alert(res.message)
-              }
-            })
-            .catch((err) => alert(err));
-        } else {
-          alert("Password doesnot match");
-        }
+          .then((res) => {
+            if (res.status) {
+              toast({
+                title: "Investor Account Created",
+                description: "Redirecting to Login Screen",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+              });
+            } else {
+              // alert(res.message);
+              toast({
+                title: "Authentication Error",
+                description: res.message,
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+              });
+            }
+          })
+          .catch((err) => alert(err));
       } else {
-        alert("Fields are empty");
+        // alert("Password doesnot match");
+        toast({
+          title: "Passwords Doesnot Match",
+          description: "Both passwords should be same",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
       }
-    };
+    } else {
+      // alert("Fields are empty");
+      toast({
+        title: "Fields Are Empty",
+        description: "Kindly fill all the fields with correct data",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  };
   return (
     <>
-      <HStack width={"100%"}>
-        <Stack width={"50%"}>
+      <HStack
+        width={"100%"}
+        flexDirection={{ base: "column", md: "row", lg: "row" }}
+      >
+        <Stack width={{ base: "100%", md: "50%", lg: "50%" }}>
           <HStack marginLeft={"20px"}>
             <Stack width={"50%"}>
               <Text>First Name</Text>
@@ -233,12 +233,7 @@ const Investorregistration = () => {
           </HStack>
         </Stack>
         {/* registeration form right area */}
-
-        <Stack
-          width={"50%"}
-          justifyContent={"center"}
-          alignItems={"flex-start"}
-        >
+        <Stack width={{ base: "100%", md: "50%", lg: "50%" }}>
           <HStack width={"100%"}>
             <Stack width={"50%"}>
               <Text>Phone Number</Text>
@@ -253,23 +248,10 @@ const Investorregistration = () => {
               />
             </Stack>
             <Stack width={"50%"}>
-              <Text>Date of Birth</Text>
-              <Input
-                type="date"
-                width={"90%"}
-                variant={"filled"}
-                border={"0.5px solid grey"}
-                isRequired
-                onChange={(event) => handleInputChange(event, setDateOfBirth)}
-              />
-            </Stack>
-          </HStack>
-          <HStack width={"100%"}>
-            <Stack width={"50%"}>
               <Text>City</Text>
               <Select
                 placeholder="Select City"
-                variant={"outline"}
+                variant={"filled"}
                 border={"0.5px solid grey"}
                 width={"90%"}
                 onChange={(event) => handleInputChange(event, setSelectedCity)}
@@ -280,13 +262,15 @@ const Investorregistration = () => {
                 <option value="Islamabad">Islamabad</option>
               </Select>
             </Stack>
+          </HStack>
+          <HStack width={"100%"}>
             <Stack width={"50%"}>
               <Text>Country</Text>
               <Select
                 placeholder="Select Country"
-                variant={"outline"}
                 border={"0.5px solid grey"}
                 width={"90%"}
+                variant={"filled"}
                 onChange={(event) =>
                   handleInputChange(event, setSelectedCountry)
                 }
@@ -298,10 +282,11 @@ const Investorregistration = () => {
           </HStack>
         </Stack>
       </HStack>
-      <Stack alignItems={"center"} justifyContent={"center"}>
+      <Stack alignItems={"center"} justifyContent={"center"} marginTop={"30px"}>
         <Checkbox
           onChange={(event) => handleCheckboxChange(event, setCheckbox)}
           checked={setCheckbox}
+          borderColor="black"
         >
           I agree to Investify terms and conditions
         </Checkbox>
