@@ -69,8 +69,8 @@ router.post("/investor-registration", async (req, res) => {
 
     const hashPassword = await bcrypt.hash(req.body.password, 10);
     const investor = await Investor.create({
-      firstname: req.body.firstName,
-      lastname: req.body.lastName,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       cnic: req.body.cnic,
       phoneNumber: req.body.phoneNumber,
       dateOfBirth: req.body.dateOfBirth,
@@ -88,7 +88,9 @@ router.post("/investor-registration", async (req, res) => {
 
 router.post("/investee-registration", async (req, res) => {
   try {
-    const BusinessNameExist = await Investee.findOne({ email: req.body.businessName });
+    const BusinessNameExist = await Investee.findOne({
+      email: req.body.businessName,
+    });
 
     const EmailExist = await Investee.findOne({ email: req.body.email });
     const CnicExist = await Investee.findOne({ cnic: req.body.cnic });
@@ -128,9 +130,7 @@ router.post("/investee-registration", async (req, res) => {
       return;
     }
     const nameRegex = /^[A-Za-z]+$/;
-    if (
-      !nameRegex.test(req.body.businessName)
-    ){
+    if (!nameRegex.test(req.body.businessName)) {
       res.json({
         message: "Invalid Business name",
         status: false,
@@ -168,24 +168,45 @@ router.post("/investee-registration", async (req, res) => {
     res.json({ message: error.message, status: false });
   }
 });
-module.exports = router;
 
-router.post('/login' , async (req , res)=>{
-  const Exist = await User.findOne({ email : req.body.email }) 
-  if(!Exist){
-    res.status(301).json({ message : 'Email doesn`t Exist!'})
+router.post("/investor-login", async (req, res) => {
+  const Exist = await Investor.findOne({ email: req.body.email });
+  if (!Exist) {
+    res.json({ message: "User doesn`t Exist, Kindly Register", status: false });
+  } else {
+    const verify = await bcrypt.compare(req.body.password, Exist._doc.password);
+    if (verify) {
+      // const token = await jwt.sign({ id: Exist._doc._id }, "mysecurepassword");
+      res.json({
+        user: {
+          username: Exist._doc.username,
+          email: Exist._doc.email,
+        },
+        status:true
+      });
+    } else {
+      res.json({ message: "Invalid Password", status: false });
+    }
   }
-  const verify = await bcrypt.compare(req.body.password , Exist._doc.password )
-  if(verify){
-    const token = await jwt.sign({ id : Exist._doc._id } , 'mysecurepassword')
-    res.json({ 
-      token , 
-      user : {
-          username : Exist._doc.username,
-          email : Exist._doc.email
-      }
-    })
-  }else{
-    res.status(204).json({ message : 'Invalid Password'})
+});
+router.post("/investee-login", async (req, res) => {
+  const Exist = await Investee.findOne({ email: req.body.email });
+  if (!Exist) {
+    res.json({ message: "User doesn`t Exist, Kindly Register", status: false });
+  } else {
+    const verify = await bcrypt.compare(req.body.password, Exist._doc.password);
+    if (verify) {
+      // const token = await jwt.sign({ id: Exist._doc._id }, "mysecurepassword");
+      res.json({
+        user: {
+          username: Exist._doc.username,
+          email: Exist._doc.email,
+        },
+        status:true
+      });
+    } else {
+      res.json({ message: "Invalid Password", status: false });
+    }
   }
-})
+});
+module.exports = router;

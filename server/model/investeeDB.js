@@ -36,13 +36,13 @@ const InvesteeSchema = new mongo.Schema({
     },
 
     phoneNumber:{
-        type : Number,
+        type : String,
         unique:true,
         required : true
     },
 
     zipcode:{
-        type:Number,
+        type:String,
         required:true
     },
 

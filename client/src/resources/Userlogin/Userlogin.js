@@ -12,18 +12,124 @@ import {
   InputGroup,
   InputRightElement,
   Link,
+  useToast,
 } from "@chakra-ui/react";
 
 import Logo from "../../components/Logo";
 
 const Userlogin = () => {
-  const [selectedRole, setSelectedRole] = useState("Investor");
+  const toast = useToast();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const handleInputChange = (event, setState) => {
+    setState(event.target.value);
+  };
+  const [selectedRole, setSelectedRole] = useState("investor");
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "Investify | UserLogin";
   });
+  const investorLogin = () => {
+    if (email && password) {
+      fetch("http://localhost:3001/Auth/investor-login", {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          if (res.status) {
+            toast({
+              title: "Investor Account Created",
+              description: "Redirecting to Login Screen",
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+            });
+            navigate("/user/investor-dashboard");
+
+          } else {
+            // alert(res.message);
+            toast({
+              title: "Authentication Error",
+              description: res.message,
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+      toast({
+        title: "Empty Fields",
+        description: "Kindly fill the required fields",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
+  const investeeLogin = () => {
+    if (email && password) {
+      fetch("http://localhost:3001/Auth/investee-login", {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          if (res.status) {
+            toast({
+              title: "Investee Account Created",
+              description: "Redirecting to Login Screen",
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+            });
+            navigate("/user/investor-dashboard")
+          } else {
+            // alert(res.message);
+            toast({
+              title: "Authentication Error",
+              description: res.message,
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+      toast({
+        title: "Empty Fields",
+        description: "Kindly fill the required fields",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
   return (
     <>
       <Stack
@@ -64,7 +170,6 @@ const Userlogin = () => {
               borderTopRightRadius={{ base: "0", md: "50px", lg: "50px" }}
               borderBottomRightRadius={{ base: "80px", md: "50px", lg: "50px" }}
               borderBottomLeftRadius={{ base: "80px", md: "0", lg: "0" }}
-           
             >
               <Heading marginBottom={"30px"}> Login to Your Account</Heading>
               <Stack
@@ -85,14 +190,14 @@ const Userlogin = () => {
                   >
                     <Radio
                       size={"md"}
-                      value="Investor"
+                      value="investor"
                       border={"0.5px solid grey"}
                       marginRight={"20px"}
                     >
                       Investor
                     </Radio>
                     <Radio
-                      value="Investee"
+                      value="investee"
                       border={"0.5px solid grey"}
                       marginLeft={"20px"}
                     >
@@ -108,6 +213,7 @@ const Userlogin = () => {
                     width={{ base: "100%", md: "80%", lg: "80%" }}
                     variant={"filled"}
                     border={"0.5px solid grey"}
+                    onChange={(event) => handleInputChange(event, setEmail)}
                   />
                 </Stack>
                 <Stack width={"80%"}>
@@ -119,6 +225,9 @@ const Userlogin = () => {
                       placeholder="Enter password"
                       variant={"filled"}
                       border={"0.5px solid grey"}
+                      onChange={(event) =>
+                        handleInputChange(event, setPassword)
+                      }
                     />
                     <InputRightElement width="4.5rem">
                       <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -135,7 +244,13 @@ const Userlogin = () => {
                   variant="outline"
                   marginRight={"10px"}
                   size={{ base: "md", md: "md", lg: "lg" }}
-                  onClick={() => navigate("/user-login")}
+                  onClick={() => {
+                    if (selectedRole == "investor") {
+                      investorLogin();
+                    } else {
+                      investeeLogin();
+                    }
+                  }}
                 >
                   Sign In
                 </Button>

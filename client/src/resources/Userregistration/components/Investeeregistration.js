@@ -118,6 +118,8 @@ const Investeeregistration = () => {
           status: "error",
           duration: 9000,
           isClosable: true,
+        position: "top",
+
         });
       }
     } else {
@@ -127,6 +129,7 @@ const Investeeregistration = () => {
         status: "error",
         duration: 9000,
         isClosable: true,
+        position: "top"
       });
     }
   };
@@ -239,9 +242,10 @@ const Investeeregistration = () => {
           width={"50%"}
           justifyContent={"center"}
           alignItems={"flex-start"}
+
         >
-          <HStack width={"100%"}>
-            <Stack width={"50%"}>
+          <HStack width={"100%"} >
+            <Stack width={"50%"} >
               <Text>Address</Text>
               <Input
                 type="text"

@@ -233,7 +233,7 @@ const Investorregistration = () => {
           </HStack>
         </Stack>
         {/* registeration form right area */}
-        <Stack width={{ base: "100%", md: "50%", lg: "50%" }}>
+        <Stack width={{ base: "100%", md: "50%", lg: "50%" }} height={"100%"}>
           <HStack width={"100%"}>
             <Stack width={"50%"}>
               <Text>Phone Number</Text>
