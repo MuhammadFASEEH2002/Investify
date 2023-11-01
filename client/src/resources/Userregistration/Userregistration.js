@@ -26,7 +26,7 @@ const Userregistration = () => {
       <Stack
         overflowX={"hidden"}
         width={"100svw"}
-        height={{ base: "200svh", md: "100svh", lg: "100svh" }}
+        height={{ base: "150svh", md: "100svh", lg: "100svh" }}
       >
         <Stack width={"100%"} height={"100%"} 
               backgroundColor={"#DFF0F1"}
@@ -36,14 +36,14 @@ const Userregistration = () => {
               <Logo />
             </Stack>
           </HStack>
-          <Heading marginLeft={"20px"}> CREATE YOUR  {userDecision === "investor" ? (
+          <Heading marginLeft={{ base: "10px", md: "20px", lg: "20px" }}> CREATE YOUR  {userDecision === "investor" ? (
            <span>INVESTOR</span>
           ) : userDecision === "investee" ? (
             <span>INVESTEE</span>
           ) : (
             <p>No user decision available.</p>
           )} ACCOUNT</Heading>
-          <Text marginLeft={"20px"}>
+          <Text  marginLeft={{ base: "10px", md: "20px", lg: "20px" }}>
             Already a member?<Link to={"/user-login"}>Log In</Link>
           </Text>
           {userDecision === "investor" ? (

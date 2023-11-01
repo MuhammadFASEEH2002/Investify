@@ -39,18 +39,6 @@ const Investorregistration = () => {
   const handleConfirmPasswordClick = () =>
     setShowConfirmPassword(!showConfirmPassword);
   const register = () => {
-    // console.log({
-    //   firstName,
-    //   lastName,
-    //   password,
-    //   email,
-    //   cnic,
-    //   password,
-    //   dateOfBirth,
-    //   phoneNumber,
-    //   selectedCity,
-    //   selectedCountry,
-    // });
     if (
       firstName &&
       lastName &&
@@ -92,6 +80,8 @@ const Investorregistration = () => {
                 status: "success",
                 duration: 9000,
                 isClosable: true,
+              position:"top"
+
               });
             } else {
               // alert(res.message);
@@ -101,6 +91,8 @@ const Investorregistration = () => {
                 status: "error",
                 duration: 9000,
                 isClosable: true,
+              position:"top"
+
               });
             }
           })
@@ -113,6 +105,8 @@ const Investorregistration = () => {
           status: "error",
           duration: 9000,
           isClosable: true,
+          position:"top"
+
         });
       }
     } else {
@@ -123,6 +117,8 @@ const Investorregistration = () => {
         status: "error",
         duration: 9000,
         isClosable: true,
+        position:"top"
+
       });
     }
   };
@@ -133,7 +129,7 @@ const Investorregistration = () => {
         flexDirection={{ base: "column", md: "row", lg: "row" }}
       >
         <Stack width={{ base: "100%", md: "50%", lg: "50%" }}>
-          <HStack marginLeft={"20px"}>
+          <HStack  marginLeft={{ base: "10px", md: "20px", lg: "20px" }}>
             <Stack width={"50%"}>
               <Text>First Name</Text>
               <Input
@@ -159,7 +155,7 @@ const Investorregistration = () => {
               />
             </Stack>
           </HStack>
-          <HStack marginLeft={"20px"}>
+          <HStack marginLeft={{ base: "10px", md: "20px", lg: "20px" }}>
             <Stack width={"50%"}>
               <Text>Email</Text>
               <Input
@@ -185,7 +181,7 @@ const Investorregistration = () => {
               />
             </Stack>
           </HStack>
-          <HStack marginLeft={"20px"}>
+          <HStack marginLeft={{ base: "10px", md: "20px", lg: "20px" }}>
             <Stack width={"50%"}>
               <Text>Password</Text>
               <InputGroup width={"90%"}>
@@ -198,8 +194,8 @@ const Investorregistration = () => {
                   isRequired
                   onChange={(event) => handleInputChange(event, setPassword)}
                 />
-                <InputRightElement width="4.5rem">
-                  <Button h="1.75rem" size="sm" onClick={handlePasswordClick}>
+                <InputRightElement width="4rem">
+                  <Button h="1.5rem" size="xs" onClick={handlePasswordClick}>
                     {showPassword ? "Hide" : "Show"}
                   </Button>
                 </InputRightElement>
@@ -219,10 +215,10 @@ const Investorregistration = () => {
                     handleInputChange(event, setConfirmPassword)
                   }
                 />
-                <InputRightElement width="4.5rem">
+                <InputRightElement width="4rem">
                   <Button
-                    h="1.75rem"
-                    size="sm"
+                    h="1.5rem"
+                    size="xs"
                     onClick={handleConfirmPasswordClick}
                   >
                     {showConfirmPassword ? "Hide" : "Show"}
@@ -234,7 +230,7 @@ const Investorregistration = () => {
         </Stack>
         {/* registeration form right area */}
         <Stack width={{ base: "100%", md: "50%", lg: "50%" }} height={"100%"}>
-          <HStack width={"100%"}>
+          <HStack width={"100%"} marginLeft={{ base: "10px", md: "0px", lg: "0px" }}>
             <Stack width={"50%"}>
               <Text>Phone Number</Text>
               <Input
@@ -263,7 +259,8 @@ const Investorregistration = () => {
               </Select>
             </Stack>
           </HStack>
-          <HStack width={"100%"}>
+          <HStack width={"100%"}
+          marginLeft={{ base: "10px", md: "0px", lg: "0px" }}>
             <Stack width={"50%"}>
               <Text>Country</Text>
               <Select

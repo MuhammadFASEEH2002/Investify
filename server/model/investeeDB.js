@@ -55,6 +55,10 @@ const InvesteeSchema = new mongo.Schema({
         type:String,
         required:true
     },
+    isVerified:{
+        type:Boolean,
+        required:true
+    },
 
 })
 

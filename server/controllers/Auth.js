@@ -100,7 +100,7 @@ router.post("/investee-registration", async (req, res) => {
 
     if (BusinessNameExist || EmailExist || CnicExist || PhoneExist) {
       res.json({
-        message: "Business Name, Email, CNIC or Phone Number already exist",
+        message: "User having the same Business Name, Email, CNIC or Phone Number already exist",
         status: false,
       });
       return;
@@ -129,7 +129,7 @@ router.post("/investee-registration", async (req, res) => {
       });
       return;
     }
-    const nameRegex = /^[A-Za-z]+$/;
+    const nameRegex = /^[a-zA-Z0-9\s]+$/;
     if (!nameRegex.test(req.body.businessName)) {
       res.json({
         message: "Invalid Business name",
@@ -161,6 +161,7 @@ router.post("/investee-registration", async (req, res) => {
       country: req.body.selectedCountry,
       city: req.body.selectedCity,
       category: req.body.selectedCategory,
+      isVerified: false,
     });
     //   const token = await jwt.sign({ id: investor._doc._id }, "mysecurepassword");
     res.json({ message: "user created", status: true });
@@ -197,6 +198,25 @@ router.post("/investee-login", async (req, res) => {
     const verify = await bcrypt.compare(req.body.password, Exist._doc.password);
     if (verify) {
       // const token = await jwt.sign({ id: Exist._doc._id }, "mysecurepassword");
+      res.json({
+        user: {
+          username: Exist._doc.username,
+          email: Exist._doc.email,
+        },
+        status:true
+      });
+    } else {
+      res.json({ message: "Invalid Password", status: false });
+    }
+  }
+});
+router.post("/admin-login", async (req, res) => {
+  const Exist = await admin.findOne({ email: req.body.email });
+  if (!Exist) {
+    res.json({ message: "Invalid Credentials", status: false });
+  } else {
+    const verify = await bcrypt.compare(req.body.password, Exist._doc.password);
+    if (verify) {
       res.json({
         user: {
           username: Exist._doc.username,

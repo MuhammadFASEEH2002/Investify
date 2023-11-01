@@ -20,8 +20,6 @@ function App() {
         <Route path="/user-registration/user-role" element={<Userrole/>}/> 
         <Route path="/user-registration" element={<Userregistration/>}/> 
         <Route path="/user/investor-dashboard" element={<Investordashboard/>}/>    
-
-
       </Routes>
     </Router>
     </>
