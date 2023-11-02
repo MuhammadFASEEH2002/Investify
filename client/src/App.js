@@ -28,6 +28,7 @@ function App() {
             path="/user/investee-dashboard"
             element={<Investeedashboard />}
           />
+          <Route path="/user/admin-dashboard" element={<Admindashboard />} />
         </Routes>
       </Router>
     </>

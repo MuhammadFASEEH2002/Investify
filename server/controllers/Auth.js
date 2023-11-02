@@ -2,7 +2,6 @@ const router = require("express").Router();
 const Investor = require("../model/investorDB");
 const Investee = require("../model/investeeDB");
 const Admin= require("../model/admin");
-
 const bcrypt = require("bcrypt");
 
 router.post("/investor-registration", async (req, res) => {
