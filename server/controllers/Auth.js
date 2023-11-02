@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const Investor = require("../model/investorDB");
 const Investee = require("../model/investeeDB");
+const Admin= require("../model/admin");
+
 const bcrypt = require("bcrypt");
 
 router.post("/investor-registration", async (req, res) => {
@@ -100,7 +102,8 @@ router.post("/investee-registration", async (req, res) => {
 
     if (BusinessNameExist || EmailExist || CnicExist || PhoneExist) {
       res.json({
-        message: "User having the same Business Name, Email, CNIC or Phone Number already exist",
+        message:
+          "User having the same Business Name, Email, CNIC or Phone Number already exist",
         status: false,
       });
       return;
@@ -183,7 +186,7 @@ router.post("/investor-login", async (req, res) => {
           username: Exist._doc.username,
           email: Exist._doc.email,
         },
-        status:true
+        status: true,
       });
     } else {
       res.json({ message: "Invalid Password", status: false });
@@ -203,7 +206,7 @@ router.post("/investee-login", async (req, res) => {
           username: Exist._doc.username,
           email: Exist._doc.email,
         },
-        status:true
+        status: true,
       });
     } else {
       res.json({ message: "Invalid Password", status: false });
@@ -211,18 +214,14 @@ router.post("/investee-login", async (req, res) => {
   }
 });
 router.post("/admin-login", async (req, res) => {
-  const Exist = await admin.findOne({ email: req.body.email });
+  const Exist = await Admin.findOne({ username: req.body.username });
   if (!Exist) {
     res.json({ message: "Invalid Credentials", status: false });
   } else {
-    const verify = await bcrypt.compare(req.body.password, Exist._doc.password);
-    if (verify) {
+    // const verify = await bcrypt.compare(req.body.password, Exist._doc.password);
+    if (Exist._doc.password==req.body.password) {
       res.json({
-        user: {
-          username: Exist._doc.username,
-          email: Exist._doc.email,
-        },
-        status:true
+        status: true,
       });
     } else {
       res.json({ message: "Invalid Password", status: false });

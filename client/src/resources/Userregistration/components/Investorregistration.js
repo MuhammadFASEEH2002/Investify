@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   HStack,
   Stack,
@@ -26,6 +28,7 @@ const Investorregistration = () => {
   const [checkbox, setCheckbox] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [showPassword, setShowPassword] = React.useState(false);
+  const navigate = useNavigate();
 
   // Input State change handling fucntions
   const handleInputChange = (event, setState) => {
@@ -80,9 +83,11 @@ const Investorregistration = () => {
                 status: "success",
                 duration: 9000,
                 isClosable: true,
-              position:"top"
-
+                position: "top",
               });
+              setTimeout(() => {
+                navigate("/user-login");
+              }, 2000);
             } else {
               // alert(res.message);
               toast({
@@ -91,8 +96,7 @@ const Investorregistration = () => {
                 status: "error",
                 duration: 9000,
                 isClosable: true,
-              position:"top"
-
+                position: "top",
               });
             }
           })
@@ -105,8 +109,7 @@ const Investorregistration = () => {
           status: "error",
           duration: 9000,
           isClosable: true,
-          position:"top"
-
+          position: "top",
         });
       }
     } else {
@@ -117,8 +120,7 @@ const Investorregistration = () => {
         status: "error",
         duration: 9000,
         isClosable: true,
-        position:"top"
-
+        position: "top",
       });
     }
   };
@@ -129,7 +131,7 @@ const Investorregistration = () => {
         flexDirection={{ base: "column", md: "row", lg: "row" }}
       >
         <Stack width={{ base: "100%", md: "50%", lg: "50%" }}>
-          <HStack  marginLeft={{ base: "10px", md: "20px", lg: "20px" }}>
+          <HStack marginLeft={{ base: "10px", md: "20px", lg: "20px" }}>
             <Stack width={"50%"}>
               <Text>First Name</Text>
               <Input
@@ -230,7 +232,10 @@ const Investorregistration = () => {
         </Stack>
         {/* registeration form right area */}
         <Stack width={{ base: "100%", md: "50%", lg: "50%" }} height={"100%"}>
-          <HStack width={"100%"} marginLeft={{ base: "10px", md: "0px", lg: "0px" }}>
+          <HStack
+            width={"100%"}
+            marginLeft={{ base: "10px", md: "0px", lg: "0px" }}
+          >
             <Stack width={"50%"}>
               <Text>Phone Number</Text>
               <Input
@@ -259,8 +264,10 @@ const Investorregistration = () => {
               </Select>
             </Stack>
           </HStack>
-          <HStack width={"100%"}
-          marginLeft={{ base: "10px", md: "0px", lg: "0px" }}>
+          <HStack
+            width={"100%"}
+            marginLeft={{ base: "10px", md: "0px", lg: "0px" }}
+          >
             <Stack width={"50%"}>
               <Text>Country</Text>
               <Select

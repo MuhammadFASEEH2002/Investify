@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { useNavigate } from "react-router-dom";
 import {
   HStack,
@@ -10,15 +9,65 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  useToast,
 } from "@chakra-ui/react";
 
 const Adminlogin = () => {
+  const toast = useToast();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const handleInputChange = (event, setState) => {
+    setState(event.target.value);
+  };
   const [show, setShow] = React.useState(false);
   const handleClick = () => setShow(!show);
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "Investify | AdminLogin";
   });
+  const adminLogin = () => {
+    if (username && password) {
+      fetch("http://localhost:3001/Auth/admin-login", {
+        method: "POST",
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          if (res.status) {
+            navigate("/user/admin-dashboard");
+          } else {
+            // alert(res.message);
+            toast({
+              title: "Authentication Error",
+              description: res.message,
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+      toast({
+        title: "Empty Fields",
+        description: "Kindly fill the required fields",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
   return (
     <>
       <Stack
@@ -73,13 +122,14 @@ const Adminlogin = () => {
                 justifyContent={"flex-start"}
               >
                 <Stack width={"80%"} marginBottom={"20px"}>
-                  <Text color={"white"}>Email address</Text>
+                  <Text color={"white"}>Username</Text>
                   <Input
                     type="email"
                     placeholder="Enter Your email"
                     width={{ base: "100%", md: "90%", lg: "90%" }}
                     variant={"filled"}
                     border={"0.5px solid grey"}
+                    onChange={(event) => handleInputChange(event, setUsername)}
                   />
                 </Stack>
                 <Stack width={"80%"}>
@@ -91,6 +141,9 @@ const Adminlogin = () => {
                       placeholder="Enter password"
                       variant={"filled"}
                       border={"0.5px solid grey"}
+                      onChange={(event) =>
+                        handleInputChange(event, setPassword)
+                      }
                     />
                     <InputRightElement width="4.5rem">
                       <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -105,7 +158,7 @@ const Adminlogin = () => {
                   variant="outline"
                   marginRight={"10px"}
                   size={{ base: "md", md: "md", lg: "lg" }}
-                  onClick={() => navigate("/user-login")}
+                  onClick={adminLogin}
                 >
                   Sign In
                 </Button>

@@ -49,15 +49,7 @@ const Userlogin = () => {
         })
         .then((res) => {
           if (res.status) {
-            toast({
-              title: "Investor Account Created",
-              description: "Redirecting to Login Screen",
-              status: "success",
-              duration: 9000,
-              isClosable: true,
-            });
-            navigate("/user/investor-dashboard");
-
+            navigate("/user/investor-dashboard", { replace: true });
           } else {
             // alert(res.message);
             toast({
@@ -99,14 +91,7 @@ const Userlogin = () => {
         })
         .then((res) => {
           if (res.status) {
-            toast({
-              title: "Investee Account Created",
-              description: "Redirecting to Login Screen",
-              status: "success",
-              duration: 9000,
-              isClosable: true,
-            });
-            navigate("/user/investor-dashboard")
+            navigate("/user/investee-dashboard", { replace: true });
           } else {
             // alert(res.message);
             toast({

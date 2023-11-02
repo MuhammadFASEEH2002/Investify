@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import {
   HStack,
   Stack,
@@ -10,7 +12,6 @@ import {
   Select,
   Checkbox,
   useToast,
-
 } from "@chakra-ui/react";
 
 const Investeeregistration = () => {
@@ -28,6 +29,7 @@ const Investeeregistration = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [checkbox, setCheckbox] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
@@ -87,31 +89,34 @@ const Investeeregistration = () => {
             "Content-Type": "application/json",
           },
         })
-        .then((res) => {
-          return res.json()
-        })
-        .then((res) => {
-          if (res.status) {
-            toast({
-              title: "Investor Account Created",
-              description: "Redirecting to Login Screen",
-              status: "success",
-              duration: 9000,
-              isClosable: true,
-              position:"top"
-            });
-          } else {
-            // alert(res.message);
-            toast({
-              title: "Authentication Error",
-              description: res.message,
-              status: "error",
-              duration: 9000,
-              isClosable: true,
-              position:"top"
-            });
-          }
-        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            if (res.status) {
+              toast({
+                title: "Investor Account Created",
+                description: "Redirecting to Login Screen",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+                position: "top",
+              });
+              setTimeout(() => {
+                navigate("/user-login");
+              }, 2000);
+            } else {
+              // alert(res.message);
+              toast({
+                title: "Authentication Error",
+                description: res.message,
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+                position: "top",
+              });
+            }
+          })
           .catch((err) => console.log(err));
       } else {
         toast({
@@ -120,8 +125,7 @@ const Investeeregistration = () => {
           status: "error",
           duration: 9000,
           isClosable: true,
-        position: "top",
-
+          position: "top",
         });
       }
     } else {
@@ -131,17 +135,18 @@ const Investeeregistration = () => {
         status: "error",
         duration: 9000,
         isClosable: true,
-        position: "top"
+        position: "top",
       });
     }
   };
   return (
     <>
-      <HStack width={"100%"} 
+      <HStack
+        width={"100%"}
         flexDirection={{ base: "column", md: "row", lg: "row" }}
         spacing={"0px"}
-        >
-        <Stack width={{ base: "100%", md: "50%", lg: "50%" }}  spacing={"0px"}>
+      >
+        <Stack width={{ base: "100%", md: "50%", lg: "50%" }} spacing={"0px"}>
           <HStack marginLeft={{ base: "10px", md: "20px", lg: "20px" }}>
             <Stack width={"50%"}>
               <Text>Business Name</Text>
@@ -194,7 +199,7 @@ const Investeeregistration = () => {
               />
             </Stack>
           </HStack>
-          <HStack  marginLeft={{ base: "10px", md: "20px", lg: "20px" }}>
+          <HStack marginLeft={{ base: "10px", md: "20px", lg: "20px" }}>
             <Stack width={"50%"}>
               <Text>Password</Text>
               <InputGroup width={"90%"}>
@@ -244,14 +249,16 @@ const Investeeregistration = () => {
         {/* registeration form right area */}
 
         <Stack
-       width={{ base: "100%", md: "50%", lg: "50%" }}
+          width={{ base: "100%", md: "50%", lg: "50%" }}
           justifyContent={"center"}
           alignItems={"flex-start"}
           spacing={"0px"}
-
         >
-          <HStack width={"100%"}  marginLeft={{ base: "10px", md: "0px", lg: "0px" }}>
-            <Stack width={"50%"} >
+          <HStack
+            width={"100%"}
+            marginLeft={{ base: "10px", md: "0px", lg: "0px" }}
+          >
+            <Stack width={"50%"}>
               <Text>Address</Text>
               <Input
                 type="text"
@@ -276,13 +283,15 @@ const Investeeregistration = () => {
               />
             </Stack>
           </HStack>
-          <HStack width={"100%"} marginLeft={{ base: "10px", md: "0px", lg: "0px" }}>
+          <HStack
+            width={"100%"}
+            marginLeft={{ base: "10px", md: "0px", lg: "0px" }}
+          >
             <Stack width={"50%"}>
               <Text>City</Text>
               <Select
                 placeholder="Select City"
                 variant={"filled"}
-
                 border={"0.5px solid grey"}
                 width={"90%"}
                 isRequired
@@ -298,7 +307,6 @@ const Investeeregistration = () => {
               <Select
                 placeholder="Select Country"
                 variant={"filled"}
-
                 border={"0.5px solid grey"}
                 width={"90%"}
                 onChange={(event) =>
@@ -310,7 +318,10 @@ const Investeeregistration = () => {
               </Select>
             </Stack>
           </HStack>
-          <HStack width={"100%"} marginLeft={{ base: "10px", md: "0px", lg: "0px" }}>
+          <HStack
+            width={"100%"}
+            marginLeft={{ base: "10px", md: "0px", lg: "0px" }}
+          >
             <Stack width={"50%"}>
               <Text>Category</Text>
               <Select
@@ -335,11 +346,10 @@ const Investeeregistration = () => {
       </HStack>
       <Stack alignItems={"center"} justifyContent={"center"} marginTop={"30px"}>
         <Checkbox
-        onChange={(event) => handleCheckboxChange(event, setCheckbox)}
-        checked={setCheckbox}
-        borderColor="black"
+          onChange={(event) => handleCheckboxChange(event, setCheckbox)}
+          checked={setCheckbox}
+          borderColor="black"
         >
-        
           I agree to Investify terms and conditions
         </Checkbox>
         <Button
