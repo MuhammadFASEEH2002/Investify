@@ -1,14 +1,12 @@
 import React from 'react'
 import Sidebar from './components/Sidebar'
 
-
-const Investorhome = () => {
+const Investorbusinesscatalog = () => {
   return (
     <>
     <Sidebar/>
-    <p>Hello</p>
     </>
   )
 }
 
-export default Investorhome
+export default Investorbusinesscatalog

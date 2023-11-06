@@ -44,18 +44,19 @@ const Investeeregistration = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
   const register = () => {
-    // console.log({
-    //   firstName,
-    //   lastName,
-    //   password,
-    //   email,
-    //   cnic,
-    //   password,
-    //   dateOfBirth,
-    //   phoneNumber,
-    //   selectedCity,
-    //   selectedCountry,
-    // });
+    console.log({
+      businessName,
+      email,
+      cnic,
+      password,
+      address,
+      zipcode,
+      phoneNumber,
+      selectedCity,
+      selectedCountry,
+      selectedCategory,
+      
+    });
     if (
       businessName &&
       email &&
@@ -95,16 +96,14 @@ const Investeeregistration = () => {
           .then((res) => {
             if (res.status) {
               toast({
-                title: "Investor Account Created",
+                title: "Investee Account Created",
                 description: "Redirecting to Login Screen",
                 status: "success",
                 duration: 9000,
                 isClosable: true,
                 position: "top",
               });
-              setTimeout(() => {
-                navigate("/user-login");
-              }, 2000);
+                navigate("/user-login"); 
             } else {
               // alert(res.message);
               toast({

@@ -90,7 +90,7 @@ router.post("/investor-registration", async (req, res) => {
 router.post("/investee-registration", async (req, res) => {
   try {
     const BusinessNameExist = await Investee.findOne({
-      email: req.body.businessName,
+      businessName: req.body.businessName,
     });
 
     const EmailExist = await Investee.findOne({ email: req.body.email });
@@ -127,6 +127,14 @@ router.post("/investee-registration", async (req, res) => {
     if (!phoneRegex.test(req.body.phoneNumber)) {
       res.json({
         message: "Invalid Phone Number",
+        status: false,
+      });
+      return;
+    }
+    const zipcodeRegex = /^\d{5}$/;
+    if (!zipcodeRegex.test(req.body.zipcode)) {
+      res.json({
+        message: "Invalid Zip code",
         status: false,
       });
       return;
@@ -171,6 +179,7 @@ router.post("/investee-registration", async (req, res) => {
     res.json({ message: error.message, status: false });
   }
 });
+
 
 router.post("/investor-login", async (req, res) => {
   const Exist = await Investor.findOne({ email: req.body.email });

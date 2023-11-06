@@ -31,7 +31,8 @@ import {
     FiChevronDown,
   } from "react-icons/fi";
   import { IconType } from "react-icons";
-  import Logo from "../../components/Logo";
+  import { NavLink, } from 'react-router-dom';
+import Logo from "../../../components/Logo";
   
   // const LinkItemProps {
   //   name: string,
@@ -52,8 +53,8 @@ import {
   // }
   
   const LinkItems = [
-    { name: "Dashboard", icon: FiHome },
-    { name: "Business Catalog", icon: FiTrendingUp },
+    { name: "Dashboard", icon: FiHome, link:"/user/investor-dashboard/home" },
+    { name: "Business Catalog", icon: FiTrendingUp , link:"/user/investor-dashboard/business-catalog"},
     { name: "My Investments", icon: FiCompass },
     { name: "Chats", icon: FiStar },
     { name: "Settings", icon: FiSettings },
@@ -78,7 +79,7 @@ import {
           <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
         </Flex>
         {LinkItems.map((link) => (
-          <NavItem key={link.name} icon={link.icon}>
+          <NavItem key={link.name} icon={link.icon} link={link.link}>
             {link.name}
           </NavItem>
         ))}
@@ -86,11 +87,11 @@ import {
     );
   };
   
-  const NavItem = ({ icon, children, ...rest }) => {
+  const NavItem = ({ icon, children,link, ...rest }) => {
     return (
-      <Box
+      <NavLink
         as="a"
-        href="#"
+        to={link}
         style={{ textDecoration: "none" }}
         _focus={{ boxShadow: "none" }}
       >
@@ -119,7 +120,7 @@ import {
           )}
           {children}
         </Flex>
-      </Box>
+      </NavLink>
     );
   };
   

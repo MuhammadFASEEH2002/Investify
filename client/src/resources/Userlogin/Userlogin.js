@@ -49,7 +49,7 @@ const Userlogin = () => {
         })
         .then((res) => {
           if (res.status) {
-            navigate("/user/investor-dashboard", { replace: true });
+            navigate("/user/investor-dashboard");
           } else {
             // alert(res.message);
             toast({
@@ -91,7 +91,7 @@ const Userlogin = () => {
         })
         .then((res) => {
           if (res.status) {
-            navigate("/user/investee-dashboard", { replace: true });
+            navigate("/user/investee-dashboard");
           } else {
             // alert(res.message);
             toast({
