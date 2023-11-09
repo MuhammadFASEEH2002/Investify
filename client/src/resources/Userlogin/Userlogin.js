@@ -49,7 +49,7 @@ const Userlogin = () => {
         })
         .then((res) => {
           if (res.status) {
-            navigate("/user/investor-dashboard");
+            navigate("/user/investor-dashboard/home");
           } else {
             // alert(res.message);
             toast({
