@@ -4,7 +4,10 @@ import Sidebar from './components/Sidebar'
 const Investorbusinesscatalog = () => {
   return (
     <>
-    <Sidebar/>
+  
+    <Sidebar>
+      <p>Helo</p>
+    </Sidebar>
     </>
   )
 }

@@ -71,7 +71,7 @@ const Investeeregistration = () => {
       checkbox
     ) {
       if (password === confirmPassword) {
-        fetch("http://localhost:3001/Auth/investee-registration", {
+        fetch("http://localhost:3001/api/auth/investee-registration", {
           method: "POST",
           body: JSON.stringify({
             businessName,

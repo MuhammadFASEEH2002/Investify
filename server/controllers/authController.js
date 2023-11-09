@@ -1,10 +1,9 @@
-const router = require("express").Router();
 const Investor = require("../model/investorDB");
 const Investee = require("../model/investeeDB");
 const Admin= require("../model/admin");
 const bcrypt = require("bcrypt");
 
-router.post("/investor-registration", async (req, res) => {
+exports.investorRegistration= async (req, res) => {
   try {
     const EmailExist = await Investor.findOne({ email: req.body.email });
     const CnicExist = await Investor.findOne({ cnic: req.body.cnic });
@@ -85,9 +84,9 @@ router.post("/investor-registration", async (req, res) => {
   } catch (error) {
     res.json({ message: error.message, status: false });
   }
-});
+}
 
-router.post("/investee-registration", async (req, res) => {
+exports.investeeRegistration= async (req, res) => {
   try {
     const BusinessNameExist = await Investee.findOne({
       businessName: req.body.businessName,
@@ -178,10 +177,10 @@ router.post("/investee-registration", async (req, res) => {
   } catch (error) {
     res.json({ message: error.message, status: false });
   }
-});
+};
 
 
-router.post("/investor-login", async (req, res) => {
+exports.investorLogin= async (req, res) => {
   const Exist = await Investor.findOne({ email: req.body.email });
   if (!Exist) {
     res.json({ message: "User doesn`t Exist, Kindly Register", status: false });
@@ -200,8 +199,8 @@ router.post("/investor-login", async (req, res) => {
       res.json({ message: "Invalid Password", status: false });
     }
   }
-});
-router.post("/investee-login", async (req, res) => {
+};
+exports.investeeLogin= async (req, res) => {
   const Exist = await Investee.findOne({ email: req.body.email });
   if (!Exist) {
     res.json({ message: "User doesn`t Exist, Kindly Register", status: false });
@@ -220,8 +219,8 @@ router.post("/investee-login", async (req, res) => {
       res.json({ message: "Invalid Password", status: false });
     }
   }
-});
-router.post("/admin-login", async (req, res) => {
+};
+exports.adminLogin=async (req, res) => {
   const Exist = await Admin.findOne({ username: req.body.username });
   if (!Exist) {
     res.json({ message: "Invalid Credentials", status: false });
@@ -235,5 +234,6 @@ router.post("/admin-login", async (req, res) => {
       res.json({ message: "Invalid Password", status: false });
     }
   }
-});
-module.exports = router;
+};
+
+

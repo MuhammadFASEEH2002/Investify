@@ -55,7 +55,7 @@ const Investorregistration = () => {
       selectedCountry
     ) {
       if (password === confirmPassword) {
-        fetch("http://localhost:3001/Auth/investor-registration", {
+        fetch("http://localhost:3001/api/auth/investor-registration", {
           method: "POST",
           body: JSON.stringify({
             firstName,

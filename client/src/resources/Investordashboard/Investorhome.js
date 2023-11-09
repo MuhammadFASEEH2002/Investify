@@ -5,8 +5,13 @@ import Sidebar from './components/Sidebar'
 const Investorhome = () => {
   return (
     <>
-    <Sidebar/>
+  
+    <Sidebar>
+
     <p>Hello</p>
+    <p>World</p>
+    </Sidebar>
+
     </>
   )
 }

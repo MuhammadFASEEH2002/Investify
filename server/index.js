@@ -5,7 +5,8 @@ const mongo = require("mongoose");
 const cors = require("cors");
 const PORT = 3001;
 // const verifyToken = require('./middleware/verifyToken')
-const AuthRouter = require("./controllers/Auth");
+// const AuthRouter = require("./controllers/Auth");
+const AuthRouter = require('./routes/authRoutes')
 
 app.use(
   cors({
@@ -26,6 +27,6 @@ app.use(express.urlencoded({ extended: true }));
 //     res.json({ user : req.user })
 // })
 
-app.use("/Auth", AuthRouter);
+app.use("/api/auth", AuthRouter);
 
 app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
