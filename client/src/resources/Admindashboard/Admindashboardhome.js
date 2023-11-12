@@ -2,17 +2,14 @@ import React from 'react'
 import Sidebar from './components/Sidebar'
 
 
-const Investorhome = () => {
+const Admindashboard = () => {
   return (
     <>
-  
     <Sidebar>
-    <p>Hello</p>
-    <p>World</p>
+      <p>hello</p>
     </Sidebar>
-
     </>
   )
 }
 
-export default Investorhome
+export default Admindashboard

@@ -28,7 +28,7 @@ const Adminlogin = () => {
   });
   const adminLogin = () => {
     if (username && password) {
-      fetch("http://localhost:3001/Auth/admin-login", {
+      fetch("http://localhost:3001/api/auth/admin-login", {
         method: "POST",
         body: JSON.stringify({
           username,
@@ -44,7 +44,7 @@ const Adminlogin = () => {
         })
         .then((res) => {
           if (res.status) {
-            navigate("/user/admin-dashboard");
+            navigate("/admin/admin-dashboard/home");
           } else {
             // alert(res.message);
             toast({

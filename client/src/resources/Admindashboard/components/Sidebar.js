@@ -22,13 +22,13 @@ import {
   } from "@chakra-ui/react";
   import {
     FiHome,
-    FiTrendingUp,
-    FiCompass,
-    FiStar,
-    FiSettings,
+
     FiMenu,
     FiBell,
     FiChevronDown,
+    FiUserCheck,
+    FiList,
+    FiSlash
   } from "react-icons/fi";
   import { IconType } from "react-icons";
   import { NavLink, } from 'react-router-dom';
@@ -53,11 +53,11 @@ import Logo from "../../../components/Logo";
   // }
   
   const LinkItems = [
-    { name: "Dashboard", icon: FiHome, link:"/user/investor-dashboard/home" },
-    { name: "Business Catalog", icon: FiTrendingUp , link:"/user/investor-dashboard/business-catalog"},
-    { name: "My Investments", icon: FiCompass },
-    { name: "Chats", icon: FiStar },
-    { name: "Settings", icon: FiSettings },
+    { name: "Dashboard", icon: FiHome, link:"/admin/admin-dashboard/home" },
+    { name: "Account Verification", icon: FiUserCheck , },
+    { name: "Listing Approvals", icon: FiList },
+    { name: "Complains", icon: FiSlash },
+    // { name: "Settings", icon: FiSettings },
   ];
   
   const SidebarContent = ({ onClose, ...rest }) => {
