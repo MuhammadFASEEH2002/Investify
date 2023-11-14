@@ -7,6 +7,8 @@ const PORT = 3001;
 // const verifyToken = require('./middleware/verifyToken')
 // const AuthRouter = require("./controllers/Auth");
 const AuthRouter = require('./routes/authRoutes')
+const AdminRouter = require('./routes/adminRoutes')
+
 
 app.use(
   cors({
@@ -28,5 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 // })
 
 app.use("/api/auth", AuthRouter);
+app.use("/api/admin", AdminRouter);
+
 
 app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));

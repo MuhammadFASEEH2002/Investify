@@ -205,19 +205,28 @@ exports.investeeLogin= async (req, res) => {
   if (!Exist) {
     res.json({ message: "User doesn`t Exist, Kindly Register", status: false });
   } else {
-    const verify = await bcrypt.compare(req.body.password, Exist._doc.password);
-    if (verify) {
-      // const token = await jwt.sign({ id: Exist._doc._id }, "mysecurepassword");
-      res.json({
-        user: {
-          username: Exist._doc.username,
-          email: Exist._doc.email,
-        },
-        status: true,
-      });
-    } else {
-      res.json({ message: "Invalid Password", status: false });
+    
+    const verifyPassword = await bcrypt.compare(req.body.password, Exist._doc.password);
+    // const verifyAccount= await bcrypt.compare(req.body.password, Exist._doc.password);
+    if(Exist._doc.isVerified=== true){
+      if (verifyPassword) {
+        // const token = await jwt.sign({ id: Exist._doc._id }, "mysecurepassword");
+        res.json({
+          user: {
+            username: Exist._doc.username,
+            email: Exist._doc.email,
+          },
+          status: true,
+        });
+      } else {
+        res.json({ message: "Invalid Password", status: false });
+      }
     }
+    else{
+      res.json({ message: "User not verified, you can login once your account is verified by the admin", status: false });
+
+    }
+
   }
 };
 exports.adminLogin=async (req, res) => {

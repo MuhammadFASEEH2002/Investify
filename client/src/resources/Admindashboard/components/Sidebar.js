@@ -53,8 +53,7 @@ import Logo from "../../../components/Logo";
   // }
   
   const LinkItems = [
-    { name: "Dashboard", icon: FiHome, link:"/admin/admin-dashboard/home" },
-    { name: "Account Verification", icon: FiUserCheck , },
+    { name: "Account Verification", icon: FiUserCheck , link:"/admin/admin-dashboard/home"},
     { name: "Listing Approvals", icon: FiList },
     { name: "Complains", icon: FiSlash },
     // { name: "Settings", icon: FiSettings },
