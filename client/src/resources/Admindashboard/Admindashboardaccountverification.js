@@ -40,7 +40,7 @@ const Admindashboardaccountverification = () => {
   return (
     <>
       <Sidebar>
-        <div
+        <Box
           style={{
             display: "flex",
             flexWrap: wrap,
@@ -57,7 +57,7 @@ const Admindashboardaccountverification = () => {
               </CardBody>
             </Card>
           ))}
-        </div>
+        </Box>
       </Sidebar>
     </>
   );

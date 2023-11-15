@@ -245,7 +245,7 @@ exports.investeeLogin = async (req, res) => {
     }
   } catch (error) {
     res.json({ message: error.message, status: false });
-    
+
   }
 
 };
@@ -256,10 +256,17 @@ exports.adminLogin = async (req, res) => {
       res.json({ message: "Invalid Credentials", status: false });
     } else {
       // const verify = await bcrypt.compare(req.body.password, Exist._doc.password);
+
       if (Exist._doc.password == req.body.password) {
-        const token = await jwt.sign({ id: Exist._doc._id }, "admin");
+
+
+        //   const token = await jwt.sign({ id: Exist._doc._id }, "admin" ,{expiresIn: "10d"}) ;
+        //   res.cookie("token", token, {
+        //     withCredentials: true,
+        //     httpOnly: false,
+        //     maxAge: 2592000000
+        // });
         res.json({
-          token,
           status: true,
         });
       } else {

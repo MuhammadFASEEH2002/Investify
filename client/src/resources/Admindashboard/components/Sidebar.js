@@ -22,7 +22,7 @@ import {
   } from "@chakra-ui/react";
   import {
     FiHome,
-
+    FiLogOut,
     FiMenu,
     FiBell,
     FiChevronDown,
@@ -31,7 +31,7 @@ import {
     FiSlash
   } from "react-icons/fi";
   import { IconType } from "react-icons";
-  import { NavLink, } from 'react-router-dom';
+  import { NavLink, useNavigate, } from 'react-router-dom';
 import Logo from "../../../components/Logo";
   
   // const LinkItemProps {
@@ -53,12 +53,11 @@ import Logo from "../../../components/Logo";
   // }
   
   const LinkItems = [
-    { name: "Account Verification", icon: FiUserCheck , link:"/admin/admin-dashboard/home"},
+    { name: "Account Verification", icon: FiUserCheck , link:"/admin/admin-dashboard/account-verification"},
     { name: "Listing Approvals", icon: FiList },
     { name: "Complains", icon: FiSlash },
-    // { name: "Settings", icon: FiSettings },
+    { name: "Log Out", icon: FiLogOut },
   ];
-  
   const SidebarContent = ({ onClose, ...rest }) => {
     return (
       <Box
@@ -124,6 +123,8 @@ import Logo from "../../../components/Logo";
   };
   
   const MobileNav = ({ onOpen, ...rest }) => {
+ 
+
     return (
       <Flex
         ml={{ base: 0, md: 60 }}
@@ -154,19 +155,10 @@ import Logo from "../../../components/Logo";
         </Text>
   
         <HStack spacing={{ base: "0", md: "6" }}>
-          <IconButton
-            size="lg"
-            variant="ghost"
-            aria-label="open menu"
-            icon={<FiBell />}
-          />
+
           <Flex alignItems={"center"}>
             <Menu>
-              <MenuButton
-                py={2}
-                transition="all 0.3s"
-                _focus={{ boxShadow: "none" }}
-              >
+
                 <HStack>
                   <Avatar
                     size={"sm"}
@@ -186,28 +178,21 @@ import Logo from "../../../components/Logo";
                     </Text>
                   </VStack>
                   <Box display={{ base: "none", md: "flex" }}>
-                    <FiChevronDown />
+                
                   </Box>
                 </HStack>
-              </MenuButton>
-              <MenuList
-                bg={useColorModeValue("white", "gray.900")}
-                borderColor={useColorModeValue("gray.200", "gray.700")}
-              >
-                <MenuItem>Edit Profile</MenuItem>
-                <MenuItem>Settings</MenuItem>
-                <MenuItem>Billing</MenuItem>
-                <MenuDivider />
-                <MenuItem>Sign out</MenuItem>
-              </MenuList>
+    
+          
             </Menu>
           </Flex>
         </HStack>
       </Flex>
     );
   };
-  
+  // onClick={navigate('/admin-login', { replace: true })}
   const Sidebar = ({ children }) => {
+
+
     const { isOpen, onOpen, onClose } = useDisclosure();
   
     return (
