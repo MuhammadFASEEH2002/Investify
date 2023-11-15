@@ -44,7 +44,7 @@ const Adminlogin = () => {
         })
         .then((res) => {
           if (res.status) {
-            navigate("/admin/admin-dashboard/home");
+            navigate("/admin/admin-dashboard/account-verification");
           } else {
             // alert(res.message);
             toast({

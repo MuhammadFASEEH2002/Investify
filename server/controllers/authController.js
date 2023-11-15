@@ -1,9 +1,10 @@
 const Investor = require("../model/investorDB");
 const Investee = require("../model/investeeDB");
-const Admin= require("../model/admin");
+const Admin = require("../model/admin");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-exports.investorRegistration= async (req, res) => {
+exports.investorRegistration = async (req, res) => {
   try {
     const EmailExist = await Investor.findOne({ email: req.body.email });
     const CnicExist = await Investor.findOne({ cnic: req.body.cnic });
@@ -84,9 +85,9 @@ exports.investorRegistration= async (req, res) => {
   } catch (error) {
     res.json({ message: error.message, status: false });
   }
-}
+};
 
-exports.investeeRegistration= async (req, res) => {
+exports.investeeRegistration = async (req, res) => {
   try {
     const BusinessNameExist = await Investee.findOne({
       businessName: req.body.businessName,
@@ -179,37 +180,20 @@ exports.investeeRegistration= async (req, res) => {
   }
 };
 
-
-exports.investorLogin= async (req, res) => {
-  const Exist = await Investor.findOne({ email: req.body.email });
-  if (!Exist) {
-    res.json({ message: "User doesn`t Exist, Kindly Register", status: false });
-  } else {
-    const verify = await bcrypt.compare(req.body.password, Exist._doc.password);
-    if (verify) {
-      // const token = await jwt.sign({ id: Exist._doc._id }, "mysecurepassword");
+exports.investorLogin = async (req, res) => {
+  try {
+    const Exist = await Investor.findOne({ email: req.body.email });
+    if (!Exist) {
       res.json({
-        user: {
-          username: Exist._doc.username,
-          email: Exist._doc.email,
-        },
-        status: true,
+        message: "User doesn`t Exist, Kindly Register",
+        status: false,
       });
     } else {
-      res.json({ message: "Invalid Password", status: false });
-    }
-  }
-};
-exports.investeeLogin= async (req, res) => {
-  const Exist = await Investee.findOne({ email: req.body.email });
-  if (!Exist) {
-    res.json({ message: "User doesn`t Exist, Kindly Register", status: false });
-  } else {
-    
-    const verifyPassword = await bcrypt.compare(req.body.password, Exist._doc.password);
-    // const verifyAccount= await bcrypt.compare(req.body.password, Exist._doc.password);
-    if(Exist._doc.isVerified=== true){
-      if (verifyPassword) {
+      const verify = await bcrypt.compare(
+        req.body.password,
+        Exist._doc.password
+      );
+      if (verify) {
         // const token = await jwt.sign({ id: Exist._doc._id }, "mysecurepassword");
         res.json({
           user: {
@@ -222,27 +206,67 @@ exports.investeeLogin= async (req, res) => {
         res.json({ message: "Invalid Password", status: false });
       }
     }
-    else{
-      res.json({ message: "User not verified, you can login once your account is verified by the admin", status: false });
-
-    }
+  } catch (error) {
+    res.json({ message: error.message, status: false });
 
   }
 };
-exports.adminLogin=async (req, res) => {
-  const Exist = await Admin.findOne({ username: req.body.username });
-  if (!Exist) {
-    res.json({ message: "Invalid Credentials", status: false });
-  } else {
-    // const verify = await bcrypt.compare(req.body.password, Exist._doc.password);
-    if (Exist._doc.password==req.body.password) {
-      res.json({
-        status: true,
-      });
+exports.investeeLogin = async (req, res) => {
+  try {
+    const Exist = await Investee.findOne({ email: req.body.email });
+    if (!Exist) {
+      res.json({ message: "User doesn`t Exist, Kindly Register", status: false });
     } else {
-      res.json({ message: "Invalid Password", status: false });
+      const verifyPassword = await bcrypt.compare(
+        req.body.password,
+        Exist._doc.password
+      );
+      // const verifyAccount= await bcrypt.compare(req.body.password, Exist._doc.password);
+      if (Exist._doc.isVerified === true) {
+        if (verifyPassword) {
+          // const token = await jwt.sign({ id: Exist._doc._id }, "mysecurepassword");
+          res.json({
+            user: {
+              username: Exist._doc.username,
+              email: Exist._doc.email,
+            },
+            status: true,
+          });
+        } else {
+          res.json({ message: "Invalid Password", status: false });
+        }
+      } else {
+        res.json({
+          message:
+            "User not verified, you can login once your account is verified by the admin",
+          status: false,
+        });
+      }
     }
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+    
+  }
+
+};
+exports.adminLogin = async (req, res) => {
+  try {
+    const Exist = await Admin.findOne({ username: req.body.username });
+    if (!Exist) {
+      res.json({ message: "Invalid Credentials", status: false });
+    } else {
+      // const verify = await bcrypt.compare(req.body.password, Exist._doc.password);
+      if (Exist._doc.password == req.body.password) {
+        const token = await jwt.sign({ id: Exist._doc._id }, "admin");
+        res.json({
+          token,
+          status: true,
+        });
+      } else {
+        res.json({ message: "Invalid Password", status: false });
+      }
+    }
+  } catch (error) {
+    res.json({ message: error.message, status: false });
   }
 };
-
-

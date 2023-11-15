@@ -6,9 +6,8 @@ import Userlogin from "./resources/Userlogin/Userlogin";
 import Userregistration from "./resources/Userregistration/Userregistration";
 import Adminlogin from "./resources/Adminlogin/Adminlogin";
 import Investorhome from "./resources/Investordashboard/Investorhome";
-
 import Investeedashboard from "./resources/Investeedashboard/Investeedashboard";
-import Admindashboard from "./resources/Admindashboard/Admindashboardhome";
+import Admindashboardaccountverification from "./resources/Admindashboard/Admindashboardaccountverification";
 import Investorbusinesscatalog from "./resources/Investordashboard/Investorbusinesscatalog";
 
 function App() {
@@ -18,7 +17,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Homepage />} />
           <Route path="/admin-login" element={<Adminlogin />} />
-          <Route path="/admin/admin-dashboard/home" element={<Admindashboard />} />
+          <Route path="/admin/admin-dashboard/account-verification" element={<Admindashboardaccountverification />} />
           <Route path="/user-login" element={<Userlogin />} />
           <Route path="/user-registration/user-role" element={<Userrole />} />
           <Route path="/user-registration" element={<Userregistration />} />
@@ -34,7 +33,7 @@ function App() {
             path="/user/investee-dashboard"
             element={<Investeedashboard />}
           />
-          <Route path="/user/admin-dashboard" element={<Admindashboard />} />
+      
         </Routes>
       </Router>
     </>

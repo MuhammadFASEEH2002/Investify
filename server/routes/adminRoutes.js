@@ -1,6 +1,6 @@
 const router = require('express').Router()
 const AdminController  = require('../controllers/adminController')
 
-router.post('/account-verification' , AdminController.accountVerification)
+router.get('/get-investees' , AdminController.getInvestees)
 
 module.exports = router;
