@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 const Admindashboardaccountverification = () => {
   const navigate = useNavigate();
   const toast = useToast();
+  const approvalEmail=""
 
   const [investee, setInvestee] = useState([]);
   useEffect(() => {
@@ -40,11 +41,12 @@ getInvestees()
       .then((data) => setInvestee(data.investee))
       .catch((err) => console.log(err));
   }
-  const approveInvestee = (investeeId) => {
+  const approveInvestee = (investeeId, investeeEmail) => {
     fetch("http://127.0.0.1:3001/api/admin/verify-investees", {
       method: "POST",
       body: JSON.stringify({
-        investeeId
+        investeeId,
+        investeeEmail
       }),
       headers: {
         Accept: "application/json",
@@ -120,7 +122,7 @@ getInvestees()
                 <Button
                   colorScheme="blue"
                   margin={"10px"}
-                  onClick={()=>{approveInvestee(item._id)}}
+                  onClick={()=>{approveInvestee(item._id,item.email)}}
                 >
                   Approve
                 </Button>
