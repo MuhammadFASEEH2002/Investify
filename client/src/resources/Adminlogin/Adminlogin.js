@@ -44,6 +44,7 @@ const Adminlogin = () => {
         })
         .then((res) => {
           if (res.status) {
+window.localStorage.setItem("token",res.token);
             navigate("/admin/admin-dashboard/account-verification");
           } else {
             // alert(res.message);

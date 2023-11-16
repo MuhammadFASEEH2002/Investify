@@ -260,13 +260,14 @@ exports.adminLogin = async (req, res) => {
       if (Exist._doc.password == req.body.password) {
 
 
-        //   const token = await jwt.sign({ id: Exist._doc._id }, "admin" ,{expiresIn: "10d"}) ;
+          const token = await jwt.sign({ id: Exist._doc._id }, "admin" ) ;
         //   res.cookie("token", token, {
         //     withCredentials: true,
         //     httpOnly: false,
         //     maxAge: 2592000000
         // });
         res.json({
+          token,
           status: true,
         });
       } else {
