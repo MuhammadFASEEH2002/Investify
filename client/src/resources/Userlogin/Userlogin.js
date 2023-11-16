@@ -33,7 +33,7 @@ const Userlogin = () => {
   });
   const investorLogin = () => {
     if (email && password) {
-      fetch("http://localhost:3001/api/auth/investor-login", {
+      fetch("http://127.0.0.1:3001/api/auth/investor-login", {
         method: "POST",
         body: JSON.stringify({
           email,
@@ -75,7 +75,7 @@ const Userlogin = () => {
   };
   const investeeLogin = () => {
     if (email && password) {
-      fetch("http://localhost:3001/api/auth/investee-login", {
+      fetch("http://127.0.0.1:3001/api/auth/investee-login", {
         method: "POST",
         body: JSON.stringify({
           email,

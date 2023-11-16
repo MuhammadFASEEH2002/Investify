@@ -24,9 +24,12 @@ const Admindashboardaccountverification = () => {
   const [investee, setInvestee] = useState([]);
   useEffect(() => {
     document.title = "Investify | Admin-Account Verification";
+getInvestees()
 
-    // Fetch the data from the backend API endpoint
-    fetch("http://localhost:3001/api/admin/get-investees", {
+
+  }, []);
+  const getInvestees=()=>{
+    fetch("http://127.0.0.1:3001/api/admin/get-investees", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -36,8 +39,39 @@ const Admindashboardaccountverification = () => {
       .then((res) => res.json())
       .then((data) => setInvestee(data.investee))
       .catch((err) => console.log(err));
-  }, []);
-  const approve = (User) => {};
+  }
+  const approveInvestee = (investeeId) => {
+    fetch("http://127.0.0.1:3001/api/admin/verify-investees", {
+      method: "POST",
+      body: JSON.stringify({
+        investeeId
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        if (res.status) {
+          toast({
+            title: "user Approved",
+            description: res.message,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+          });
+          getInvestees()
+
+        } else {
+
+        }
+      })
+      .catch((err) => console.log(err));
+
+  }
   return (
     <>
       <Sidebar>
@@ -86,7 +120,7 @@ const Admindashboardaccountverification = () => {
                 <Button
                   colorScheme="blue"
                   margin={"10px"}
-                  onClick={approve(item._id)}
+                  onClick={()=>{approveInvestee(item._id)}}
                 >
                   Approve
                 </Button>

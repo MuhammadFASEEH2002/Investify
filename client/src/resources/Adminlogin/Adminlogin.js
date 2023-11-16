@@ -28,7 +28,7 @@ const Adminlogin = () => {
   });
   const adminLogin = () => {
     if (username && password) {
-      fetch("http://localhost:3001/api/auth/admin-login", {
+      fetch("http://127.0.0.1:3001/api/auth/admin-login", {
         method: "POST",
         body: JSON.stringify({
           username,
@@ -44,7 +44,7 @@ const Adminlogin = () => {
         })
         .then((res) => {
           if (res.status) {
-window.localStorage.setItem("token",res.token);
+            window.localStorage.setItem("token", res.token);
             navigate("/admin/admin-dashboard/account-verification");
           } else {
             // alert(res.message);

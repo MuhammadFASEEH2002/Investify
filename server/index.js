@@ -33,4 +33,4 @@ app.use("/api/auth", AuthRouter);
 app.use("/api/admin", AdminRouter);
 
 
-app.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`Listening on http://127.0.0.1:${PORT}`));
