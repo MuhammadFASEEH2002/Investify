@@ -3,6 +3,7 @@ const app = express();
 const mongo = require("mongoose");
 // const env = require('dotenv').config()
 const cors = require("cors");
+const nodemailer = require('nodemailer');
 const PORT = 3001;
 // const verifyToken = require('./middleware/verifyToken')
 // const AuthRouter = require("./controllers/Auth");
@@ -25,9 +26,13 @@ mongo
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.get('/' ,verifyToken , function(req , res){
-//     res.json({ user : req.user })
-// })
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'your-email@gmail.com',
+    pass: 'your-password',
+  },
+});
 
 app.use("/api/auth", AuthRouter);
 app.use("/api/admin", AdminRouter);
