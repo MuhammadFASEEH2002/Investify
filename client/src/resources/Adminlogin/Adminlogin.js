@@ -155,9 +155,9 @@ const Adminlogin = () => {
                 </Stack>
 
                 <Button
-                  colorScheme="teal"
-                  variant="outline"
-                  marginRight={"10px"}
+                  colorScheme='gray'
+                  // variant="outline"
+                  marginTop={"10px"}
                   size={{ base: "md", md: "md", lg: "lg" }}
                   onClick={adminLogin}
                 >
