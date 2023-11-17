@@ -3,6 +3,9 @@ const Investee = require("../model/investeeDB");
 const Admin = require("../model/admin");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const emailValidator = require("deep-email-validator");
+const nodemailer = require('nodemailer');
+
 
 exports.investorRegistration = async (req, res) => {
   try {
@@ -20,14 +23,14 @@ exports.investorRegistration = async (req, res) => {
       });
       return;
     }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(req.body.email)) {
-      res.json({
-        message: "Invalid Email Address",
-        status: false,
-      });
-      return;
-    }
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // if (!emailRegex.test(req.body.email)) {
+    //   res.json({
+    //     message: "Invalid Email Address",
+    //     status: false,
+    //   });
+    //   return;
+    // }
     const cnicRegex = /^\d{13}$/;
     if (!cnicRegex.test(req.body.cnic)) {
       res.json({
@@ -67,6 +70,15 @@ exports.investorRegistration = async (req, res) => {
       });
       return;
     }
+    const {valid, reason, validators} = await emailValidator.validate(req.body.email)
+    if (!valid) {
+      res.json({
+        message: "Email is not valid or doesnot exist",
+        reason: validators[reason].reason,
+        status: false,
+      });
+      return;
+    }
 
     const hashPassword = await bcrypt.hash(req.body.password, 10);
     const investor = await Investor.create({
@@ -81,6 +93,27 @@ exports.investorRegistration = async (req, res) => {
       city: req.body.selectedCity,
     });
     //   const token = await jwt.sign({ id: investor._doc._id }, "mysecurepassword");
+    const transporter = await nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "investify180@gmail.com",
+        pass: "vqkr elcq xdba mnbj",
+      },
+    });
+    const mailOptions = await {
+      from: "investify180@gmail.com",
+      to: req.body.email,
+      subject: "Investify | Investor",
+      html: "<h1>Congratulations your Investor account is created</h1> <p> You can now now login to your account by using your email and password. </p> <p>Regards,</p><p>Investify</p>",
+    };
+    await transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("Error" + error);
+      } else {
+        console.log("Email sent:" + info.response);
+        res.status(201).json({ status: 201, info });
+      }
+    });
     res.json({ message: "user created", status: true });
   } catch (error) {
     res.json({ message: error.message, status: false });
@@ -107,14 +140,14 @@ exports.investeeRegistration = async (req, res) => {
       });
       return;
     }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(req.body.email)) {
-      res.json({
-        message: "Invalid Email Address",
-        status: false,
-      });
-      return;
-    }
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // if (!emailRegex.test(req.body.email)) {
+    //   res.json({
+    //     message: "Invalid Email Address",
+    //     status: false,
+    //   });
+    //   return;
+    // }
     const cnicRegex = /^\d{13}$/;
     if (!cnicRegex.test(req.body.cnic)) {
       res.json({
@@ -159,6 +192,15 @@ exports.investeeRegistration = async (req, res) => {
       });
       return;
     }
+    const {valid, reason, validators} = await emailValidator.validate(req.body.email)
+    if (!valid) {
+      res.json({
+        message: "Email is not valid or doesnot exist",
+        reason: validators[reason].reason,
+        status: false,
+      });
+      return;
+    }
     const hashPassword = await bcrypt.hash(req.body.password, 10);
     const investee = await Investee.create({
       businessName: req.body.businessName,
@@ -174,6 +216,28 @@ exports.investeeRegistration = async (req, res) => {
       isVerified: false,
     });
     //   const token = await jwt.sign({ id: investor._doc._id }, "mysecurepassword");
+    const transporter = await nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "investify180@gmail.com",
+        pass: "vqkr elcq xdba mnbj",
+      },
+    });
+    const mailOptions = await {
+      from: "investify180@gmail.com",
+      to: req.body.email,
+      subject: "Investify | Investee",
+      html: "<h1>Your Investee account is awaiting approval</h1> <p>Approval may take upto 2 to 3 days.</p> <p>Regards,</p><p>Investify</p>",
+    };
+    await transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("Error" + error);
+      } else {
+        console.log("Email sent:" + info.response);
+        res.status(201).json({ status: 201, info });
+      }
+    });
+
     res.json({ message: "user created", status: true });
   } catch (error) {
     res.json({ message: error.message, status: false });
@@ -208,14 +272,16 @@ exports.investorLogin = async (req, res) => {
     }
   } catch (error) {
     res.json({ message: error.message, status: false });
-
   }
 };
 exports.investeeLogin = async (req, res) => {
   try {
     const Exist = await Investee.findOne({ email: req.body.email });
     if (!Exist) {
-      res.json({ message: "User doesn`t Exist, Kindly Register", status: false });
+      res.json({
+        message: "User doesn`t Exist, Kindly Register",
+        status: false,
+      });
     } else {
       const verifyPassword = await bcrypt.compare(
         req.body.password,
@@ -245,9 +311,7 @@ exports.investeeLogin = async (req, res) => {
     }
   } catch (error) {
     res.json({ message: error.message, status: false });
-
   }
-
 };
 exports.adminLogin = async (req, res) => {
   try {
@@ -258,9 +322,7 @@ exports.adminLogin = async (req, res) => {
       // const verify = await bcrypt.compare(req.body.password, Exist._doc.password);
 
       if (Exist._doc.password == req.body.password) {
-
-
-          const token = await jwt.sign({ id: Exist._doc._id }, "admin" ) ;
+        const token = await jwt.sign({ id: Exist._doc._id }, "admin");
         //   res.cookie("token", token, {
         //     withCredentials: true,
         //     httpOnly: false,

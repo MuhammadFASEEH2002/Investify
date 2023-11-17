@@ -2,8 +2,7 @@ const Investor = require("../model/investorDB");
 const Investee = require("../model/investeeDB");
 const Admin = require("../model/admin");
 const bcrypt = require("bcrypt");
-const nodemailer = require('nodemailer');
-
+const nodemailer = require("nodemailer");
 
 exports.getInvestees = async (req, res) => {
   try {
@@ -11,43 +10,42 @@ exports.getInvestees = async (req, res) => {
     if (Investee) {
       res.json({
         status: true,
-        investee
-      })
+        investee,
+      });
     }
-
   } catch (error) {
     res.json({ message: error.message, status: false });
   }
-}
+};
 exports.approveInvestees = async (req, res) => {
   try {
-    
-    await Investee.findByIdAndUpdate({ _id: req.body.investeeId }, { isVerified: true })
+    await Investee.findByIdAndUpdate(
+      { _id: req.body.investeeId },
+      { isVerified: true }
+    );
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: "investify180@gmail.com",
-        pass: "vqkr elcq xdba mnbj"
-      }
+        pass: "vqkr elcq xdba mnbj",
+      },
     });
     const mailOptions = await {
       from: "investify180@gmail.com",
       to: req.body.investeeEmail,
       subject: "Sending Email With React And Nodejs",
-      html: '<h1>Congratulations your Investee account is approved</h1> <p> You can now now login to your account by using your email and password. </p> <p>Regards,</p><p>Investify</p>'
+      html: "<h1>Congratulations your Investee account is approved</h1> <p> You can now now login to your account by using your email and password. </p> <p>Regards,</p><p>Investify</p>",
     };
     await transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-          console.log("Error" + error)
+        console.log("Error" + error);
       } else {
-          console.log("Email sent:" + info.response);
-          res.status(201).json({status:201,info})
+        console.log("Email sent:" + info.response);
+        res.status(201).json({ status: 201, info });
       }
-  })
+    });
     res.json({ message: "Investee Approved", status: true });
-    
   } catch (error) {
     res.json({ message: error.message, status: false });
-
   }
-}
+};

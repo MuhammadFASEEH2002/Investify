@@ -18,18 +18,14 @@ import { wrap } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 const Admindashboardaccountverification = () => {
-  const navigate = useNavigate();
   const toast = useToast();
-  const approvalEmail=""
 
   const [investee, setInvestee] = useState([]);
   useEffect(() => {
     document.title = "Investify | Admin-Account Verification";
-getInvestees()
-
-
+    getInvestees();
   }, []);
-  const getInvestees=()=>{
+  const getInvestees = () => {
     fetch("http://127.0.0.1:3001/api/admin/get-investees", {
       method: "GET",
       headers: {
@@ -40,13 +36,13 @@ getInvestees()
       .then((res) => res.json())
       .then((data) => setInvestee(data.investee))
       .catch((err) => console.log(err));
-  }
+  };
   const approveInvestee = (investeeId, investeeEmail) => {
     fetch("http://127.0.0.1:3001/api/admin/verify-investees", {
       method: "POST",
       body: JSON.stringify({
         investeeId,
-        investeeEmail
+        investeeEmail,
       }),
       headers: {
         Accept: "application/json",
@@ -65,15 +61,12 @@ getInvestees()
             duration: 9000,
             isClosable: true,
           });
-          getInvestees()
-
+          getInvestees();
         } else {
-
         }
       })
       .catch((err) => console.log(err));
-
-  }
+  };
   return (
     <>
       <Sidebar>
@@ -122,7 +115,9 @@ getInvestees()
                 <Button
                   colorScheme="blue"
                   margin={"10px"}
-                  onClick={()=>{approveInvestee(item._id,item.email)}}
+                  onClick={() => {
+                    approveInvestee(item._id, item.email);
+                  }}
                 >
                   Approve
                 </Button>
