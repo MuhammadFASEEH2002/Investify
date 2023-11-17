@@ -55,9 +55,39 @@ const Admindashboardaccountverification = () => {
       .then((res) => {
         if (res.status) {
           toast({
-            title: "user Approved",
+            title: "User Approved",
             description: res.message,
             status: "success",
+            duration: 9000,
+            isClosable: true,
+          });
+          getInvestees();
+        } else {
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+  const declineInvestee = (investeeId, investeeEmail) => {
+    fetch("http://127.0.0.1:3001/api/admin/decline-investees", {
+      method: "POST",
+      body: JSON.stringify({
+        investeeId,
+        investeeEmail,
+      }),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        if (res.status) {
+          toast({
+            title: "User Declined",
+            description: "Reasons are mailed",
+            status: "error",
             duration: 9000,
             isClosable: true,
           });
@@ -109,7 +139,11 @@ const Admindashboardaccountverification = () => {
                 </Text>
               </CardBody>
               <CardFooter>
-                <Button colorScheme="gray" margin={"10px"}>
+                <Button colorScheme="gray" margin={"10px"}
+                 onClick={() => {
+                    declineInvestee(item._id, item.email);
+                  }}
+                  >
                   Decline
                 </Button>
                 <Button

@@ -70,7 +70,7 @@ exports.investorRegistration = async (req, res) => {
       });
       return;
     }
-    const {valid, reason, validators} = await emailValidator.validate(req.body.email)
+    const { valid, reason, validators } = await emailValidator.validate(req.body.email)
     if (!valid) {
       res.json({
         message: "Email is not valid or doesnot exist",
@@ -192,7 +192,7 @@ exports.investeeRegistration = async (req, res) => {
       });
       return;
     }
-    const {valid, reason, validators} = await emailValidator.validate(req.body.email)
+    const { valid, reason, validators } = await emailValidator.validate(req.body.email)
     if (!valid) {
       res.json({
         message: "Email is not valid or doesnot exist",
@@ -234,7 +234,7 @@ exports.investeeRegistration = async (req, res) => {
         console.log("Error" + error);
       } else {
         console.log("Email sent:" + info.response);
-        res.status(201).json({ status: 201, info });
+        // res.json({ status: 201, info });
       }
     });
 
