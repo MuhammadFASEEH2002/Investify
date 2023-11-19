@@ -290,12 +290,13 @@ exports.investeeLogin = async (req, res) => {
       // const verifyAccount= await bcrypt.compare(req.body.password, Exist._doc.password);
       if (Exist._doc.isVerified === true) {
         if (verifyPassword) {
-          // const token = await jwt.sign({ id: Exist._doc._id }, "mysecurepassword");
+          const token = await jwt.sign({ id: Exist._doc._id }, "Aeiou.123");
           res.json({
-            user: {
-              username: Exist._doc.username,
-              email: Exist._doc.email,
-            },
+            token,
+            // user: {
+            //   username: Exist._doc.username,
+            //   email: Exist._doc.email,
+            // },
             status: true,
           });
         } else {

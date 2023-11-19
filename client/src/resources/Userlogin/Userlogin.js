@@ -49,6 +49,7 @@ const Userlogin = () => {
         })
         .then((res) => {
           if (res.status) {
+            window.localStorage.setItem("token", res.token);
             navigate("/user/investor-dashboard/home");
           } else {
             // alert(res.message);
@@ -91,6 +92,8 @@ const Userlogin = () => {
         })
         .then((res) => {
           if (res.status) {
+            window.localStorage.setItem("token", res.token);
+
             navigate("/user/investee-dashboard");
           } else {
             // alert(res.message);

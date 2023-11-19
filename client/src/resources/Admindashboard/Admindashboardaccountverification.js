@@ -26,10 +26,13 @@ const Admindashboardaccountverification = () => {
     getInvestees();
   }, []);
   const getInvestees = () => {
+ const token = window.localStorage.getItem('token');
+
     fetch("http://127.0.0.1:3001/api/admin/get-investees", {
       method: "GET",
       headers: {
-        Accept: "application/json",
+        'token' : token,
+        'Accept': "application/json",
         "Content-Type": "application/json",
       },
     })
