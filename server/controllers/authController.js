@@ -4,8 +4,9 @@ const Admin = require("../model/admin");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const emailValidator = require("deep-email-validator");
-const nodemailer = require('nodemailer');
-
+const nodemailer = require("nodemailer");
+const multer = require("multer");
+const path = require("path");
 
 exports.investorRegistration = async (req, res) => {
   try {
@@ -70,7 +71,9 @@ exports.investorRegistration = async (req, res) => {
       });
       return;
     }
-    const { valid, reason, validators } = await emailValidator.validate(req.body.email)
+    const { valid, reason, validators } = await emailValidator.validate(
+      req.body.email
+    );
     if (!valid) {
       res.json({
         message: "Email is not valid or doesnot exist",
@@ -121,6 +124,20 @@ exports.investorRegistration = async (req, res) => {
 };
 
 exports.investeeRegistration = async (req, res) => {
+  const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, "upload/investee");
+    },
+    filename: (req, file, cb) => {
+      cb(
+        null,
+        file.fieldname + "_" + Date.now() + path.extname(file.originalname)
+      );
+    },
+  });
+  const upload= multer({
+    storage :storage
+  })
   try {
     const BusinessNameExist = await Investee.findOne({
       businessName: req.body.businessName,
@@ -192,7 +209,9 @@ exports.investeeRegistration = async (req, res) => {
       });
       return;
     }
-    const { valid, reason, validators } = await emailValidator.validate(req.body.email)
+    const { valid, reason, validators } = await emailValidator.validate(
+      req.body.email
+    );
     if (!valid) {
       res.json({
         message: "Email is not valid or doesnot exist",

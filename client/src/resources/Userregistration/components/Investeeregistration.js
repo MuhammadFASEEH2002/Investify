@@ -28,14 +28,19 @@ const Investeeregistration = () => {
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [file, setFile] = useState(null);
+
   const [checkbox, setCheckbox] = useState(false);
   const navigate = useNavigate();
-
+  
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
   };
   const handleCheckboxChange = (event, setState) => {
     setState(event.target.checked);
+  };
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
   };
   const [showPassword, setShowPassword] = React.useState(false);
   const handlePasswordClick = () => setShowPassword(!showPassword);
@@ -55,7 +60,6 @@ const Investeeregistration = () => {
       selectedCity,
       selectedCountry,
       selectedCategory,
-      
     });
     if (
       businessName &&
@@ -103,7 +107,7 @@ const Investeeregistration = () => {
                 isClosable: true,
                 position: "top",
               });
-                navigate("/user-login"); 
+              navigate("/user-login");
             } else {
               // alert(res.message);
               toast({
@@ -339,6 +343,17 @@ const Investeeregistration = () => {
                 </option>
                 <option value="Retail Business">Retail Business</option>
               </Select>
+            </Stack>
+            <Stack width={"50%"}>
+              <Text>Category</Text>
+              <Input
+                placeholder="Select Date and Time"
+                size="md"
+                type="file"
+                width={"90%"}
+                accept=".pdf"
+                onChange={handleFileChange} 
+              />
             </Stack>
           </HStack>
         </Stack>
