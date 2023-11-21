@@ -59,10 +59,10 @@ const InvesteeSchema = new mongo.Schema({
         type:Boolean,
         required:true
     },
-    // CnicDoc:{
-    //     type:String,
-    //     required:true
-    // },
+    cnicDoc:{
+        type:String,
+        required:true
+    }
 
 })
 

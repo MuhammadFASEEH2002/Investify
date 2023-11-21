@@ -5,8 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const emailValidator = require("deep-email-validator");
 const nodemailer = require("nodemailer");
-const multer = require("multer");
-const path = require("path");
+
 
 exports.investorRegistration = async (req, res) => {
   try {
@@ -123,21 +122,8 @@ exports.investorRegistration = async (req, res) => {
   }
 };
 
+
 exports.investeeRegistration = async (req, res) => {
-  const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, "upload/investee");
-    },
-    filename: (req, file, cb) => {
-      cb(
-        null,
-        file.fieldname + "_" + Date.now() + path.extname(file.originalname)
-      );
-    },
-  });
-  const upload= multer({
-    storage :storage
-  })
   try {
     const BusinessNameExist = await Investee.findOne({
       businessName: req.body.businessName,
@@ -157,14 +143,6 @@ exports.investeeRegistration = async (req, res) => {
       });
       return;
     }
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // if (!emailRegex.test(req.body.email)) {
-    //   res.json({
-    //     message: "Invalid Email Address",
-    //     status: false,
-    //   });
-    //   return;
-    // }
     const cnicRegex = /^\d{13}$/;
     if (!cnicRegex.test(req.body.cnic)) {
       res.json({
@@ -233,6 +211,7 @@ exports.investeeRegistration = async (req, res) => {
       city: req.body.selectedCity,
       category: req.body.selectedCategory,
       isVerified: false,
+      cnicDoc: req.file.filename,
     });
     //   const token = await jwt.sign({ id: investor._doc._id }, "mysecurepassword");
     const transporter = await nodemailer.createTransport({

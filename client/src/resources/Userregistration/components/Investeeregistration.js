@@ -60,6 +60,7 @@ const Investeeregistration = () => {
       selectedCity,
       selectedCountry,
       selectedCategory,
+      file
     });
     if (
       businessName &&
@@ -88,6 +89,7 @@ const Investeeregistration = () => {
             selectedCity,
             selectedCountry,
             selectedCategory,
+            file
           }),
           headers: {
             Accept: "application/json",
