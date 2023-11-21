@@ -49,19 +49,31 @@ const Investeeregistration = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
   const register = () => {
-    console.log({
-      businessName,
-      email,
-      cnic,
-      password,
-      address,
-      zipcode,
-      phoneNumber,
-      selectedCity,
-      selectedCountry,
-      selectedCategory,
-      file
-    });
+    const formData= new FormData()
+    formData.append('file',file)
+      formData.append('businessName', businessName);
+  formData.append('email', email);
+  formData.append('cnic', cnic);
+  formData.append('password', password);
+  formData.append('address', address);
+  formData.append('zipcode', zipcode);
+  formData.append('phoneNumber', phoneNumber);
+  formData.append('selectedCity', selectedCity);
+  formData.append('selectedCountry', selectedCountry);
+  formData.append('selectedCategory', selectedCategory);
+    // console.log({
+    //   businessName,
+    //   email,
+    //   cnic,
+    //   password,
+    //   address,
+    //   zipcode,
+    //   phoneNumber,
+    //   selectedCity,
+    //   selectedCountry,
+    //   selectedCategory,
+    //   file
+    // });
     if (
       businessName &&
       email &&
@@ -73,28 +85,17 @@ const Investeeregistration = () => {
       selectedCity &&
       selectedCountry &&
       selectedCategory &&
-      checkbox
+      checkbox && file
     ) {
       if (password === confirmPassword) {
         fetch("http://127.0.0.1:3001/api/auth/investee-registration", {
           method: "POST",
-          body: JSON.stringify({
-            businessName,
-            email,
-            cnic,
-            password,
-            address,
-            zipcode,
-            phoneNumber,
-            selectedCity,
-            selectedCountry,
-            selectedCategory,
-            file
-          }),
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
+          body: formData,
+         
+          // headers: {
+          //   Accept: "application/json",
+          //   "Content-Type": "application/json",
+          // },
         })
           .then((res) => {
             return res.json();
@@ -267,7 +268,7 @@ const Investeeregistration = () => {
               <Text>Address</Text>
               <Input
                 type="text"
-                placeholder="e.g 03001123456"
+                placeholder="e.g: Plot no, street number, area."
                 width={"90%"}
                 variant={"filled"}
                 border={"0.5px solid grey"}
