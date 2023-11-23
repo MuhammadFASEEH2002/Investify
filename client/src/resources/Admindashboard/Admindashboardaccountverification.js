@@ -12,14 +12,16 @@ import {
   useToast,
   Box,
   StackDivider,
+  Link
 } from "@chakra-ui/react";
+import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
 import { wrap } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 const Admindashboardaccountverification = () => {
   const toast = useToast();
-
+ 
   const [investee, setInvestee] = useState([]);
   useEffect(() => {
     document.title = "Investify | Admin-Account Verification";
@@ -101,6 +103,7 @@ const Admindashboardaccountverification = () => {
       .catch((err) => console.log(err));
   };
   return (
+    
     <>
       <Sidebar>
         <Box
@@ -110,7 +113,9 @@ const Admindashboardaccountverification = () => {
             alignContent: "flex-start",
           }}
         >
-          {investee?.map((item) => (
+          {investee?.map((item) =>
+ 
+           (
             <Card align="center" width={"350px"} margin={"10px"}>
               <CardHeader>
                 <Heading size="md">{item.businessName}</Heading>
@@ -140,6 +145,7 @@ const Admindashboardaccountverification = () => {
                   <span style={{ fontWeight: "bold" }}>Country,City : </span>
                   {item.country},{item.city}
                 </Text>
+                <Link href={`http://127.0.0.1:3001/investee/${item.cnicDoc}`} isExternal>Cnic<ExternalLinkIcon mx='2px' /></Link>
               </CardBody>
               <CardFooter>
                 <Button colorScheme="gray" margin={"10px"}

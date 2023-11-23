@@ -23,6 +23,7 @@ mongo
   .catch((err) => console.log("MongoDb Connection Failed", err));
 
 app.use(express.json());
+app.use(express.static('upload'));
 app.use(express.urlencoded({ extended: true }));
 
 // const transporter = nodemailer.createTransport({
