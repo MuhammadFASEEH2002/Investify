@@ -7,7 +7,15 @@ const emailValidator = require("deep-email-validator");
 const nodemailer = require("nodemailer");
 
 exports.getMe = async (req, res) => {
-    const investee = Investee.find({ _id: req.user });
-    console.log(investee)
+    const investee = await Investee.findOne({ _id: req.user });
+    // res.json(
+    //     investee.email,
+    //     investee.address
+    // )
+    console.log(investee._id)
 
 };
+
+exports.createListing=async (req, res)=>{
+    const investee = Investee.findOne({ _id: req.user });
+}
