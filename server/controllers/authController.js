@@ -5,8 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const emailValidator = require("deep-email-validator");
 const nodemailer = require("nodemailer");
-const multer = require("multer");
-const path = require("path");
+
 
 exports.investorRegistration = async (req, res) => {
   try {

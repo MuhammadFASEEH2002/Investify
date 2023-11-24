@@ -6,9 +6,10 @@ import Userlogin from "./resources/Userlogin/Userlogin";
 import Userregistration from "./resources/Userregistration/Userregistration";
 import Adminlogin from "./resources/Adminlogin/Adminlogin";
 import Investorhome from "./resources/Investordashboard/Investorhome";
-import Investeedashboard from "./resources/Investeedashboard/Investeedashboard";
 import Admindashboardaccountverification from "./resources/Admindashboard/Admindashboardaccountverification";
 import Investorbusinesscatalog from "./resources/Investordashboard/Investorbusinesscatalog";
+import Investeedashboardhome from "./resources/Investeedashboard/Investeedashboardhome";
+import Investeedashboardlistingcreation from "./resources/Investeedashboard/Investeedashboardlistingcreation";
 
 function App() {
   return (
@@ -25,15 +26,19 @@ function App() {
             path="/user/investor-dashboard/home"
             element={<Investorhome />}
           />
-             <Route
+          <Route
             path="/user/investor-dashboard/business-catalog"
             element={<Investorbusinesscatalog />}
           />
           <Route
-            path="/user/investee-dashboard"
-            element={<Investeedashboard />}
+            path="/user/investee-dashboard/home"
+            element={<Investeedashboardhome />}
           />
-      
+          <Route
+            path="/user/investee-dashboard/listing-creation"
+            element={<Investeedashboardlistingcreation />}
+          />
+
         </Routes>
       </Router>
     </>

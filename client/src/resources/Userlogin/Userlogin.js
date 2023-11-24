@@ -94,7 +94,7 @@ const Userlogin = () => {
           if (res.status) {
             window.localStorage.setItem("token", res.token);
 
-            navigate("/user/investee-dashboard");
+            navigate("/user/investee-dashboard/home");
           } else {
             // alert(res.message);
             toast({

@@ -8,6 +8,8 @@ const PORT = 3001;
 // const AuthRouter = require("./controllers/Auth");
 const AuthRouter = require('./routes/authRoutes')
 const AdminRouter = require('./routes/adminRoutes')
+const InvesteeRouter = require('./routes/investeeRoutes')
+
 
 
 app.use(
@@ -36,6 +38,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", AuthRouter);
 app.use("/api/admin", AdminRouter);
+app.use("/api/investee", InvesteeRouter);
+
 
 
 app.listen(PORT, () => console.log(`Listening on http://127.0.0.1:${PORT}`));

@@ -43,6 +43,7 @@ const Admindashboardaccountverification = () => {
       .catch((err) => console.log(err));
   };
   const approveInvestee = (investeeId, investeeEmail) => {
+    const token = window.localStorage.getItem('token');
     fetch("http://127.0.0.1:3001/api/admin/verify-investees", {
       method: "POST",
       body: JSON.stringify({
@@ -50,7 +51,8 @@ const Admindashboardaccountverification = () => {
         investeeEmail,
       }),
       headers: {
-        Accept: "application/json",
+        'token' : token,
+       'Accept': "application/json",
         "Content-Type": "application/json",
       },
     })
@@ -73,6 +75,7 @@ const Admindashboardaccountverification = () => {
       .catch((err) => console.log(err));
   };
   const declineInvestee = (investeeId, investeeEmail) => {
+    const token = window.localStorage.getItem('token');
     fetch("http://127.0.0.1:3001/api/admin/decline-investees", {
       method: "POST",
       body: JSON.stringify({
@@ -80,7 +83,8 @@ const Admindashboardaccountverification = () => {
         investeeEmail,
       }),
       headers: {
-        Accept: "application/json",
+        'token' : token,
+        'Accept': "application/json",
         "Content-Type": "application/json",
       },
     })
