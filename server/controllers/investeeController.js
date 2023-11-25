@@ -11,12 +11,17 @@ exports.getMe = async (req, res) => {
     console.log(investee._id)
 
 };
+exports.updateMe = async (req, res) => {
+    const investee = await Investee.findOne({ _id: req.user });
+    console.log(investee._id)
+
+};
 
 exports.createListing=async (req, res)=>{
     try {
         const investee = await Investee.findOne({ _id: req.user });
-        const lisitng = await Listing.create({
-            investee_id: investee._id,
+        const listing = await Listing.create({
+           investee_id: investee._id,
            description:req.body,
            profitPercentage: req.body,
            amount:req.body,

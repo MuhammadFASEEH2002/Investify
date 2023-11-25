@@ -10,6 +10,8 @@ import Admindashboardaccountverification from "./resources/Admindashboard/Admind
 import Investorbusinesscatalog from "./resources/Investordashboard/Investorbusinesscatalog";
 import Investeedashboardhome from "./resources/Investeedashboard/Investeedashboardhome";
 import Investeedashboardlistingcreation from "./resources/Investeedashboard/Investeedashboardlistingcreation";
+import Admindashboardlistingverification from "./resources/Admindashboard/Admindashboardlistingverification";
+
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
           <Route exact path="/" element={<Homepage />} />
           <Route path="/admin-login" element={<Adminlogin />} />
           <Route path="/admin/admin-dashboard/account-verification" element={<Admindashboardaccountverification />} />
+          <Route path="/admin/admin-dashboard/listing-verification" element={<Admindashboardlistingverification />} />
+
           <Route path="/user-login" element={<Userlogin />} />
           <Route path="/user-registration/user-role" element={<Userrole />} />
           <Route path="/user-registration" element={<Userregistration />} />
