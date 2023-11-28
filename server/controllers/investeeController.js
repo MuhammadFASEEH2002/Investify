@@ -22,9 +22,9 @@ exports.createListing=async (req, res)=>{
         const investee = await Investee.findOne({ _id: req.user });
         const listing = await Listing.create({
            investee_id: investee._id,
-           description:req.body,
-           profitPercentage: req.body,
-           amount:req.body,
+           description:req.body.description,
+           profitPercentage: req.body.profitPercentage,
+           amount:req.body.amount,
           });
           res.json({ message: "Listing created", status: true });
     
