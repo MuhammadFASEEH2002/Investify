@@ -11,4 +11,3 @@ node_modules/
 /logs
 
 # Ignore any other generated or temporary files specific to your server folder
-upload/
