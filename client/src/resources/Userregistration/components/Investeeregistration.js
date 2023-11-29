@@ -16,7 +16,6 @@ import {
 
 const Investeeregistration = () => {
   const toast = useToast();
-
   const [businessName, setBusinessName] = useState("");
   const [email, setEmail] = useState("");
   const [cnic, setCnic] = useState("");
@@ -32,7 +31,7 @@ const Investeeregistration = () => {
 
   const [checkbox, setCheckbox] = useState(false);
   const navigate = useNavigate();
-  
+
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
   };
@@ -49,18 +48,18 @@ const Investeeregistration = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
   const register = () => {
-    const formData= new FormData()
-    formData.append('file',file)
-      formData.append('businessName', businessName);
-  formData.append('email', email);
-  formData.append('cnic', cnic);
-  formData.append('password', password);
-  formData.append('address', address);
-  formData.append('zipcode', zipcode);
-  formData.append('phoneNumber', phoneNumber);
-  formData.append('selectedCity', selectedCity);
-  formData.append('selectedCountry', selectedCountry);
-  formData.append('selectedCategory', selectedCategory);
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('businessName', businessName);
+    formData.append('email', email);
+    formData.append('cnic', cnic);
+    formData.append('password', password);
+    formData.append('address', address);
+    formData.append('zipcode', zipcode);
+    formData.append('phoneNumber', phoneNumber);
+    formData.append('selectedCity', selectedCity);
+    formData.append('selectedCountry', selectedCountry);
+    formData.append('selectedCategory', selectedCategory);
     // console.log({
     //   businessName,
     //   email,
@@ -91,7 +90,7 @@ const Investeeregistration = () => {
         fetch("http://127.0.0.1:3001/api/auth/investee-registration", {
           method: "POST",
           body: formData,
-         
+
           // headers: {
           //   Accept: "application/json",
           //   "Content-Type": "application/json",
@@ -355,7 +354,7 @@ const Investeeregistration = () => {
                 type="file"
                 width={"90%"}
                 accept=".pdf"
-                onChange={handleFileChange} 
+                onChange={handleFileChange}
               />
             </Stack>
           </HStack>

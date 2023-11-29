@@ -199,7 +199,6 @@ exports.investeeRegistration = async (req, res) => {
       return;
     }
     const hashPassword = await bcrypt.hash(req.body.password, 10);
-    console.log(req.file)
     const investee = await Investee.create({
       businessName: req.body.businessName,
       cnic: req.body.cnic,

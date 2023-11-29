@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
-
 import { useNavigate } from "react-router-dom";
-         
-
 import {
   HStack,
   Stack,
@@ -19,7 +16,6 @@ import {
   Select,
   Center,
   Textarea,
-
 } from "@chakra-ui/react";
 
 
@@ -27,39 +23,35 @@ const Investeedashboardlistingcreation = () => {
   const [description, setDescription] = useState("");
   const [profitPercentage, setProfitPercentage] = useState("");
   const [amount, setAmount] = useState("");
+  const handleInputChange = (event, setState) => {
+    setState(event.target.value);
+  };
   const toast = useToast();
   const navigate = useNavigate();
 
-
   const createListing = () => {
+    const token = window.localStorage.getItem('token');
     const formData = new FormData()
     formData.append('description', description);
     formData.append('profitPercentage', profitPercentage);
     formData.append('amount', amount);
+    const headers = new Headers();
+    headers.append('token', token);
     // console.log({
-    //   businessName,
-    //   email,
-    //   cnic,
-    //   password,
-    //   address,
-    //   zipcode,
-    //   phoneNumber,
-    //   selectedCity,
-    //   selectedCountry,
-    //   selectedCategory,
-    //   file
+    //   Description: formData.get('description'),
+    //   profitPercentage: formData.get('profitPercentage'),
+    //   amount: formData.get('amount')
     // });
+    console.log({
+      description, profitPercentage, amount
+    });
     if (
       description && profitPercentage && amount
     ) {
       fetch("http://127.0.0.1:3001/api/investee/create-listing", {
         method: "POST",
         body: formData,
-
-        // headers: {
-        //   Accept: "application/json",
-        //   "Content-Type": "application/json",
-        // },
+        headers: headers,
       })
         .then((res) => {
           return res.json();
@@ -68,12 +60,13 @@ const Investeedashboardlistingcreation = () => {
           if (res.status) {
             toast({
               title: "Listing Created",
-              description: "Redirecting to Login Screen",
+              description: "Awaiting for admin approval",
               status: "success",
               duration: 9000,
               isClosable: true,
               position: "top",
             });
+            navigate("/user/investee-dashboard/home");
           } else {
             // alert(res.message);
             toast({
@@ -118,6 +111,9 @@ const Investeedashboardlistingcreation = () => {
                   width={"90%"}
                   variant={"filled"}
                   border={"0.5px solid grey"}
+                  onChange={(event) =>
+                    handleInputChange(event, setDescription)
+                  }
                   isRequired
                 />
               </Stack>
@@ -132,7 +128,7 @@ const Investeedashboardlistingcreation = () => {
                   variant={"filled"}
                   border={"0.5px solid grey"}
                   isRequired
-                // onChange={(event) => handleInputChange(event, setPhoneNumber)}
+                  onChange={(event) => handleInputChange(event, setProfitPercentage)}
                 />
               </Stack>
             </HStack>
@@ -147,7 +143,7 @@ const Investeedashboardlistingcreation = () => {
                   variant={"filled"}
                   border={"0.5px solid grey"}
                   isRequired
-                // onChange={(event) => handleInputChange(event, setCnic)}
+                  onChange={(event) => handleInputChange(event, setAmount)}
                 />
               </Stack>
             </HStack>
@@ -156,7 +152,7 @@ const Investeedashboardlistingcreation = () => {
               variant="solid"
               marginTop={"30px"}
               size={{ base: "md", md: "md", lg: "lg" }}
-            onClick={createListing}
+              onClick={createListing}
             >
               Create
             </Button>

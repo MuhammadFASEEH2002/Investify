@@ -1,6 +1,6 @@
 const Investor = require("../model/investorDB");
 const Investee = require("../model/investeeDB");
-const Listing= require("../model/investeeListing");
+const Listing = require("../model/investeeListing");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const emailValidator = require("deep-email-validator");
@@ -17,19 +17,20 @@ exports.updateMe = async (req, res) => {
 
 };
 
-exports.createListing=async (req, res)=>{
+exports.createListing = async (req, res) => {
     try {
         const investee = await Investee.findOne({ _id: req.user });
+        console.log(investee._id)
+        console.log(req.body.description)
         const listing = await Listing.create({
-           investee_id: investee._id,
-           description:req.body.description,
-           profitPercentage: req.body.profitPercentage,
-           amount:req.body.amount,
-          });
-          res.json({ message: "Listing created", status: true });
-    
+            investee_id: investee._id,
+            description: req.body.description,
+            profitPercentage: req.body.profitPercentage,
+            amount: req.body.amount,
+        });
+        res.json({ message: "Listing created", status: true });
+
     } catch (error) {
-    res.json({ message: error.message, status: false });
-        
+        res.json({ message: error.message, status: false });
     }
-   }
+}
