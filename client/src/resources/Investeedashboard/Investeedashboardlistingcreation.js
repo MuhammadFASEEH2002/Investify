@@ -31,12 +31,12 @@ const Investeedashboardlistingcreation = () => {
 
   const createListing = () => {
     const token = window.localStorage.getItem('token');
-    const formData = new FormData()
-    formData.append('description', description);
-    formData.append('profitPercentage', profitPercentage);
-    formData.append('amount', amount);
-    const headers = new Headers();
-    headers.append('token', token);
+    // const formData = new FormData()
+    // formData.append('description', description);
+    // formData.append('profitPercentage', profitPercentage);
+    // formData.append('amount', amount);
+    // const headers = new Headers();
+    // headers.append('token', token);
     // console.log({
     //   Description: formData.get('description'),
     //   profitPercentage: formData.get('profitPercentage'),
@@ -50,8 +50,15 @@ const Investeedashboardlistingcreation = () => {
     ) {
       fetch("http://127.0.0.1:3001/api/investee/create-listing", {
         method: "POST",
-        body: formData,
-        headers: headers,
+        body:  JSON.stringify({
+         description, profitPercentage, amount
+        }),
+           headers: {
+            'token': token,
+            'Accept': "application/json",
+            "Content-Type": "application/json",
+          },
+ 
       })
         .then((res) => {
           return res.json();

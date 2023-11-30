@@ -21,7 +21,7 @@ exports.createListing = async (req, res) => {
     try {
         const investee = await Investee.findOne({ _id: req.user });
         console.log(investee._id)
-        console.log(req.body.description)
+        console.log(req.body)
         const listing = await Listing.create({
             investee_id: investee._id,
             description: req.body.description,
