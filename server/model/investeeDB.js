@@ -62,7 +62,11 @@ const InvesteeSchema = new mongo.Schema({
     cnicDoc:{
         type:String,
         required:true
-    }
+    },
+    // listings:[{
+    //     type: mongo.Types.ObjectId,
+    //     ref: "Listing",
+    // }]
 
 })
 

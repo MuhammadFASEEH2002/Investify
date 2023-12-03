@@ -1,7 +1,9 @@
 const Investor = require("../model/investorDB");
 const Investee = require("../model/investeeDB");
 const Admin = require("../model/admin");
+const Listing = require("../model/investeeListing");
 const bcrypt = require("bcrypt");
+
 const nodemailer = require("nodemailer");
 
 exports.getInvestees = async (req, res) => {
@@ -11,6 +13,30 @@ exports.getInvestees = async (req, res) => {
       res.json({
         status: true,
         investee,
+      });
+    }
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};
+exports.getListing = async (req, res) => {
+  try {
+    const listing = await Listing.aggregate([
+      {
+        $lookup: {
+          from: "investees",
+          localField: "investee_id",
+          foreignField: "_id",
+          as: "Investee"
+        }
+      },
+    ]
+      
+     );
+    if (listing) {
+      res.json({
+        status: true,
+        listing,
       });
     }
   } catch (error) {
@@ -74,6 +100,40 @@ exports.declineInvestees = async (req, res) => {
     });
     await Investee.findByIdAndDelete(req.body.investeeId)
     res.json({ message: "Investee Declined", status: true });
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};
+
+
+exports.approveListing = async (req, res) => {
+  try {
+    await Investee.findByIdAndUpdate(
+      { _id: req.body.investeeId },
+      { isVerified: true }
+    );
+    const transporter = await nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "investify180@gmail.com",
+        pass: "vqkr elcq xdba mnbj",
+      },
+    });
+    const mailOptions = await {
+      from: "investify180@gmail.com",
+      to: req.body.investeeEmail,
+      subject: "Sending Email With React And Nodejs",
+      html: "<h1>Congratulations your Investee account is approved</h1> <p> You can now now login to your account by using your email and password. </p> <p>Regards,</p><p>Investify</p>",
+    };
+    await transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("Error" + error);
+      } else {
+        console.log("Email sent:" + info.response);
+        res.status(201).json({ status: 201, info });
+      }
+    });
+    res.json({ message: "Investee Approved", status: true });
   } catch (error) {
     res.json({ message: error.message, status: false });
   }

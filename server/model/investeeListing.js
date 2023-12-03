@@ -17,6 +17,11 @@ const listingSchema = new mongo.Schema({
     type: String,
     required: true,
   },
+  isVerified: {
+    type: Boolean,
+    required: true,
+  },
+
 });
 
 const Listing = mongo.model("Listing", listingSchema);
