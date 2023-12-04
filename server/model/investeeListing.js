@@ -4,6 +4,7 @@ const listingSchema = new mongo.Schema({
   investee_id: {
     type: String,
     required: true,
+    ref : 'Investee'
   },
   description: {
     type: String,

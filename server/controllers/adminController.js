@@ -21,24 +21,26 @@ exports.getInvestees = async (req, res) => {
 };
 exports.getListing = async (req, res) => {
   try {
-    const listing = await Listing.aggregate([
-      {
-        $lookup: {
-          from: "investees",
-          localField: "investee_id",
-          foreignField: "_id",
-          as: "Investee"
-        }
-      },
-    ]
+      const resj =  await Listing.find().populate("investee_id");
+      res.json(resj)
+    // const listing = await Listing.aggregate([
+    //   {
+    //     $lookup: {
+    //       from: "Investee",
+    //       localField: "investee_id",
+    //       foreignField: "_id",
+    //       as: "Investee"
+    //     }
+    //   },
+    // ]
       
-     );
-    if (listing) {
-      res.json({
-        status: true,
-        listing,
-      });
-    }
+    //  );
+    // if (listing) {
+    //   res.json({
+    //     status: true,
+    //     listing,
+    //   });
+    // }
   } catch (error) {
     res.json({ message: error.message, status: false });
   }
