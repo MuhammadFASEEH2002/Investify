@@ -1,11 +1,6 @@
 const mongo = require("mongoose");
 
 const listingSchema = new mongo.Schema({
-  investee_id: {
-    type: String,
-    required: true,
-    ref : 'Investee'
-  },
   description: {
     type: String,
     required: true,
@@ -22,7 +17,12 @@ const listingSchema = new mongo.Schema({
     type: Boolean,
     required: true,
   },
-
+  investee_id: {
+    type: String,
+    required: true,
+    ref : 'Investee'
+  },
+  
 });
 
 const Listing = mongo.model("Listing", listingSchema);

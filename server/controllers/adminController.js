@@ -21,26 +21,15 @@ exports.getInvestees = async (req, res) => {
 };
 exports.getListing = async (req, res) => {
   try {
-      const resj =  await Listing.find().populate("investee_id");
-      res.json(resj)
-    // const listing = await Listing.aggregate([
-    //   {
-    //     $lookup: {
-    //       from: "Investee",
-    //       localField: "investee_id",
-    //       foreignField: "_id",
-    //       as: "Investee"
-    //     }
-    //   },
-    // ]
-      
-    //  );
-    // if (listing) {
-    //   res.json({
-    //     status: true,
-    //     listing,
-    //   });
-    // }
+    const listing = await Listing.find({ isVerified: false }).populate(
+      "investee_id"
+    );
+    if (listing) {
+      res.json({
+        status: true,
+        listing,
+      });
+    }
   } catch (error) {
     res.json({ message: error.message, status: false });
   }
@@ -100,13 +89,12 @@ exports.declineInvestees = async (req, res) => {
         res.status(201).json({ status: 201, info });
       }
     });
-    await Investee.findByIdAndDelete(req.body.investeeId)
+    await Investee.findByIdAndDelete(req.body.investeeId);
     res.json({ message: "Investee Declined", status: true });
   } catch (error) {
     res.json({ message: error.message, status: false });
   }
 };
-
 
 exports.approveListing = async (req, res) => {
   try {
