@@ -59,6 +59,7 @@ const Userlogin = () => {
               status: "error",
               duration: 9000,
               isClosable: true,
+              position: "top"
             });
           }
         })
@@ -96,13 +97,13 @@ const Userlogin = () => {
 
             navigate("/user/investee-dashboard/home");
           } else {
-            // alert(res.message);
             toast({
               title: "Authentication Error",
               description: res.message,
               status: "error",
               duration: 9000,
               isClosable: true,
+              position: "top"
             });
           }
         })
@@ -216,6 +217,15 @@ const Userlogin = () => {
                       onChange={(event) =>
                         handleInputChange(event, setPassword)
                       }
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter") {
+                          if (selectedRole === "investor") {
+                            investorLogin();
+                          } else {
+                            investeeLogin();
+                          }
+                        }
+                      }}
                     />
                     <InputRightElement width="4.5rem">
                       <Button h="1.75rem" size="sm" onClick={handleClick}>
@@ -239,6 +249,8 @@ const Userlogin = () => {
                       investeeLogin();
                     }
                   }}
+
+
                 >
                   Sign In
                 </Button>
