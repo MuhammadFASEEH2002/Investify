@@ -23,7 +23,6 @@ function App() {
           <Route path="/admin-login" element={<Adminlogin />} />
           <Route path="/admin/admin-dashboard/account-verification" element={<Admindashboardaccountverification />} />
           <Route path="/admin/admin-dashboard/listing-verification" element={<Admindashboardlistingverification />} />
-
           <Route path="/user-login" element={<Userlogin />} />
           <Route path="/user-registration/user-role" element={<Userrole />} />
           <Route path="/user-registration" element={<Userregistration />} />
@@ -41,13 +40,12 @@ function App() {
           />
           <Route
             path="/user/investee-dashboard/listing-creation"
-            element={<Investeedashboardlistingcreation/>}
+            element={<Investeedashboardlistingcreation />}
           />
-            <Route
+          <Route
             path="/user/investee-dashboard/logout"
-            element={<Investeedashboardlogout/>}
+            element={<Investeedashboardlogout />}
           />
-
         </Routes>
       </Router>
     </>

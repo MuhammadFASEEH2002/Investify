@@ -31,17 +31,6 @@ const Investeedashboardlistingcreation = () => {
 
   const createListing = () => {
     const token = window.localStorage.getItem('token');
-    // const formData = new FormData()
-    // formData.append('description', description);
-    // formData.append('profitPercentage', profitPercentage);
-    // formData.append('amount', amount);
-    // const headers = new Headers();
-    // headers.append('token', token);
-    // console.log({
-    //   Description: formData.get('description'),
-    //   profitPercentage: formData.get('profitPercentage'),
-    //   amount: formData.get('amount')
-    // });
     console.log({
       description, profitPercentage, amount
     });

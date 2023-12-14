@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 
 const Investeedashboardlogout = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const logout = () => {
         window.localStorage.removeItem('token');
         navigate("/user-login")
-      };
+    };
     useEffect(() => {
         document.title = "Investify | Investee-Home";
         logout();
