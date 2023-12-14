@@ -11,6 +11,7 @@ import Investorbusinesscatalog from "./resources/Investordashboard/Investorbusin
 import Investeedashboardhome from "./resources/Investeedashboard/Investeedashboardhome";
 import Investeedashboardlistingcreation from "./resources/Investeedashboard/Investeedashboardlistingcreation";
 import Admindashboardlistingverification from "./resources/Admindashboard/Admindashboardlistingverification";
+import Investeedashboardlogout from "./resources/Investeedashboard/Investeedashboardlogout";
 
 
 function App() {
@@ -40,7 +41,11 @@ function App() {
           />
           <Route
             path="/user/investee-dashboard/listing-creation"
-            element={<Investeedashboardlistingcreation />}
+            element={<Investeedashboardlistingcreation/>}
+          />
+            <Route
+            path="/user/investee-dashboard/logout"
+            element={<Investeedashboardlogout/>}
           />
 
         </Routes>

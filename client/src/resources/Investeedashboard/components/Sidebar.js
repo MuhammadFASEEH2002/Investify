@@ -38,7 +38,7 @@ const LinkItems = [
   { name: "Home", icon: FiUserCheck, link: "/user/investee-dashboard/home" },
   { name: "Create Listing", icon: FiList,  link:"/user/investee-dashboard/listing-creation" },
   { name: "Complains", icon: FiSlash },
-  { name: "Log Out", icon: FiLogOut },
+  { name: "Log Out", icon: FiLogOut, link:"/user/investee-dashboard/logout"}
 ];
 const SidebarContent = ({ onClose, ...rest }) => {
   return (

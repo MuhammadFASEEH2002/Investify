@@ -21,19 +21,19 @@ import { useNavigate } from "react-router-dom";
 
 const Admindashboardaccountverification = () => {
   const toast = useToast();
- 
+
   const [investee, setInvestee] = useState([]);
   useEffect(() => {
     document.title = "Investify | Admin-Account Verification";
     getInvestees();
   }, []);
   const getInvestees = () => {
- const token = window.localStorage.getItem('token');
+    const token = window.localStorage.getItem('token');
 
     fetch("http://127.0.0.1:3001/api/admin/get-investees", {
       method: "GET",
       headers: {
-        'token' : token,
+        'token': token,
         'Accept': "application/json",
         "Content-Type": "application/json",
       },
@@ -51,8 +51,8 @@ const Admindashboardaccountverification = () => {
         investeeEmail,
       }),
       headers: {
-        'token' : token,
-       'Accept': "application/json",
+        'token': token,
+        'Accept': "application/json",
         "Content-Type": "application/json",
       },
     })
@@ -83,7 +83,7 @@ const Admindashboardaccountverification = () => {
         investeeEmail,
       }),
       headers: {
-        'token' : token,
+        'token': token,
         'Accept': "application/json",
         "Content-Type": "application/json",
       },
@@ -107,7 +107,7 @@ const Admindashboardaccountverification = () => {
       .catch((err) => console.log(err));
   };
   return (
-    
+
     <>
       <Sidebar>
         <Box
@@ -118,8 +118,8 @@ const Admindashboardaccountverification = () => {
           }}
         >
           {investee?.map((item) =>
- 
-           (
+
+          (
             <Card align="center" width={"350px"} margin={"10px"}>
               <CardHeader>
                 <Heading size="md">{item.businessName}</Heading>
@@ -153,10 +153,10 @@ const Admindashboardaccountverification = () => {
               </CardBody>
               <CardFooter>
                 <Button colorScheme="gray" margin={"10px"}
-                 onClick={() => {
+                  onClick={() => {
                     declineInvestee(item._id, item.email);
                   }}
-                  >
+                >
                   Decline
                 </Button>
                 <Button

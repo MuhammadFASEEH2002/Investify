@@ -7,10 +7,37 @@ const emailValidator = require("deep-email-validator");
 const nodemailer = require("nodemailer");
 
 exports.getMe = async (req, res) => {
-    const investee = await Investee.findOne({ _id: req.user });
-    console.log(investee._id)
+  
+  try {
+      const investee = await Investee.findOne({ _id: req.user });
+      if (Investee) {
+        res.json({
+          status: true,
+          investee,
+        });
+      }
+      
+    } catch (error) {
+    res.json({ message: error.message, status: false });
+      
+    }
 
 };
+// exports.getListing = async (req, res) => {
+//   try {
+//     const listing = await Listing.find({ isVerified: false }).populate(
+//       "investee_id"
+//     );
+//     if (listing) {
+//       res.json({
+//         status: true,
+//         listing,
+//       });
+//     }
+//   } catch (error) {
+//     res.json({ message: error.message, status: false });
+//   }
+// };
 exports.updateMe = async (req, res) => {
     const investee = await Investee.findOne({ _id: req.user });
     console.log(investee._id)
