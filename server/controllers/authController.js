@@ -75,8 +75,8 @@ exports.investorRegistration = async (req, res) => {
     );
     if (!valid) {
       res.json({
-        message: "Email is not valid or doesnot exist",
-        reason: validators[reason].reason,
+        message: validators[reason].reason,
+        reason: "Email is not valid or doesnot exist",
         status: false,
       });
       return;
@@ -188,12 +188,18 @@ exports.investeeRegistration = async (req, res) => {
       return;
     }
     const { valid, reason, validators } = await emailValidator.validate(
-      req.body.email
+      req.body.email,{
+        validateRegex: true,
+        validateMx: false,
+        validateTypo: false,
+        validateDisposable: false,
+        validateSMTP: true,
+      }
     );
     if (!valid) {
       res.json({
-        message: "Email is not valid or doesnot exist",
-        reason: validators[reason].reason,
+        message: validators[reason].reason,
+        reason: "Email is not valid or doesnot exist",
         status: false,
       });
       return;
@@ -322,11 +328,6 @@ exports.adminLogin = async (req, res) => {
 
       if (Exist._doc.password == req.body.password) {
         const token = await jwt.sign({ id: Exist._doc._id }, "admin");
-        //   res.cookie("token", token, {
-        //     withCredentials: true,
-        //     httpOnly: false,
-        //     maxAge: 2592000000
-        // });
         res.json({
           token,
           status: true,

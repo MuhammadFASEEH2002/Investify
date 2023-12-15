@@ -12,7 +12,7 @@ import Investeedashboardhome from "./resources/Investeedashboard/Investeedashboa
 import Investeedashboardlistingcreation from "./resources/Investeedashboard/Investeedashboardlistingcreation";
 import Admindashboardlistingverification from "./resources/Admindashboard/Admindashboardlistingverification";
 import Investeedashboardlogout from "./resources/Investeedashboard/Investeedashboardlogout";
-
+import Investeedashboardchangepassword from "./resources/Investeedashboard/Investeedashboardchangepassword";
 
 function App() {
   return (
@@ -41,6 +41,10 @@ function App() {
           <Route
             path="/user/investee-dashboard/listing-creation"
             element={<Investeedashboardlistingcreation />}
+          />
+            <Route
+            path="/user/investee-dashboard/password-change"
+            element={<Investeedashboardchangepassword />}
           />
           <Route
             path="/user/investee-dashboard/logout"
