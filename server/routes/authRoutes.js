@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
   })
 
 router.post('/investor-registration' , AuthController.investorRegistration)
-router.post('/investee-registration' , upload.single('file') , AuthController.investeeRegistration)
+router.post('/investee-registration' ,upload.single("file"), AuthController.investeeRegistration)
 router.post('/investor-login' , AuthController.investorLogin)
 router.post('/investee-login' , AuthController.investeeLogin)
 router.post('/admin-login' , AuthController.adminLogin)

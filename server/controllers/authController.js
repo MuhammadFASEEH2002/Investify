@@ -5,7 +5,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const emailValidator = require("deep-email-validator");
 const nodemailer = require("nodemailer");
-
+const multer = require("multer");
+const path = require("path");
 
 exports.investorRegistration = async (req, res) => {
   try {
@@ -23,14 +24,14 @@ exports.investorRegistration = async (req, res) => {
       });
       return;
     }
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // if (!emailRegex.test(req.body.email)) {
-    //   res.json({
-    //     message: "Invalid Email Address",
-    //     status: false,
-    //   });
-    //   return;
-    // }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(req.body.email)) {
+      res.json({
+        message: "Invalid Email Address",
+        status: false,
+      });
+      return;
+    }
     const cnicRegex = /^\d{13}$/;
     if (!cnicRegex.test(req.body.cnic)) {
       res.json({
@@ -70,30 +71,20 @@ exports.investorRegistration = async (req, res) => {
       });
       return;
     }
-    const { valid, reason, validators } = await emailValidator.validate(
-      req.body.email
-    );
-    if (!valid) {
-      res.json({
-        message: validators[reason].reason,
-        reason: "Email is not valid or doesnot exist",
-        status: false,
-      });
-      return;
-    }
+    // const { valid, reason, validators } = await emailValidator.validate(
+    //   req.body.email
+    // );
+    // if (!valid) {
+    //   res.json({
+    //     message: validators[reason].reason,
+    //     reason: "Email is not valid or doesnot exist",
+    //     status: false,
+    //   });
+    //   return;
+    // }
 
     const hashPassword = await bcrypt.hash(req.body.password, 10);
-    const investor = await Investor.create({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      cnic: req.body.cnic,
-      phoneNumber: req.body.phoneNumber,
-      dateOfBirth: req.body.dateOfBirth,
-      email: req.body.email,
-      password: hashPassword,
-      country: req.body.selectedCountry,
-      city: req.body.selectedCity,
-    });
+
     //   const token = await jwt.sign({ id: investor._doc._id }, "mysecurepassword");
     const transporter = await nodemailer.createTransport({
       service: "gmail",
@@ -111,17 +102,32 @@ exports.investorRegistration = async (req, res) => {
     await transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.log("Error" + error);
+        res.json({
+          message: error,
+          status: false,
+        });
+        return;
       } else {
         console.log("Email sent:" + info.response);
-        res.status(201).json({ status: 201, info });
+        // res.status(201).json({ status: 201, info });
       }
+    });
+    const investor = await Investor.create({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      cnic: req.body.cnic,
+      phoneNumber: req.body.phoneNumber,
+      dateOfBirth: req.body.dateOfBirth,
+      email: req.body.email,
+      password: hashPassword,
+      country: req.body.selectedCountry,
+      city: req.body.selectedCity,
     });
     res.json({ message: "user created", status: true });
   } catch (error) {
     res.json({ message: error.message, status: false });
   }
 };
-
 
 exports.investeeRegistration = async (req, res) => {
   try {
@@ -139,6 +145,14 @@ exports.investeeRegistration = async (req, res) => {
       res.json({
         message:
           "User having the same Business Name, Email, CNIC or Phone Number already exist",
+        status: false,
+      });
+      return;
+    }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(req.body.email)) {
+      res.json({
+        message: "Invalid Email Address",
         status: false,
       });
       return;
@@ -187,39 +201,25 @@ exports.investeeRegistration = async (req, res) => {
       });
       return;
     }
-    const { valid, reason, validators } = await emailValidator.validate(
-      req.body.email,{
-        validateRegex: true,
-        validateMx: false,
-        validateTypo: false,
-        validateDisposable: false,
-        validateSMTP: true,
-      }
-    );
-    if (!valid) {
-      res.json({
-        message: validators[reason].reason,
-        reason: "Email is not valid or doesnot exist",
-        status: false,
-      });
-      return;
-    }
+    // const { valid, reason, validators } = await emailValidator.validate(
+    //   req.body.email,{
+    //     validateRegex: true,
+    //     validateMx: false,
+    //     validateTypo: false,
+    //     validateDisposable: false,
+    //     validateSMTP: true,
+    //   }
+    // );
+    // if (!valid) {
+    //   res.json({
+    //     message: validators[reason].reason,
+    //     reason: "Email is not valid or doesnot exist",
+    //     status: false,
+    //   });
+    //   return;
+    // }
     const hashPassword = await bcrypt.hash(req.body.password, 10);
-    const investee = await Investee.create({
-      businessName: req.body.businessName,
-      cnic: req.body.cnic,
-      phoneNumber: req.body.phoneNumber,
-      email: req.body.email,
-      password: hashPassword,
-      address: req.body.address,
-      zipcode: req.body.zipcode,
-      country: req.body.selectedCountry,
-      city: req.body.selectedCity,
-      category: req.body.selectedCategory,
-      isVerified: false,
-      cnicDoc: req.file.filename,
-    });
-    //   const token = await jwt.sign({ id: investor._doc._id }, "mysecurepassword");
+    
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -236,10 +236,29 @@ exports.investeeRegistration = async (req, res) => {
     await transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.log("Error" + error);
+        res.json({
+          message: error,
+          status: false,
+        });
+        return;
       } else {
         console.log("Email sent:" + info.response);
         // res.json({ status: 201, info });
       }
+    });
+    const investee = await Investee.create({
+      businessName: req.body.businessName,
+      cnic: req.body.cnic,
+      phoneNumber: req.body.phoneNumber,
+      email: req.body.email,
+      password: hashPassword,
+      address: req.body.address,
+      zipcode: req.body.zipcode,
+      country: req.body.selectedCountry,
+      city: req.body.selectedCity,
+      category: req.body.selectedCategory,
+      isVerified: false,
+      cnicDoc: req.file.filename,
     });
 
     res.json({ message: "user created", status: true });
