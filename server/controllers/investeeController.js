@@ -7,7 +7,6 @@ const emailValidator = require("deep-email-validator");
 const nodemailer = require("nodemailer");
 
 exports.getMe = async (req, res) => {
-
   try {
     const investee = await Investee.findOne({ _id: req.user });
     if (Investee) {
@@ -16,12 +15,9 @@ exports.getMe = async (req, res) => {
         investee,
       });
     }
-
   } catch (error) {
     res.json({ message: error.message, status: false });
-
   }
-
 };
 // exports.getListing = async (req, res) => {
 //   try {
@@ -38,23 +34,46 @@ exports.getMe = async (req, res) => {
 //     res.json({ message: error.message, status: false });
 //   }
 // };
-exports.updateMe = async (req, res) => {
-  const investee = await Investee.findOne({ _id: req.user });
-  console.log(investee._id)
+// exports.updateMe = async (req, res) => {
+//   const investee = await Investee.findOne({ _id: req.user });
+//   console.log(investee._id)
 
+// };
+exports.changePassword = async (req, res) => {
+  try {
+    // const hashOldPassword = await bcrypt.hash(req.body.oldPassword, 10);
+    const hashNewPassword = await bcrypt.hash(req.body.newPassword, 10);
+
+    const investee = await Investee.findOne({ _id: req.user });
+    if (bcrypt.compare(req.body.oldPassword, investee.password)) {
+      await Investee.findByIdAndUpdate(
+        { _id: req.body.investeeId },
+        { password: hashNewPassword }
+      );
+      res.json({ message: "Password Changed", status: true });
+    } else {
+      res.json({
+        message: "Old Password is not correct",
+        status: false,
+      });
+      return;
+    }
+  } catch (error) {}
 };
 
 exports.createListing = async (req, res) => {
   try {
     const investee = await Investee.findOne({ _id: req.user });
-const descriptionWordCount=req.body.description.trim().split(/\s+/).length;
-if(descriptionWordCount<50){
-  res.json({
-    message: "Description should have atleast 50 words.",
-    status: false,
-  });
-  return;
-}
+    const descriptionWordCount = req.body.description
+      .trim()
+      .split(/\s+/).length;
+    if (descriptionWordCount < 50) {
+      res.json({
+        message: "Description should have atleast 50 words.",
+        status: false,
+      });
+      return;
+    }
 
     const equity = /^(?:[5-9]|1\d|2[0-9]|30)$/;
     if (!equity.test(req.body.profitPercentage)) {
@@ -102,8 +121,7 @@ if(descriptionWordCount<50){
       }
     });
     res.json({ message: "Listing created", status: true });
-
   } catch (error) {
     res.json({ message: error.message, status: false });
   }
-}
+};

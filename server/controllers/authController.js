@@ -129,6 +129,7 @@ exports.investorRegistration = async (req, res) => {
   }
 };
 
+// Investee Registration
 exports.investeeRegistration = async (req, res) => {
   try {
     const BusinessNameExist = await Investee.findOne({

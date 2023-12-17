@@ -5,6 +5,8 @@ const verifyToken = require('../middleware/authMiddleware')
 
 router.get('/get-user' ,verifyToken, InvesteeController.getMe)
 router.post('/create-listing' ,verifyToken, InvesteeController.createListing)
+router.post('/change-password' ,verifyToken, InvesteeController.changePassword)
+
 
 
 
