@@ -66,8 +66,8 @@ const Investeedashboardchangepassword = () => {
           .then((res) => {
             if (res.status) {
               toast({
-                title: "Listing Created",
-                description: "Awaiting for admin approval",
+                title: "Password Updated",
+                description: "Success",
                 status: "success",
                 duration: 9000,
                 isClosable: true,

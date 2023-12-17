@@ -47,7 +47,7 @@ exports.changePassword = async (req, res) => {
     const investee = await Investee.findOne({ _id: req.user });
     if (bcrypt.compare(req.body.oldPassword, investee.password)) {
       await Investee.findByIdAndUpdate(
-        { _id: req.body.investeeId },
+        { _id: investee._id },
         { password: hashNewPassword }
       );
       res.json({ message: "Password Changed", status: true });
