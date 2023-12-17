@@ -28,12 +28,12 @@ const Admindashboardaccountverification = () => {
     getInvestees();
   }, []);
   const getInvestees = () => {
-    const adminToken = window.localStorage.getItem('admintoken');
+    const adminToken = window.localStorage.getItem('adminToken');
 
     fetch("http://127.0.0.1:3001/api/admin/get-investees", {
       method: "GET",
       headers: {
-        'adminToken': adminToken,
+        'token': adminToken,
         'Accept': "application/json",
         "Content-Type": "application/json",
       },
@@ -51,7 +51,7 @@ const Admindashboardaccountverification = () => {
         investeeEmail,
       }),
       headers: {
-        'adminToken': adminToken,
+        'token': adminToken,
         'Accept': "application/json",
         "Content-Type": "application/json",
       },
@@ -83,7 +83,7 @@ const Admindashboardaccountverification = () => {
         investeeEmail,
       }),
       headers: {
-        'adminToken': adminToken,
+        'token': adminToken,
         'Accept': "application/json",
         "Content-Type": "application/json",
       },

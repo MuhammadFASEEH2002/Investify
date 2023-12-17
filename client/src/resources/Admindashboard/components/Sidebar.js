@@ -115,7 +115,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
     fetch("http://127.0.0.1:3001/api/admin/get-admin", {
       method: "GET",
       headers: {
-        'adminToken': adminToken,
+        'token': adminToken,
         'Accept': "application/json",
         "Content-Type": "application/json",
       },
