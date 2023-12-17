@@ -6,6 +6,20 @@ const bcrypt = require("bcrypt");
 
 const nodemailer = require("nodemailer");
 
+exports.getMe = async (req, res) => {
+  try {
+    const admin = await Admin.findOne({ _id: req.user });
+    if (Admin) {
+      res.json({
+        status: true,
+        admin,
+      });
+    }
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};
+
 exports.getInvestees = async (req, res) => {
   try {
     const investee = await Investee.find({ isVerified: false });

@@ -44,7 +44,7 @@ const Adminlogin = () => {
         })
         .then((res) => {
           if (res.status) {
-            window.localStorage.setItem("token", res.token);
+            window.localStorage.setItem("adminToken", res.adminToken);
             navigate("/admin/admin-dashboard/account-verification");
           } else {
             // alert(res.message);
@@ -95,7 +95,7 @@ const Adminlogin = () => {
               <Stack
                 height={{ base: "250px", md: "400px", lg: "500px" }}
                 width={{ base: "150px", md: "300px", lg: "400px" }}
-                backgroundImage="url('/images/logo2.png')"
+                backgroundImage="url('/images/logo.png')"
                 backgroundSize={"100% 100%"}
               ></Stack>
             </Stack>

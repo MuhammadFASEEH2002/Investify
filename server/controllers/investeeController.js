@@ -45,7 +45,16 @@ exports.changePassword = async (req, res) => {
     const hashNewPassword = await bcrypt.hash(req.body.newPassword, 10);
 
     const investee = await Investee.findOne({ _id: req.user });
-    if (bcrypt.compare(req.body.oldPassword, investee.password)) {
+    if (await bcrypt.compare(req.body.oldPassword, investee.password)) {
+      const passwordRegex = /^(?=.*[A-Za-z0-9])(?!.*\s).{8,}$/;
+        if(!passwordRegex.test(req.body.newPassword)) {
+        res.json({
+          message:
+            "Password should have minimum 8 characters. No spaces allowed and at least 1 alphabet or letter is compulsory",
+          status: false,
+        });
+        return;
+      }
       await Investee.findByIdAndUpdate(
         { _id: investee._id },
         { password: hashNewPassword }
@@ -58,7 +67,10 @@ exports.changePassword = async (req, res) => {
       });
       return;
     }
-  } catch (error) {}
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+
+  }
 };
 
 exports.createListing = async (req, res) => {

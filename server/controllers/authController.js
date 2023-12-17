@@ -197,7 +197,7 @@ exports.investeeRegistration = async (req, res) => {
     ) {
       res.json({
         message:
-          "Password should have minimum 8 characters. No spaces allowed and at least 1 alpahbet or letter is compulsory",
+          "Password should have minimum 8 characters. No spaces allowed and at least 1 alphabet or letter is compulsory",
         status: false,
       });
       return;
@@ -314,13 +314,9 @@ exports.investeeLogin = async (req, res) => {
       // const verifyAccount= await bcrypt.compare(req.body.password, Exist._doc.password);
       if (Exist._doc.isVerified === true) {
         if (verifyPassword) {
-          const token = await jwt.sign({ id: Exist._doc._id }, "Aeiou.123");
+          const token = await jwt.sign({ id: Exist._doc._id }, "Aeiou.123", { expiresIn: '1h' });
           res.json({
             token,
-            // user: {
-            //   username: Exist._doc.username,
-            //   email: Exist._doc.email,
-            // },
             status: true,
           });
         } else {
@@ -347,9 +343,9 @@ exports.adminLogin = async (req, res) => {
       // const verify = await bcrypt.compare(req.body.password, Exist._doc.password);
 
       if (Exist._doc.password == req.body.password) {
-        const token = await jwt.sign({ id: Exist._doc._id }, "admin");
+        const adminToken = await jwt.sign({ id: Exist._doc._id }, "admin", { expiresIn: '1h' });
         res.json({
-          token,
+          adminToken,
           status: true,
         });
       } else {

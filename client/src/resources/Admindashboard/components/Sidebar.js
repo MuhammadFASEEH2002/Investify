@@ -33,13 +33,14 @@ import {
 import { IconType } from "react-icons";
 import { NavLink, useNavigate, } from 'react-router-dom';
 import Logo from "../../../components/Logo";
-
+import { useEffect, useState } from "react";
 
 const LinkItems = [
+  // { name: "Home", icon: FiUserCheck, link: "/admin/admin-dashboard/account-verification" },
   { name: "Account Verification", icon: FiUserCheck, link: "/admin/admin-dashboard/account-verification" },
   { name: "Listing Verification", icon: FiList, link: "/admin/admin-dashboard/listing-verification" },
   { name: "Complains", icon: FiSlash },
-  { name: "Log Out", icon: FiLogOut },
+  { name: "Log Out", icon: FiLogOut, link:"/admin/admin-dashboard/logout" },
 ];
 const SidebarContent = ({ onClose, ...rest }) => {
   return (
@@ -107,6 +108,26 @@ const NavItem = ({ icon, children, link, ...rest }) => {
 
 const MobileNav = ({ onOpen, ...rest }) => {
 
+  const [admin, setAdmin] = useState([]);
+
+  const getAdmin = () => {
+    const adminToken = window.localStorage.getItem('adminToken');
+    fetch("http://127.0.0.1:3001/api/admin/get-admin", {
+      method: "GET",
+      headers: {
+        'adminToken': adminToken,
+        'Accept': "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((admin) => { setAdmin(admin.admin) })
+      .catch((err) => console.log(err));
+  };
+  useEffect(() => {
+    document.title = "Investify | Investee-Home";
+    getAdmin();
+  }, []);
 
   return (
     <Flex
@@ -146,7 +167,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
               <Avatar
                 size={"sm"}
                 src={
-                  "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
+                  "https://icons.veryicon.com/png/o/application/cloud-supervision-platform-vr10/admin-5.png"
                 }
               />
               <VStack
@@ -155,10 +176,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                 spacing="1px"
                 ml="2"
               >
-                <Text fontSize="sm">Justina Clark</Text>
-                <Text fontSize="xs" color="gray.600">
-                  Admin
-                </Text>
+                <Text fontSize="sm">{admin.username}</Text>
               </VStack>
               <Box display={{ base: "none", md: "flex" }}>
 

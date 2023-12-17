@@ -6,11 +6,12 @@ import Userlogin from "./resources/Userlogin/Userlogin";
 import Userregistration from "./resources/Userregistration/Userregistration";
 import Adminlogin from "./resources/Adminlogin/Adminlogin";
 import Investorhome from "./resources/Investordashboard/Investorhome";
-import Admindashboardaccountverification from "./resources/Admindashboard/Admindashboardaccountverification";
 import Investorbusinesscatalog from "./resources/Investordashboard/Investorbusinesscatalog";
 import Investeedashboardhome from "./resources/Investeedashboard/Investeedashboardhome";
-import Investeedashboardlistingcreation from "./resources/Investeedashboard/Investeedashboardlistingcreation";
+import Admindashboardaccountverification from "./resources/Admindashboard/Admindashboardaccountverification";
 import Admindashboardlistingverification from "./resources/Admindashboard/Admindashboardlistingverification";
+import Admindashboardlogout from "./resources/Admindashboard/Admindashboardlogout";
+import Investeedashboardlistingcreation from "./resources/Investeedashboard/Investeedashboardlistingcreation";
 import Investeedashboardlogout from "./resources/Investeedashboard/Investeedashboardlogout";
 import Investeedashboardchangepassword from "./resources/Investeedashboard/Investeedashboardchangepassword";
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/admin-login" element={<Adminlogin />} />
           <Route path="/admin/admin-dashboard/account-verification" element={<Admindashboardaccountverification />} />
           <Route path="/admin/admin-dashboard/listing-verification" element={<Admindashboardlistingverification />} />
+          <Route path="/admin/admin-dashboard/logout" element={<Admindashboardlogout />} />
           <Route path="/user-login" element={<Userlogin />} />
           <Route path="/user-registration/user-role" element={<Userrole />} />
           <Route path="/user-registration" element={<Userregistration />} />
