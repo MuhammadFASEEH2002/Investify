@@ -12,7 +12,16 @@ import {
   useToast,
   Box,
   StackDivider,
-  Link
+  Link,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
@@ -106,9 +115,10 @@ const Admindashboardlistingverification = () => {
   //     })
   //     .catch((err) => console.log(err));
   // };
+  const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
-    <Sidebar>
+      <Sidebar>
         <Box
           style={{
             display: "flex",
@@ -121,13 +131,32 @@ const Admindashboardlistingverification = () => {
           (
             <Card align="center" width={"350px"} margin={"10px"}>
               <CardHeader>
-                <Heading size="md">{item.businessName}</Heading>
+                <Heading size="md">{item.investee_id.businessName}</Heading>
               </CardHeader>
               <CardBody>
-                <Text>
-                  <span style={{ fontWeight: "bold" }}>Category : </span>
-                  {item.amount}
+                <Text noOfLines={[1, 2, 3]}>
+                  <span style={{ fontWeight: "bold" }}>Description : </span>
+                  {item.description}
+
                 </Text>
+                <Button onClick={onOpen}>Read More</Button>
+
+                <Modal onClose={onClose} isOpen={isOpen} isCentered>
+                  <ModalOverlay />
+                  <ModalContent>
+                    <ModalHeader>item.investee_id.businessName</ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                      <Text>
+                        {item.description}
+
+                      </Text>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button onClick={onClose}>Close</Button>
+                    </ModalFooter>
+                  </ModalContent>
+                </Modal>
                 <Text>
                   <span style={{ fontWeight: "bold" }}>Email : </span>
                   {item.email}
@@ -172,7 +201,7 @@ const Admindashboardlistingverification = () => {
           ))}
         </Box>
       </Sidebar>
-      </>
+    </>
   )
 }
 
