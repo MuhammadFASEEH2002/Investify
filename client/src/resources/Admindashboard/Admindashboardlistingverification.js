@@ -51,70 +51,71 @@ const Admindashboardlistingverification = () => {
       .then((data) => setListing(data.listing))
       .catch((err) => console.log(err));
   };
-  // const approveInvestee = (investeeId, investeeEmail) => {
-  //   const adminToken = window.localStorage.getItem('adminToken');
-  //   fetch("http://127.0.0.1:3001/api/admin/verify-investees", {
-  //     method: "POST",
-  //     body: JSON.stringify({
-  //       investeeId,
-  //       investeeEmail,
-  //     }),
-  //     headers: {
-  //       'token': adminToken,
-  //       'Accept': "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .then((res) => {
-  //       if (res.status) {
-  //         toast({
-  //           title: "User Approved",
-  //           description: res.message,
-  //           status: "success",
-  //           duration: 9000,
-  //           isClosable: true,
-  //         });
-  //         getInvestees();
-  //       } else {
-  //       }
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
-  // const declineInvestee = (investeeId, investeeEmail) => {
-  //   const adminToken = window.localStorage.getItem('adminToken');
-  //   fetch("http://127.0.0.1:3001/api/admin/decline-investees", {
-  //     method: "POST",
-  //     body: JSON.stringify({
-  //       investeeId,
-  //       investeeEmail,
-  //     }),
-  //     headers: {
-  //       'token': adminToken,
-  //       'Accept': "application/json",
-  //       "Content-Type": "application/json",
-  //     },
-  //   })
-  //     .then((res) => {
-  //       return res.json();
-  //     })
-  //     .then((res) => {
-  //       if (res.status) {
-  //         toast({
-  //           title: "User Declined",
-  //           description: "Reasons are mailed",
-  //           status: "error",
-  //           duration: 9000,
-  //           isClosable: true,
-  //         });
-  //         getInvestees();
-  //       } else {
-  //       }
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
+  const approveListing = (listingId, listingInvesteeEmail) => {
+    const adminToken = window.localStorage.getItem('adminToken');
+  console.log(listingInvesteeEmail)
+    fetch("http://127.0.0.1:3001/api/admin/verify-listing", {
+      method: "POST",
+      body: JSON.stringify({
+        listingId,
+        listingInvesteeEmail,
+      }),
+      headers: {
+        'token': adminToken,
+        'Accept': "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        if (res.status) {
+          toast({
+            title: "Listing Approved",
+            description: res.message,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+          });
+          getListing();
+        } else {
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+  const declineListing = (listingId, listingInvesteeEmail) => {
+    const adminToken = window.localStorage.getItem('adminToken');
+    fetch("http://127.0.0.1:3001/api/admin/decline-investees", {
+      method: "POST",
+      body: JSON.stringify({
+        investeeId,
+        investeeEmail,
+      }),
+      headers: {
+        'token': adminToken,
+        'Accept': "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        if (res.status) {
+          toast({
+            title: "User Declined",
+            description: "Reasons are mailed",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+          getInvestees();
+        } else {
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
@@ -139,7 +140,7 @@ const Admindashboardlistingverification = () => {
                   {item.description}
 
                 </Text>
-                <Button onClick={onOpen}>Read More</Button>
+                <Link onClick={onOpen} color={"blue"}>Read More</Link>
 
                 <Modal onClose={onClose} isOpen={isOpen} isCentered>
                   <ModalOverlay />
@@ -159,30 +160,22 @@ const Admindashboardlistingverification = () => {
                 </Modal>
                 <Text>
                   <span style={{ fontWeight: "bold" }}>Email : </span>
-                  {item.email}
+                  {item.investee_id.email}
                 </Text>
                 <Text>
                   <span style={{ fontWeight: "bold" }}>Address : </span>
-                  {item.address}
-                </Text>
-                <Text>
-                  <span style={{ fontWeight: "bold" }}>Zipcode : </span>
-                  {item.zipcode}
+                  {item.investee_id.address}, {item.investee_id.zipcode}, {item.investee_id.city}, {item.investee_id.country}
                 </Text>
                 <Text>
                   <span style={{ fontWeight: "bold" }}>Phone Number : </span>
-                  {item.phoneNumber}
+                  {item.investee_id.phoneNumber}
                 </Text>
-                <Text>
-                  <span style={{ fontWeight: "bold" }}>Country,City : </span>
-                  {item.country},{item.city}
-                </Text>
-                <Link href={`http://127.0.0.1:3001/investee/${item.cnicDoc}`} isExternal>Cnic<ExternalLinkIcon mx='2px' /></Link>
+               
               </CardBody>
               <CardFooter>
                 <Button colorScheme="gray" margin={"10px"}
                   onClick={() => {
-                    // declineInvestee(item._id, item.email);
+                    declineListing(item._id, item.investee_id.email);
                   }}
                 >
                   Decline
@@ -191,7 +184,7 @@ const Admindashboardlistingverification = () => {
                   colorScheme="blue"
                   margin={"10px"}
                   onClick={() => {
-                    // approveInvestee(item._id, item.email);
+                    approveListing(item._id, item.investee_id.email);
                   }}
                 >
                   Approve
