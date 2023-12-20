@@ -14,6 +14,7 @@ import Admindashboardlogout from "./resources/Admindashboard/Admindashboardlogou
 import Investeedashboardlistingcreation from "./resources/Investeedashboard/Investeedashboardlistingcreation";
 import Investeedashboardlogout from "./resources/Investeedashboard/Investeedashboardlogout";
 import Investeedashboardchangepassword from "./resources/Investeedashboard/Investeedashboardchangepassword";
+import Investeedashboardmylistings from "./resources/Investeedashboard/Investeedashboardmylistings";
 
 function App() {
   return (
@@ -43,6 +44,10 @@ function App() {
           <Route
             path="/user/investee-dashboard/listing-creation"
             element={<Investeedashboardlistingcreation />}
+          />
+              <Route
+            path="/user/investee-dashboard/investee-listings"
+            element={<Investeedashboardmylistings />}
           />
             <Route
             path="/user/investee-dashboard/password-change"

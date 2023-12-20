@@ -20,6 +20,7 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
+import "../../../css/style.css"
 import {
   FiHome,
   FiLogOut,
@@ -29,6 +30,7 @@ import {
   FiUserCheck,
   FiList,
   FiSlash
+
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { NavLink, useNavigate, } from 'react-router-dom';
@@ -38,11 +40,12 @@ import { useEffect, useState } from "react";
 const LinkItems = [
   { name: "Home", icon: FiUserCheck, link: "/user/investee-dashboard/home" },
   { name: "Create Listing", icon: FiList,  link:"/user/investee-dashboard/listing-creation" },
+  { name: "My listings", icon: FiList,  link:"/user/investee-dashboard/investee-listings" },
   { name: "Change Password", icon: FiList,  link:"/user/investee-dashboard/password-change" },
-
-  { name: "Complains", icon: FiSlash },
+  // { name: "Complains", icon: FiSlash },
   { name: "Log Out", icon: FiLogOut, link:"/user/investee-dashboard/logout"}
 ];
+
 
 const SidebarContent = ({ onClose, ...rest }) => {
   return (
@@ -63,7 +66,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} link={link.link}>
+        <NavItem key={link.name} icon={link.icon} link={link.link} >
           {link.name}
         </NavItem>
       ))}
