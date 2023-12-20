@@ -53,7 +53,7 @@ const Admindashboardlistingverification = () => {
   };
   const approveListing = (listingId, listingInvesteeEmail) => {
     const adminToken = window.localStorage.getItem('adminToken');
-  console.log(listingInvesteeEmail)
+    console.log(listingInvesteeEmail)
     fetch("http://127.0.0.1:3001/api/admin/verify-listing", {
       method: "POST",
       body: JSON.stringify({
@@ -86,11 +86,11 @@ const Admindashboardlistingverification = () => {
   };
   const declineListing = (listingId, listingInvesteeEmail) => {
     const adminToken = window.localStorage.getItem('adminToken');
-    fetch("http://127.0.0.1:3001/api/admin/decline-investees", {
+    fetch("http://127.0.0.1:3001/api/admin/decline-listing", {
       method: "POST",
       body: JSON.stringify({
-        investeeId,
-        investeeEmail,
+        listingId, 
+        listingInvesteeEmail,
       }),
       headers: {
         'token': adminToken,
@@ -106,11 +106,11 @@ const Admindashboardlistingverification = () => {
           toast({
             title: "User Declined",
             description: "Reasons are mailed",
-            status: "error",
+            status: "success",
             duration: 9000,
             isClosable: true,
           });
-          getInvestees();
+          getListing();
         } else {
         }
       })
@@ -145,7 +145,7 @@ const Admindashboardlistingverification = () => {
                 <Modal onClose={onClose} isOpen={isOpen} isCentered>
                   <ModalOverlay />
                   <ModalContent>
-                    <ModalHeader>item.investee_id.businessName</ModalHeader>
+                    <ModalHeader>{item.investee_id.businessName}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
                       <Text>
@@ -170,7 +170,7 @@ const Admindashboardlistingverification = () => {
                   <span style={{ fontWeight: "bold" }}>Phone Number : </span>
                   {item.investee_id.phoneNumber}
                 </Text>
-               
+
               </CardBody>
               <CardFooter>
                 <Button colorScheme="gray" margin={"10px"}
