@@ -17,6 +17,10 @@ const listingSchema = new mongo.Schema({
     type: Boolean,
     required: true,
   },
+  isActive: {
+    type: Boolean,
+    required: true,
+  },
   investee_id: {
     type: String,
     required: true,

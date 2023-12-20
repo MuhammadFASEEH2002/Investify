@@ -76,6 +76,7 @@ exports.changePassword = async (req, res) => {
 exports.createListing = async (req, res) => {
   try {
     const investee = await Investee.findOne({ _id: req.user });
+    const listingCount= await Listing.count({ investee_id: req.user, isActive: true })
     const descriptionWordCount = req.body.description
       .trim()
       .split(/\s+/).length;
@@ -104,13 +105,24 @@ exports.createListing = async (req, res) => {
       });
       return;
     }
-    const listing = await Listing.create({
-      investee_id: investee._id,
-      description: req.body.description,
-      profitPercentage: req.body.profitPercentage,
-      amount: req.body.amount,
-      isVerified: false,
-    });
+    if (listingCount >= 3) {
+      res.json({
+        message: "Limit of 3 active listings exceeded",
+        status: false,
+      });
+      return;
+    } else  {
+
+      const listing = await Listing.create({
+        investee_id: investee._id,
+        description: req.body.description,
+        profitPercentage: req.body.profitPercentage,
+        amount: req.body.amount,
+        isVerified: false,
+        isActive: true
+      });
+    }
+    
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -120,7 +132,7 @@ exports.createListing = async (req, res) => {
     });
     const mailOptions = await {
       from: "investify180@gmail.com",
-      to: req.body.email,
+      to: investee.email,
       subject: "Investify | Investee",
       html: "<h1>The listing you created is awaiting approval</h1> <p>Approval may take upto 2 to 3 days by the Admin.</p> <p>Regards,</p><p>Investify</p>",
     };
