@@ -213,7 +213,7 @@ const Investeedashboardchangepassword = () => {
               size={{ base: "md", md: "md", lg: "lg" }}
               onClick={changePassword}
             >
-              Create Listing
+              Update Password
             </Button>
           </Stack>
         </HStack>
