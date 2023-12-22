@@ -15,6 +15,7 @@ import Investeedashboardlistingcreation from "./resources/Investeedashboard/Inve
 import Investeedashboardlogout from "./resources/Investeedashboard/Investeedashboardlogout";
 import Investeedashboardchangepassword from "./resources/Investeedashboard/Investeedashboardchangepassword";
 import Investeedashboardmylistings from "./resources/Investeedashboard/Investeedashboardmylistings";
+import Investeedashboardlistinghistory from "./resources/Investeedashboard/Investeedashboardlistinghistory";
 
 function App() {
   return (
@@ -45,11 +46,15 @@ function App() {
             path="/user/investee-dashboard/listing-creation"
             element={<Investeedashboardlistingcreation />}
           />
-              <Route
+          <Route
             path="/user/investee-dashboard/investee-listings"
             element={<Investeedashboardmylistings />}
           />
-            <Route
+                <Route
+            path="/user/investee-dashboard/investee-listing-history"
+            element={<Investeedashboardlistinghistory />}
+          />
+          <Route
             path="/user/investee-dashboard/password-change"
             element={<Investeedashboardchangepassword />}
           />
