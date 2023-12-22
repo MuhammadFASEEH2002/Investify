@@ -153,7 +153,7 @@ exports.createListing = async (req, res) => {
 exports.getMyListings = async (req, res) => {
   try {
     // const investee = await Investee.findOne({ _id: req.user });
-    const listing= await Listing.find({ investee_id: req.user, isActive: true }).populate("investee_id")
+    const listing= await Listing.find({ investee_id: req.user, isActive: true, isVerified: true }).populate("investee_id")
     // const listing = await Listing.find({ isVerified: false }).populate(
     //   "investee_id"
     // );
