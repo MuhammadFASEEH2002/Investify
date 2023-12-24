@@ -22,6 +22,7 @@ import {
 const Investeedashboardlistingcreation = () => {
   const [description, setDescription] = useState("");
   const [profitPercentage, setProfitPercentage] = useState("");
+  const [investmentDuration, setInvestmentDuration] = useState("");
   const [amount, setAmount] = useState("");
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
@@ -31,16 +32,16 @@ const Investeedashboardlistingcreation = () => {
 
   const createListing = () => {
     const token = window.localStorage.getItem('token');
-    console.log({
-      description, profitPercentage, amount
-    });
+    // console.log({
+    //   description, profitPercentage, amount
+    // });
     if (
-      description && profitPercentage && amount
+      description && profitPercentage && amount && investmentDuration
     ) {
       fetch("http://127.0.0.1:3001/api/investee/create-listing", {
         method: "POST",
         body:  JSON.stringify({
-         description, profitPercentage, amount
+         description, profitPercentage, amount,investmentDuration
         }),
            headers: {
             'token': token,
@@ -128,7 +129,20 @@ const Investeedashboardlistingcreation = () => {
                 />
               </Stack>
             </HStack>
-
+            <HStack width={"100%"}>
+              <Stack width={"100%"}>
+                <Text>Investment Duration</Text>
+                <Input
+                  type="number"
+                  placeholder="Enter the duration of investment in years"
+                  width={"90%"}
+                  variant={"filled"}
+                  border={"0.5px solid grey"}
+                  isRequired
+                  onChange={(event) => handleInputChange(event, setInvestmentDuration)}
+                />
+              </Stack>
+            </HStack>
             <HStack width={"100%"}>
               <Stack width={"100%"}>
                 <Text>Amount Required</Text>

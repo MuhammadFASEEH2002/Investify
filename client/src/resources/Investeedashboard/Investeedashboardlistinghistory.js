@@ -52,7 +52,7 @@ const Investeedashboardlistinghistory = () => {
         .catch((err) => console.log(err));
     };
     const { isOpen, onOpen, onClose } = useDisclosure()
-  
+   
     return (
       <>
       <Sidebar>

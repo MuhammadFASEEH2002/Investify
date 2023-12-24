@@ -13,6 +13,14 @@ const listingSchema = new mongo.Schema({
     type: String,
     required: true,
   },
+  investmentDuration: {
+    type:String,
+    required: true,
+  },
+  // investmentDurationCompleted:{
+  //   type: Boolean,
+  //   required: false,
+  // },
   isVerified: {
     type: Boolean,
     required: true,
@@ -21,11 +29,19 @@ const listingSchema = new mongo.Schema({
     type: Boolean,
     required: true,
   },
+  // gotInvestment:{
+  //   typpe:Boolean,
+  //   required: true,
+  // },
   investee_id: {
     type: String,
     required: true,
     ref : 'Investee'
   },
+  // investor_id:{
+  //   type:String,
+  //   ref: "Investor"
+  // }
   
 });
 

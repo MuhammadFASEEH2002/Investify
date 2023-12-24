@@ -50,7 +50,37 @@ const Investeedashboardmylistings = () => {
       .catch((err) => console.log(err));
   };
   const { isOpen, onOpen, onClose } = useDisclosure()
-
+  const deleteListing = (listingId, listingInvesteeEmail) => {
+    const token = window.localStorage.getItem('token');
+    fetch("http://127.0.0.1:3001/api/investee/delete-listing", {
+      method: "POST",
+      body: JSON.stringify({
+        listingId,
+        listingInvesteeEmail,
+      }),
+      headers: {
+        'token': token,
+        'Accept': "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((res) => {
+        if (res.status) {
+          toast({
+            title: "Listing Deleted",
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+          });
+          getMyListing();
+        } else {
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <>
     <Sidebar>
@@ -109,7 +139,7 @@ const Investeedashboardmylistings = () => {
               <CardFooter>
                 <Button colorScheme="gray" margin={"10px"}
                   onClick={() => {
-                    // declineListing(item._id, item.investee_id.email);
+                    deleteListing(item._id, item.investee_id.email);
                   }}
                 >
                   Delete

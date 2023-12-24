@@ -184,3 +184,33 @@ exports.getMyListingHistory = async (req, res) => {
     res.json({ message: error.message, status: false });
   }
 };
+exports.deleteListing = async (req, res) => {
+  try {
+    // const transporter = await nodemailer.createTransport({
+    //   service: "gmail",
+    //   auth: {
+    //     user: "investify180@gmail.com",
+    //     pass: "vqkr elcq xdba mnbj",
+    //   },
+    // });
+    // const mailOptions = await {
+    //   from: "investify180@gmail.com",
+    //   to: req.body.investeeEmail,
+    //   subject: "Investee account approval declined",
+    //   html: "<h1>Your Registration is declined</h1> <p> Possible reasons for your request disapproval can be </p> <ul><li></li></ul> <p>Regards,</p><p>Investify</p>",
+    // };
+    // await transporter.sendMail(mailOptions, (error, info) => {
+    //   if (error) {
+    //     console.log("Error" + error);
+    //   } else {
+    //     console.log("Email sent:" + info.response);
+    //     res.status(201).json({ status: 201, info });
+    //   }
+    // });
+    await Listing.findByIdAndUpdate({ _id: req.body.listingId },
+      { isActive: false });
+    res.json({ message: "Listing Deleted", status: true });
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};
