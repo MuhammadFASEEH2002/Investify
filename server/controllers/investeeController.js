@@ -167,3 +167,20 @@ exports.getMyListings = async (req, res) => {
     res.json({ message: error.message, status: false });
   }
 };
+exports.getMyListingHistory = async (req, res) => {
+  try {
+    // const investee = await Investee.findOne({ _id: req.user });
+    const listing= await Listing.find({ investee_id: req.user, isActive: false, isVerified: true }).populate("investee_id")
+    // const listing = await Listing.find({ isVerified: false }).populate(
+    //   "investee_id"
+    // );
+    if (listing) {
+      res.json({
+        status: true,
+        listing,
+      });
+    }
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};

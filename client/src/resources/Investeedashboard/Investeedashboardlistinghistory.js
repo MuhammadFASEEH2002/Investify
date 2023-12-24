@@ -1,4 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import Sidebar from './components/Sidebar'
+import {
+  HStack,
+  Heading,
+  Stack,
+  Text,
+  Button,
+  Input,
+  InputGroup,
+  InputRightElement,
+  useToast,
+  Box,
+  StackDivider,
+  Link,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+
+} from "@chakra-ui/react";
+import { ExternalLinkIcon } from '@chakra-ui/icons'
+import { Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
+
 
 const Investeedashboardlistinghistory = () => {
     const toast = useToast();
@@ -11,7 +39,7 @@ const Investeedashboardlistinghistory = () => {
     const getMyListing = () => {
       const adminToken = window.localStorage.getItem('token');
   
-      fetch("http://127.0.0.1:3001/api/investee/get-my-listings", {
+      fetch("http://127.0.0.1:3001/api/investee/get-my-listing-history", {
         method: "GET",
         headers: {
           'token': adminToken,
@@ -80,24 +108,7 @@ const Investeedashboardlistinghistory = () => {
                   </Text>
   
                 </CardBody>
-                <CardFooter>
-                  <Button colorScheme="gray" margin={"10px"}
-                    onClick={() => {
-                      // declineListing(item._id, item.investee_id.email);
-                    }}
-                  >
-                    Delete
-                  </Button>
-                  <Button
-                    colorScheme="blue"
-                    margin={"10px"}
-                    onClick={() => {
-                      // approveListing(item._id, item.investee_id.email);
-                    }}
-                  >
-                    Edit
-                  </Button>
-                </CardFooter>
+           
               </Card>
             ))}
           </Box>
