@@ -12,38 +12,28 @@ import {
   Drawer,
   DrawerContent,
   useDisclosure,
-  BoxProps,
-  FlexProps,
   Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
 } from "@chakra-ui/react";
 import "../../../css/style.css"
 import {
-  FiHome,
   FiLogOut,
   FiMenu,
-  FiBell,
-  FiChevronDown,
   FiUserCheck,
   FiList,
-  FiSlash
-
+  FiEdit,
+  FiLock
 } from "react-icons/fi";
-import { IconType } from "react-icons";
-import { NavLink, useNavigate, } from 'react-router-dom';
+// import { IconType } from "react-icons";
+import { NavLink} from 'react-router-dom';
 import Logo from "../../../components/Logo";
 import { useEffect, useState } from "react";
 
 const LinkItems = [
   { name: "Home", icon: FiUserCheck, link: "/user/investee-dashboard/home" },
-  { name: "Create Listing", icon: FiList,  link:"/user/investee-dashboard/listing-creation" },
+  { name: "Create Listing", icon: FiEdit,  link:"/user/investee-dashboard/listing-creation" },
   { name: "My Listings", icon: FiList,  link:"/user/investee-dashboard/investee-listings" },
   { name: "Listing History", icon: FiList,  link:"/user/investee-dashboard/investee-listing-history" },
-
-  { name: "Change Password", icon: FiList,  link:"/user/investee-dashboard/password-change" },
+  { name: "Change Password", icon: FiLock,  link:"/user/investee-dashboard/password-change" },
   // { name: "Complains", icon: FiSlash },
   { name: "Log Out", icon: FiLogOut, link:"/user/investee-dashboard/logout"}
 ];

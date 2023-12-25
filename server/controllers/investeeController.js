@@ -105,6 +105,14 @@ exports.createListing = async (req, res) => {
       });
       return;
     }
+    const Duration = /^[1-3]$/;
+    if (!Duration.test(req.body.investmentDuration)) {
+      res.json({
+        message: "Investment duration can only be of 1 to 3 years",
+        status: false,
+      });
+      return;
+    }
     if (listingCount >= 3) {
       res.json({
         message: "Limit of 3 active listings exceeded",
@@ -117,6 +125,92 @@ exports.createListing = async (req, res) => {
         investee_id: investee._id,
         description: req.body.description,
         profitPercentage: req.body.profitPercentage,
+        investmentDuration: req.body.investmentDuration,
+        amount: req.body.amount,
+        isVerified: false,
+        isActive: true
+      });
+    }
+    
+    const transporter = await nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "investify180@gmail.com",
+        pass: "vqkr elcq xdba mnbj",
+      },
+    });
+    const mailOptions = await {
+      from: "investify180@gmail.com",
+      to: investee.email,
+      subject: "Investify | Investee",
+      html: "<h1>The listing you created is awaiting approval</h1> <p>Approval may take upto 2 to 3 days by the Admin.</p> <p>Regards,</p><p>Investify</p>",
+    };
+    await transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log("Error" + error);
+      } else {
+        console.log("Email sent:" + info.response);
+        // res.json({ status: 201, info });
+      }
+    });
+    res.json({ message: "Listing created", status: true });
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};
+exports.editListing = async (req, res) => {
+  try {
+    const investee = await Investee.findOne({ _id: req.user });
+    const listingCount= await Listing.count({ investee_id: req.user, isActive: true })
+    const descriptionWordCount = req.body.description
+      .trim()
+      .split(/\s+/).length;
+    if (descriptionWordCount < 50) {
+      res.json({
+        message: "Description should have atleast 50 words.",
+        status: false,
+      });
+      return;
+    }
+
+    const equity = /^(?:[5-9]|1\d|2[0-9]|30)$/;
+    if (!equity.test(req.body.profitPercentage)) {
+      res.json({
+        message: "Equity should be between 5 - 30",
+        status: false,
+      });
+      return;
+    }
+
+    const investmentAmount = /^(1[0-9]|2[0-4])\d{3}$|^25000$/;
+    if (!investmentAmount.test(req.body.amount)) {
+      res.json({
+        message: "Investment amount should be betweeen 10,000- 25,000",
+        status: false,
+      });
+      return;
+    }
+    const Duration = /^[1-3]$/;
+    if (!Duration.test(req.body.investmentDuration)) {
+      res.json({
+        message: "Investment duration can only be of 1 to 3 years",
+        status: false,
+      });
+      return;
+    }
+    if (listingCount >= 3) {
+      res.json({
+        message: "Limit of 3 active listings exceeded",
+        status: false,
+      });
+      return;
+    } else  {
+
+      const listing = await Listing.findByIdAndUpdate({
+        
+        description: req.body.description,
+        profitPercentage: req.body.profitPercentage,
+        investmentDuration: req.body.investmentDuration,
         amount: req.body.amount,
         isVerified: false,
         isActive: true

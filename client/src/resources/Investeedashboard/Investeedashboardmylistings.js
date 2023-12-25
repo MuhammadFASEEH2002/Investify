@@ -21,19 +21,85 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-
+Textarea,
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 const Investeedashboardmylistings = () => {
   const toast = useToast();
-
+  const navigate=useNavigate();
+  const [description, setDescription] = useState("");
+  const [profitPercentage, setProfitPercentage] = useState("");
+  const [investmentDuration, setInvestmentDuration] = useState("");
+  const [amount, setAmount] = useState("");
+  const handleInputChange = (event, setState) => {
+    setState(event.target.value);
+  };
   const [listing, setListing] = useState([]);
   useEffect(() => {
     document.title = "Investify | Admin-Account Verification";
     getMyListing();
   }, []);
+  const editListing = () => {
+    const token = window.localStorage.getItem('token');
+    // console.log({
+    //   description, profitPercentage, amount
+    // });
+    if (
+      description && profitPercentage && amount && investmentDuration
+    ) {
+      fetch("http://127.0.0.1:3001/api/investee/create-listing", {
+        method: "POST",
+        body:  JSON.stringify({
+         description, profitPercentage, amount,investmentDuration
+        }),
+           headers: {
+            'token': token,
+            'Accept': "application/json",
+            "Content-Type": "application/json",
+          },
+ 
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          if (res.status) {
+            toast({
+              title: "Listing Created",
+              description: "Awaiting for admin approval",
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+              position: "top",
+            });
+            navigate("/user/investee-dashboard/home");
+          } else {
+            // alert(res.message);
+            toast({
+              title: "Authentication Error",
+              description: res.message,
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+              position: "top",
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+    else {
+      toast({
+        title: "Fields Are Empty",
+        description: "Kindly fill all the fields with correct data",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
   const getMyListing = () => {
     const adminToken = window.localStorage.getItem('token');
 
@@ -49,7 +115,11 @@ const Investeedashboardmylistings = () => {
       .then((data) => setListing(data.listing))
       .catch((err) => console.log(err));
   };
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  // const { isOpen, onOpen, onClose } = useDisclosure()
+  // const { isEditOpen, onEditOpen, onEditClose } = useDisclosure()
+  const { isOpen: isFirstModalOpen, onOpen: onFirstModalOpen, onClose: onFirstModalClose } = useDisclosure();
+  const { isOpen: isSecondModalOpen, onOpen: onSecondModalOpen, onClose: onSecondModalClose } = useDisclosure();
+
   const deleteListing = (listingId, listingInvesteeEmail) => {
     const token = window.localStorage.getItem('token');
     fetch("http://127.0.0.1:3001/api/investee/delete-listing", {
@@ -83,8 +153,8 @@ const Investeedashboardmylistings = () => {
   };
   return (
     <>
-    <Sidebar>
-    <Box
+      <Sidebar>
+        <Box
           style={{
             display: "flex",
             flexWrap: "wrap",
@@ -104,9 +174,9 @@ const Investeedashboardmylistings = () => {
                   {item.description}
 
                 </Text>
-                <Link onClick={onOpen} color={"blue"}>Read More</Link>
+                <Link onClick={onFirstModalOpen} color={"blue"}>Read More</Link>
 
-                <Modal onClose={onClose} isOpen={isOpen} isCentered>
+                <Modal onClose={onFirstModalClose} isOpen={isFirstModalOpen} isCentered>
                   <ModalOverlay />
                   <ModalContent>
                     <ModalHeader>{item.investee_id.businessName}</ModalHeader>
@@ -118,7 +188,7 @@ const Investeedashboardmylistings = () => {
                       </Text>
                     </ModalBody>
                     <ModalFooter>
-                      <Button onClick={onClose}>Close</Button>
+                      <Button onClick={onFirstModalClose}>Close</Button>
                     </ModalFooter>
                   </ModalContent>
                 </Modal>
@@ -147,17 +217,105 @@ const Investeedashboardmylistings = () => {
                 <Button
                   colorScheme="blue"
                   margin={"10px"}
-                  onClick={() => {
-                    // approveListing(item._id, item.investee_id.email);
-                  }}
+                  onClick={onSecondModalOpen}
                 >
                   Edit
                 </Button>
+                <Modal onClose={onSecondModalClose} isOpen={isSecondModalOpen} isCentered>
+                  <ModalOverlay />
+                  <ModalContent>
+                    <ModalCloseButton />
+                    <ModalBody>
+                      <HStack
+                        width={"100%"}
+                        flexDirection={{ base: "column", md: "row", lg: "row" }}
+                        spacing={"0px"}
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                      >
+                        <Stack width={{ base: "100%", md: "50%", lg: "50%" }} spacing={"0px"} alignItems={"center"} justifyContent={"center"}>
+                          <HStack width={"100%"}>
+                            <Stack width={"100%"}>
+                              <Text>Business Description</Text>
+                              <Textarea
+                                placeholder="Describe your business in not more than 200 words."
+                                width={"90%"}
+                                variant={"filled"}
+                                border={"0.5px solid grey"}
+                                value={item.description}
+                                onChange={(event) =>
+                                  handleInputChange(event, setDescription)
+                                }
+                                isRequired
+                              />
+                            </Stack>
+                          </HStack>
+                          <HStack width={"100%"}>
+                            <Stack width={"100%"}>
+                              <Text>Profit Share Percentage</Text>
+                              <Input
+                                type="number"
+                                placeholder="should not be more than 30%"
+                                width={"90%"}
+                                variant={"filled"}
+                                border={"0.5px solid grey"}
+                                isRequired
+                                onChange={(event) => handleInputChange(event, setProfitPercentage)}
+                              />
+                            </Stack>
+                          </HStack>
+                          <HStack width={"100%"}>
+                            <Stack width={"100%"}>
+                              <Text>Investment Duration</Text>
+                              <Input
+                                type="number"
+                                placeholder="Enter the duration of investment in years"
+                                width={"90%"}
+                                variant={"filled"}
+                                border={"0.5px solid grey"}
+                                isRequired
+                                onChange={(event) => handleInputChange(event, setInvestmentDuration)}
+                              />
+                            </Stack>
+                          </HStack>
+                          <HStack width={"100%"}>
+                            <Stack width={"100%"}>
+                              <Text>Amount Required</Text>
+                              <Input
+                                type="number"
+                                placeholder="max amount allowed is Rs 25,000"
+                                width={"90%"}
+                                variant={"filled"}
+                                border={"0.5px solid grey"}
+                                isRequired
+                                value={item}
+                                onChange={(event) => handleInputChange(event, setAmount)}
+                              />
+                            </Stack>
+                          </HStack>
+                          <Button
+                            colorScheme="teal"
+                            variant="solid"
+                            marginTop={"30px"}
+                            size={{ base: "md", md: "md", lg: "lg" }}
+                            onClick={editListing}
+                          >
+                            Edit Listing
+                          </Button>
+                        </Stack>
+
+                      </HStack>
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button onClick={onSecondModalClose}>Close</Button>
+                    </ModalFooter>
+                  </ModalContent>
+                </Modal>
               </CardFooter>
             </Card>
           ))}
         </Box>
-    </Sidebar>
+      </Sidebar>
     </>
   )
 }
