@@ -206,7 +206,7 @@ exports.editListing = async (req, res) => {
       return;
     } else  {
 
-      const listing = await Listing.findByIdAndUpdate({
+      const listing = await Listing.findByIdAndUpdate({_id: req.body.listingId },{
         
         description: req.body.description,
         profitPercentage: req.body.profitPercentage,
