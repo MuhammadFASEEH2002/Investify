@@ -41,7 +41,7 @@ const Investeedashboardmylistings = () => {
     document.title = "Investify | Admin-Account Verification";
     getMyListing();
   }, []);
-  const editListing = () => {
+  const editListing = (listingId, listingInvesteeEmail) => {
     const token = window.localStorage.getItem('token');
     // console.log({
     //   description, profitPercentage, amount
@@ -49,10 +49,10 @@ const Investeedashboardmylistings = () => {
     if (
       description && profitPercentage && amount && investmentDuration
     ) {
-      fetch("http://127.0.0.1:3001/api/investee/create-listing", {
-        method: "POST",
+      fetch("http://127.0.0.1:3001/api/investee/edit-listing", {
+        method: "PUT",
         body:  JSON.stringify({
-         description, profitPercentage, amount,investmentDuration
+         description, profitPercentage, amount,investmentDuration, listingId, listingInvesteeEmail
         }),
            headers: {
             'token': token,
@@ -218,10 +218,11 @@ const Investeedashboardmylistings = () => {
                   colorScheme="blue"
                   margin={"10px"}
                   onClick={onSecondModalOpen}
+                  
                 >
                   Edit
                 </Button>
-                <Modal onClose={onSecondModalClose} isOpen={isSecondModalOpen} isCentered>
+                <Modal onClose={onSecondModalClose} isOpen={isSecondModalOpen} size={"full"} isCentered>
                   <ModalOverlay />
                   <ModalContent>
                     <ModalCloseButton />
@@ -259,6 +260,7 @@ const Investeedashboardmylistings = () => {
                                 width={"90%"}
                                 variant={"filled"}
                                 border={"0.5px solid grey"}
+                                value={item.profitPercentage}
                                 isRequired
                                 onChange={(event) => handleInputChange(event, setProfitPercentage)}
                               />
@@ -273,6 +275,7 @@ const Investeedashboardmylistings = () => {
                                 width={"90%"}
                                 variant={"filled"}
                                 border={"0.5px solid grey"}
+                                value={item.investmentDuration}
                                 isRequired
                                 onChange={(event) => handleInputChange(event, setInvestmentDuration)}
                               />
@@ -288,7 +291,8 @@ const Investeedashboardmylistings = () => {
                                 variant={"filled"}
                                 border={"0.5px solid grey"}
                                 isRequired
-                                value={item}
+                                value={item.amount}
+                            
                                 onChange={(event) => handleInputChange(event, setAmount)}
                               />
                             </Stack>
@@ -298,7 +302,7 @@ const Investeedashboardmylistings = () => {
                             variant="solid"
                             marginTop={"30px"}
                             size={{ base: "md", md: "md", lg: "lg" }}
-                            onClick={editListing}
+                            onClick={()=>{editListing(item._id,item.investee_id.email)}}
                           >
                             Edit Listing
                           </Button>
