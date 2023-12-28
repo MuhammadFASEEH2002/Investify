@@ -47,7 +47,15 @@ const Investeeregistration = () => {
   const handleConfirmPasswordClick = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const cnicRegex = /^\d{13}$/;
+  const phoneNumberRegex =  /^0\d{10}$/;
+  const zipcodeRegex = /^\d{5}$/;
+  const businessNameRegex = /^[a-zA-Z0-9\s]+$/;
+  const passwordRegex = /^(?=.*[A-Za-z0-9])(?!.*\s).{8,}$/;
+
   const register = () => {
+
     const formData = new FormData()
     formData.append('file', file)
     formData.append('businessName', businessName);
@@ -86,6 +94,67 @@ const Investeeregistration = () => {
       selectedCategory &&
       checkbox && file
     ) {
+      if (!emailRegex.test(email)) {
+       
+        toast({
+          title: "Invalid Email Address Format",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+       return
+      }
+      if (!cnicRegex.test(cnic)) {
+        toast({
+          title: "Invalid Format of CNIC or not in 13 digits",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+        return
+      }  
+      if (!phoneNumberRegex.test(phoneNumber)) {  
+        toast({
+          title: "Invalid Phone Number",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });    
+        return 
+      }
+      if (!zipcodeRegex.test(zipcode)) {    
+        toast({
+          title: "Invalid Zipcode.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+        return 
+      }
+      if (!businessNameRegex.test(businessName)) {
+        toast({
+          title: "Inappropriate name for a business",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+        return 
+      }
+      if (!passwordRegex.test(password)) {
+        toast({
+          title: "Password should have minimum 8 characters. No spaces allowed and at least 1 alphabet or letter is compulsory",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+        return
+      } 
       if (password === confirmPassword) {
         fetch("http://127.0.0.1:3001/api/auth/investee-registration", {
           method: "POST",
