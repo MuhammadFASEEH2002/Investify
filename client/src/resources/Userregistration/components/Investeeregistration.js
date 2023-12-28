@@ -145,7 +145,7 @@ const Investeeregistration = () => {
         });
         return 
       }
-      if (!passwordRegex.test(password)) {
+      if (!passwordRegex.test(password) || !passwordRegex.test(confirmPassword) ) {
         toast({
           title: "Password should have minimum 8 characters. No spaces allowed and at least 1 alphabet or letter is compulsory",
           status: "error",

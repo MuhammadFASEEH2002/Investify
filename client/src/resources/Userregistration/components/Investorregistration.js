@@ -37,6 +37,11 @@ const Investorregistration = () => {
   const handleCheckboxChange = (event, setState) => {
     setState(event.target.checked);
   };
+  const nameRegex = /^[A-Za-z]+$/;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const cnicRegex = /^\d{13}$/;
+  const phoneNumberRegex =  /^0\d{10}$/;
+  const passwordRegex = /^(?=.*[A-Za-z0-9])(?!.*\s).{8,}$/;
   const handlePasswordClick = () => setShowPassword(!showPassword);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const handleConfirmPasswordClick = () =>
@@ -54,6 +59,62 @@ const Investorregistration = () => {
       checkbox &&
       selectedCountry
     ) {
+      if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
+        
+        toast({
+          title: "Inappropriate First Name or Last Name",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+        return
+      }
+  
+      if (!emailRegex.test(email)) {
+         
+        toast({
+          title: "Invalid Email Address",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+        return
+      }
+      if (!cnicRegex.test(cnic)) {  
+        toast({
+          title: "Invalid Format of CNIC or not in 13 digits",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+        return 
+      }
+  
+      if (!phoneNumberRegex.test(phoneNumber)) {
+        toast({
+          title: "Invalid Phone Number",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });    
+        return
+      }
+  
+      if (!passwordRegex.test(password) || !passwordRegex.test(confirmPassword) ) {
+        toast({
+          title: "Invalid Password",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+        return 
+      }
+  
       if (password === confirmPassword) {
         fetch("http://127.0.0.1:3001/api/auth/investor-registration", {
           method: "POST",
