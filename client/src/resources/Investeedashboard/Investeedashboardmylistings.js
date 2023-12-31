@@ -208,7 +208,7 @@ const Investeedashboardmylistings = () => {
                 </Text>
                 <Text>
                   <span style={{ fontWeight: "bold" }}>Investment Duration : </span>
-                  {item.investmentDuration}
+                  {item.investmentDuration} year
                 </Text>
                 <Text>
                   <span style={{ fontWeight: "bold" }}>Email : </span>
