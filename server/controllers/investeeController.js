@@ -161,7 +161,7 @@ exports.createListing = async (req, res) => {
 exports.editListing = async (req, res) => {
   try {
     const investee = await Investee.findOne({ _id: req.user });
-    const listingCount= await Listing.count({ investee_id: req.user, isActive: true })
+    // const listingCount= await Listing.count({ investee_id: req.user, isActive: true })
     const descriptionWordCount = req.body.description
       .trim()
       .split(/\s+/).length;
@@ -198,13 +198,13 @@ exports.editListing = async (req, res) => {
       });
       return;
     }
-    if (listingCount >= 3) {
-      res.json({
-        message: "Limit of 3 active listings exceeded",
-        status: false,
-      });
-      return;
-    } else  {
+    // if (listingCount >= 3) {
+    //   res.json({
+    //     message: "Limit of 3 active listings exceeded",
+    //     status: false,
+    //   });
+    //   return;
+    // } else  {
 
       const listing = await Listing.findByIdAndUpdate({_id: req.body.listingId },{
         
@@ -215,7 +215,7 @@ exports.editListing = async (req, res) => {
         isVerified: false,
         isActive: true
       });
-    }
+    // }
     
     const transporter = await nodemailer.createTransport({
       service: "gmail",
