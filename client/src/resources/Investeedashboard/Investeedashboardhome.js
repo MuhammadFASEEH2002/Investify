@@ -28,7 +28,7 @@ const Investeedashboardhome = () => {
       <Sidebar>
         <Card>
           <CardHeader>
-            <Heading size='md'>User Details</Heading>
+            <Heading size='md'>Business Profile</Heading>
           </CardHeader>
 
           <CardBody>

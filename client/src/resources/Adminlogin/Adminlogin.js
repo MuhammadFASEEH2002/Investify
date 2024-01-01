@@ -145,6 +145,11 @@ const Adminlogin = () => {
                       onChange={(event) =>
                         handleInputChange(event, setPassword)
                       }
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter") {
+                          adminLogin()
+                        }
+                      }}
                     />
                     <InputRightElement width="4.5rem">
                       <Button h="1.75rem" size="sm" onClick={handleClick}>
