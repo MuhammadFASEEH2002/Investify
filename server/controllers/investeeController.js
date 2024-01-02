@@ -19,6 +19,19 @@ exports.getMe = async (req, res) => {
     res.json({ message: error.message, status: false });
   }
 };
+exports.updateMe = async (req, res) => {
+  try {
+    const investee = await Investee.findOne({ _id: req.user });
+    if (Investee) {
+      // res.json({
+      //   status: true,
+      //   investee,
+      // });
+    }
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};
 // exports.getListing = async (req, res) => {
 //   try {
 //     const listing = await Listing.find({ isVerified: false }).populate(

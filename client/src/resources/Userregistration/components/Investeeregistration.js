@@ -416,9 +416,8 @@ const Investeeregistration = () => {
               </Select>
             </Stack>
             <Stack width={"50%"}>
-              <Text>Category</Text>
+              <Text>File Upload</Text>
               <Input
-                placeholder="Select Date and Time"
                 size="md"
                 type="file"
                 width={"90%"}

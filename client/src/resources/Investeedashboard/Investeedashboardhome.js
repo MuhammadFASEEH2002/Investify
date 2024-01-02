@@ -1,9 +1,27 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from "./components/Sidebar";
-import { Card, CardHeader, CardBody, CardFooter, Heading, Box, Stack, StackDivider, Text, Button, ButtonGroup, Divider } from '@chakra-ui/react'
+import {
+  Card, CardHeader, CardBody, CardFooter, Heading, Box, Stack, StackDivider, Text, Button, ButtonGroup, Divider, Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Textarea,
+  Input,
+} from '@chakra-ui/react'
 
 const Investeedashboardhome = () => {
   const [investee, setInvestee] = useState([]);
+  const [address, setAddress] = useState("");
+  const [zipcode, setZipcode] = useState("");
+  const { isOpen: isFirstModalOpen, onOpen: onFirstModalOpen, onClose: onFirstModalClose } = useDisclosure();
+  const handleInputChange = (event, setState) => {
+    setState(event.target.value);
+  };
+
 
   const getUser = () => {
     const token = window.localStorage.getItem('token');
@@ -23,6 +41,11 @@ const Investeedashboardhome = () => {
     document.title = "Investify | Investee-Home";
     getUser();
   }, []);
+  const openEditModal = (investee) => {
+    setAddress(investee.address);
+    setZipcode(investee.zipcode);
+    onFirstModalOpen();
+  };
   return (
     <>
       <Sidebar>
@@ -70,12 +93,58 @@ const Investeedashboardhome = () => {
           <Divider />
           <CardFooter>
             <ButtonGroup spacing='2'>
-              <Button variant='solid' colorScheme='blue'>
+              <Button variant='solid' colorScheme='blue' onClick={() => openEditModal(investee)}>
                 Edit Details
               </Button>
             </ButtonGroup>
           </CardFooter>
         </Card>
+        <Modal onClose={onFirstModalClose} isOpen={isFirstModalOpen} isCentered>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader></ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+
+              <Text>Address</Text>
+              <Input
+                type="text"
+                placeholder="e.g: Plot no, street number, area."
+                width={"90%"}
+                variant={"filled"}
+                border={"0.5px solid grey"}
+                value={address}
+                isRequired
+                onChange={(event) => handleInputChange(event, setAddress)}
+              />
+              <Text>Zip Code</Text>
+              <Input
+                type="number"
+                placeholder="e.g 74600"
+                width={"90%"}
+                variant={"filled"}
+                border={"0.5px solid grey"}
+                value={zipcode}
+
+                isRequired
+                onChange={(event) => handleInputChange(event, setZipcode)}
+              />
+            <Button
+              colorScheme="teal"
+              variant="solid"
+              marginTop={"30px"}
+              size={{ base: "md", md: "md", lg: "lg" }}
+              onClick={() => {}}
+            >
+              Edit Listing
+            </Button>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button onClick={onFirstModalClose}>Close</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </Sidebar>
     </>
   )
