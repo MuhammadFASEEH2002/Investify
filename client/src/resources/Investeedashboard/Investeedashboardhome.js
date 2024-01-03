@@ -11,7 +11,10 @@ import {
   useDisclosure,
   Textarea,
   Input,
+  useToast
 } from '@chakra-ui/react'
+import { useNavigate } from "react-router-dom";
+
 
 const Investeedashboardhome = () => {
   const [investee, setInvestee] = useState([]);
@@ -22,7 +25,8 @@ const Investeedashboardhome = () => {
     setState(event.target.value);
   };
 
-
+  const toast = useToast();
+  const navigate = useNavigate();
   const getUser = () => {
     const token = window.localStorage.getItem('token');
     fetch("http://127.0.0.1:3001/api/investee/get-user", {
@@ -45,6 +49,62 @@ const Investeedashboardhome = () => {
     setAddress(investee.address);
     setZipcode(investee.zipcode);
     onFirstModalOpen();
+  };
+  const updateProfile = () => {
+    const token = window.localStorage.getItem("token");
+
+    if (
+address && zipcode
+    ) {
+        fetch("http://127.0.0.1:3001/api/investee/edit-user", {
+          method: "PUT",
+          body: JSON.stringify({
+         address, zipcode
+          }),
+          headers: {
+            token: token,
+            'Accept': "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+          .then((res) => {
+            return res.json();
+          })
+          .then((res) => {
+            if (res.status) {
+              toast({
+                title: "Profile Updated",
+                description: "Waiting for Admin to verify your profile",
+                status: "success",
+                duration: 9000,
+                isClosable: true,
+                position: "top",
+              });
+              navigate("/user/investee-dashboard/logout");
+            } else {
+              // alert(res.message);
+              toast({
+                title: "Authentication Error",
+                description: res.message,
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+                position: "top",
+              });
+            }
+          })
+          .catch((err) => console.log(err));
+      } 
+    else {
+      toast({
+        title: "Fields Are Empty",
+        description: "Kindly fill all the fields with correct data",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        position: "top",
+      });
+    }
   };
   return (
     <>
@@ -94,7 +154,7 @@ const Investeedashboardhome = () => {
           <CardFooter>
             <ButtonGroup spacing='2'>
               <Button variant='solid' colorScheme='blue' onClick={() => openEditModal(investee)}>
-                Edit Details
+                Edit Profile
               </Button>
             </ButtonGroup>
           </CardFooter>
@@ -134,9 +194,9 @@ const Investeedashboardhome = () => {
               variant="solid"
               marginTop={"30px"}
               size={{ base: "md", md: "md", lg: "lg" }}
-              onClick={() => {}}
+              onClick={() => {updateProfile()}}
             >
-              Edit Listing
+              Edit Profile
             </Button>
             </ModalBody>
 

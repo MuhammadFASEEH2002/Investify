@@ -22,11 +22,30 @@ exports.getMe = async (req, res) => {
 exports.updateMe = async (req, res) => {
   try {
     const investee = await Investee.findOne({ _id: req.user });
-    if (Investee) {
-      // res.json({
-      //   status: true,
-      //   investee,
-      // });
+    const listingCount = await Listing.count({ investee_id: req.user, isActive: true })
+
+    if (listingCount == 0) {
+      const zipcodeRegex = /^\d{5}$/;
+      if (!zipcodeRegex.test(req.body.zipcode)) {
+        res.json({
+          message: "Invalid Zip code",
+          status: false,
+        });
+        return;
+      }
+      await Investee.findByIdAndUpdate(
+        { _id: investee._id },
+        {
+          address: req.body.address,
+          zipcode: req.body.zipcode,
+          isVerified: false
+        }
+      );
+    res.json({ message: "Listing Updated", status: true });
+
+    } else {
+      res.json({ message: "you cannot edit your profile with active listings", status: false });
+
     }
   } catch (error) {
     res.json({ message: error.message, status: false });
@@ -60,7 +79,7 @@ exports.changePassword = async (req, res) => {
     const investee = await Investee.findOne({ _id: req.user });
     if (await bcrypt.compare(req.body.oldPassword, investee.password)) {
       const passwordRegex = /^(?=.*[A-Za-z0-9])(?!.*\s).{8,}$/;
-        if(!passwordRegex.test(req.body.newPassword)) {
+      if (!passwordRegex.test(req.body.newPassword)) {
         res.json({
           message:
             "Password should have minimum 8 characters. No spaces allowed and at least 1 alphabet or letter is compulsory",
@@ -89,7 +108,7 @@ exports.changePassword = async (req, res) => {
 exports.createListing = async (req, res) => {
   try {
     const investee = await Investee.findOne({ _id: req.user });
-    const listingCount= await Listing.count({ investee_id: req.user, isActive: true })
+    const listingCount = await Listing.count({ investee_id: req.user, isActive: true })
     const descriptionWordCount = req.body.description
       .trim()
       .split(/\s+/).length;
@@ -132,7 +151,7 @@ exports.createListing = async (req, res) => {
         status: false,
       });
       return;
-    } else  {
+    } else {
 
       const listing = await Listing.create({
         investee_id: investee._id,
@@ -144,7 +163,7 @@ exports.createListing = async (req, res) => {
         isActive: true
       });
     }
-    
+
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -219,17 +238,17 @@ exports.editListing = async (req, res) => {
     //   return;
     // } else  {
 
-      const listing = await Listing.findByIdAndUpdate({_id: req.body.listingId },{
-        
-        description: req.body.description,
-        profitPercentage: req.body.profitPercentage,
-        investmentDuration: req.body.investmentDuration,
-        amount: req.body.amount,
-        isVerified: false,
-        isActive: true
-      });
+    const listing = await Listing.findByIdAndUpdate({ _id: req.body.listingId }, {
+
+      description: req.body.description,
+      profitPercentage: req.body.profitPercentage,
+      investmentDuration: req.body.investmentDuration,
+      amount: req.body.amount,
+      isVerified: false,
+      isActive: true
+    });
     // }
-    
+
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -260,7 +279,7 @@ exports.editListing = async (req, res) => {
 exports.getMyListings = async (req, res) => {
   try {
     // const investee = await Investee.findOne({ _id: req.user });
-    const listing= await Listing.find({ investee_id: req.user, isActive: true, isVerified: true }).populate("investee_id")
+    const listing = await Listing.find({ investee_id: req.user, isActive: true, isVerified: true }).populate("investee_id")
     // const listing = await Listing.find({ isVerified: false }).populate(
     //   "investee_id"
     // );
@@ -277,7 +296,7 @@ exports.getMyListings = async (req, res) => {
 exports.getMyListingHistory = async (req, res) => {
   try {
     // const investee = await Investee.findOne({ _id: req.user });
-    const listing= await Listing.find({ investee_id: req.user, isActive: false, isVerified: true }).populate("investee_id")
+    const listing = await Listing.find({ investee_id: req.user, isActive: false, isVerified: true }).populate("investee_id")
     // const listing = await Listing.find({ isVerified: false }).populate(
     //   "investee_id"
     // );
