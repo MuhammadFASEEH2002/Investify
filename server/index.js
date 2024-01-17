@@ -9,6 +9,7 @@ const PORT = 3001;
 const AuthRouter = require('./routes/authRoutes')
 const AdminRouter = require('./routes/adminRoutes')
 const InvesteeRouter = require('./routes/investeeRoutes')
+const InvestorRouter = require('./routes/investorRoutes')
 
 
 
@@ -39,6 +40,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", AuthRouter);
 app.use("/api/admin", AdminRouter);
 app.use("/api/investee", InvesteeRouter);
+app.use("/api/investor", InvestorRouter);
+
 
 
 

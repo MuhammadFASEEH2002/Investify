@@ -49,7 +49,7 @@ const Userlogin = () => {
         })
         .then((res) => {
           if (res.status) {
-            window.localStorage.setItem("token", res.token);
+            window.localStorage.setItem("token1", res.token1);
             navigate("/user/investor-dashboard/home");
           } else {
             // alert(res.message);

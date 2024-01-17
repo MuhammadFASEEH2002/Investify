@@ -283,9 +283,9 @@ exports.investorLogin = async (req, res) => {
       );
       if (verify) {
         // const token = await jwt.sign({ id: Exist._doc._id }, "mysecurepassword");
-        const token = await jwt.sign({ id: Exist._doc._id }, "Aeiou.123", { expiresIn: '1h' });
+        const token1 = await jwt.sign({ id: Exist._doc._id }, "Aeiou.123", { expiresIn: '1h' });
         res.json({
-          token,
+          token1,
           status: true,
         });
       } else {
