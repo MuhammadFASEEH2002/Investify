@@ -5,8 +5,8 @@ import Userrole from "./resources/Userrole/Userrole";
 import Userlogin from "./resources/Userlogin/Userlogin";
 import Userregistration from "./resources/Userregistration/Userregistration";
 import Adminlogin from "./resources/Adminlogin/Adminlogin";
-import Investorhome from "./resources/Investordashboard/Investorhome";
-import Investorbusinesscatalog from "./resources/Investordashboard/Investorbusinesscatalog";
+import Investordashboardhome from "./resources/Investordashboard/Investordashboardhome";
+import Investordashboardbusinesscatalog from "./resources/Investordashboard/Investordashboardbusinesscatalog";
 import Investeedashboardhome from "./resources/Investeedashboard/Investeedashboardhome";
 import Admindashboardaccountverification from "./resources/Admindashboard/Admindashboardaccountverification";
 import Admindashboardlistingverification from "./resources/Admindashboard/Admindashboardlistingverification";
@@ -16,6 +16,7 @@ import Investeedashboardlogout from "./resources/Investeedashboard/Investeedashb
 import Investeedashboardchangepassword from "./resources/Investeedashboard/Investeedashboardchangepassword";
 import Investeedashboardmylistings from "./resources/Investeedashboard/Investeedashboardmylistings";
 import Investeedashboardlistinghistory from "./resources/Investeedashboard/Investeedashboardlistinghistory";
+import Investordashboardlogout from "./resources/Investordashboard/Investordashboardlogout";
 
 function App() {
   return (
@@ -32,11 +33,15 @@ function App() {
           <Route path="/user-registration" element={<Userregistration />} />
           <Route
             path="/user/investor-dashboard/home"
-            element={<Investorhome />}
+            element={<Investordashboardhome />}
           />
           <Route
             path="/user/investor-dashboard/business-catalog"
-            element={<Investorbusinesscatalog />}
+            element={<Investordashboardbusinesscatalog />}
+          />
+            <Route
+            path="/user/investor-dashboard/logout"
+            element={<Investordashboardlogout />}
           />
           <Route
             path="/user/investee-dashboard/home"

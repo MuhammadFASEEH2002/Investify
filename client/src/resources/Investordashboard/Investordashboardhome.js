@@ -2,7 +2,7 @@ import React from 'react'
 import Sidebar from './components/Sidebar'
 
 
-const Investorhome = () => {
+const Investordashboardhome = () => {
   return (
     <>
   
@@ -15,4 +15,4 @@ const Investorhome = () => {
   )
 }
 
-export default Investorhome
+export default Investordashboardhome

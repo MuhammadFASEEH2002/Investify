@@ -29,6 +29,7 @@ import {
   FiMenu,
   FiBell,
   FiChevronDown,
+  FiLogOut
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { NavLink, } from 'react-router-dom';
@@ -53,11 +54,13 @@ import { useEffect, useState } from "react";
 // }
 
 const LinkItems = [
-  { name: "Dashboard", icon: FiHome, link: "/user/investor-dashboard/home" },
+  { name: "Home", icon: FiHome, link: "/user/investor-dashboard/home" },
   { name: "Business Catalog", icon: FiTrendingUp, link: "/user/investor-dashboard/business-catalog" },
-  { name: "My Investments", icon: FiCompass },
-  { name: "Chats", icon: FiStar },
-  { name: "Settings", icon: FiSettings },
+  // { name: "My Investments", icon: FiCompass },
+  // { name: "Chats", icon: FiStar },
+  // { name: "Settings", icon: FiSettings },
+  { name: "Log Out", icon: FiLogOut, link:"/user/investor-dashboard/logout"}
+
 ];
 
 const SidebarContent = ({ onClose, ...rest }) => {
@@ -128,17 +131,17 @@ const MobileNav = ({ onOpen, ...rest }) => {
   const [investor, setInvestor] = useState([]);
 
   const getUser = () => {
-    const token = window.localStorage.getItem('token1');
+    const token1 = window.localStorage.getItem('token1');
     fetch("http://127.0.0.1:3001/api/investor/get-user", {
       method: "GET",
       headers: {
-        'token1': token,
+        'token': token1,
         'Accept': "application/json",
         "Content-Type": "application/json",
       },
     })
       .then((res) => res.json())
-      .then((investor) => { setInvestor(investor.investor) })
+      .then((investor) => { console.log(investor); setInvestor(investor.investor); })
       .catch((err) => console.log(err));
   };
   useEffect(() => {
@@ -201,9 +204,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">{investor.firstName}</Text>
+                  <Text fontSize="sm">{investor.firstName} {investor.lastName}</Text>
                   <Text fontSize="xs" color="gray.600">
-                  {investor.firstName}
+                
                   </Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>

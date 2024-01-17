@@ -3,16 +3,15 @@ import Sidebar from "./components/Sidebar";
 import { Spinner, Stack } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
 
-
-const Investeedashboardlogout = () => {
+const Investordashboardlogout = () => {
     const navigate = useNavigate();
 
     const logout = () => {
-        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('token1');
         navigate("/user-login")
     };
     useEffect(() => {
-        document.title = "Investify | Investee-Logout";
+        document.title = "Investify | Investor-Logout";
         logout();
     }, []);
     return (
@@ -32,4 +31,4 @@ const Investeedashboardlogout = () => {
     )
 }
 
-export default Investeedashboardlogout
+export default Investordashboardlogout
