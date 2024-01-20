@@ -6,10 +6,32 @@ const bcrypt = require("bcrypt");
 
 const nodemailer = require("nodemailer");
 
+exports.getStatistics = async (req, res) => {
+  try {
+   
+    const allListingCount = await Listing.count()
+    const activeListingCount = await Listing.count({ isActive: true })
+    const verifiedListingCount = await Listing.count({ isVerified: true })
+    const allInvesteeCount = await Investee.count()
+    const approvedInvesteeCount = await Investee.count({ isVerified: true })
+    const allInvestorCount = await Investor.count()
+  
+
+    if (allListingCount && activeListingCount && verifiedListingCount && allInvesteeCount && approvedInvesteeCount && allInvestorCount) {
+      res.json({
+        status: true,
+        allListingCount, activeListingCount, verifiedListingCount, allInvesteeCount, approvedInvesteeCount, allInvestorCount
+      });
+    }
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};
+
 exports.getMe = async (req, res) => {
   try {
     const admin = await Admin.findOne({ _id: req.user });
-    if (Admin) {
+    if (admin) {
       res.json({
         status: true,
         admin,
@@ -23,7 +45,7 @@ exports.getMe = async (req, res) => {
 exports.getInvestees = async (req, res) => {
   try {
     const investee = await Investee.find({ isVerified: false });
-    if (Investee) {
+    if (investee) {
       res.json({
         status: true,
         investee,
@@ -87,7 +109,7 @@ exports.approveListing = async (req, res) => {
       { _id: req.body.listingId },
       { isVerified: true }
     );
-    
+
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
