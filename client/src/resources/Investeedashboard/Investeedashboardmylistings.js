@@ -322,7 +322,7 @@ const Investeedashboardmylistings = () => {
                             size={{ base: "md", md: "md", lg: "lg" }}
                             onClick={() => { editListing(item._id, item.investee_id.email) }}
                           >
-                            Edit Listing
+                            Update
                           </Button>
                         </Stack>
 

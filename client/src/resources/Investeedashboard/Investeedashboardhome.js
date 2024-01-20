@@ -196,7 +196,7 @@ address && zipcode
               size={{ base: "md", md: "md", lg: "lg" }}
               onClick={() => {updateProfile()}}
             >
-              Edit Profile
+              Update
             </Button>
             </ModalBody>
 

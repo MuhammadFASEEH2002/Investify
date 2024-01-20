@@ -30,6 +30,13 @@ const Userlogin = () => {
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "Investify | UserLogin";
+    if(window.localStorage.getItem('token')){
+      navigate("/user/investee-dashboard/home");
+
+    } else if(window.localStorage.getItem('token1')){
+      navigate("/user/investor-dashboard/home");
+
+    }
   });
   const investorLogin = () => {
     if (email && password) {
