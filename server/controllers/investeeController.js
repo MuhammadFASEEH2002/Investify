@@ -132,7 +132,7 @@ exports.createListing = async (req, res) => {
     const investmentAmount = /^(1[0-9]|2[0-4])\d{3}$|^25000$/;
     if (!investmentAmount.test(req.body.amount)) {
       res.json({
-        message: "Investment amount should be betweeen 10,000- 25,000",
+        message: "Investment amount should be between 10,000- 25,000",
         status: false,
       });
       return;
@@ -217,7 +217,7 @@ exports.editListing = async (req, res) => {
     const investmentAmount = /^(1[0-9]|2[0-4])\d{3}$|^25000$/;
     if (!investmentAmount.test(req.body.amount)) {
       res.json({
-        message: "Investment amount should be betweeen 10,000- 25,000",
+        message: "Investment amount should be between 10,000- 25,000",
         status: false,
       });
       return;
@@ -260,7 +260,7 @@ exports.editListing = async (req, res) => {
       from: "investify180@gmail.com",
       to: investee.email,
       subject: "Investify | Investee",
-      html: "<h1>The listing you created is awaiting approval</h1> <p>Approval may take upto 2 to 3 days by the Admin.</p> <p>Regards,</p><p>Investify</p>",
+      html: "<h1>The listing you updated is awaiting approval</h1> <p>Approval may take upto 2 to 3 days by the Admin.</p> <p>Regards,</p><p>Investify</p>",
     };
     await transporter.sendMail(mailOptions, (error, info) => {
       if (error) {

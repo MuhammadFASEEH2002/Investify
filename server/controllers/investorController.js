@@ -22,7 +22,7 @@ exports.getMe = async (req, res) => {
 
 exports.getListing = async (req, res) => {
     try {
-        const listing = await Listing.find({ isVerified: true }).populate(
+        const listing = await Listing.find({ isVerified: true, isActive: true }).populate(
             "investee_id"
         );
         if (listing) {
@@ -53,14 +53,16 @@ exports.getListing = async (req, res) => {
 
 exports.searchListing = async (req, res) => {
     try {
-        const listing = await Listing.find( {
-            $or: [
-                { description: { $regex: req.body.search, $options: "i" } },
-                // { "investee_id.businessName": { $regex: req.body.search, $options: "i" } }
+        const listing = await Listing.find({
+            $and: [
+                {
+                    $or: [
+                        { description: { $regex: req.body.search, $options: "i" } },
+                    ]
+                },
+                { isVerified: true, isActive:true }
             ]
-        }).populate(
-            "investee_id"
-        );
+        }).populate("investee_id");
         console.log(listing);
         // const listing=req.body.search
         // console.log(listing)

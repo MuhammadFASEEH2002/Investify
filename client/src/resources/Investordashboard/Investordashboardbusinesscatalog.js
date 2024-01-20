@@ -89,17 +89,18 @@ const Investordashboardbusinesscatalog = () => {
 
                 </Text>
                 <Text>
-                  <span style={{ fontWeight: "bold" }}>Email : </span>
-                  {item.investee_id.email}
+                  <span style={{ fontWeight: "bold" }}>Required Amount : </span>
+                  Rs {item.amount}
                 </Text>
                 <Text>
-                  <span style={{ fontWeight: "bold" }}>Address : </span>
-                  {item.investee_id.address}, {item.investee_id.zipcode}, {item.investee_id.city}, {item.investee_id.country}
+                  <span style={{ fontWeight: "bold" }}>Profit Share Percentage : </span>
+                  {item.profitPercentage}%
                 </Text>
                 <Text>
-                  <span style={{ fontWeight: "bold" }}>Phone Number : </span>
-                  {item.investee_id.phoneNumber}
+                  <span style={{ fontWeight: "bold" }}>Investment Duration : </span>
+                  {item.investmentDuration} years
                 </Text>
+                
 
               </CardBody>
               <CardFooter>

@@ -17,7 +17,7 @@ import Investeedashboardchangepassword from "./resources/Investeedashboard/Inves
 import Investeedashboardmylistings from "./resources/Investeedashboard/Investeedashboardmylistings";
 import Investeedashboardlistinghistory from "./resources/Investeedashboard/Investeedashboardlistinghistory";
 import Investordashboardlogout from "./resources/Investordashboard/Investordashboardlogout";
-
+import Admindashboardhome from "./resources/Admindashboard/Admindashboardhome";
 function App() {
   return (
     <>
@@ -25,6 +25,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Homepage />} />
           <Route path="/admin-login" element={<Adminlogin />} />
+          <Route path="/admin/admin-dashboard/home" element={<Admindashboardhome />} />
           <Route path="/admin/admin-dashboard/account-verification" element={<Admindashboardaccountverification />} />
           <Route path="/admin/admin-dashboard/listing-verification" element={<Admindashboardlistingverification />} />
           <Route path="/admin/admin-dashboard/logout" element={<Admindashboardlogout />} />

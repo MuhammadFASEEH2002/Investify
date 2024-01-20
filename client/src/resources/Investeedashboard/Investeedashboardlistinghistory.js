@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
 import {
-  HStack,
   Heading,
   Stack,
   Text,
   Button,
-  Input,
-  InputGroup,
-  InputRightElement,
   useToast,
   Box,
-  StackDivider,
   Link,
   Modal,
   ModalOverlay,
@@ -20,12 +15,9 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
   Spinner
 } from "@chakra-ui/react";
-import { ExternalLinkIcon } from '@chakra-ui/icons'
-import { Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { Card, CardHeader, CardBody} from "@chakra-ui/react";
 
 
 const Investeedashboardlistinghistory = () => {

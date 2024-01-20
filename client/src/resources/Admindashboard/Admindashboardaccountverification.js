@@ -1,31 +1,29 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import {
-  HStack,
   Heading,
   Stack,
   Text,
   Button,
-  Input,
-  InputGroup,
-  InputRightElement,
   useToast,
   Box,
-  StackDivider,
-  Link
+  Link,
+  Spinner
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
-import { wrap } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 
 const Admindashboardaccountverification = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const toast = useToast();
 
   const [investee, setInvestee] = useState([]);
   useEffect(() => {
     document.title = "Investify | Admin-Account Verification";
+    setIsLoading(true);
     getInvestees();
+    setIsLoading(false);
   }, []);
   const getInvestees = () => {
     const adminToken = window.localStorage.getItem('adminToken');
@@ -117,7 +115,19 @@ const Admindashboardaccountverification = () => {
             alignContent: "flex-start",
           }}
         >
-          {investee?.map((item) =>
+          {isLoading ? (
+            <Stack alignItems={'center'} justifyContent={'center'}>
+              <Spinner
+                thickness='4px'
+                speed='0.65s'
+                emptyColor='gray.200'
+                color='blue.500'
+                size='xl'
+              />
+            </Stack>
+          ) : (
+            investee.length > 0 ? (
+          investee?.map((item) =>
 
           (
             <Card align="center" width={"350px"} margin={"10px"}>
@@ -170,7 +180,11 @@ const Admindashboardaccountverification = () => {
                 </Button>
               </CardFooter>
             </Card>
-          ))}
+          ))
+        ): (
+          <Text>No accounts available for verification</Text>
+        )
+        )}
         </Box>
       </Sidebar>
     </>

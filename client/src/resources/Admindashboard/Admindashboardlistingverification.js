@@ -21,7 +21,7 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-
+Spinner
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
@@ -29,6 +29,7 @@ import { wrap } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 const Admindashboardlistingverification = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const toast = useToast();
   const [selectedItem, setSelectedItem] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,8 +44,10 @@ const Admindashboardlistingverification = () => {
   };
   const [listing, setListing] = useState([]);
   useEffect(() => {
-    document.title = "Investify | Admin-Listing Verification";
+    document.title = "Investify | Admin Listing Verification";
+    setIsLoading(true);
     getListing();
+    setIsLoading(false);
   }, []);
   const getListing = () => {
     const adminToken = window.localStorage.getItem('adminToken');
@@ -137,7 +140,19 @@ const Admindashboardlistingverification = () => {
             alignContent: "flex-start",
           }}
         >
-          {listing?.map((item) =>
+          {isLoading ? (
+            <Stack alignItems={'center'} justifyContent={'center'}>
+              <Spinner
+                thickness='4px'
+                speed='0.65s'
+                emptyColor='gray.200'
+                color='blue.500'
+                size='xl'
+              />
+            </Stack>
+          ) : (
+            listing.length > 0 ? (
+          listing?.map((item) =>
 
           (
             <Card align="center" width={"350px"} margin={"10px"}>
@@ -213,7 +228,11 @@ const Admindashboardlistingverification = () => {
                 </Button>
               </CardFooter>
             </Card>
-          ))}
+            ))
+          ): (
+            <Text>No listings available for verification</Text>
+          )
+          )}
         </Box>
       </Sidebar>
     </>

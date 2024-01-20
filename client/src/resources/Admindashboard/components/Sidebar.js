@@ -34,12 +34,14 @@ import { IconType } from "react-icons";
 import { NavLink, useNavigate, } from 'react-router-dom';
 import Logo from "../../../components/Logo";
 import { useEffect, useState } from "react";
+import { IoHomeOutline } from "react-icons/io5";
+
 
 const LinkItems = [
-  // { name: "Home", icon: FiUserCheck, link: "/admin/admin-dashboard/account-verification" },
+  { name: "Home", icon: IoHomeOutline, link: "/admin/admin-dashboard/home" },
   { name: "Account Verification", icon: FiUserCheck, link: "/admin/admin-dashboard/account-verification" },
   { name: "Listing Verification", icon: FiList, link: "/admin/admin-dashboard/listing-verification" },
-  { name: "Complains", icon: FiSlash },
+  // { name: "Complains", icon: FiSlash },
   { name: "Log Out", icon: FiLogOut, link:"/admin/admin-dashboard/logout" },
 ];
 const SidebarContent = ({ onClose, ...rest }) => {
