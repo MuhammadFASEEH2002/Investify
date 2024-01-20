@@ -37,7 +37,9 @@ const Investeedashboardchangepassword = () => {
 
   const toast = useToast();
   const navigate = useNavigate();
-
+  useEffect(() => {
+    document.title = "Investify | Investee Passsword Change";
+  }, []);
   const changePassword = () => {
     const token = window.localStorage.getItem("token");
 

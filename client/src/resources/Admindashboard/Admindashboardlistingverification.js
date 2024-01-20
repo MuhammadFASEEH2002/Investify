@@ -30,10 +30,20 @@ import { useNavigate } from "react-router-dom";
 
 const Admindashboardlistingverification = () => {
   const toast = useToast();
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const onOpen = (item) => {
+    setSelectedItem(item);
+    setIsModalOpen(true);
+  };
 
+  const onClose = () => {
+    setSelectedItem(null);
+    setIsModalOpen(false);
+  };
   const [listing, setListing] = useState([]);
   useEffect(() => {
-    document.title = "Investify | Admin-Account Verification";
+    document.title = "Investify | Admin-Listing Verification";
     getListing();
   }, []);
   const getListing = () => {
@@ -89,7 +99,7 @@ const Admindashboardlistingverification = () => {
     fetch("http://127.0.0.1:3001/api/admin/decline-listing", {
       method: "POST",
       body: JSON.stringify({
-        listingId, 
+        listingId,
         listingInvesteeEmail,
       }),
       headers: {
@@ -116,7 +126,7 @@ const Admindashboardlistingverification = () => {
       })
       .catch((err) => console.log(err));
   };
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  // const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
       <Sidebar>
@@ -140,9 +150,9 @@ const Admindashboardlistingverification = () => {
                   {item.description}
 
                 </Text>
-                <Link onClick={onOpen} color={"blue"}>Read More</Link>
+                <Link onClick={() => onOpen(item)} color={"blue"}>Read More</Link>
 
-                <Modal onClose={onClose} isOpen={isOpen} isCentered>
+                <Modal onClose={onClose} isOpen={isModalOpen && item === selectedItem} isCentered>
                   <ModalOverlay />
                   <ModalContent>
                     <ModalHeader>{item.investee_id.businessName}</ModalHeader>
@@ -158,6 +168,18 @@ const Admindashboardlistingverification = () => {
                     </ModalFooter>
                   </ModalContent>
                 </Modal>
+                <Text>
+                  <span style={{ fontWeight: "bold" }}>Required Amount : </span>
+                  Rs {item.amount}
+                </Text>
+                <Text>
+                  <span style={{ fontWeight: "bold" }}>Profit Share Percentage : </span>
+                  {item.profitPercentage}%
+                </Text>
+                <Text>
+                  <span style={{ fontWeight: "bold" }}>Investment Duration : </span>
+                  {item.investmentDuration} years
+                </Text>
                 <Text>
                   <span style={{ fontWeight: "bold" }}>Email : </span>
                   {item.investee_id.email}
