@@ -189,6 +189,8 @@ address && zipcode
                 isRequired
                 onChange={(event) => handleInputChange(event, setZipcode)}
               />
+              
+               <Text fontSize='sm' marginTop={"3px"}>Note: During verification if your details are incorrect then your account may got deleted. So, kindly enter correct information.</Text>
             <Button
               colorScheme="teal"
               variant="solid"

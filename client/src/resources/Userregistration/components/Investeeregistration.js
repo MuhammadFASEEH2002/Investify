@@ -410,7 +410,7 @@ const Investeeregistration = () => {
               >
                 <option value="Restaurant">Restaurant</option>
                 <option value="Informmation Technology (IT)">
-                  Informmation Technology (IT)
+                  Information Technology (IT)
                 </option>
                 <option value="Retail Business">Retail Business</option>
               </Select>

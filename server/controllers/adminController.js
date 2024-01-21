@@ -71,7 +71,7 @@ exports.getListing = async (req, res) => {
 };
 exports.approveInvestees = async (req, res) => {
   try {
-    const investee = await Investee.findOne({ _id: req.body.investee });
+    const investee = await Investee.findOne({ _id: req.body.investeeId });
 
     await Investee.findByIdAndUpdate(
       { _id: req.body.investeeId },
@@ -222,7 +222,7 @@ exports.approveListing = async (req, res) => {
 
 exports.declineInvestees = async (req, res) => {
   try {
-    const investee = await Investee.findOne({ _id: req.body.investee });
+    const investee = await Investee.findOne({ _id: req.body.investeeId });
 
     const transporter = await nodemailer.createTransport({
       service: "gmail",
