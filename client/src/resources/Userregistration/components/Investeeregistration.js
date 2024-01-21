@@ -221,7 +221,7 @@ const Investeeregistration = () => {
         spacing={"0px"}
       >
         <Stack width={{ base: "100%", md: "50%", lg: "50%" }} spacing={"0px"}>
-          <HStack marginLeft={{ base: "10px", md: "20px", lg: "20px" }}>
+          <HStack marginLeft={{ base: "10px", md: "20px", lg: "20px" }} marginBottom={"10px"}>
             <Stack width={"50%"}>
               <Text>Business Name</Text>
               <Input
@@ -247,7 +247,7 @@ const Investeeregistration = () => {
               />
             </Stack>
           </HStack>
-          <HStack marginLeft={{ base: "10px", md: "20px", lg: "20px" }}>
+          <HStack marginLeft={{ base: "10px", md: "20px", lg: "20px" }} marginBottom={"10px"}> 
             <Stack width={"50%"}>
               <Text>Phone Number</Text>
               <Input
@@ -273,7 +273,7 @@ const Investeeregistration = () => {
               />
             </Stack>
           </HStack>
-          <HStack marginLeft={{ base: "10px", md: "20px", lg: "20px" }}>
+          <HStack marginLeft={{ base: "10px", md: "20px", lg: "20px" }} marginBottom={"10px"}>
             <Stack width={"50%"}>
               <Text>Password</Text>
               <InputGroup width={"90%"}>
@@ -331,6 +331,7 @@ const Investeeregistration = () => {
           <HStack
             width={"100%"}
             marginLeft={{ base: "10px", md: "0px", lg: "0px" }}
+            marginBottom={"10px"}
           >
             <Stack width={"50%"}>
               <Text>Address</Text>
@@ -360,6 +361,7 @@ const Investeeregistration = () => {
           <HStack
             width={"100%"}
             marginLeft={{ base: "10px", md: "0px", lg: "0px" }}
+            marginBottom={"10px"}
           >
             <Stack width={"50%"}>
               <Text>City</Text>
@@ -395,6 +397,7 @@ const Investeeregistration = () => {
           <HStack
             width={"100%"}
             marginLeft={{ base: "10px", md: "0px", lg: "0px" }}
+            marginBottom={"10px"}
           >
             <Stack width={"50%"}>
               <Text>Category</Text>
@@ -416,7 +419,7 @@ const Investeeregistration = () => {
               </Select>
             </Stack>
             <Stack width={"50%"}>
-              <Text>File Upload</Text>
+              <Text>Upload Supporting Documents</Text>
               <Input
                 size="md"
                 type="file"
