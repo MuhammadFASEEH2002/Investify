@@ -96,7 +96,7 @@ exports.investorRegistration = async (req, res) => {
     const mailOptions = await {
       from: "investify180@gmail.com",
       to: req.body.email,
-      subject: "Investify | Investor",
+      subject: "Investify",
       html: "<h1>Congratulations your Investor account is created</h1> <p> You can now now login to your account by using your email and password. </p> <p>Regards,</p><p>Investify</p>",
     };
     await transporter.sendMail(mailOptions, (error, info) => {
@@ -231,8 +231,8 @@ exports.investeeRegistration = async (req, res) => {
     const mailOptions = await {
       from: "investify180@gmail.com",
       to: req.body.email,
-      subject: "Investify | Investee",
-      html: "<h1>Your Investee account is awaiting approval</h1> <p>Approval may take upto 2 to 3 days.</p> <p>Regards,</p><p>Investify</p>",
+      subject: "Investify",
+      html: "<h1>Your Investee account is awaiting approval</h1> <p>Approval may take upto 2 to 3 days by the admin.</p> <p>Regards,</p><p>Investify</p>",
     };
     await transporter.sendMail(mailOptions, (error, info) => {
       if (error) {

@@ -3,7 +3,6 @@ const Investee = require("../model/investeeDB");
 const Admin = require("../model/admin");
 const Listing = require("../model/investeeListing");
 const bcrypt = require("bcrypt");
-
 const nodemailer = require("nodemailer");
 
 exports.getStatistics = async (req, res) => {
@@ -86,7 +85,7 @@ exports.approveInvestees = async (req, res) => {
     const mailOptions = await {
       from: "investify180@gmail.com",
       to: req.body.investeeEmail,
-      subject: "Sending Email With React And Nodejs",
+      subject: "Investify",
       html: "<h1>Congratulations your Investee account is approved</h1> <p> You can now now login to your account by using your email and password. </p> <p>Regards,</p><p>Investify</p>",
     };
     await transporter.sendMail(mailOptions, (error, info) => {
@@ -120,7 +119,7 @@ exports.approveListing = async (req, res) => {
     const mailOptions = await {
       from: "investify180@gmail.com",
       to: req.body.listingInvesteeEmail,
-      subject: "Sending Email With React And Nodejs",
+      subject: "Investify",
       html: "<h1>Congratulations your Investee account is approved</h1> <p> You can now now login to your account by using your email and password. </p> <p>Regards,</p><p>Investify</p>",
     };
     await transporter.sendMail(mailOptions, (error, info) => {
@@ -149,8 +148,8 @@ exports.declineInvestees = async (req, res) => {
     const mailOptions = await {
       from: "investify180@gmail.com",
       to: req.body.investeeEmail,
-      subject: "Investee account approval declined",
-      html: "<h1>Your Registration is declined</h1> <p> Possible reasons for your request disapproval can be </p> <ul><li></li></ul> <p>Regards,</p><p>Investify</p>",
+      subject: "Investify",
+      html: "<h1>Your Investee account verification is declined.</h1> <p> Possible reasons for your request disapproval can be </p> <ul><li></li></ul> <p>Regards,</p><p>Investify</p>",
     };
     await transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -180,7 +179,7 @@ exports.declineListing = async (req, res) => {
     const mailOptions = await {
       from: "investify180@gmail.com",
       to: req.body.listingInvesteeEmail,
-      subject: "Listing Declined",
+      subject: "Investify",
       html: "<h1>Your Listing is declined</h1> <p> Possible reasons for your Listing disapproval can be </p> <ul><li>False information</li><li>Description is not written properly</li></ul><p>Regards,</p><p>Investify</p>",
     };
     await transporter.sendMail(mailOptions, (error, info) => {
