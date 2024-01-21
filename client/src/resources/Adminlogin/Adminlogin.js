@@ -25,6 +25,10 @@ const Adminlogin = () => {
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "Investify | AdminLogin";
+    if(window.localStorage.getItem('adminToken')){
+      navigate("/admin/admin-dashboard/home");
+
+    }
   });
   const adminLogin = () => {
     if (username && password) {
@@ -45,7 +49,7 @@ const Adminlogin = () => {
         .then((res) => {
           if (res.status) {
             window.localStorage.setItem("adminToken", res.adminToken);
-            navigate("/admin/admin-dashboard/account-verification");
+            navigate("/admin/admin-dashboard/home");
           } else {
             // alert(res.message);
             toast({

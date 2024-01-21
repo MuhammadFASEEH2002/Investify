@@ -54,7 +54,7 @@ import { useEffect, useState } from "react";
 // }
 
 const LinkItems = [
-  { name: "Home", icon: FiHome, link: "/user/investor-dashboard/home" },
+  // { name: "Home", icon: FiHome, link: "/user/investor-dashboard/home" },
   { name: "Business Catalog", icon: FiTrendingUp, link: "/user/investor-dashboard/business-catalog" },
   // { name: "My Investments", icon: FiCompass },
   // { name: "Chats", icon: FiStar },
@@ -178,12 +178,12 @@ const MobileNav = ({ onOpen, ...rest }) => {
       </Text>
 
       <HStack spacing={{ base: "0", md: "6" }}>
-        <IconButton
+        {/* <IconButton
           size="lg"
           variant="ghost"
           aria-label="open menu"
           icon={<FiBell />}
-        />
+        /> */}
         <Flex alignItems={"center"}>
           <Menu>
             <MenuButton

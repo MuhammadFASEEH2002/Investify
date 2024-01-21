@@ -137,7 +137,8 @@ const Admindashboardlistingverification = () => {
           style={{
             display: "flex",
             flexWrap: "wrap",
-            alignContent: "flex-start",
+            alignItems: "center",
+            justifyContent:'center'
           }}
         >
           {isLoading ? (

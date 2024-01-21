@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
-import {Stack ,  Card, Heading, CardBody,CardHeader, Text} from '@chakra-ui/react';
+import {Stack ,  Card, Heading, CardBody,CardHeader, Text, HStack, Spinner} from '@chakra-ui/react';
+import { wrap } from 'framer-motion';
 
 const Admindashboardhome = () => {
   const [allInvestorCount, setAllInvestorCount] = useState("");
@@ -11,6 +12,7 @@ const Admindashboardhome = () => {
   const [activeListingCount, setActiveListingCount] = useState("");
 
   const [verifiedListingCount, setVerifiedListingCount] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
 
 
@@ -18,8 +20,9 @@ const Admindashboardhome = () => {
 
     useEffect(() => {
         document.title = "Investify | Admin Home";
-     
+     setIsLoading(true);
         getStatistics();
+     setIsLoading(false);
       
       }, []);
       const getStatistics = () => {
@@ -41,7 +44,6 @@ const Admindashboardhome = () => {
                 setAllListingCount(res.allListingCount);
                 setActiveListingCount(res.activeListingCount);
                 setVerifiedListingCount(res.verifiedListingCount);
-
             }
           })
 
@@ -51,20 +53,50 @@ const Admindashboardhome = () => {
   return (
    <>
    <Sidebar>
-   <Stack spacing='4' >
-  
-    <Card maxW="sm">
+   <HStack spacing='4' flexWrap="wrap" justifyContent="center" alignItems="flex-start">
+    {isLoading ? (
+            <Stack alignItems={'center'} justifyContent={'center'}>
+              <Spinner
+                thickness='4px'
+                speed='0.65s'
+                emptyColor='gray.200'
+                color='blue.500'
+                size='xl'
+              />
+            </Stack>
+          ):(<>
+    <Card maxW="sm" backgroundColor={"#3182ce"} color={"white"}>
       <CardHeader>
-        <Heading size='md'>Listing Statistics</Heading>
+        <Heading size='lg'>Listing Statistics</Heading>
       </CardHeader>
       <CardBody>
         <Text>Total Listings: {allListingCount}</Text>
-        <Text>{allInvesteeCount}</Text>
-
+        <Text>Total Verified Listings: {verifiedListingCount}</Text>
+        <Text>Total Active Listings: {activeListingCount}</Text>
       </CardBody>
     </Card>
- 
-</Stack>
+
+    <Card maxW="sm"  backgroundColor={"#3182ce"} color={"white"}>
+      <CardHeader>
+        <Heading size='lg'>Investee Statistics</Heading>
+      </CardHeader>
+      <CardBody>
+        <Text>Total Investee Accounts: {allInvesteeCount}</Text>
+        <Text>Total Verified Accounts: {approvedInvesteeCount}</Text>
+      </CardBody>
+    </Card>
+    <Card maxW="sm"  backgroundColor={"#3182ce"} color={"white"}>
+      <CardHeader>
+        <Heading size='lg'>Investor Statistics</Heading>
+      </CardHeader>
+      <CardBody>
+        <Text>Total Investor Accounts: {allInvestorCount}</Text>
+      </CardBody>
+    </Card>
+    </>
+          )
+          }
+</HStack>
    </Sidebar>
    </>
   )

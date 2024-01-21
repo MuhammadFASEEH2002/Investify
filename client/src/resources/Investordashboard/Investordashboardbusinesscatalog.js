@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
-import { Center, HStack, Input, Text, Box, Card, CardHeader, Heading, CardBody, CardFooter, Button } from "@chakra-ui/react";
-
+import { Center, HStack, Input, Text, Box, Card, CardHeader, Heading, CardBody, CardFooter, Button, InputRightAddon, InputGroup } from "@chakra-ui/react";
+import { IoMdSearch } from "react-icons/io";
 
 const Investordashboardbusinesscatalog = () => {
   const [listing, setListing] = useState([]);
@@ -45,7 +45,7 @@ const Investordashboardbusinesscatalog = () => {
         return res.json();
       })
       .then((res) => {
-        if(res.status){
+        if (res.status) {
           console.log(res.listing)
           setListing(res.listing)
         }
@@ -57,22 +57,28 @@ const Investordashboardbusinesscatalog = () => {
   }
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
-    
-}
+
+  }
   return (
     <>
-     
+
       <Sidebar>
         <Center>
           <HStack width={'50%'}>
-            <Input variant='outline' placeholder='Enter keywords to search'  onChange={(event) => { handleInputChange(event, setSearch); searchCourse(); }}/>
+            <InputGroup>
+              <Input border={"0.8px solid grey"} variant='outline' placeholder='Enter keywords to search' onChange={(event) => { handleInputChange(event, setSearch); searchCourse(); }} />
+              <InputRightAddon>
+                <IoMdSearch />
+              </InputRightAddon>
+            </InputGroup>
           </HStack>
         </Center>
         <Box
           style={{
             display: "flex",
             flexWrap: "wrap",
-            alignContent: "flex-start",
+            alignItems: "center",
+            justifyContent: "center"
           }}
         >
           {listing?.map((item) =>
@@ -100,14 +106,14 @@ const Investordashboardbusinesscatalog = () => {
                   <span style={{ fontWeight: "bold" }}>Investment Duration : </span>
                   {item.investmentDuration} years
                 </Text>
-                
+
 
               </CardBody>
               <CardFooter>
                 <Button
                   colorScheme="blue"
                   margin={"10px"}
-size="lg"
+                  size="lg"
                 >
                   View
                 </Button>

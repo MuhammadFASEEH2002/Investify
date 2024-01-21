@@ -57,7 +57,7 @@ const Userlogin = () => {
         .then((res) => {
           if (res.status) {
             window.localStorage.setItem("token1", res.token1);
-            navigate("/user/investor-dashboard/home");
+            navigate("/user/investor-dashboard/business-catalog");
           } else {
             // alert(res.message);
             toast({
