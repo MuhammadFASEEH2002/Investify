@@ -162,7 +162,7 @@ const Admindashboardaccountverification = () => {
                   <span style={{ fontWeight: "bold" }}>Country,City : </span>
                   {item.country},{item.city}
                 </Text>
-                <Link href={`http://127.0.0.1:3001/investee/${item.cnicDoc}`} isExternal>Cnic<ExternalLinkIcon mx='2px' /></Link>
+                <Link href={`http://127.0.0.1:3001/investee/${item.cnicDoc}`} isExternal>Supporting Document<ExternalLinkIcon mx='2px' /></Link>
               </CardBody>
               <CardFooter>
                 <Button colorScheme="gray" margin={"10px"}
