@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
-import {Stack ,  Card, Heading, CardBody,CardHeader, Text, HStack, Spinner} from '@chakra-ui/react';
+import { Stack, Card, Heading, CardBody, CardHeader, Text, HStack, Spinner, Divider } from '@chakra-ui/react';
 import { wrap } from 'framer-motion';
 
 const Admindashboardhome = () => {
@@ -18,43 +18,43 @@ const Admindashboardhome = () => {
 
 
 
-    useEffect(() => {
-        document.title = "Investify | Admin Home";
-     setIsLoading(true);
-        getStatistics();
-     setIsLoading(false);
-      
-      }, []);
-      const getStatistics = () => {
-        const adminToken = window.localStorage.getItem('adminToken');
-        fetch("http://127.0.0.1:3001/api/admin/get-stats", {
-          method: "GET",
-          headers: {
-            'token': adminToken,
-            'Accept': "application/json",
-            "Content-Type": "application/json",
-          },
-        })
-          .then((res) => res.json())
-          .then((res) => {
-            if(res.status){
-                setAllInvestorCount(res.allInvestorCount);
-                setAllInvesteeCount(res.allInvesteeCount);
-                setApprovedInvesteeCount(res.approvedInvesteeCount);
-                setAllListingCount(res.allListingCount);
-                setActiveListingCount(res.activeListingCount);
-                setVerifiedListingCount(res.verifiedListingCount);
-            }
-          })
+  useEffect(() => {
+    document.title = "Investify | Admin Home";
+    setIsLoading(true);
+    getStatistics();
+    setIsLoading(false);
 
-          
-          .catch((err) => console.log(err));
-      };
+  }, []);
+  const getStatistics = () => {
+    const adminToken = window.localStorage.getItem('adminToken');
+    fetch("http://127.0.0.1:3001/api/admin/get-stats", {
+      method: "GET",
+      headers: {
+        'token': adminToken,
+        'Accept': "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status) {
+          setAllInvestorCount(res.allInvestorCount);
+          setAllInvesteeCount(res.allInvesteeCount);
+          setApprovedInvesteeCount(res.approvedInvesteeCount);
+          setAllListingCount(res.allListingCount);
+          setActiveListingCount(res.activeListingCount);
+          setVerifiedListingCount(res.verifiedListingCount);
+        }
+      })
+
+
+      .catch((err) => console.log(err));
+  };
   return (
-   <>
-   <Sidebar>
-   <HStack spacing='4' flexWrap="wrap" justifyContent="center" alignItems="flex-start">
-    {isLoading ? (
+    <>
+      <Sidebar>
+        <HStack spacing='4' flexWrap="wrap" justifyContent="center" alignItems="flex-start">
+          {isLoading ? (
             <Stack alignItems={'center'} justifyContent={'center'}>
               <Spinner
                 thickness='4px'
@@ -64,41 +64,77 @@ const Admindashboardhome = () => {
                 size='xl'
               />
             </Stack>
-          ):(<>
-    <Card maxW="sm" backgroundColor={"#3182ce"} color={"white"}>
-      <CardHeader>
-        <Heading size='lg'>Listing Statistics</Heading>
-      </CardHeader>
-      <CardBody>
-        <Text>Total Listings: {allListingCount}</Text>
-        <Text>Total Verified Listings: {verifiedListingCount}</Text>
-        <Text>Total Active Listings: {activeListingCount}</Text>
-      </CardBody>
-    </Card>
+          ) : (<>
+            <Card maxW="sm" backgroundColor="#3182ce" color="white" boxShadow="md" rounded="lg">
+              <CardHeader textAlign="center">
+                <Heading size="lg" fontWeight="bold" mb="2">
+                  Listing Statistics
+                </Heading>
+              </CardHeader>
+              <CardBody>
+                <Text fontSize="xl" textAlign="center" mb="4">
+                  Total listings: {allListingCount}
+                </Text>
+                <Text fontSize="xl" textAlign="center" mb="4">
+                  Total verified listings: {verifiedListingCount}
+                </Text>
+                <Text fontSize="xl" textAlign="center" mb="4">
+                  Total active listings: {activeListingCount}
+                </Text>
+                <Text fontSize="xl" textAlign="center" mb="4">
+                  Listings available for verification: {parseInt(allListingCount) - parseInt(verifiedListingCount)}
+                </Text>
+                <Divider borderColor="white" mb="4" />
+                <Text fontSize="sm" textAlign="center">
+                  This information is based on the latest data available.
+                </Text>
+              </CardBody>
+            </Card>
 
-    <Card maxW="sm"  backgroundColor={"#3182ce"} color={"white"}>
-      <CardHeader>
-        <Heading size='lg'>Investee Statistics</Heading>
-      </CardHeader>
-      <CardBody>
-        <Text>Total Investee Accounts: {allInvesteeCount}</Text>
-        <Text>Total Verified Accounts: {approvedInvesteeCount}</Text>
-      </CardBody>
-    </Card>
-    <Card maxW="sm"  backgroundColor={"#3182ce"} color={"white"}>
-      <CardHeader>
-        <Heading size='lg'>Investor Statistics</Heading>
-      </CardHeader>
-      <CardBody>
-        <Text>Total Investor Accounts: {allInvestorCount}</Text>
-      </CardBody>
-    </Card>
-    </>
+            <Card maxW="sm" backgroundColor="#3182ce" color="white" boxShadow="md" rounded="lg">
+              <CardHeader textAlign="center">
+                <Heading size="lg" fontWeight="bold" mb="2">
+                  Investee Statistics
+                </Heading>
+              </CardHeader>
+              <CardBody>
+                <Text fontSize="xl" textAlign="center" mb="4">
+                  Total investee accounts: {allInvesteeCount}
+                </Text>
+                <Text fontSize="xl" textAlign="center" mb="4">
+                  Total verified accounts: {approvedInvesteeCount}
+                </Text>
+                <Text fontSize="xl" textAlign="center" mb="4">
+                  Accounts available for verification: {parseInt(allInvesteeCount) - parseInt(approvedInvesteeCount)}
+                </Text>
+                <Divider borderColor="white" mb="4" />
+                <Text fontSize="sm" textAlign="center">
+                  This information is based on the latest data available.
+                </Text>
+              </CardBody>
+            </Card>
+            <Card maxW="sm" backgroundColor="#3182ce" color="white" boxShadow="md" rounded="lg">
+              <CardHeader textAlign="center">
+                <Heading size="lg" fontWeight="bold" mb="2">
+                  Investor statistics
+                </Heading>
+              </CardHeader>
+              <CardBody>
+                <Text fontSize="xl" textAlign="center" mb="4">
+                  Total investor accounts: {allInvestorCount}
+                </Text>
+                <Divider borderColor="white" mb="4" />
+                <Text fontSize="sm" textAlign="center">
+                  This information is based on the latest data available.
+                </Text>
+              </CardBody>
+            </Card>
+          </>
           )
           }
-</HStack>
-   </Sidebar>
-   </>
+        </HStack>
+      </Sidebar>
+    </>
   )
 }
 

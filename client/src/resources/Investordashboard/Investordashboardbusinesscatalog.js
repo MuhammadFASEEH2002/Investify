@@ -68,7 +68,7 @@ const Investordashboardbusinesscatalog = () => {
             <InputGroup>
               <Input border={"0.8px solid grey"} variant='outline' placeholder='Enter keywords to search' onChange={(event) => { handleInputChange(event, setSearch); searchCourse(); }} />
               <InputRightAddon>
-                <IoMdSearch />
+                <IoMdSearch  size={"2em"}/>
               </InputRightAddon>
             </InputGroup>
           </HStack>

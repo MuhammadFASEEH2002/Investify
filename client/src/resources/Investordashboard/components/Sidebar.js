@@ -29,7 +29,8 @@ import {
   FiMenu,
   FiBell,
   FiChevronDown,
-  FiLogOut
+  FiLogOut,
+  FiList
 } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { NavLink, } from 'react-router-dom';
@@ -55,7 +56,7 @@ import { useEffect, useState } from "react";
 
 const LinkItems = [
   // { name: "Home", icon: FiHome, link: "/user/investor-dashboard/home" },
-  { name: "Business Catalog", icon: FiTrendingUp, link: "/user/investor-dashboard/business-catalog" },
+  { name: "Business Catalog", icon: FiList, link: "/user/investor-dashboard/business-catalog" },
   // { name: "My Investments", icon: FiCompass },
   // { name: "Chats", icon: FiStar },
   // { name: "Settings", icon: FiSettings },

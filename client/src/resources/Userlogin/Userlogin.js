@@ -34,7 +34,7 @@ const Userlogin = () => {
       navigate("/user/investee-dashboard/home");
 
     } else if(window.localStorage.getItem('token1')){
-      navigate("/user/investor-dashboard/home");
+      navigate("/user/investor-dashboard/business-catalog");
 
     }
   });
