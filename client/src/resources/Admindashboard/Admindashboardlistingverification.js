@@ -90,6 +90,7 @@ const Admindashboardlistingverification = () => {
             status: "success",
             duration: 9000,
             isClosable: true,
+            position: "top",
           });
           getListing();
         } else {
@@ -117,11 +118,11 @@ const Admindashboardlistingverification = () => {
       .then((res) => {
         if (res.status) {
           toast({
-            title: "User Declined",
-            description: "Reasons are mailed",
-            status: "success",
+            title: "Listing Verification Declined",
+            status: "error",
             duration: 9000,
             isClosable: true,
+            position: "top",
           });
           getListing();
         } else {

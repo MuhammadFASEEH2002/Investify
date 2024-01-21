@@ -65,6 +65,7 @@ const Admindashboardaccountverification = () => {
             status: "success",
             duration: 9000,
             isClosable: true,
+            position: "top",
           });
           getInvestees();
         } else {
@@ -97,6 +98,7 @@ const Admindashboardaccountverification = () => {
             status: "error",
             duration: 9000,
             isClosable: true,
+            position: "top",
           });
           getInvestees();
         } else {

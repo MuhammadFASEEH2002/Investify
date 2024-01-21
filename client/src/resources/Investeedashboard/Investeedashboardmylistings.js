@@ -73,7 +73,7 @@ const Investeedashboardmylistings = () => {
           if (res.status) {
             toast({
               title: "Listing Edited",
-              description: "Awaiting for admin approval to be published again",
+              description: "Awaiting for admin verification to be published again",
               status: "success",
               duration: 9000,
               isClosable: true,

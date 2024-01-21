@@ -175,7 +175,49 @@ exports.createListing = async (req, res) => {
       from: "investify180@gmail.com",
       to: investee.email,
       subject: "Investify | Investee",
-      html: "<h1>The listing you created is awaiting approval</h1> <p>Approval may take upto 2 to 3 days by the Admin.</p> <p>Regards,</p><p>Investify</p>",
+      html: `<!DOCTYPE html>
+      <html>
+      <head>
+      <title>Update Listing</title>
+      <style>
+          body {
+          font-family: Arial, sans-serif;
+          }
+
+          .container {
+          max-width: 500px;
+          margin: 0 auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          }
+
+          h2 {
+          text-align: center;
+          }
+
+          .btn {
+          display: inline-block;
+          background-color: #4CAF50;
+          color: white;
+          padding: 10px 20px;
+          text-decoration: none;
+          border-radius: 5px;
+          }
+      </style>
+      </head>
+      <body>
+      <div class="container">
+          <h2>New Listing Awaiting Admin Verification.</h2>
+          <p>Dear ${investee.businessName},</p>
+          <p>Your new listing verification may take upto 2 or 3 days from the admin.</p>
+          <p>
+          </p>
+          <p>Thank you for choosing our platform. If you have any questions or need further assistance, please don't hesitate to contact our support team.</p>
+          <p>Best regards,<br/>Investify Team</p>
+      </div>
+      </body>
+      </html>`,
     };
     await transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -259,8 +301,50 @@ exports.editListing = async (req, res) => {
     const mailOptions = await {
       from: "investify180@gmail.com",
       to: investee.email,
-      subject: "Investify | Investee",
-      html: "<h1>The listing you updated is awaiting approval</h1> <p>Approval may take upto 2 to 3 days by the Admin.</p> <p>Regards,</p><p>Investify</p>",
+      subject: "Investify",
+      html: `<!DOCTYPE html>
+      <html>
+      <head>
+      <title>Update Listing</title>
+      <style>
+          body {
+          font-family: Arial, sans-serif;
+          }
+
+          .container {
+          max-width: 500px;
+          margin: 0 auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          }
+
+          h2 {
+          text-align: center;
+          }
+
+          .btn {
+          display: inline-block;
+          background-color: #4CAF50;
+          color: white;
+          padding: 10px 20px;
+          text-decoration: none;
+          border-radius: 5px;
+          }
+      </style>
+      </head>
+      <body>
+      <div class="container">
+          <h2>Updated Listing Awaiting Admin Verification.</h2>
+          <p>Dear ${investee.businessName},</p>
+          <p>Your listing verification may take upto 2 or 3 days from the admin.</p>
+          <p>
+          </p>
+          <p>Thank you for choosing our platform. If you have any questions or need further assistance, please don't hesitate to contact our support team.</p>
+          <p>Best regards,<br/>Investify Team</p>
+      </div>
+      </body>
+      </html>`,
     };
     await transporter.sendMail(mailOptions, (error, info) => {
       if (error) {

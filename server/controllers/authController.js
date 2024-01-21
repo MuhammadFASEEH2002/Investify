@@ -71,17 +71,6 @@ exports.investorRegistration = async (req, res) => {
       });
       return;
     }
-    // const { valid, reason, validators } = await emailValidator.validate(
-    //   req.body.email
-    // );
-    // if (!valid) {
-    //   res.json({
-    //     message: validators[reason].reason,
-    //     reason: "Email is not valid or doesnot exist",
-    //     status: false,
-    //   });
-    //   return;
-    // }
 
     const hashPassword = await bcrypt.hash(req.body.password, 10);
 
@@ -97,7 +86,49 @@ exports.investorRegistration = async (req, res) => {
       from: "investify180@gmail.com",
       to: req.body.email,
       subject: "Investify",
-      html: "<h1>Congratulations your Investor account is created</h1> <p> You can now now login to your account by using your email and password. </p> <p>Regards,</p><p>Investify</p>",
+      html: `<!DOCTYPE html>
+      <html>
+      <head>
+      <title>Update Listing</title>
+      <style>
+          body {
+          font-family: Arial, sans-serif;
+          }
+
+          .container {
+          max-width: 500px;
+          margin: 0 auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          }
+
+          h2 {
+          text-align: center;
+          }
+
+          .btn {
+          display: inline-block;
+          background-color: #4CAF50;
+          color: white;
+          padding: 10px 20px;
+          text-decoration: none;
+          border-radius: 5px;
+          }
+      </style>
+      </head>
+      <body>
+      <div class="container">
+          <h2>Investor Account Registeration Successful.</h2>
+          <p>Dear ${req.body.firstName} ${req.body.lastName},</p>
+          <p>Your account is now registered you can login by using your email and password.</p>
+          <p>
+          </p>
+          <p>Thank you for choosing our platform. If you have any questions or need further assistance, please don't hesitate to contact our support team.</p>
+          <p>Best regards,<br/>Investify Team</p>
+      </div>
+      </body>
+      </html>`,
     };
     await transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -202,23 +233,6 @@ exports.investeeRegistration = async (req, res) => {
       });
       return;
     }
-    // const { valid, reason, validators } = await emailValidator.validate(
-    //   req.body.email,{
-    //     validateRegex: true,
-    //     validateMx: false,
-    //     validateTypo: false,
-    //     validateDisposable: false,
-    //     validateSMTP: true,
-    //   }
-    // );
-    // if (!valid) {
-    //   res.json({
-    //     message: validators[reason].reason,
-    //     reason: "Email is not valid or doesnot exist",
-    //     status: false,
-    //   });
-    //   return;
-    // }
     const hashPassword = await bcrypt.hash(req.body.password, 10);
     
     const transporter = await nodemailer.createTransport({
@@ -232,7 +246,49 @@ exports.investeeRegistration = async (req, res) => {
       from: "investify180@gmail.com",
       to: req.body.email,
       subject: "Investify",
-      html: "<h1>Your Investee account is awaiting approval</h1> <p>Approval may take upto 2 to 3 days by the admin.</p> <p>Regards,</p><p>Investify</p>",
+      html: `<!DOCTYPE html>
+      <html>
+      <head>
+      <title>Update Listing</title>
+      <style>
+          body {
+          font-family: Arial, sans-serif;
+          }
+
+          .container {
+          max-width: 500px;
+          margin: 0 auto;
+          padding: 20px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          }
+
+          h2 {
+          text-align: center;
+          }
+
+          .btn {
+          display: inline-block;
+          background-color: #4CAF50;
+          color: white;
+          padding: 10px 20px;
+          text-decoration: none;
+          border-radius: 5px;
+          }
+      </style>
+      </head>
+      <body>
+      <div class="container">
+          <h2>Investee Account Awaiting Admin Verification.</h2>
+          <p>Dear ${req.body.businessName},</p>
+          <p>Your account verification may take upto 2 or 3 days from the admin.</p>
+          <p>
+          </p>
+          <p>Thank you for choosing our platform. If you have any questions or need further assistance, please don't hesitate to contact our support team.</p>
+          <p>Best regards,<br/>Investify Team</p>
+      </div>
+      </body>
+      </html>`,
     };
     await transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
