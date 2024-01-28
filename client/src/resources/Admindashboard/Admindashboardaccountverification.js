@@ -12,18 +12,25 @@ import {
 } from "@chakra-ui/react";
 import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const Admindashboardaccountverification = () => {
   const [isLoading, setIsLoading] = useState(true);
-
   const toast = useToast();
+  const navigate = useNavigate();
+
 
   const [investee, setInvestee] = useState([]);
   useEffect(() => {
-    document.title = "Investify | Admin-Account Verification";
-    setIsLoading(true);
-    getInvestees();
-    setIsLoading(false);
+   
+    if(window.localStorage.getItem('adminToken')){
+      document.title = "Investify | Admin-Account Verification";
+      setIsLoading(true);
+      getInvestees();
+      setIsLoading(false);
+    }else{
+      navigate("/admin-login");
+    }
   }, []);
   const getInvestees = () => {
     const adminToken = window.localStorage.getItem('adminToken');

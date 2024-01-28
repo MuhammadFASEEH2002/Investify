@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "./components/Sidebar";
 import {
-  HStack,
   Heading,
   Stack,
   Text,
   Button,
-  Input,
-  InputGroup,
-  InputRightElement,
   useToast,
   Box,
-  StackDivider,
   Link,
   Modal,
   ModalOverlay,
@@ -20,12 +15,9 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
-  useDisclosure,
 Spinner
 } from "@chakra-ui/react";
-import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
-import { wrap } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 const Admindashboardlistingverification = () => {
@@ -33,6 +25,8 @@ const Admindashboardlistingverification = () => {
   const toast = useToast();
   const [selectedItem, setSelectedItem] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+
   const onOpen = (item) => {
     setSelectedItem(item);
     setIsModalOpen(true);
@@ -44,10 +38,15 @@ const Admindashboardlistingverification = () => {
   };
   const [listing, setListing] = useState([]);
   useEffect(() => {
-    document.title = "Investify | Admin Listing Verification";
-    setIsLoading(true);
-    getListing();
-    setIsLoading(false);
+
+    if(window.localStorage.getItem('adminToken')){
+      document.title = "Investify | Admin Listing Verification";
+      setIsLoading(true);
+      getListing();
+      setIsLoading(false);
+    }else{
+      navigate("/admin-login");
+    }
   }, []);
   const getListing = () => {
     const adminToken = window.localStorage.getItem('adminToken');

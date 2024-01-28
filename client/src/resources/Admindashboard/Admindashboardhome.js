@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
 import { Stack, Card, Heading, CardBody, CardHeader, Text, HStack, Spinner, Divider } from '@chakra-ui/react';
-import { wrap } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const Admindashboardhome = () => {
   const [allInvestorCount, setAllInvestorCount] = useState("");
@@ -13,18 +13,27 @@ const Admindashboardhome = () => {
 
   const [verifiedListingCount, setVerifiedListingCount] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
 
 
 
 
   useEffect(() => {
-    document.title = "Investify | Admin Home";
-    setIsLoading(true);
-    getStatistics();
-    setIsLoading(false);
+    if(window.localStorage.getItem('adminToken')){
+
+      document.title = "Investify | Admin Home";
+      setIsLoading(true);
+      getStatistics();
+      setIsLoading(false);
+    }else{
+      navigate("/admin-login");
+
+
+    }
 
   }, []);
+ 
   const getStatistics = () => {
     const adminToken = window.localStorage.getItem('adminToken');
     fetch("http://127.0.0.1:3001/api/admin/get-stats", {
