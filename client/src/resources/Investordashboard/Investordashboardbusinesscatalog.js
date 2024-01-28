@@ -2,14 +2,21 @@ import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
 import { Center, HStack, Input, Text, Box, Card, CardHeader, Heading, CardBody, CardFooter, Button, InputRightAddon, InputGroup } from "@chakra-ui/react";
 import { IoMdSearch } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+
 
 const Investordashboardbusinesscatalog = () => {
   const [listing, setListing] = useState([]);
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Investify | Investor-Business-Catalog";
-    getListing();
+    if(window.localStorage.getItem('token1')){
+      document.title = "Investify | Investor-Business-Catalog";
+      getListing();
+    }else{
+      navigate("/user-login");
+    }
   }, []);
   const getListing = () => {
     const token1 = window.localStorage.getItem('token1');
