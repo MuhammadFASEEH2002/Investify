@@ -9,7 +9,6 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Textarea,
   Input,
   useToast
 } from '@chakra-ui/react'
@@ -42,8 +41,12 @@ const Investeedashboardhome = () => {
       .catch((err) => console.log(err));
   };
   useEffect(() => {
-    document.title = "Investify | Investee-Home";
-    getUser();
+    if(window.localStorage.getItem('token')){
+      document.title = "Investify | Investee-Home";
+      getUser();
+    }else{
+      navigate("/user-login");
+    }
   }, []);
   const openEditModal = (investee) => {
     setAddress(investee.address);

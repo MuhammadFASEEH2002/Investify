@@ -7,14 +7,7 @@ import {
   Text,
   Button,
   Input,
-  InputGroup,
-  InputRightElement,
   useToast,
-  Box,
-  StackDivider,
-  Link,
-  Select,
-  Center,
   Textarea,
 } from "@chakra-ui/react";
 
@@ -29,7 +22,13 @@ const Investeedashboardlistingcreation = () => {
   };
   const toast = useToast();
   const navigate = useNavigate();
-
+  useEffect(() => {
+    if(window.localStorage.getItem('token')){
+      document.title = "Investify | Investee-Listing Creation";
+    }else{
+      navigate("/user-login");
+    }
+  }, []);
   const createListing = () => {
     const token = window.localStorage.getItem('token');
     // console.log({

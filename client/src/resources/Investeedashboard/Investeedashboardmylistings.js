@@ -7,11 +7,8 @@ import {
   Text,
   Button,
   Input,
-  InputGroup,
-  InputRightElement,
   useToast,
   Box,
-  StackDivider,
   Link,
   Modal,
   ModalOverlay,
@@ -24,9 +21,9 @@ import {
   Textarea,
   Spinner
 } from "@chakra-ui/react";
-import { ExternalLinkIcon } from '@chakra-ui/icons'
 import { Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+
 const Investeedashboardmylistings = () => {
   const toast = useToast();
   const navigate = useNavigate();
@@ -40,17 +37,17 @@ const Investeedashboardmylistings = () => {
   };
   const [listing, setListing] = useState([]);
   useEffect(() => {
-    document.title = "Investify | Investee Listings";
-    setIsLoading(true);
-    getMyListing();
-    setIsLoading(false);
-
+    if (window.localStorage.getItem('token')) {
+      document.title = "Investify | Investee Listings";
+      setIsLoading(true);
+      getMyListing();
+      setIsLoading(false);
+    } else {
+      navigate("/user-login");
+    }
   }, []);
   const editListing = (listingId, listingInvesteeEmail) => {
     const token = window.localStorage.getItem('token');
-    // console.log({
-    //   description, profitPercentage, amount
-    // });
     if (
       description && profitPercentage && amount && investmentDuration
     ) {
@@ -81,7 +78,6 @@ const Investeedashboardmylistings = () => {
             });
             navigate("/user/investee-dashboard/home");
           } else {
-            // alert(res.message);
             toast({
               title: "Authentication Error",
               description: res.message,
@@ -120,9 +116,6 @@ const Investeedashboardmylistings = () => {
       .then((data) => { setListing(data.listing) })
       .catch((err) => console.log(err));
   };
-  // const { isOpen, onOpen, onClose } = useDisclosure()
-  // const { isEditOpen, onEditOpen, onEditClose } = useDisclosure()
-  // const { isOpen: isFirstModalOpen, onOpen: onFirstModalOpen, onClose: onFirstModalClose } = useDisclosure();
   const { isOpen: isSecondModalOpen, onOpen: onSecondModalOpen, onClose: onSecondModalClose } = useDisclosure();
   const [selectedItem, setSelectedItem] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -181,7 +174,7 @@ const Investeedashboardmylistings = () => {
             display: "flex",
             flexWrap: "wrap",
             alignItems: "center",
-            justifyContent:'center'
+            justifyContent: 'center'
           }}
         >
           {isLoading ? (
@@ -193,181 +186,181 @@ const Investeedashboardmylistings = () => {
                 color='blue.500'
                 size='xl'
               />
-            </Stack> ):(
-          listing.length > 0 ? (
-            listing?.map((item) =>
-          (
-          <Card align="center" width={"350px"} margin={"10px"}>
-            <CardHeader>
-              <Heading size="md">{item.investee_id.businessName}</Heading>
-            </CardHeader>
-            <CardBody>
-              <Text noOfLines={[1, 2, 3]}>
-                <span style={{ fontWeight: "bold" }}>Description : </span>
-                {item.description}
-
-              </Text>
-              <Link onClick={() => onOpen(item)} color={"blue"}>Read More</Link>
-
-              <Modal onClose={onClose} isOpen={isModalOpen && item === selectedItem} isCentered>
-                <ModalOverlay />
-                <ModalContent>
-                  <ModalHeader>{item.investee_id.businessName}</ModalHeader>
-                  <ModalCloseButton />
-                  <ModalBody>
-                    <Text>
+            </Stack>) : (
+            listing.length > 0 ? (
+              listing?.map((item) =>
+              (
+                <Card align="center" width={"350px"} margin={"10px"}>
+                  <CardHeader>
+                    <Heading size="md">{item.investee_id.businessName}</Heading>
+                  </CardHeader>
+                  <CardBody>
+                    <Text noOfLines={[1, 2, 3]}>
+                      <span style={{ fontWeight: "bold" }}>Description : </span>
                       {item.description}
 
                     </Text>
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button onClick={onClose}>Close</Button>
-                  </ModalFooter>
-                </ModalContent>
-              </Modal>
-              <Text>
-                <span style={{ fontWeight: "bold" }}>Amount Required : </span>
-                Rs {item.amount}
-              </Text>
-              <Text>
-                <span style={{ fontWeight: "bold" }}>Profit Percentage : </span>
-                {item.profitPercentage}%
-              </Text>
-              <Text>
-                <span style={{ fontWeight: "bold" }}>Investment Duration : </span>
-                {item.investmentDuration} year
-              </Text>
-              <Text>
-                <span style={{ fontWeight: "bold" }}>Email : </span>
-                {item.investee_id.email}
-              </Text>
-              <Text>
-                <span style={{ fontWeight: "bold" }}>Address : </span>
-                {item.investee_id.address}, {item.investee_id.zipcode}, {item.investee_id.city}, {item.investee_id.country}
-              </Text>
-              <Text>
-                <span style={{ fontWeight: "bold" }}>Phone Number : </span>
-                {item.investee_id.phoneNumber}
-              </Text>
+                    <Link onClick={() => onOpen(item)} color={"blue"}>Read More</Link>
 
-            </CardBody>
-            <CardFooter>
-              <Button colorScheme="gray" margin={"10px"}
-                onClick={() => {
-                  deleteListing(item._id, item.investee_id.email);
-                }}
-              >
-                Delete
-              </Button>
-              <Button
-                colorScheme="blue"
-                margin={"10px"}
-                onClick={() => openEditModal(item)}
+                    <Modal onClose={onClose} isOpen={isModalOpen && item === selectedItem} isCentered>
+                      <ModalOverlay />
+                      <ModalContent>
+                        <ModalHeader>{item.investee_id.businessName}</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                          <Text>
+                            {item.description}
 
-              >
-                Edit
-              </Button>
-              <Modal onClose={onSecondModalClose} isOpen={isSecondModalOpen} size={"full"} isCentered>
-                <ModalOverlay />
-                <ModalContent>
-                  <ModalCloseButton />
-                  <ModalBody>
-                    <HStack
-                      width={"100%"}
-                      flexDirection={{ base: "column", md: "row", lg: "row" }}
-                      spacing={"0px"}
-                      alignItems={"center"}
-                      justifyContent={"center"}
+                          </Text>
+                        </ModalBody>
+                        <ModalFooter>
+                          <Button onClick={onClose}>Close</Button>
+                        </ModalFooter>
+                      </ModalContent>
+                    </Modal>
+                    <Text>
+                      <span style={{ fontWeight: "bold" }}>Amount Required : </span>
+                      Rs {item.amount}
+                    </Text>
+                    <Text>
+                      <span style={{ fontWeight: "bold" }}>Profit Percentage : </span>
+                      {item.profitPercentage}%
+                    </Text>
+                    <Text>
+                      <span style={{ fontWeight: "bold" }}>Investment Duration : </span>
+                      {item.investmentDuration} year
+                    </Text>
+                    <Text>
+                      <span style={{ fontWeight: "bold" }}>Email : </span>
+                      {item.investee_id.email}
+                    </Text>
+                    <Text>
+                      <span style={{ fontWeight: "bold" }}>Address : </span>
+                      {item.investee_id.address}, {item.investee_id.zipcode}, {item.investee_id.city}, {item.investee_id.country}
+                    </Text>
+                    <Text>
+                      <span style={{ fontWeight: "bold" }}>Phone Number : </span>
+                      {item.investee_id.phoneNumber}
+                    </Text>
+
+                  </CardBody>
+                  <CardFooter>
+                    <Button colorScheme="gray" margin={"10px"}
+                      onClick={() => {
+                        deleteListing(item._id, item.investee_id.email);
+                      }}
                     >
-                      <Stack width={{ base: "100%", md: "50%", lg: "50%" }} spacing={"0px"} alignItems={"center"} justifyContent={"center"}>
-                        <HStack width={"100%"}>
-                          <Stack width={"100%"}>
-                            <Text>Business Description</Text>
-                            <Textarea
-                              placeholder="Describe your business in not more than 200 words."
-                              width={"90%"}
-                              variant={"filled"}
-                              border={"0.5px solid grey"}
-                              value={description}
-                              onChange={(event) =>
-                                handleInputChange(event, setDescription)
-                              }
-                              isRequired
-                            />
-                          </Stack>
-                        </HStack>
-                        <HStack width={"100%"}>
-                          <Stack width={"100%"}>
-                            <Text>Profit Share Percentage</Text>
-                            <Input
-                              type="number"
-                              placeholder="should not be more than 30%"
-                              width={"90%"}
-                              variant={"filled"}
-                              border={"0.5px solid grey"}
-                              value={profitPercentage}
-                              isRequired
-                              onChange={(event) => handleInputChange(event, setProfitPercentage)}
-                            />
-                          </Stack>
-                        </HStack>
-                        <HStack width={"100%"}>
-                          <Stack width={"100%"}>
-                            <Text>Investment Duration</Text>
-                            <Input
-                              type="number"
-                              placeholder="Enter the duration of investment in years"
-                              width={"90%"}
-                              variant={"filled"}
-                              border={"0.5px solid grey"}
-                              value={investmentDuration}
-                              isRequired
-                              onChange={(event) => handleInputChange(event, setInvestmentDuration)}
-                            />
-                          </Stack>
-                        </HStack>
-                        <HStack width={"100%"}>
-                          <Stack width={"100%"}>
-                            <Text>Amount Required</Text>
-                            <Input
-                              type="number"
-                              placeholder="max amount allowed is Rs 25,000"
-                              width={"90%"}
-                              variant={"filled"}
-                              border={"0.5px solid grey"}
-                              isRequired
-                              value={amount}
+                      Delete
+                    </Button>
+                    <Button
+                      colorScheme="blue"
+                      margin={"10px"}
+                      onClick={() => openEditModal(item)}
 
-                              onChange={(event) => handleInputChange(event, setAmount)}
-                            />
-                          </Stack>
-                        </HStack>
-                        <Button
-                          colorScheme="teal"
-                          variant="solid"
-                          marginTop={"30px"}
-                          size={{ base: "md", md: "md", lg: "lg" }}
-                          onClick={() => { editListing(item._id, item.investee_id.email) }}
-                        >
-                          Update
-                        </Button>
-                      </Stack>
+                    >
+                      Edit
+                    </Button>
+                    <Modal onClose={onSecondModalClose} isOpen={isSecondModalOpen} size={"full"} isCentered>
+                      <ModalOverlay />
+                      <ModalContent>
+                        <ModalCloseButton />
+                        <ModalBody>
+                          <HStack
+                            width={"100%"}
+                            flexDirection={{ base: "column", md: "row", lg: "row" }}
+                            spacing={"0px"}
+                            alignItems={"center"}
+                            justifyContent={"center"}
+                          >
+                            <Stack width={{ base: "100%", md: "50%", lg: "50%" }} spacing={"0px"} alignItems={"center"} justifyContent={"center"}>
+                              <HStack width={"100%"}>
+                                <Stack width={"100%"}>
+                                  <Text>Business Description</Text>
+                                  <Textarea
+                                    placeholder="Describe your business in not more than 200 words."
+                                    width={"90%"}
+                                    variant={"filled"}
+                                    border={"0.5px solid grey"}
+                                    value={description}
+                                    onChange={(event) =>
+                                      handleInputChange(event, setDescription)
+                                    }
+                                    isRequired
+                                  />
+                                </Stack>
+                              </HStack>
+                              <HStack width={"100%"}>
+                                <Stack width={"100%"}>
+                                  <Text>Profit Share Percentage</Text>
+                                  <Input
+                                    type="number"
+                                    placeholder="should not be more than 30%"
+                                    width={"90%"}
+                                    variant={"filled"}
+                                    border={"0.5px solid grey"}
+                                    value={profitPercentage}
+                                    isRequired
+                                    onChange={(event) => handleInputChange(event, setProfitPercentage)}
+                                  />
+                                </Stack>
+                              </HStack>
+                              <HStack width={"100%"}>
+                                <Stack width={"100%"}>
+                                  <Text>Investment Duration</Text>
+                                  <Input
+                                    type="number"
+                                    placeholder="Enter the duration of investment in years"
+                                    width={"90%"}
+                                    variant={"filled"}
+                                    border={"0.5px solid grey"}
+                                    value={investmentDuration}
+                                    isRequired
+                                    onChange={(event) => handleInputChange(event, setInvestmentDuration)}
+                                  />
+                                </Stack>
+                              </HStack>
+                              <HStack width={"100%"}>
+                                <Stack width={"100%"}>
+                                  <Text>Amount Required</Text>
+                                  <Input
+                                    type="number"
+                                    placeholder="max amount allowed is Rs 25,000"
+                                    width={"90%"}
+                                    variant={"filled"}
+                                    border={"0.5px solid grey"}
+                                    isRequired
+                                    value={amount}
 
-                    </HStack>
-                  </ModalBody>
-                  <ModalFooter>
-                    <Button onClick={onSecondModalClose}>Close</Button>
-                  </ModalFooter>
-                </ModalContent>
-              </Modal>
-            </CardFooter>
-          </Card>
-          ))
-          ) : (
+                                    onChange={(event) => handleInputChange(event, setAmount)}
+                                  />
+                                </Stack>
+                              </HStack>
+                              <Button
+                                colorScheme="teal"
+                                variant="solid"
+                                marginTop={"30px"}
+                                size={{ base: "md", md: "md", lg: "lg" }}
+                                onClick={() => { editListing(item._id, item.investee_id.email) }}
+                              >
+                                Update
+                              </Button>
+                            </Stack>
 
-          <Text>No current listings created.</Text>
+                          </HStack>
+                        </ModalBody>
+                        <ModalFooter>
+                          <Button onClick={onSecondModalClose}>Close</Button>
+                        </ModalFooter>
+                      </ModalContent>
+                    </Modal>
+                  </CardFooter>
+                </Card>
+              ))
+            ) : (
 
-          )
+              <Text>No current listings created.</Text>
+
+            )
           )}
         </Box>
       </Sidebar>

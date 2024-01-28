@@ -9,12 +9,6 @@ import {
   InputGroup,
   InputRightElement,
   useToast,
-  Box,
-  StackDivider,
-  Link,
-  Select,
-  Center,
-  Textarea,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
@@ -38,7 +32,11 @@ const Investeedashboardchangepassword = () => {
   const toast = useToast();
   const navigate = useNavigate();
   useEffect(() => {
-    document.title = "Investify | Investee Passsword Change";
+    if(window.localStorage.getItem('token')){
+      document.title = "Investify | Investee Passsword Change";
+    }else{
+      navigate("/user-login");
+    }
   }, []);
   const changePassword = () => {
     const token = window.localStorage.getItem("token");

@@ -18,19 +18,25 @@ import {
   Spinner
 } from "@chakra-ui/react";
 import { Card, CardHeader, CardBody} from "@chakra-ui/react";
-
+import { useNavigate } from 'react-router-dom';
 
 const Investeedashboardlistinghistory = () => {
   const toast = useToast();
+  const navigate = useNavigate();
   const [selectedItem, setSelectedItem] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [listing, setListing] = useState([]);
+
   useEffect(() => {
-    document.title = "Investify | Investee Listing History";
-    setIsLoading(true);
-    getMyListing();
-    setIsLoading(false)
+    if(window.localStorage.getItem('token')){
+      document.title = "Investify | Investee Listing History";
+      setIsLoading(true);
+      getMyListing();
+      setIsLoading(false)
+    }else{
+      navigate("/user-login");
+    }
   }, []);
   const getMyListing = () => {
     const adminToken = window.localStorage.getItem('token');
