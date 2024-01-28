@@ -23,6 +23,10 @@ const Investeedashboardhome = () => {
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
   };
+  const checkIfNumber =(event)=> {
+    const regex = new RegExp(/(^\d*$)|(Backspace|Tab|Delete|ArrowLeft|ArrowRight)/);    
+    return !event.key.match(regex) && event.preventDefault();
+ }
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -188,8 +192,8 @@ address && zipcode
                 variant={"filled"}
                 border={"0.5px solid grey"}
                 value={zipcode}
-
                 isRequired
+                onKeyDown={(event) => checkIfNumber(event)}
                 onChange={(event) => handleInputChange(event, setZipcode)}
               />
               

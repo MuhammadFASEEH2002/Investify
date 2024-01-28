@@ -20,12 +20,17 @@ const Investeedashboardlistingcreation = () => {
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
   };
+  const checkIfNumber = (event) => {
+    const regex = new RegExp(/(^\d*$)|(Backspace|Tab|Delete|ArrowLeft|ArrowRight)/);
+    return !event.key.match(regex) && event.preventDefault();
+  }
+
   const toast = useToast();
   const navigate = useNavigate();
   useEffect(() => {
-    if(window.localStorage.getItem('token')){
+    if (window.localStorage.getItem('token')) {
       document.title = "Investify | Investee-Listing Creation";
-    }else{
+    } else {
       navigate("/user-login");
     }
   }, []);
@@ -39,15 +44,15 @@ const Investeedashboardlistingcreation = () => {
     ) {
       fetch("http://127.0.0.1:3001/api/investee/create-listing", {
         method: "POST",
-        body:  JSON.stringify({
-         description, profitPercentage, amount,investmentDuration
+        body: JSON.stringify({
+          description, profitPercentage, amount, investmentDuration
         }),
-           headers: {
-            'token': token,
-            'Accept': "application/json",
-            "Content-Type": "application/json",
-          },
- 
+        headers: {
+          'token': token,
+          'Accept': "application/json",
+          "Content-Type": "application/json",
+        },
+
       })
         .then((res) => {
           return res.json();
@@ -124,6 +129,8 @@ const Investeedashboardlistingcreation = () => {
                   variant={"filled"}
                   border={"0.5px solid grey"}
                   isRequired
+                  onKeyDown={(event) => checkIfNumber(event)}
+
                   onChange={(event) => handleInputChange(event, setProfitPercentage)}
                 />
               </Stack>
@@ -138,6 +145,7 @@ const Investeedashboardlistingcreation = () => {
                   variant={"filled"}
                   border={"0.5px solid grey"}
                   isRequired
+                  onKeyDown={(event) => checkIfNumber(event)}
                   onChange={(event) => handleInputChange(event, setInvestmentDuration)}
                 />
               </Stack>
@@ -152,6 +160,7 @@ const Investeedashboardlistingcreation = () => {
                   variant={"filled"}
                   border={"0.5px solid grey"}
                   isRequired
+                  onKeyDown={(event) => checkIfNumber(event)}
                   onChange={(event) => handleInputChange(event, setAmount)}
                 />
               </Stack>

@@ -35,6 +35,10 @@ const Investeedashboardmylistings = () => {
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
   };
+  const checkIfNumber = (event) => {
+    const regex = new RegExp(/(^\d*$)|(Backspace|Tab|Delete|ArrowLeft|ArrowRight)/);
+    return !event.key.match(regex) && event.preventDefault();
+  }
   const [listing, setListing] = useState([]);
   useEffect(() => {
     if (window.localStorage.getItem('token')) {
@@ -300,6 +304,7 @@ const Investeedashboardmylistings = () => {
                                     border={"0.5px solid grey"}
                                     value={profitPercentage}
                                     isRequired
+                                    onKeyDown={(event) => checkIfNumber(event)}
                                     onChange={(event) => handleInputChange(event, setProfitPercentage)}
                                   />
                                 </Stack>
@@ -315,6 +320,7 @@ const Investeedashboardmylistings = () => {
                                     border={"0.5px solid grey"}
                                     value={investmentDuration}
                                     isRequired
+                                    onKeyDown={(event) => checkIfNumber(event)}
                                     onChange={(event) => handleInputChange(event, setInvestmentDuration)}
                                   />
                                 </Stack>
@@ -330,7 +336,7 @@ const Investeedashboardmylistings = () => {
                                     border={"0.5px solid grey"}
                                     isRequired
                                     value={amount}
-
+                                    onKeyDown={(event) => checkIfNumber(event)}
                                     onChange={(event) => handleInputChange(event, setAmount)}
                                   />
                                 </Stack>
