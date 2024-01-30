@@ -108,12 +108,56 @@ const Userlogin = () => {
       });
     }
   };
-  const sendOtp = () => {
+  const investeeLogin = () => {
     if (email && password) {
-      fetch("http://127.0.0.1:3001/api/auth/send-otp", {
+      fetch("http://127.0.0.1:3001/api/auth/investee-login", {
         method: "POST",
         body: JSON.stringify({
           email,
+          password,
+        }),
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        return res.json();
+      })
+        .then((res) => {
+          if (res.status) {
+            window.localStorage.setItem("token", res.token);
+            
+            navigate("/user/investee-dashboard/home");
+          } else {
+            toast({
+              title: "Authentication Error",
+              description: res.message,
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+              position: "top"
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+      } else {
+        toast({
+          title: "Empty Fields",
+        description: "Kindly fill the required fields",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
+  const sendOtp = () => {
+    if (email && selectedRole1) {
+      fetch("http://127.0.0.1:3001/api/auth/send-otp", {
+        method: "POST",
+        body: JSON.stringify({
+          email,selectedRole1
         }),
         headers: {
           Accept: "application/json",
@@ -128,50 +172,6 @@ const Userlogin = () => {
             setOtp(true);
           } else {
             // alert(res.message);
-            toast({
-              title: "Authentication Error",
-              description: res.message,
-              status: "error",
-              duration: 9000,
-              isClosable: true,
-              position: "top"
-            });
-          }
-        })
-        .catch((err) => console.log(err));
-    } else {
-      toast({
-        title: "Empty Fields",
-        description: "Kindly fill the required fields",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-        position: "top",
-      });
-    }
-  };
-  const investeeLogin = () => {
-    if (email && password) {
-      fetch("http://127.0.0.1:3001/api/auth/investee-login", {
-        method: "POST",
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then((res) => {
-          if (res.status) {
-            window.localStorage.setItem("token", res.token);
-
-            navigate("/user/investee-dashboard/home");
-          } else {
             toast({
               title: "Authentication Error",
               description: res.message,
@@ -360,7 +360,7 @@ const Userlogin = () => {
                               onChange={(event) => handleInputChange(event, setEmail)}
                             />
 
-                            <Button colorScheme="teal"
+                            <Button onClick={()=>sendOtp()} colorScheme="teal"
                               variant="solid">Get OTP</Button>
                           </HStack>
                           {otp ? (     <>

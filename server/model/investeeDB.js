@@ -64,7 +64,7 @@ const InvesteeSchema = new mongo.Schema({
         required:true
     },
     OTP:{
-        type:Int,
+ 
     }
     // listings:[{
     //     type: mongo.Types.ObjectId,

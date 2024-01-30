@@ -7,6 +7,7 @@ const emailValidator = require("deep-email-validator");
 const nodemailer = require("nodemailer");
 const multer = require("multer");
 const path = require("path");
+const otpGenerator = require('otp-generator')
 
 exports.investorRegistration = async (req, res) => {
   try {
@@ -412,6 +413,16 @@ exports.adminLogin = async (req, res) => {
 };
 exports.sendOtp = async (req, res) => {
   try {
+    if(req.body.selectedRole1=="investor"){
+    const investor = await Investor.findOne({ email: req.body.email });
+    if(investor){
+  
+    const otp=otpGenerator.generate(4, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false });
+
+    }else{
+      res.json({ message: "User Doesn't Exist", status: false });
+    }
+    }
     const Exist = await Admin.findOne({ username: req.body.username });
     if (!Exist) {
       res.json({ message: "Invalid Credentials", status: false });
