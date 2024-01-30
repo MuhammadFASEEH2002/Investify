@@ -24,6 +24,8 @@ router.post('/investee-registration' ,upload.single("file"), AuthController.inve
 router.post('/investor-login' , AuthController.investorLogin)
 router.post('/investee-login' , AuthController.investeeLogin)
 router.post('/admin-login' , AuthController.adminLogin)
+router.post('/send-otp' , AuthController.sendOtp)
+
 
 
 module.exports = router;

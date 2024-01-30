@@ -410,3 +410,25 @@ exports.adminLogin = async (req, res) => {
     res.json({ message: error.message, status: false });
   }
 };
+exports.sendOtp = async (req, res) => {
+  try {
+    const Exist = await Admin.findOne({ username: req.body.username });
+    if (!Exist) {
+      res.json({ message: "Invalid Credentials", status: false });
+    } else {
+      // const verify = await bcrypt.compare(req.body.password, Exist._doc.password);
+
+      if (Exist._doc.password == req.body.password) {
+        const adminToken = await jwt.sign({ id: Exist._doc._id }, "admin", { expiresIn: '1h' });
+        res.json({
+          adminToken,
+          status: true,
+        });
+      } else {
+        res.json({ message: "Invalid Password", status: false });
+      }
+    }
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};

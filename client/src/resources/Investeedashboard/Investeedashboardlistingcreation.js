@@ -130,7 +130,6 @@ const Investeedashboardlistingcreation = () => {
                   border={"0.5px solid grey"}
                   isRequired
                   onKeyDown={(event) => checkIfNumber(event)}
-
                   onChange={(event) => handleInputChange(event, setProfitPercentage)}
                 />
               </Stack>
