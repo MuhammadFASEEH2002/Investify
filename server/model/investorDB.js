@@ -43,6 +43,8 @@ const InvestorSchema = new mongo.Schema({
         type:String,
         required:true
     },
+    OTP:{
+    }
 
 })
 

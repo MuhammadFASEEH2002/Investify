@@ -235,7 +235,7 @@ exports.investeeRegistration = async (req, res) => {
       return;
     }
     const hashPassword = await bcrypt.hash(req.body.password, 10);
-    
+
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -413,32 +413,30 @@ exports.adminLogin = async (req, res) => {
 };
 exports.sendOtp = async (req, res) => {
   try {
-    if(req.body.selectedRole1=="investor"){
-    const investor = await Investor.findOne({ email: req.body.email });
-    if(investor){
-  
-    const otp=otpGenerator.generate(4, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false });
-
-    }else{
-      res.json({ message: "User Doesn't Exist", status: false });
-    }
-    }
-    const Exist = await Admin.findOne({ username: req.body.username });
-    if (!Exist) {
-      res.json({ message: "Invalid Credentials", status: false });
-    } else {
-      // const verify = await bcrypt.compare(req.body.password, Exist._doc.password);
-
-      if (Exist._doc.password == req.body.password) {
-        const adminToken = await jwt.sign({ id: Exist._doc._id }, "admin", { expiresIn: '1h' });
-        res.json({
-          adminToken,
-          status: true,
-        });
+    if (req.body.selectedRole1 == "investor") {
+      const investor = await Investor.findOne({ email: req.body.email });
+      if (investor) {
+        const otp = otpGenerator.generate(4, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false });
+       await Investor.findByIdAndUpdate(
+        { _id: investor._id },
+        { OTP: otp }
+      );
       } else {
-        res.json({ message: "Invalid Password", status: false });
+        res.json({ message: "User Doesn't Exist", status: false });
+      }
+    }else if(req.body.selectedRole1 == "investee"){
+      const investee = await Investee.findOne({ email: req.body.email });
+      if (investee) {
+        const otp = otpGenerator.generate(4, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false });
+        await Investee.findByIdAndUpdate(
+          { _id: investee._id },
+          { OTP: otp }
+        );
+      } else {
+        res.json({ message: "User Doesn't Exist", status: false });
       }
     }
+
   } catch (error) {
     res.json({ message: error.message, status: false });
   }
