@@ -654,7 +654,7 @@ exports.updatePassword = async (req, res) => {
             </head>
             <body>
             <div class="container">
-                <h2>Investee Password Recovery OTP.</h2>
+                <h2>Investee Password Updated.</h2>
                 <p>Dear ${investor.firstName},</p>
                 <p>Your account password is successfully changed.</p>
                 <p>
@@ -693,82 +693,102 @@ exports.updatePassword = async (req, res) => {
     } else if (req.body.selectedRole1 == "investee") {
       const investee = await Investee.findOne({ email: req.body.forgotEmail });
       if (investee) {
-        const otp = otpGenerator.generate(4, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false });
-        await Investee.findByIdAndUpdate(
-          { _id: investee._id },
-          { OTP: otp }
-        );
-        const transporter = await nodemailer.createTransport({
-          service: "gmail",
-          auth: {
-            user: "investify180@gmail.com",
-            pass: "vqkr elcq xdba mnbj",
-          },
-        });
-        const mailOptions = await {
-          from: "investify180@gmail.com",
-          to: req.body.forgotEmail,
-          subject: "Investify",
-          html: `<!DOCTYPE html>
-          <html>
-          <head>
-          <title>Update Listing</title>
-          <style>
-              body {
-              font-family: Arial, sans-serif;
-              }
-              .container {
-              max-width: 500px;
-              margin: 0 auto;
-              padding: 20px;
-              border: 1px solid #ccc;
-              border-radius: 5px;
-              }
-    
-              h2 {
-              text-align: center;
-              }
-    
-              .btn {
-              display: inline-block;
-              background-color: #4CAF50;
-              color: white;
-              padding: 10px 20px;
-              text-decoration: none;
-              border-radius: 5px;
-              }
-          </style>
-          </head>
-          <body>
-          <div class="container">
-              <h2>Investee Password Recovery OTP.</h2>
-              <p>Dear ${investee.businessName},</p>
-              <p>Your 4 digit OTP is ${otp}.</p>
-              <p>
-              </p>
-              <p>Thank you for choosing our platform. If you have any questions or need further assistance, please don't hesitate to contact our support team.</p>
-              <p>Best regards,<br/>Investify Team</p>
-          </div>
-          </body>
-          </html>`,
-        };
-        await transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            console.log("Error" + error);
+        const passwordRegex = /^(?=.*[A-Za-z0-9])(?!.*\s).{8,}$/;
+        if(investee.OTP==req.body.otpNumber){
+          if (
+            !passwordRegex.test(req.body.newPassword)
+          ) {
             res.json({
-              message: error,
+              message:
+                "Password should have minimum 8 characters. No spaces allowed and at least 1 alphabet or letter is compulsory",
               status: false,
             });
             return;
-          } else {
-            console.log("Email sent:" + info.response);
-            // res.json({ status: 201, info });
           }
-        });
-        res.json({
-          status: true,
-          message: "OTP delivered on the verified email address"
-        });
+      const hashPassword = await bcrypt.hash(req.body.newPassword, 10);
+  
+          await Investee.findByIdAndUpdate(
+            { _id: investee._id },
+            { password: hashPassword }
+          );
+      
+          const transporter = await nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+              user: "investify180@gmail.com",
+              pass: "vqkr elcq xdba mnbj",
+            },
+          });
+          const mailOptions = await {
+            from: "investify180@gmail.com",
+            to: req.body.forgotEmail,
+            subject: "Investify",
+            html: `<!DOCTYPE html>
+            <html>
+            <head>
+            <title>Update Listing</title>
+            <style>
+                body {
+                font-family: Arial, sans-serif;
+                }
+      
+                .container {
+                max-width: 500px;
+                margin: 0 auto;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                }
+      
+                h2 {
+                text-align: center;
+                }
+      
+                .btn {
+                display: inline-block;
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 5px;
+                }
+            </style>
+            </head>
+            <body>
+            <div class="container">
+                <h2>Investee Password Updated.</h2>
+                <p>Dear ${investor.businessName},</p>
+                <p>Your account password is successfully changed.</p>
+                <p>
+                </p>
+                <p>Thank you for choosing our platform. If you have any questions or need further assistance, please don't hesitate to contact our support team.</p>
+                <p>Best regards,<br/>Investify Team</p>
+            </div>
+            </body>
+            </html>`,
+          };
+          await transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+              console.log("Error" + error);
+              res.json({
+                message: error,
+                status: false,
+              });
+              return;
+            } else {
+              console.log("Email sent:" + info.response);
+              // res.json({ status: 201, info });
+            }
+          });
+          res.json({
+            status: true,
+            message: "OTP delivered on the verified email address"
+          });
+        }else{
+        res.json({ message: "OTP didnot match", status: false });
+
+        }
+
       } else {
         res.json({ message: "User Doesn't Exist", status: false });
       }
