@@ -27,10 +27,14 @@ import Logo from "../../components/Logo";
 const Userlogin = () => {
   const toast = useToast();
   const [email, setEmail] = useState("");
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotEmailDisable, setForgotEmailDisable] = useState(false);
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [confirmpassword, setConfirmPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [otp, setOtp] = useState(false);
+  const [otpNumber, setOtpNumber] = useState("");
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
@@ -46,7 +50,7 @@ const Userlogin = () => {
   const navigate = useNavigate();
   useEffect(() => {
     document.title = "Investify | UserLogin";
-    if (window.localStorage.getItem('token')){
+    if (window.localStorage.getItem('token')) {
       navigate("/user/investee-dashboard/home");
     } else if (window.localStorage.getItem('token1')) {
       navigate("/user/investor-dashboard/business-catalog");
@@ -59,6 +63,7 @@ const Userlogin = () => {
   const onClose = () => {
     setIsModalOpen(false);
     setOtp(false);
+    setForgotEmailDisable(false);
   };
   const checkIfNumber = (event) => {
     const regex = new RegExp(/(^\d*$)|(Backspace|Tab|Delete|ArrowLeft|ArrowRight)/);
@@ -121,13 +126,13 @@ const Userlogin = () => {
           "Content-Type": "application/json",
         },
       })
-      .then((res) => {
-        return res.json();
-      })
+        .then((res) => {
+          return res.json();
+        })
         .then((res) => {
           if (res.status) {
             window.localStorage.setItem("token", res.token);
-            
+
             navigate("/user/investee-dashboard/home");
           } else {
             toast({
@@ -141,9 +146,9 @@ const Userlogin = () => {
           }
         })
         .catch((err) => console.log(err));
-      } else {
-        toast({
-          title: "Empty Fields",
+    } else {
+      toast({
+        title: "Empty Fields",
         description: "Kindly fill the required fields",
         status: "error",
         duration: 9000,
@@ -153,11 +158,11 @@ const Userlogin = () => {
     }
   };
   const sendOtp = () => {
-    if (email && selectedRole1) {
+    if (forgotEmail && selectedRole1) {
       fetch("http://127.0.0.1:3001/api/auth/send-otp", {
         method: "POST",
         body: JSON.stringify({
-          email,selectedRole1
+          forgotEmail, selectedRole1
         }),
         headers: {
           Accept: "application/json",
@@ -169,7 +174,16 @@ const Userlogin = () => {
         })
         .then((res) => {
           if (res.status) {
+            toast({
+              title: "OTP Delivered",
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+              position: "top"
+            });
             setOtp(true);
+            setForgotEmailDisable(true);
+
           } else {
             // alert(res.message);
             toast({
@@ -183,6 +197,68 @@ const Userlogin = () => {
           }
         })
         .catch((err) => console.log(err));
+    } else {
+      toast({
+        title: "Empty Fields",
+        description: "Kindly fill the required fields",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        position: "top",
+      });
+    }
+  };
+  const updatePassword = () => {
+    if (otpNumber && selectedRole1 && newPassword && confirmPassword){
+      if (newPassword == confirmPassword) {
+        fetch("http://127.0.0.1:3001/api/auth/update-password", {
+          method: "POST",
+          body: JSON.stringify({
+            otpNumber, selectedRole1,  newPassword,forgotEmail
+          }),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        })
+        .then((res) => {
+          return res.json();
+        })
+        .then((res) => {
+          if (res.status) {
+            toast({
+              title: "Password Updated",
+              status: "success",
+              duration: 9000,
+              isClosable: true,
+              position: "top"
+            });
+            setIsModalOpen(false);
+            setOtp(false);
+
+
+          } else {
+            // alert(res.message);
+            toast({
+              title: "Authentication Error",
+              description: res.message,
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+              position: "top"
+            });
+          }
+        })
+        .catch((err) => console.log(err));
+      } else { 
+        toast({
+        title: "Both Passwords didnot match",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        position: "top",
+      });}
+
     } else {
       toast({
         title: "Empty Fields",
@@ -317,53 +393,60 @@ const Userlogin = () => {
                       <ModalHeader></ModalHeader>
                       <ModalCloseButton />
                       <ModalBody>
-                        <Text>Select Role:</Text>
-                        <RadioGroup
-                          onChange={setSelectedRole1}
-                          value={selectedRole1}
-                          width={"80%"}
-                          margin={"5px"}
-                        >
-                          <Stack
-                            direction="row"
-                            alignItems={"center"}
-                            justifyContent={"flex-start"}
-                            width={"80%"}
-                          >
-                            <Radio
-                              size={"md"}
-                              value="investor"
-                              border={"0.5px solid grey"}
-                              marginRight={"20px"}
-                            >
-                              Investor
-                            </Radio>
-                            <Radio
-                              value="investee"
-                              border={"0.5px solid grey"}
-                              marginLeft={"20px"}
-                            >
-                              Investee
-                            </Radio>
-                          </Stack>
-                        </RadioGroup>
+
                         <VStack alignItems={"flex-start"}>
-                          <Text>Email address</Text>
-                          <HStack>
 
-                            <Input
-                              type="email"
-                              placeholder="Enter Your email"
-                              width={{ base: "100%", md: "80%", lg: "80%" }}
-                              variant={"filled"}
-                              border={"0.5px solid grey"}
-                              onChange={(event) => handleInputChange(event, setEmail)}
-                            />
+                          {otp ? (<></>) : (
+                            <>
+                              <Text>Select Role:</Text>
+                              <RadioGroup
+                                onChange={setSelectedRole1}
+                                value={selectedRole1}
+                                width={"80%"}
+                                margin={"5px"}
+                              >
+                                <Stack
+                                  direction="row"
+                                  alignItems={"center"}
+                                  justifyContent={"flex-start"}
+                                  width={"80%"}
+                                >
+                                  <Radio
+                                    size={"md"}
+                                    value="investor"
+                                    border={"0.5px solid grey"}
+                                    marginRight={"20px"}
+                                  >
+                                    Investor
+                                  </Radio>
+                                  <Radio
+                                    value="investee"
+                                    border={"0.5px solid grey"}
+                                    marginLeft={"20px"}
+                                  >
+                                    Investee
+                                  </Radio>
+                                </Stack>
+                              </RadioGroup>
+                              <Text>Email address</Text>
+                              <HStack>
+                                <Input
+                                  type="email"
+                                  placeholder="Enter Your email"
+                                  width={{ base: "100%", md: "80%", lg: "80%" }}
+                                  variant={"filled"}
+                                  border={"0.5px solid grey"}
+                                  readOnly={forgotEmailDisable}
+                                  onChange={(event) => handleInputChange(event, setForgotEmail)}
+                                />
+                                <Button onClick={() => sendOtp()} colorScheme="teal" variant="solid">Get OTP</Button>
 
-                            <Button onClick={()=>sendOtp()} colorScheme="teal"
-                              variant="solid">Get OTP</Button>
-                          </HStack>
-                          {otp ? (     <>
+                              </HStack>
+                            </>
+
+                          )}
+
+                          {otp ? (<>
                             <Text>Enter OTP</Text>
                             <Input
                               type="number"
@@ -371,7 +454,7 @@ const Userlogin = () => {
                               width={{ base: "100%", md: "80%", lg: "80%" }}
                               variant={"filled"}
                               border={"0.5px solid grey"}
-                              onChange={(event) => handleInputChange(event, setEmail)}
+                              onChange={(event) => handleInputChange(event, setOtpNumber)}
                               onKeyDown={(event) => checkIfNumber(event)}
                             />
                             <Text>New Password</Text>
@@ -410,15 +493,18 @@ const Userlogin = () => {
                                 </Button>
                               </InputRightElement>
                             </InputGroup>
-                          </>):(<></>)
-                       
+                          </>) : (<></>)
+
                           }
                         </VStack>
                       </ModalBody>
                       <ModalFooter>
-                        {/* <Stack>
-                          <Button colorScheme="teal" variant="solid">Get OTP</Button>
-                        </Stack> */}
+                        {otp ? (
+                          <Stack>
+                            <Button colorScheme="teal" variant="solid" onClick={()=>{updatePassword()}}>Update Password</Button>
+                          </Stack>
+                        ) : (<></>)}
+
                       </ModalFooter>
                     </ModalContent>
                   </Modal>
