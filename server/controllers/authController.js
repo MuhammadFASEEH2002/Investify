@@ -680,7 +680,7 @@ exports.updatePassword = async (req, res) => {
           });
           res.json({
             status: true,
-            message: "OTP delivered on the verified email address"
+            message: "Password Updated"
           });
         }else{
         res.json({ message: "OTP didnot match", status: false });
@@ -757,7 +757,7 @@ exports.updatePassword = async (req, res) => {
             <body>
             <div class="container">
                 <h2>Investee Password Updated.</h2>
-                <p>Dear ${investor.businessName},</p>
+                <p>Dear ${investee.businessName},</p>
                 <p>Your account password is successfully changed.</p>
                 <p>
                 </p>
@@ -782,7 +782,7 @@ exports.updatePassword = async (req, res) => {
           });
           res.json({
             status: true,
-            message: "OTP delivered on the verified email address"
+            message: "Password Updated"
           });
         }else{
         res.json({ message: "OTP didnot match", status: false });
