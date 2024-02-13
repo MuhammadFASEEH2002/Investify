@@ -7,21 +7,16 @@ const nodemailer = require("nodemailer");
 
 exports.getStatistics = async (req, res) => {
   try {
-   
-    const allListingCount = await Listing.count()
-    const activeListingCount = await Listing.count({ isActive: true })
-    const verifiedListingCount = await Listing.count({ isVerified: true })
-    const allInvesteeCount = await Investee.count()
-    const approvedInvesteeCount = await Investee.count({ isVerified: true })
-    const allInvestorCount = await Investor.count()
-  
-
-    if (allListingCount && activeListingCount && verifiedListingCount && allInvesteeCount && approvedInvesteeCount && allInvestorCount) {
+    const allListingCount = await Listing.countDocuments() 
+    const activeListingCount = await Listing.countDocuments({ isActive: true })
+    const verifiedListingCount = await Listing.countDocuments({ isVerified: true })
+    const allInvesteeCount = await Investee.countDocuments()
+    const approvedInvesteeCount = await Investee.countDocuments({ isVerified: true })
+    const allInvestorCount = await Investor.countDocuments()
       res.json({
         status: true,
         allListingCount, activeListingCount, verifiedListingCount, allInvesteeCount, approvedInvesteeCount, allInvestorCount
       });
-    }
   } catch (error) {
     res.json({ message: error.message, status: false });
   }
