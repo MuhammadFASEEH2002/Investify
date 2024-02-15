@@ -9,6 +9,8 @@ import {
   ListItem,
   Link,
   Button,
+  VStack,
+  Text
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import HomepageTitle from "./components/HomepageTitle";
@@ -31,7 +33,7 @@ const Homepage = () => {
   return (
     <>
       <Stack
-       
+
         overflowX={"hidden"}
         width={"100svw"}
         height={"100svh"}
@@ -101,6 +103,9 @@ const Homepage = () => {
           <HomepageAboutus />
           {/* Services section */}
           <HomepageServices />
+          <VStack 
+            bgGradient="linear(to-r, #42B2FE, #001F44)"
+            >
           <HStack
             width={"100%"}
             bgGradient="linear(to-r, #42B2FE, #001F44)"
@@ -124,7 +129,7 @@ const Homepage = () => {
               alignItems={"center"}
               justifyContent={"center"}
             >
-              <Heading size={"lg"} color={"white"}>
+              <Heading size={"lg"} color={"white"} width={"100%"} textAlign={"center"}>
                 Investify
               </Heading>
               <UnorderedList
@@ -174,6 +179,9 @@ const Homepage = () => {
               ></Stack>
             </HStack>
           </HStack>
+          <Text color={"white"}>© {Date().split(" ")[3]} Investify. All rights reserved</Text>
+          </VStack>
+         
         </Stack>
       </Stack>
     </>
