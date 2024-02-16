@@ -71,3 +71,12 @@ exports.searchListing = async (req, res) => {
         res.json({ status: false, message: error.message });
     }
 };
+exports.getProduct = async (req, res) => {
+    try {
+        const listing = await Listing.findOne({_id: req.headers.id}).populate("investee_id");
+        console.log(listing);
+        res.json({ status: true, listing });
+    } catch (error) {
+        res.json({ status: false, message: error.message });
+    }
+};

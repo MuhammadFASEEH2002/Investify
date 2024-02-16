@@ -18,6 +18,7 @@ import Investeedashboardmylistings from "./resources/Investeedashboard/Investeed
 import Investeedashboardlistinghistory from "./resources/Investeedashboard/Investeedashboardlistinghistory";
 import Investordashboardlogout from "./resources/Investordashboard/Investordashboardlogout";
 import Admindashboardhome from "./resources/Admindashboard/Admindashboardhome";
+import Investordashboardproductpage from "./resources/Investordashboard/Investordashboardproductpage";
 function App() {
   return (
     <>
@@ -39,6 +40,10 @@ function App() {
           <Route
             path="/user/investor-dashboard/business-catalog"
             element={<Investordashboardbusinesscatalog />}
+          />
+           <Route
+            path="/user/investor-dashboard/business-catalog/listing/:id"
+            element={<Investordashboardproductpage />}
           />
             <Route
             path="/user/investor-dashboard/logout"

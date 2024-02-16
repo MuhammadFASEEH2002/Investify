@@ -160,9 +160,9 @@ address && zipcode
           <Divider />
           <CardFooter>
             <ButtonGroup spacing='2'>
-              <Button variant='solid' colorScheme='blue' onClick={() => openEditModal(investee)}>
+              {/* <Button variant='solid' colorScheme='blue' onClick={() => openEditModal(investee)}>
                 Edit Profile
-              </Button>
+              </Button> */}
             </ButtonGroup>
           </CardFooter>
         </Card>

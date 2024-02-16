@@ -27,6 +27,7 @@ import { IoHomeOutline } from "react-icons/io5";
 import { NavLink} from 'react-router-dom';
 import Logo from "../../../components/Logo";
 import { useEffect, useState } from "react";
+import { BsChatRight } from "react-icons/bs";
 
 const LinkItems = [
   { name: "Home", icon: IoHomeOutline, link: "/user/investee-dashboard/home" },
@@ -34,6 +35,8 @@ const LinkItems = [
   { name: "My Listings", icon: FiList,  link:"/user/investee-dashboard/investee-listings" },
   { name: "Listing History", icon: FiList,  link:"/user/investee-dashboard/investee-listing-history" },
   { name: "Change Password", icon: FiLock,  link:"/user/investee-dashboard/password-change" },
+  { name: "Chats", icon: BsChatRight,  link:"#" },
+
   // { name: "Complains", icon: FiSlash },
   { name: "Log Out", icon: FiLogOut, link:"/user/investee-dashboard/logout"}
 ];

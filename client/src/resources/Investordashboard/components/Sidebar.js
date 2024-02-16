@@ -36,6 +36,8 @@ import { IconType } from "react-icons";
 import { NavLink, } from 'react-router-dom';
 import Logo from "../../../components/Logo";
 import { useEffect, useState } from "react";
+import { BsChatRight } from "react-icons/bs";
+
 // const LinkItemProps {
 //   name: string,
 //   icon: IconType
@@ -60,6 +62,8 @@ const LinkItems = [
   // { name: "My Investments", icon: FiCompass },
   // { name: "Chats", icon: FiStar },
   // { name: "Settings", icon: FiSettings },
+  { name: "Chats", icon: BsChatRight,  link:"#" },
+
   { name: "Log Out", icon: FiLogOut, link:"/user/investor-dashboard/logout"}
 
 ];

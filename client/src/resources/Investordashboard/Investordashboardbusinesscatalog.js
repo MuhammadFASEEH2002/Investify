@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
 import { Center, HStack, Input, Text, Box, Card, CardHeader, Heading, CardBody, CardFooter, Button, InputRightAddon, InputGroup } from "@chakra-ui/react";
 import { IoMdSearch } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const Investordashboardbusinesscatalog = () => {
@@ -11,10 +11,10 @@ const Investordashboardbusinesscatalog = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(window.localStorage.getItem('token1')){
+    if (window.localStorage.getItem('token1')) {
       document.title = "Investify | Investor-Business-Catalog";
       getListing();
-    }else{
+    } else {
       navigate("/user-login");
     }
   }, []);
@@ -75,7 +75,7 @@ const Investordashboardbusinesscatalog = () => {
             <InputGroup>
               <Input border={"0.8px solid grey"} variant='outline' placeholder='Enter keywords to search' onChange={(event) => { handleInputChange(event, setSearch); searchCourse(); }} />
               <InputRightAddon>
-                <IoMdSearch  size={"2em"}/>
+                <IoMdSearch size={"2em"} />
               </InputRightAddon>
             </InputGroup>
           </HStack>
@@ -122,7 +122,10 @@ const Investordashboardbusinesscatalog = () => {
                   margin={"10px"}
                   size="lg"
                 >
-                  View
+                  <Link to={`/user/investor-dashboard/business-catalog/listing/${item._id}`}> 
+                    View
+                  </Link>
+
                 </Button>
               </CardFooter>
             </Card>
