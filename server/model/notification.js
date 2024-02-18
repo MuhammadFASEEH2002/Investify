@@ -1,17 +1,22 @@
 const mongo = require('mongoose');
 
 const NotificationSchema = new mongo.Schema({
-   id:{
-    type: String,
-    required: true,
-   },
-    message:{
-        type:String,
-        required:true
+    investorId: {
+        type: String,
+    },
+    investeeId: {
+        type: String,
+    },
+    message: {
+        type: String,
+        required: true
+    },
+    isRead:{
+        type: Boolean,
     }
 
 })
 
-const Notification = mongo.model('Notification' , NotificationSchema);
+const Notification = mongo.model('Notification', NotificationSchema);
 
 module.exports = Notification;

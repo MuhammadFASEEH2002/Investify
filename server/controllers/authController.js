@@ -1,6 +1,8 @@
 const Investor = require("../model/investorDB");
 const Investee = require("../model/investeeDB");
 const Admin = require("../model/admin");
+const Listing = require("../model/investeeListing");
+const Notification = require("../model/notification");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const emailValidator = require("deep-email-validator");
@@ -421,7 +423,7 @@ exports.sendOtp = async (req, res) => {
           { _id: investor._id },
           { OTP: otp }
         );
-    
+
         const transporter = await nodemailer.createTransport({
           service: "gmail",
           auth: {
@@ -592,7 +594,7 @@ exports.updatePassword = async (req, res) => {
       const investor = await Investor.findOne({ email: req.body.forgotEmail });
       if (investor) {
         const passwordRegex = /^(?=.*[A-Za-z0-9])(?!.*\s).{8,}$/;
-        if(investor.OTP==req.body.otpNumber){
+        if (investor.OTP == req.body.otpNumber) {
           if (
             !passwordRegex.test(req.body.newPassword)
           ) {
@@ -603,13 +605,13 @@ exports.updatePassword = async (req, res) => {
             });
             return;
           }
-      const hashPassword = await bcrypt.hash(req.body.newPassword, 10);
-  
+          const hashPassword = await bcrypt.hash(req.body.newPassword, 10);
+
           await Investor.findByIdAndUpdate(
             { _id: investor._id },
             { password: hashPassword }
           );
-      
+
           const transporter = await nodemailer.createTransport({
             service: "gmail",
             auth: {
@@ -678,12 +680,16 @@ exports.updatePassword = async (req, res) => {
               // res.json({ status: 201, info });
             }
           });
+          await Notification.create({
+            investorId: investor._id,
+            message: `Dear ${investor.firstName}, your password is successfully updated`
+          })
           res.json({
             status: true,
             message: "Password Updated"
           });
-        }else{
-        res.json({ message: "OTP didnot match", status: false });
+        } else {
+          res.json({ message: "OTP didnot match", status: false });
 
         }
 
@@ -694,7 +700,7 @@ exports.updatePassword = async (req, res) => {
       const investee = await Investee.findOne({ email: req.body.forgotEmail });
       if (investee) {
         const passwordRegex = /^(?=.*[A-Za-z0-9])(?!.*\s).{8,}$/;
-        if(investee.OTP==req.body.otpNumber){
+        if (investee.OTP == req.body.otpNumber) {
           if (
             !passwordRegex.test(req.body.newPassword)
           ) {
@@ -705,13 +711,13 @@ exports.updatePassword = async (req, res) => {
             });
             return;
           }
-      const hashPassword = await bcrypt.hash(req.body.newPassword, 10);
-  
+          const hashPassword = await bcrypt.hash(req.body.newPassword, 10);
+
           await Investee.findByIdAndUpdate(
             { _id: investee._id },
             { password: hashPassword }
           );
-      
+
           const transporter = await nodemailer.createTransport({
             service: "gmail",
             auth: {
@@ -780,12 +786,16 @@ exports.updatePassword = async (req, res) => {
               // res.json({ status: 201, info });
             }
           });
+          await Notification.create({
+            investeeId: investee._id,
+            message: `Dear ${investee.businessName}, your password is successfully updated`
+          })
           res.json({
             status: true,
             message: "Password Updated"
           });
-        }else{
-        res.json({ message: "OTP didnot match", status: false });
+        } else {
+          res.json({ message: "OTP didnot match", status: false });
 
         }
 
