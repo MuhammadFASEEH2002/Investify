@@ -2,6 +2,8 @@ const Investor = require("../model/investorDB");
 const Investee = require("../model/investeeDB");
 const Admin = require("../model/admin");
 const Listing = require("../model/investeeListing");
+const Notification = require("../model/notification");
+
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 
@@ -134,6 +136,10 @@ exports.approveInvestees = async (req, res) => {
         res.status(201).json({ status: 201, info });
       }
     });
+    await Notification.create({
+      investeeId: investee._id,
+      message: `Dear ${investee.businessName}, congratulations your account is approved now you can explore investment opportunities.`
+    })
     res.json({ message: "Investee Approved", status: true });
   } catch (error) {
     res.json({ message: error.message, status: false });
@@ -142,7 +148,7 @@ exports.approveInvestees = async (req, res) => {
 
 exports.approveListing = async (req, res) => {
   try {
-    await Listing.findByIdAndUpdate(
+    const listing=await Listing.findByIdAndUpdate(
       { _id: req.body.listingId },
       { isVerified: true }
     );
@@ -209,6 +215,10 @@ exports.approveListing = async (req, res) => {
         res.status(201).json({ status: 201, info });
       }
     });
+    await Notification.create({
+      investeeId: listing.investee_id,
+      message: `Dear Investee, your listing was approved by our admin.`
+    })
     res.json({ message: "Listing Approved", status: true });
   } catch (error) {
     res.json({ message: error.message, status: false });
@@ -351,7 +361,11 @@ exports.declineListing = async (req, res) => {
         res.status(201).json({ status: 201, info });
       }
     });
-    await Listing.findByIdAndDelete(req.body.listingId);
+    const listing=await Listing.findByIdAndDelete(req.body.listingId);
+    await Notification.create({
+      investeeId: listing.investee_id,
+      message: `Dear Investee, unfortunately your listing cannot be approved because of incorrect or false information.`
+    })
     res.json({ message: "Listing Declined", status: true });
   } catch (error) {
     res.json({ message: error.message, status: false });

@@ -37,22 +37,6 @@ exports.getListing = async (req, res) => {
         res.json({ message: error.message, status: false });
     }
 };
-//   exports.searchListing = async (req, res) => {
-//     try {
-//       const listing = await Listing.find({ isVerified: true }).populate(
-//         "investee_id"
-//       );
-//       if (listing) {
-//         res.json({
-//           status: true,
-//           listing,
-//         });
-//       }
-//     } catch (error) {
-//       res.json({ message: error.message, status: false });
-//     }
-//   };
-
 exports.searchListing = async (req, res) => {
     try {
         const listing = await Listing.find({
@@ -66,8 +50,6 @@ exports.searchListing = async (req, res) => {
             ]
         }).populate("investee_id");
         console.log(listing);
-        // const listing=req.body.search
-        // console.log(listing)
         res.json({ status: true, listing });
     } catch (error) {
         res.json({ status: false, message: error.message });
