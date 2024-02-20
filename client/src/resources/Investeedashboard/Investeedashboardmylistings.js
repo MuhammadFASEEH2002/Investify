@@ -298,7 +298,7 @@ const Investeedashboardmylistings = () => {
                                   <Text>Profit Share Percentage</Text>
                                   <Input
                                     type="number"
-                                    placeholder="should not be more than 30%"
+                                    placeholder="should between 5% to 15%"
                                     width={"90%"}
                                     variant={"filled"}
                                     border={"0.5px solid grey"}

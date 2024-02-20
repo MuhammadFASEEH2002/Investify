@@ -1,6 +1,8 @@
 const Investor = require("../model/investorDB");
 const Investee = require("../model/investeeDB");
 const Listing = require("../model/investeeListing");
+const Notification = require("../model/notification");
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const emailValidator = require("deep-email-validator");
@@ -120,10 +122,10 @@ exports.createListing = async (req, res) => {
       return;
     }
 
-    const equity = /^(?:[5-9]|1\d|2[0-9]|30)$/;
+    const equity = /^(?:[5-9]|1[0-5])$/;
     if (!equity.test(req.body.profitPercentage)) {
       res.json({
-        message: "Equity should be between 5 - 30",
+        message: "Equity should be between 5 - 15",
         status: false,
       });
       return;
@@ -227,6 +229,10 @@ exports.createListing = async (req, res) => {
         // res.json({ status: 201, info });
       }
     });
+    await Notification.create({
+      investeeId: investee._id,
+      message: `Dear ${investee.businessName}, your listing is successfully created and awaiting admin approval.`
+    })
     res.json({ message: "Listing created", status: true });
   } catch (error) {
     res.json({ message: error.message, status: false });
@@ -247,10 +253,10 @@ exports.editListing = async (req, res) => {
       return;
     }
 
-    const equity = /^(?:[5-9]|1\d|2[0-9]|30)$/;
+    const equity = /^(?:[5-9]|1[0-5])$/;
     if (!equity.test(req.body.profitPercentage)) {
       res.json({
-        message: "Equity should be between 5 - 30",
+        message: "Equity should be between 5 - 15",
         status: false,
       });
       return;
@@ -354,6 +360,10 @@ exports.editListing = async (req, res) => {
         // res.json({ status: 201, info });
       }
     });
+    await Notification.create({
+      investeeId: investee._id,
+      message: `Dear ${investee.businessName}, your listing is successfully updated and awaiting admin approval to be republished again.`
+    })
     res.json({ message: "Listing created", status: true });
   } catch (error) {
     res.json({ message: error.message, status: false });
