@@ -19,7 +19,8 @@ import {
   ModalCloseButton,
   useDisclosure,
   Textarea,
-  Spinner
+  Spinner,
+  Tabs, Tab, TabList, TabIndicator, TabPanel, TabPanels
 } from "@chakra-ui/react";
 import { Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
@@ -194,15 +195,14 @@ const Investeedashboardmylistings = () => {
             listing.length > 0 ? (
               listing?.map((item) =>
               (
-                <Card align="center" width={"350px"} margin={"10px"}>
-                  <CardHeader>
-                    <Heading size="md">{item.investee_id.businessName}</Heading>
+                <Card align="center" width={"350px"} margin={"10px"} borderRadius={20}>
+                  <CardHeader width={"100%"} alignItems={"center"} justifyContent={"center"}>
+                    <Heading size="md" textAlign={"center"} fontSize={30}>{item.investee_id.businessName}</Heading>
                   </CardHeader>
                   <CardBody>
                     <Text noOfLines={[1, 2, 3]}>
-                      <span style={{ fontWeight: "bold" }}>Description : </span>
+                      <span style={{ fontWeight: "bold" }}>Description: </span>
                       {item.description}
-
                     </Text>
                     <Link onClick={() => onOpen(item)} color={"blue"}>Read More</Link>
 
@@ -223,33 +223,33 @@ const Investeedashboardmylistings = () => {
                       </ModalContent>
                     </Modal>
                     <Text>
-                      <span style={{ fontWeight: "bold" }}>Amount Required : </span>
+                      <span style={{ fontWeight: "bold" }}>Amount Required: </span>
                       Rs {item.amount}
                     </Text>
                     <Text>
-                      <span style={{ fontWeight: "bold" }}>Profit Percentage : </span>
+                      <span style={{ fontWeight: "bold" }}>Profit Percentage: </span>
                       {item.profitPercentage}%
                     </Text>
                     <Text>
-                      <span style={{ fontWeight: "bold" }}>Investment Duration : </span>
+                      <span style={{ fontWeight: "bold" }}>Investment Duration: </span>
                       {item.investmentDuration} year
                     </Text>
                     <Text>
-                      <span style={{ fontWeight: "bold" }}>Email : </span>
+                      <span style={{ fontWeight: "bold" }}>Email: </span>
                       {item.investee_id.email}
                     </Text>
                     <Text>
-                      <span style={{ fontWeight: "bold" }}>Address : </span>
+                      <span style={{ fontWeight: "bold" }}>Address: </span>
                       {item.investee_id.address}, {item.investee_id.zipcode}, {item.investee_id.city}, {item.investee_id.country}
                     </Text>
                     <Text>
-                      <span style={{ fontWeight: "bold" }}>Phone Number : </span>
+                      <span style={{ fontWeight: "bold" }}>Phone Number: </span>
                       {item.investee_id.phoneNumber}
                     </Text>
 
                   </CardBody>
-                  <CardFooter>
-                    <Button colorScheme="gray" margin={"10px"}
+                  <CardFooter width={"100%"} alignItems={"center"} justifyContent={"space-evenly"}>
+                    <Button colorScheme="gray"
                       onClick={() => {
                         deleteListing(item._id, item.investee_id.email);
                       }}
@@ -258,108 +258,106 @@ const Investeedashboardmylistings = () => {
                     </Button>
                     <Button
                       colorScheme="blue"
-                      margin={"10px"}
                       onClick={() => openEditModal(item)}
-
                     >
                       Edit
                     </Button>
-                    <Modal onClose={onSecondModalClose} isOpen={isSecondModalOpen} size={"full"} isCentered>
-                      <ModalOverlay />
-                      <ModalContent>
-                        <ModalCloseButton />
-                        <ModalBody>
-                          <HStack
-                            width={"100%"}
-                            flexDirection={{ base: "column", md: "row", lg: "row" }}
-                            spacing={"0px"}
-                            alignItems={"center"}
-                            justifyContent={"center"}
-                          >
-                            <Stack width={{ base: "100%", md: "50%", lg: "50%" }} spacing={"0px"} alignItems={"center"} justifyContent={"center"}>
-                              <HStack width={"100%"}>
-                                <Stack width={"100%"}>
-                                  <Text>Business Description</Text>
-                                  <Textarea
-                                    placeholder="Describe your business in not more than 200 words."
-                                    width={"90%"}
-                                    variant={"filled"}
-                                    border={"0.5px solid grey"}
-                                    value={description}
-                                    onChange={(event) =>
-                                      handleInputChange(event, setDescription)
-                                    }
-                                    isRequired
-                                  />
-                                </Stack>
-                              </HStack>
-                              <HStack width={"100%"}>
-                                <Stack width={"100%"}>
-                                  <Text>Profit Share Percentage</Text>
-                                  <Input
-                                    type="number"
-                                    placeholder="should between 5% to 15%"
-                                    width={"90%"}
-                                    variant={"filled"}
-                                    border={"0.5px solid grey"}
-                                    value={profitPercentage}
-                                    isRequired
-                                    onKeyDown={(event) => checkIfNumber(event)}
-                                    onChange={(event) => handleInputChange(event, setProfitPercentage)}
-                                  />
-                                </Stack>
-                              </HStack>
-                              <HStack width={"100%"}>
-                                <Stack width={"100%"}>
-                                  <Text>Investment Duration</Text>
-                                  <Input
-                                    type="number"
-                                    placeholder="Enter the duration of investment in years"
-                                    width={"90%"}
-                                    variant={"filled"}
-                                    border={"0.5px solid grey"}
-                                    value={investmentDuration}
-                                    isRequired
-                                    onKeyDown={(event) => checkIfNumber(event)}
-                                    onChange={(event) => handleInputChange(event, setInvestmentDuration)}
-                                  />
-                                </Stack>
-                              </HStack>
-                              <HStack width={"100%"}>
-                                <Stack width={"100%"}>
-                                  <Text>Amount Required</Text>
-                                  <Input
-                                    type="number"
-                                    placeholder="max amount allowed is Rs 25,000"
-                                    width={"90%"}
-                                    variant={"filled"}
-                                    border={"0.5px solid grey"}
-                                    isRequired
-                                    value={amount}
-                                    onKeyDown={(event) => checkIfNumber(event)}
-                                    onChange={(event) => handleInputChange(event, setAmount)}
-                                  />
-                                </Stack>
-                              </HStack>
-                              <Button
-                                colorScheme="teal"
-                                variant="solid"
-                                marginTop={"30px"}
-                                size={{ base: "md", md: "md", lg: "lg" }}
-                                onClick={() => { editListing(item._id, item.investee_id.email) }}
-                              >
-                                Update
-                              </Button>
-                            </Stack>
-
-                          </HStack>
-                        </ModalBody>
-                        <ModalFooter>
-                          <Button onClick={onSecondModalClose}>Close</Button>
-                        </ModalFooter>
-                      </ModalContent>
-                    </Modal>
                   </CardFooter>
+                  <Modal onClose={onSecondModalClose} isOpen={isSecondModalOpen} size={"full"} isCentered>
+                    <ModalOverlay />
+                    <ModalContent>
+                      <ModalCloseButton />
+                      <ModalBody>
+                        <HStack
+                          width={"100%"}
+                          flexDirection={{ base: "column", md: "row", lg: "row" }}
+                          spacing={"0px"}
+                          alignItems={"center"}
+                          justifyContent={"center"}
+                        >
+                          <Stack width={{ base: "100%", md: "50%", lg: "50%" }} spacing={"0px"} alignItems={"center"} justifyContent={"center"}>
+                            <HStack width={"100%"}>
+                              <Stack width={"100%"}>
+                                <Text>Business Description</Text>
+                                <Textarea
+                                  placeholder="Describe your business in not more than 200 words."
+                                  width={"90%"}
+                                  variant={"filled"}
+                                  border={"0.5px solid grey"}
+                                  value={description}
+                                  onChange={(event) =>
+                                    handleInputChange(event, setDescription)
+                                  }
+                                  isRequired
+                                />
+                              </Stack>
+                            </HStack>
+                            <HStack width={"100%"}>
+                              <Stack width={"100%"}>
+                                <Text>Profit Share Percentage</Text>
+                                <Input
+                                  type="number"
+                                  placeholder="should between 5% to 15%"
+                                  width={"90%"}
+                                  variant={"filled"}
+                                  border={"0.5px solid grey"}
+                                  value={profitPercentage}
+                                  isRequired
+                                  onKeyDown={(event) => checkIfNumber(event)}
+                                  onChange={(event) => handleInputChange(event, setProfitPercentage)}
+                                />
+                              </Stack>
+                            </HStack>
+                            <HStack width={"100%"}>
+                              <Stack width={"100%"}>
+                                <Text>Investment Duration</Text>
+                                <Input
+                                  type="number"
+                                  placeholder="Enter the duration of investment in years"
+                                  width={"90%"}
+                                  variant={"filled"}
+                                  border={"0.5px solid grey"}
+                                  value={investmentDuration}
+                                  isRequired
+                                  onKeyDown={(event) => checkIfNumber(event)}
+                                  onChange={(event) => handleInputChange(event, setInvestmentDuration)}
+                                />
+                              </Stack>
+                            </HStack>
+                            <HStack width={"100%"}>
+                              <Stack width={"100%"}>
+                                <Text>Amount Required</Text>
+                                <Input
+                                  type="number"
+                                  placeholder="max amount allowed is Rs 25,000"
+                                  width={"90%"}
+                                  variant={"filled"}
+                                  border={"0.5px solid grey"}
+                                  isRequired
+                                  value={amount}
+                                  onKeyDown={(event) => checkIfNumber(event)}
+                                  onChange={(event) => handleInputChange(event, setAmount)}
+                                />
+                              </Stack>
+                            </HStack>
+                            <Button
+                              colorScheme="teal"
+                              variant="solid"
+                              marginTop={"30px"}
+                              size={{ base: "md", md: "md", lg: "lg" }}
+                              onClick={() => { editListing(item._id, item.investee_id.email) }}
+                            >
+                              Update
+                            </Button>
+                          </Stack>
+
+                        </HStack>
+                      </ModalBody>
+                      <ModalFooter>
+                        <Button onClick={onSecondModalClose}>Close</Button>
+                      </ModalFooter>
+                    </ModalContent>
+                  </Modal>
                 </Card>
               ))
             ) : (

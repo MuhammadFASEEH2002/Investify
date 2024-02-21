@@ -157,7 +157,7 @@ address && zipcode
               </Box>
             </Stack>
           </CardBody>
-          <Divider />
+         
           <CardFooter>
             <ButtonGroup spacing='2'>
               {/* <Button variant='solid' colorScheme='blue' onClick={() => openEditModal(investee)}>
@@ -166,7 +166,7 @@ address && zipcode
             </ButtonGroup>
           </CardFooter>
         </Card>
-        <Modal onClose={onFirstModalClose} isOpen={isFirstModalOpen} isCentered>
+        {/* <Modal onClose={onFirstModalClose} isOpen={isFirstModalOpen} isCentered>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader></ModalHeader>
@@ -213,7 +213,7 @@ address && zipcode
               <Button onClick={onFirstModalClose}>Close</Button>
             </ModalFooter>
           </ModalContent>
-        </Modal>
+        </Modal> */}
       </Sidebar>
     </>
   )

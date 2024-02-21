@@ -32,9 +32,9 @@ const Investeedashboardchangepassword = () => {
   const toast = useToast();
   const navigate = useNavigate();
   useEffect(() => {
-    if(window.localStorage.getItem('token')){
+    if (window.localStorage.getItem('token')) {
       document.title = "Investify | Investee Passsword Change";
-    }else{
+    } else {
       navigate("/user-login");
     }
   }, []);
@@ -124,7 +124,7 @@ const Investeedashboardchangepassword = () => {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <HStack width={"100%"}>
+            <HStack width={"100%"} marginBottom={5}>
               <Stack width={"100%"}>
                 <Text>Old Password</Text>
                 <InputGroup width={"90%"}>
@@ -151,7 +151,7 @@ const Investeedashboardchangepassword = () => {
                 </InputGroup>
               </Stack>
             </HStack>
-            <HStack width={"100%"}>
+            <HStack width={"100%"} marginBottom={5}>
               <Stack width={"100%"}>
                 <Text>New Password</Text>
                 <InputGroup width={"90%"}>
@@ -178,8 +178,7 @@ const Investeedashboardchangepassword = () => {
                 </InputGroup>
               </Stack>
             </HStack>
-
-            <HStack width={"100%"}>
+            <HStack width={"100%"} marginBottom={5}>
               <Stack width={"100%"}>
                 <Text>Confirm New Password</Text>
                 <InputGroup width={"90%"}>

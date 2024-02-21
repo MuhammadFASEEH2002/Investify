@@ -19,6 +19,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Button, MenuGroup,
 } from "@chakra-ui/react";
 import {
   FiHome,
@@ -30,19 +31,16 @@ import {
   FiList,
   FiSlash
 } from "react-icons/fi";
-import { IconType } from "react-icons";
-import { NavLink, useNavigate, } from 'react-router-dom';
+import { NavLink, useNavigate, Link} from 'react-router-dom';
 import Logo from "../../../components/Logo";
 import { useEffect, useState } from "react";
 import { IoHomeOutline } from "react-icons/io5";
-
+import { MdDomainVerification } from "react-icons/md";
 
 const LinkItems = [
   { name: "Home", icon: IoHomeOutline, link: "/admin/admin-dashboard/home" },
   { name: "Account Verification", icon: FiUserCheck, link: "/admin/admin-dashboard/account-verification" },
-  { name: "Listing Verification", icon: FiList, link: "/admin/admin-dashboard/listing-verification" },
-  // { name: "Complains", icon: FiSlash },
-  { name: "Log Out", icon: FiLogOut, link:"/admin/admin-dashboard/logout" },
+  { name: "Listing Verification", icon: MdDomainVerification, link: "/admin/admin-dashboard/listing-verification" },
 ];
 const SidebarContent = ({ onClose, ...rest }) => {
   return (
@@ -90,6 +88,8 @@ const NavItem = ({ icon, children, link, ...rest }) => {
           bg: "cyan.400",
           color: "white",
         }}
+        fontSize={12}
+
         {...rest}
       >
         {icon && (
@@ -166,20 +166,23 @@ const MobileNav = ({ onOpen, ...rest }) => {
           <Menu>
 
             <HStack>
-              <Avatar
+          
+              <Menu>
+                <MenuButton as={Button} >
+                <Avatar
                 size={"sm"}
                 src={
                   "https://icons.veryicon.com/png/o/application/cloud-supervision-platform-vr10/admin-5.png"
                 }
               />
-              <VStack
-                display={{ base: "none", md: "flex" }}
-                alignItems="flex-start"
-                spacing="1px"
-                ml="2"
-              >
-                <Text fontSize="sm">{admin.username}</Text>
-              </VStack>
+                </MenuButton>
+                <MenuList>
+                  <MenuGroup title="Admin">
+                    <MenuItem><Link to={"/admin/admin-dashboard/logout"}>Log Out</Link></MenuItem>
+
+                  </MenuGroup>
+                </MenuList>
+              </Menu>
               <Box display={{ base: "none", md: "flex" }}>
 
               </Box>

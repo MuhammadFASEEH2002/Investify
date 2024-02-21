@@ -104,7 +104,7 @@ const Investeedashboardlistingcreation = () => {
           justifyContent={"center"}
         >
           <Stack width={{ base: "100%", md: "50%", lg: "50%" }} spacing={"0px"} alignItems={"center"} justifyContent={"center"}>
-            <HStack width={"100%"}>
+            <HStack width={"100%"} marginBottom={5}>
               <Stack width={"100%"}>
                 <Text>Business Description</Text>
                 <Textarea
@@ -119,7 +119,7 @@ const Investeedashboardlistingcreation = () => {
                 />
               </Stack>
             </HStack>
-            <HStack width={"100%"}>
+            <HStack width={"100%"} marginBottom={5}>
               <Stack width={"100%"}>
                 <Text>Profit Share Percentage</Text>
                 <Input
@@ -134,7 +134,7 @@ const Investeedashboardlistingcreation = () => {
                 />
               </Stack>
             </HStack>
-            <HStack width={"100%"}>
+            <HStack width={"100%"} marginBottom={5}>
               <Stack width={"100%"}>
                 <Text>Investment Duration</Text>
                 <Input
@@ -149,7 +149,7 @@ const Investeedashboardlistingcreation = () => {
                 />
               </Stack>
             </HStack>
-            <HStack width={"100%"}>
+            <HStack width={"100%"} marginBottom={5}>
               <Stack width={"100%"}>
                 <Text>Amount Required</Text>
                 <Input
