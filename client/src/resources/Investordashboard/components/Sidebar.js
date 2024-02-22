@@ -86,6 +86,8 @@ const NavItem = ({ icon, children, link, ...rest }) => {
           color: "white",
         }}
         {...rest}
+        fontSize="12"
+
       >
         {icon && (
           <Icon

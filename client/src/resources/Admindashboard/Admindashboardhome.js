@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
-import { Stack, Card, Heading, CardBody, CardHeader, Text, HStack, Spinner, Divider } from '@chakra-ui/react';
+import { Stack, Card, Heading, CardBody, CardHeader, Text, HStack, Spinner, Divider, CircularProgress, CircularProgressLabel } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 const Admindashboardhome = () => {
@@ -20,20 +20,20 @@ const Admindashboardhome = () => {
 
 
   useEffect(() => {
-    if(window.localStorage.getItem('adminToken')){
+    if (window.localStorage.getItem('adminToken')) {
 
       document.title = "Investify | Admin Home";
       setIsLoading(true);
       getStatistics();
       setIsLoading(false);
-    }else{
+    } else {
       navigate("/admin-login");
 
 
     }
 
   }, []);
- 
+
   const getStatistics = () => {
     const adminToken = window.localStorage.getItem('adminToken');
     fetch("http://127.0.0.1:3001/api/admin/get-stats", {
@@ -74,66 +74,76 @@ const Admindashboardhome = () => {
               />
             </Stack>
           ) : (<>
-            <Card maxW="sm" backgroundColor="#3182ce" color="white" boxShadow="md" rounded="lg">
+            <Card maxW="sm" backgroundColor="white" boxShadow="md" rounded="lg">
               <CardHeader textAlign="center">
-                <Heading size="lg" fontWeight="bold" mb="2">
+                <Heading fontWeight="bold" fontSize={25}>
                   Listing Statistics
                 </Heading>
               </CardHeader>
               <CardBody>
-                <Text fontSize="xl" textAlign="center" mb="4">
+                <Stack alignItems={"center"} justifyContent={"center"} mb={2}>
+                  <CircularProgress value={(((parseInt(allListingCount) - parseInt(verifiedListingCount)) / allListingCount) * 100)} size='100px' color='blue.400'>
+                    <CircularProgressLabel fontSize={15}>{(((parseInt(allListingCount) - parseInt(verifiedListingCount)) / allListingCount) * 100).toFixed(2)}%</CircularProgressLabel>
+                  </CircularProgress>
+                </Stack>
+                <Text fontSize="15" textAlign="center" mb="2">
                   Total listings: {allListingCount}
                 </Text>
-                <Text fontSize="xl" textAlign="center" mb="4">
+                <Text fontSize="15" textAlign="center" mb="2">
                   Total verified listings: {verifiedListingCount}
                 </Text>
-                <Text fontSize="xl" textAlign="center" mb="4">
+                <Text fontSize="15" textAlign="center" mb="2">
                   Total active listings: {activeListingCount}
                 </Text>
-                <Text fontSize="xl" textAlign="center" mb="4">
+                <Text fontSize="15" textAlign="center" mb="2">
                   Listings available for verification: {parseInt(allListingCount) - parseInt(verifiedListingCount)}
                 </Text>
-                <Divider borderColor="white" mb="4" />
-                <Text fontSize="sm" textAlign="center">
+                <Divider mb="2" />
+                <Text fontSize="10" textAlign="center">
                   This information is based on the latest data available.
                 </Text>
               </CardBody>
             </Card>
 
-            <Card maxW="sm" backgroundColor="#3182ce" color="white" boxShadow="md" rounded="lg">
+            <Card maxW="sm" backgroundColor="white" boxShadow="md" rounded="lg">
               <CardHeader textAlign="center">
-                <Heading size="lg" fontWeight="bold" mb="2">
+                <Heading size="lg" fontWeight="bold" fontSize={25}>
                   Investee Statistics
                 </Heading>
               </CardHeader>
               <CardBody>
-                <Text fontSize="xl" textAlign="center" mb="4">
+                <Stack alignItems={"center"} justifyContent={"center"} mb={2}>
+                  <CircularProgress value={(((parseInt(allInvesteeCount) - parseInt(approvedInvesteeCount)) / allInvesteeCount) * 100)} size='100px' color='blue.400'>
+                    <CircularProgressLabel fontSize={15}>{(((parseInt(allInvesteeCount) - parseInt(approvedInvesteeCount)) / allInvesteeCount) * 100).toFixed(2)}%</CircularProgressLabel>
+                  </CircularProgress>
+                </Stack>
+                <Text fontSize="15" textAlign="center" mb="2">
                   Total investee accounts: {allInvesteeCount}
                 </Text>
-                <Text fontSize="xl" textAlign="center" mb="4">
+                <Text fontSize="15" textAlign="center" mb="2">
                   Total verified accounts: {approvedInvesteeCount}
                 </Text>
-                <Text fontSize="xl" textAlign="center" mb="4">
+                <Text fontSize="15" textAlign="center" mb="2">
                   Accounts available for verification: {parseInt(allInvesteeCount) - parseInt(approvedInvesteeCount)}
                 </Text>
-                <Divider borderColor="white" mb="4" />
-                <Text fontSize="sm" textAlign="center">
+                <Divider mb="2" />
+                <Text fontSize="10" textAlign="center">
                   This information is based on the latest data available.
                 </Text>
               </CardBody>
             </Card>
-            <Card maxW="sm" backgroundColor="#3182ce" color="white" boxShadow="md" rounded="lg">
+            <Card maxW="sm" backgroundColor="white" boxShadow="md" rounded="lg">
               <CardHeader textAlign="center">
-                <Heading size="lg" fontWeight="bold" mb="2">
+                <Heading size="lg" fontWeight="bold" fontSize={25}>
                   Investor statistics
                 </Heading>
               </CardHeader>
               <CardBody>
-                <Text fontSize="xl" textAlign="center" mb="4">
+                <Text fontSize="15" textAlign="center" mb="2">
                   Total investor accounts: {allInvestorCount}
                 </Text>
-                <Divider borderColor="white" mb="4" />
-                <Text fontSize="sm" textAlign="center">
+                <Divider mb="2" />
+                <Text fontSize="10" textAlign="center">
                   This information is based on the latest data available.
                 </Text>
               </CardBody>

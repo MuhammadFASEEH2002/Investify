@@ -38,12 +38,12 @@ import { IoMdArrowDropdown } from "react-icons/io";
 
 
 const LinkItems = [
-  { name: "Home", icon: IoHomeOutline, link: "/user/investee-dashboard/home" },
-  { name: "Create Listing", icon: FiEdit, link: "/user/investee-dashboard/listing-creation" },
-  { name: "Active Listings", icon: FiList, link: "/user/investee-dashboard/investee-listings" },
-  // {name: "Listings", icon: FiList , link:"#", dropdown:true, dropdownItem:[{name:"Active Listing", link:"/user/investee-dashboard/investee-listings"},{name: "Old Listings", link: }] },
-  { name: "My Investments", icon: FiList, link: "#" },
-  { name: "Listing History", icon: FiList, link: "/user/investee-dashboard/investee-listing-history" },
+  { name: "Home", icon: IoHomeOutline, link: "/user/investee-dashboard/home", dropdown: false },
+  { name: "Create Listing", icon: FiEdit, link: "/user/investee-dashboard/listing-creation", dropdown: false },
+  // { name: "Active Listings", icon: FiList, link: "/user/investee-dashboard/investee-listings" },
+  { name: "Listings", icon: FiList, link: "#", dropdown: true, dropdownItem: [{ name: "Active Listings", link: "/user/investee-dashboard/investee-listings" }, { name: "Deleted Listings", link: "/user/investee-dashboard/investee-listing-history" }] },
+  // { name: "Deleted Listings", icon: FiList, link: "/user/investee-dashboard/investee-listing-history" },
+  { name: "My Investments", icon: FiList, link: "#", dropdown: false },
 ];
 
 
@@ -66,10 +66,50 @@ const SidebarContent = ({ onClose, ...rest }) => {
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
+
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon} link={link.link} >
+
+        link.dropdown ? (<>
+          <Menu >
+            <Flex
+              p={4}
+              mx={4}
+              alignItems={"center"} justifyContent={"flex-start"}
+              borderRadius="lg"
+              cursor="pointer"
+              _hover={{
+                bg: "cyan.400",
+                color: "white",
+              }}
+              bg="white"
+              color="black"
+              fontSize={12}
+              yas={Button}
+              width={"87%"}>
+              <Icon
+                mr="4"
+                fontSize="16"
+                _groupHover={{
+                  color: "white",
+                }}
+                as={link.icon}
+              />
+              <MenuButton>              
+              {link.name}
+              </MenuButton>
+
+            </Flex>
+            <MenuList>
+              <MenuGroup>
+                {link.dropdownItem.map(dropdown => (
+                  <Link to={dropdown.link}> <MenuItem>{dropdown.name}</MenuItem></Link>
+                ))}
+              </MenuGroup>
+            </MenuList>
+          </Menu>
+        </>) : (<> <NavItem key={link.name} icon={link.icon} link={link.link} >
           {link.name}
-        </NavItem>
+        </NavItem></>)
       ))}
     </Box>
   );
@@ -112,6 +152,8 @@ const NavItem = ({ icon, children, link, ...rest }) => {
     </NavLink>
   );
 };
+
+
 
 const MobileNav = ({ onOpen, ...rest }) => {
 

@@ -88,48 +88,48 @@ const Investordashboardbusinesscatalog = () => {
             justifyContent: "center"
           }}
         >
-          {listing?.map((item) =>
+          {listing.length>0?(<>
+            {listing?.map((item) =>
 
-          (
-            <Card align="center" width={"350px"} margin={"10px"}>
-              <CardHeader>
-                <Heading size="md">{item.investee_id.businessName}</Heading>
-              </CardHeader>
-              <CardBody>
-                <Text noOfLines={[1, 2, 3]}>
-                  <span style={{ fontWeight: "bold" }}>Description : </span>
-                  {item.description}
+(
+  <Card align="center" width={"350px"} margin={"10px"}>
+    <CardHeader>
+      <Heading size="md">{item.investee_id.businessName}</Heading>
+    </CardHeader>
+    <CardBody>
+      <Text noOfLines={[1, 2, 3]}>
+        <span style={{ fontWeight: "bold" }}>Description : </span>
+        {item.description}
 
-                </Text>
-                <Text>
-                  <span style={{ fontWeight: "bold" }}>Required Amount : </span>
-                  Rs {item.amount}
-                </Text>
-                <Text>
-                  <span style={{ fontWeight: "bold" }}>Profit Share Percentage : </span>
-                  {item.profitPercentage}%
-                </Text>
-                <Text>
-                  <span style={{ fontWeight: "bold" }}>Investment Duration : </span>
-                  {item.investmentDuration} years
-                </Text>
-
-
-              </CardBody>
-              <CardFooter>
-                <Button
-                  colorScheme="blue"
-                  margin={"10px"}
-                  size="lg"
-                >
-                  <Link to={`/user/investor-dashboard/business-catalog/listing/${item._id}`}> 
-                    View
-                  </Link>
-
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+      </Text>
+      <Text>
+        <span style={{ fontWeight: "bold" }}>Required Amount : </span>
+        Rs {item.amount}
+      </Text>
+      <Text>
+        <span style={{ fontWeight: "bold" }}>Profit Share Percentage : </span>
+        {item.profitPercentage}%
+      </Text>
+      <Text>
+        <span style={{ fontWeight: "bold" }}>Investment Duration : </span>
+        {item.investmentDuration} years
+      </Text>
+    </CardBody>
+    <CardFooter>
+      <Button
+        colorScheme="blue"
+        margin={"10px"}
+        size="lg"
+      >
+        <Link to={`/user/investor-dashboard/business-catalog/listing/${item._id}`}> 
+          View
+        </Link>
+      </Button>
+    </CardFooter>
+  </Card>
+))}
+          </>):(<><Text>no listing available</Text></>)}
+        
         </Box>
       </Sidebar>
     </>
