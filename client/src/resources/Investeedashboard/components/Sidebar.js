@@ -19,6 +19,7 @@ import {
   MenuList,
   MenuItem,
   MenuDivider,
+  useToast
 } from "@chakra-ui/react";
 import "../../../css/style.css"
 import {
@@ -30,13 +31,12 @@ import {
   FiLock
 } from "react-icons/fi";
 import { IoHomeOutline } from "react-icons/io5";
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import Logo from "../../../components/Logo";
 import { useEffect, useState } from "react";
 import { BsChatRight } from "react-icons/bs";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { MdOutlineNotificationsActive } from "react-icons/md";
-
 
 const LinkItems = [
   { name: "Home", icon: IoHomeOutline, link: "/user/investee-dashboard/home", dropdown: false },
@@ -72,7 +72,6 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
         link.dropdown ? (<>
           <Menu >
-            {/* <MenuButton as={Button}>               */}
             <Flex
               p={4}
               mx={4}
@@ -167,24 +166,71 @@ const NavItem = ({ icon, children, link, ...rest }) => {
 const MobileNav = ({ onOpen, ...rest }) => {
 
   const [investee, setInvestee] = useState([]);
+  const toast=useToast()
+const navigate=useNavigate();
 
   const getUser = () => {
-    const token = window.localStorage.getItem('token');
-    fetch("http://127.0.0.1:3001/api/investee/get-user", {
-      method: "GET",
-      headers: {
-        'token': token,
-        'Accept': "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((investee) => { setInvestee(investee.investee) })
-      .catch((err) => console.log(err));
+    try {
+      const token = window.localStorage.getItem('token');
+      fetch("http://127.0.0.1:3001/api/investee/get-user", {
+        method: "GET",
+        headers: {
+          'token': token,
+          'Accept': "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => { 
+          if(res.status){
+            setInvestee(res.investee) 
+          }else{
+            toast({
+              title: "Network Error",
+              status: "error",
+              duration: 9000,
+              isClosable: true,
+              position: "top",
+            });
+            navigate("/")
+
+          }
+        })
+        .catch((err) => console.log(err) );
+    } catch (error) {
+      console.log(error)
+    }
+ 
   };
+  // const getNotifications = () => {
+  //   try {
+  //     const token = window.localStorage.getItem('token');
+  //     fetch("http://127.0.0.1:3001/api/investee/get-notifications", {
+  //       method: "GET",
+  //       headers: {
+  //         'token': token,
+  //         'Accept': "application/json",
+  //         "Content-Type": "application/json",
+  //       },
+  //     })
+  //       .then((res) => res.json())
+  //       .then((res) => {
+  //          setNotifications(notifications.notifications) 
+  //       })
+  //       .catch((err) => console.log(err));
+      
+  //   } catch (error) {
+  //     navigate("/")
+  //   }
+  // };
   useEffect(() => {
     document.title = "Investify | Investee-Home";
-    getUser();
+    try {
+      getUser();
+      // getNotifications() 
+    } catch (error) {
+      navigate("/")
+    }
   }, []);
   return (
     <Flex
@@ -220,18 +266,19 @@ const MobileNav = ({ onOpen, ...rest }) => {
         <Flex alignItems={"center"}>
           <Menu>
             <HStack>
-            <Menu>
+            {/* <Menu>
   <MenuButton as={Button} icon={<MdOutlineNotificationsActive/>}>
   <MdOutlineNotificationsActive/>
   </MenuButton>
   <MenuList>
-    <MenuItem>Download</MenuItem>
-    <MenuItem>Create a Copy</MenuItem>
-    <MenuItem>Mark as Draft</MenuItem>
-    <MenuItem>Delete</MenuItem>
-    <MenuItem>Attend a Workshop</MenuItem>
+    {notifications.map(notification=>(
+
+    <MenuItem>{notification.message}</MenuItem>
+    ))}
+
+    
   </MenuList>
-</Menu>
+</Menu> */}
               <Menu>
                 <MenuButton as={Button} >
                   <Avatar
@@ -245,7 +292,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
                   <MenuGroup title={investee.businessName}>
                     <MenuItem><Link to={"#"}>Chats</Link></MenuItem>
                     <MenuItem><Link to={"/user/investee-dashboard/password-change"}>Change Password</Link></MenuItem>
+                    <MenuItem><Link to={"/user/investee-dashboard/notifications"}>Notifications</Link></MenuItem>
                     <MenuItem><Link to={"/user/investee-dashboard/logout"}>Log Out</Link></MenuItem>
+
 
                   </MenuGroup>
                 </MenuList>

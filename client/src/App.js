@@ -19,6 +19,8 @@ import Investeedashboardlistinghistory from "./resources/Investeedashboard/Inves
 import Investordashboardlogout from "./resources/Investordashboard/Investordashboardlogout";
 import Admindashboardhome from "./resources/Admindashboard/Admindashboardhome";
 import Investordashboardproductpage from "./resources/Investordashboard/Investordashboardproductpage";
+import Investeedashboardnotification from "./resources/Investeedashboard/Investeedashboardnotification";
+
 function App() {
   return (
     <>
@@ -68,6 +70,10 @@ function App() {
           <Route
             path="/user/investee-dashboard/password-change"
             element={<Investeedashboardchangepassword />}
+          />
+            <Route
+            path="/user/investee-dashboard/notifications"
+            element={<Investeedashboardnotification />}
           />
           <Route
             path="/user/investee-dashboard/logout"

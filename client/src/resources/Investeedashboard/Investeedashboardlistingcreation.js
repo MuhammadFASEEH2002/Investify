@@ -9,6 +9,7 @@ import {
   Input,
   useToast,
   Textarea,
+  Spinner
 } from "@chakra-ui/react";
 
 
@@ -17,6 +18,8 @@ const Investeedashboardlistingcreation = () => {
   const [profitPercentage, setProfitPercentage] = useState("");
   const [investmentDuration, setInvestmentDuration] = useState("");
   const [amount, setAmount] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
   };
@@ -35,6 +38,7 @@ const Investeedashboardlistingcreation = () => {
     }
   }, []);
   const createListing = () => {
+    setLoading(true)
     const token = window.localStorage.getItem('token');
     // console.log({
     //   description, profitPercentage, amount
@@ -78,6 +82,7 @@ const Investeedashboardlistingcreation = () => {
               isClosable: true,
               position: "top",
             });
+            setLoading(false)
           }
         })
         .catch((err) => console.log(err));
@@ -96,86 +101,88 @@ const Investeedashboardlistingcreation = () => {
   return (
     <>
       <Sidebar>
-        <HStack
-          width={"100%"}
-          flexDirection={{ base: "column", md: "row", lg: "row" }}
-          spacing={"0px"}
-          alignItems={"center"}
-          justifyContent={"center"}
-        >
-          <Stack width={{ base: "100%", md: "50%", lg: "50%" }} spacing={"0px"} alignItems={"center"} justifyContent={"center"}>
-            <HStack width={"100%"} marginBottom={5}>
-              <Stack width={"100%"}>
-                <Text>Business Description</Text>
-                <Textarea
-                  placeholder="Describe your business in not more than 200 words."
-                  width={"90%"}
-                  variant={"filled"}
-                  border={"0.5px solid grey"}
-                  onChange={(event) =>
-                    handleInputChange(event, setDescription)
-                  }
-                  isRequired
-                />
-              </Stack>
-            </HStack>
-            <HStack width={"100%"} marginBottom={5}>
-              <Stack width={"100%"}>
-                <Text>Profit Share Percentage</Text>
-                <Input
-                  type="number"
-                  placeholder="should be between 5% to 15%"
-                  width={"90%"}
-                  variant={"filled"}
-                  border={"0.5px solid grey"}
-                  isRequired
-                  onKeyDown={(event) => checkIfNumber(event)}
-                  onChange={(event) => handleInputChange(event, setProfitPercentage)}
-                />
-              </Stack>
-            </HStack>
-            <HStack width={"100%"} marginBottom={5}>
-              <Stack width={"100%"}>
-                <Text>Investment Duration</Text>
-                <Input
-                  type="number"
-                  placeholder="Enter the duration of investment in years"
-                  width={"90%"}
-                  variant={"filled"}
-                  border={"0.5px solid grey"}
-                  isRequired
-                  onKeyDown={(event) => checkIfNumber(event)}
-                  onChange={(event) => handleInputChange(event, setInvestmentDuration)}
-                />
-              </Stack>
-            </HStack>
-            <HStack width={"100%"} marginBottom={5}>
-              <Stack width={"100%"}>
-                <Text>Amount Required</Text>
-                <Input
-                  type="number"
-                  placeholder="max amount allowed is Rs 25,000"
-                  width={"90%"}
-                  variant={"filled"}
-                  border={"0.5px solid grey"}
-                  isRequired
-                  onKeyDown={(event) => checkIfNumber(event)}
-                  onChange={(event) => handleInputChange(event, setAmount)}
-                />
-              </Stack>
-            </HStack>
-            <Button
-              colorScheme="teal"
-              variant="solid"
-              marginTop={"30px"}
-              size={{ base: "md", md: "md", lg: "lg" }}
-              onClick={createListing}
-            >
-              Create Listing
-            </Button>
-          </Stack>
+        {loading ? (<><Stack minHeight={'100%'} width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack> </>):(<>
+          <HStack
+            width={"100%"}
+            flexDirection={{ base: "column", md: "row", lg: "row" }}
+            spacing={"0px"}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            <Stack width={{ base: "100%", md: "50%", lg: "50%" }} spacing={"0px"} alignItems={"center"} justifyContent={"center"}>
+              <HStack width={"100%"} marginBottom={5}>
+                <Stack width={"100%"}>
+                  <Text>Business Description</Text>
+                  <Textarea
+                    placeholder="Describe your business in not more than 200 words."
+                    width={"90%"}
+                    variant={"filled"}
+                    border={"0.5px solid grey"}
+                    onChange={(event) =>
+                      handleInputChange(event, setDescription)
+                    }
+                    isRequired
+                  />
+                </Stack>
+              </HStack>
+              <HStack width={"100%"} marginBottom={5}>
+                <Stack width={"100%"}>
+                  <Text>Profit Share Percentage</Text>
+                  <Input
+                    type="number"
+                    placeholder="should be between 5% to 15%"
+                    width={"90%"}
+                    variant={"filled"}
+                    border={"0.5px solid grey"}
+                    isRequired
+                    onKeyDown={(event) => checkIfNumber(event)}
+                    onChange={(event) => handleInputChange(event, setProfitPercentage)}
+                  />
+                </Stack>
+              </HStack>
+              <HStack width={"100%"} marginBottom={5}>
+                <Stack width={"100%"}>
+                  <Text>Investment Duration</Text>
+                  <Input
+                    type="number"
+                    placeholder="Enter the duration of investment in years"
+                    width={"90%"}
+                    variant={"filled"}
+                    border={"0.5px solid grey"}
+                    isRequired
+                    onKeyDown={(event) => checkIfNumber(event)}
+                    onChange={(event) => handleInputChange(event, setInvestmentDuration)}
+                  />
+                </Stack>
+              </HStack>
+              <HStack width={"100%"} marginBottom={5}>
+                <Stack width={"100%"}>
+                  <Text>Amount Required</Text>
+                  <Input
+                    type="number"
+                    placeholder="max amount allowed is Rs 25,000"
+                    width={"90%"}
+                    variant={"filled"}
+                    border={"0.5px solid grey"}
+                    isRequired
+                    onKeyDown={(event) => checkIfNumber(event)}
+                    onChange={(event) => handleInputChange(event, setAmount)}
+                  />
+                </Stack>
+              </HStack>
+              <Button
+                colorScheme="teal"
+                variant="solid"
+                marginTop={"30px"}
+                size={{ base: "md", md: "md", lg: "lg" }}
+                onClick={createListing}
+              >
+                Create Listing
+              </Button>
+            </Stack>
 
-        </HStack>
+          </HStack></>)}
+
       </Sidebar>
     </>
   );

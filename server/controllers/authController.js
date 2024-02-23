@@ -318,7 +318,7 @@ exports.investeeRegistration = async (req, res) => {
       city: req.body.selectedCity,
       category: req.body.selectedCategory,
       isVerified: false,
-      cnicDoc: req.file.filename,
+      cnicDoc: req.body.fileRef
     });
 
     res.json({ message: "user created", status: true });

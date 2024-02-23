@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import {
   HStack,
   Stack,
@@ -13,6 +12,15 @@ import {
   Checkbox,
   useToast,
 } from "@chakra-ui/react";
+import {
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  listAll,
+  list,
+} from "firebase/storage";
+import { storage } from "../../../utils/firebase";
+import { v4 } from "uuid";
 
 const Investeeregistration = () => {
   const toast = useToast();
@@ -28,6 +36,7 @@ const Investeeregistration = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [file, setFile] = useState(null);
+  const [url, setUrl] = useState("");
 
   const [checkbox, setCheckbox] = useState(false);
   const navigate = useNavigate();
@@ -49,7 +58,7 @@ const Investeeregistration = () => {
   };
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const cnicRegex = /^\d{13}$/;
-  const phoneNumberRegex =  /^0\d{10}$/;
+  const phoneNumberRegex = /^0\d{10}$/;
   const zipcodeRegex = /^\d{5}$/;
   const businessNameRegex = /^[a-zA-Z0-9\s]+$/;
   const passwordRegex = /^(?=.*[A-Za-z0-9])(?!.*\s).{8,}$/;
@@ -95,7 +104,7 @@ const Investeeregistration = () => {
       checkbox && file
     ) {
       if (!emailRegex.test(email)) {
-       
+
         toast({
           title: "Invalid Email Address Format",
           status: "error",
@@ -103,7 +112,7 @@ const Investeeregistration = () => {
           isClosable: true,
           position: "top",
         });
-       return
+        return
       }
       if (!cnicRegex.test(cnic)) {
         toast({
@@ -114,18 +123,18 @@ const Investeeregistration = () => {
           position: "top",
         });
         return
-      }  
-      if (!phoneNumberRegex.test(phoneNumber)) {  
+      }
+      if (!phoneNumberRegex.test(phoneNumber)) {
         toast({
           title: "Invalid Phone Number",
           status: "error",
           duration: 9000,
           isClosable: true,
           position: "top",
-        });    
-        return 
+        });
+        return
       }
-      if (!zipcodeRegex.test(zipcode)) {    
+      if (!zipcodeRegex.test(zipcode)) {
         toast({
           title: "Invalid Zipcode.",
           status: "error",
@@ -133,7 +142,7 @@ const Investeeregistration = () => {
           isClosable: true,
           position: "top",
         });
-        return 
+        return
       }
       if (!businessNameRegex.test(businessName)) {
         toast({
@@ -143,9 +152,9 @@ const Investeeregistration = () => {
           isClosable: true,
           position: "top",
         });
-        return 
+        return
       }
-      if (!passwordRegex.test(password) || !passwordRegex.test(confirmPassword) ) {
+      if (!passwordRegex.test(password) || !passwordRegex.test(confirmPassword)) {
         toast({
           title: "Password should have minimum 8 characters. No spaces allowed and at least 1 alphabet or letter is compulsory",
           status: "error",
@@ -154,8 +163,21 @@ const Investeeregistration = () => {
           position: "top",
         });
         return
-      } 
+      }
       if (password === confirmPassword) {
+        const fileRef = ref(storage, `images/${Date.now() + file.name}`);
+        // const refString=`images/${Date.now() + file.name}`
+        formData.append('fileRef', url);
+        uploadBytes(fileRef, file).then((snapshot) => {
+          // getDownloadURL(snapshot.ref).then((url) => {
+          //   setImageUrls((prev) => [...prev, url]);
+          // });
+
+          getDownloadURL(snapshot.ref).then((url) => {
+            console.log(url)
+            setUrl(url)
+          });
+        });
         fetch("http://127.0.0.1:3001/api/auth/investee-registration", {
           method: "POST",
           body: formData,
@@ -247,7 +269,7 @@ const Investeeregistration = () => {
               />
             </Stack>
           </HStack>
-          <HStack marginLeft={{ base: "10px", md: "20px", lg: "20px" }} marginBottom={"10px"}> 
+          <HStack marginLeft={{ base: "10px", md: "20px", lg: "20px" }} marginBottom={"10px"}>
             <Stack width={"50%"}>
               <Text>Phone Number</Text>
               <Input

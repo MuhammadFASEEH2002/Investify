@@ -409,3 +409,14 @@ exports.deleteListing = async (req, res) => {
     res.json({ message: error.message, status: false });
   }
 };
+exports.getNotifications = async (req, res) => {
+  try {
+    const notifications = await Notification.find({ investeeId: req.user})
+      res.json({
+        status: true,
+        notifications
+      });
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};
