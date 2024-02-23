@@ -12,6 +12,7 @@ router.get('/get-my-listing-history' ,verifyInvesteeToken, InvesteeController.ge
 router.post('/delete-listing' ,verifyInvesteeToken, InvesteeController.deleteListing)
 router.put('/edit-listing' ,verifyInvesteeToken, InvesteeController.editListing)
 router.post('/change-password' ,verifyInvesteeToken, InvesteeController.changePassword)
+// router.get("get-notifications", verifyInvesteeToken, InvesteeController.getNotifications)
 
 
 

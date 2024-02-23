@@ -15,13 +15,13 @@ const InvestorRouter = require('./routes/investorRoutes')
 
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://127.0.0.1:3000"],
+    origin: ["http://localhost:3000", "http://127.0.0.1:3000","https://investify-client-navy.vercel.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
 mongo
-  .connect("mongodb://127.0.0.1:27017/Investify")
+  .connect("mongodb+srv://investify180:Aeiou.123@investify.xeqvluf.mongodb.net/")
   .then((res) => console.log("MongoDB connected"))
   .catch((err) => console.log("MongoDb Connection Failed", err));
 
@@ -41,7 +41,9 @@ app.use("/api/auth", AuthRouter);
 app.use("/api/admin", AdminRouter);
 app.use("/api/investee", InvesteeRouter);
 app.use("/api/investor", InvestorRouter);
-
+app.get("/",(req,res)=>{
+  res.json("hello")
+})
 
 
 

@@ -18,7 +18,7 @@ import {
   MenuGroup,
   MenuList,
   MenuItem,
-  MenuDivider
+  MenuDivider,
 } from "@chakra-ui/react";
 import "../../../css/style.css"
 import {
@@ -34,14 +34,15 @@ import { Link, NavLink } from 'react-router-dom';
 import Logo from "../../../components/Logo";
 import { useEffect, useState } from "react";
 import { BsChatRight } from "react-icons/bs";
-import { IoMdArrowDropdown } from "react-icons/io";
+import { RiArrowDropDownLine } from "react-icons/ri";
+import { MdOutlineNotificationsActive } from "react-icons/md";
 
 
 const LinkItems = [
   { name: "Home", icon: IoHomeOutline, link: "/user/investee-dashboard/home", dropdown: false },
   { name: "Create Listing", icon: FiEdit, link: "/user/investee-dashboard/listing-creation", dropdown: false },
   // { name: "Active Listings", icon: FiList, link: "/user/investee-dashboard/investee-listings" },
-  { name: "Listings", icon: FiList, link: "#", dropdown: true, dropdownItem: [{ name: "Active Listings", link: "/user/investee-dashboard/investee-listings" }, { name: "Deleted Listings", link: "/user/investee-dashboard/investee-listing-history" }] },
+  { name: "Listings", icon: FiList, link: "#", dropdown: true, dropdownIcon: RiArrowDropDownLine, dropdownItem: [{ name: "Active Listings", link: "/user/investee-dashboard/investee-listings" }, { name: "Deleted Listings", link: "/user/investee-dashboard/investee-listing-history" }] },
   // { name: "Deleted Listings", icon: FiList, link: "/user/investee-dashboard/investee-listing-history" },
   { name: "My Investments", icon: FiList, link: "#", dropdown: false },
 ];
@@ -71,6 +72,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
         link.dropdown ? (<>
           <Menu >
+            {/* <MenuButton as={Button}>               */}
             <Flex
               p={4}
               mx={4}
@@ -84,7 +86,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
               bg="white"
               color="black"
               fontSize={12}
-              yas={Button}
+              as={Button}
               width={"87%"}>
               <Icon
                 mr="4"
@@ -94,11 +96,18 @@ const SidebarContent = ({ onClose, ...rest }) => {
                 }}
                 as={link.icon}
               />
-              <MenuButton>              
-              {link.name}
+              <MenuButton width={"100%"} height={"10"} textAlign={"start"}>
+                {link.name}
               </MenuButton>
-
+              <Icon
+                ml="4"
+                fontSize="20"
+                _groupHover={{
+                  color: "white",
+                }}
+                display={"flex"} as={link.dropdownIcon} />
             </Flex>
+
             <MenuList>
               <MenuGroup>
                 {link.dropdownItem.map(dropdown => (
@@ -210,9 +219,19 @@ const MobileNav = ({ onOpen, ...rest }) => {
 
         <Flex alignItems={"center"}>
           <Menu>
-
             <HStack>
-
+            <Menu>
+  <MenuButton as={Button} icon={<MdOutlineNotificationsActive/>}>
+  <MdOutlineNotificationsActive/>
+  </MenuButton>
+  <MenuList>
+    <MenuItem>Download</MenuItem>
+    <MenuItem>Create a Copy</MenuItem>
+    <MenuItem>Mark as Draft</MenuItem>
+    <MenuItem>Delete</MenuItem>
+    <MenuItem>Attend a Workshop</MenuItem>
+  </MenuList>
+</Menu>
               <Menu>
                 <MenuButton as={Button} >
                   <Avatar
