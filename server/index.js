@@ -4,14 +4,10 @@ const mongo = require("mongoose");
 // const env = require('dotenv').config()
 const cors = require("cors");
 const PORT = 3001;
-// const verifyToken = require('./middleware/verifyToken')
-// const AuthRouter = require("./controllers/Auth");
 const AuthRouter = require('./routes/authRoutes')
 const AdminRouter = require('./routes/adminRoutes')
 const InvesteeRouter = require('./routes/investeeRoutes')
 const InvestorRouter = require('./routes/investorRoutes')
-
-
 
 app.use(
   cors({
@@ -28,15 +24,6 @@ mongo
 app.use(express.json());
 app.use(express.static('upload'));
 app.use(express.urlencoded({ extended: true }));
-
-// const transporter = nodemailer.createTransport({
-//   service: 'gmail',
-//   auth: {
-//     user: 'your-email@gmail.com',
-//     pass: 'your-password',
-//   },
-// });
-
 app.use("/api/auth", AuthRouter);
 app.use("/api/admin", AdminRouter);
 app.use("/api/investee", InvesteeRouter);
