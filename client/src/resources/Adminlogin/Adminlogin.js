@@ -32,7 +32,8 @@ const Adminlogin = () => {
   });
   const adminLogin = () => {
     if (username && password) {
-      fetch("http://127.0.0.1:3001/api/auth/admin-login", {
+      // const apiKey = process.env.FETCH_URL;
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/auth/admin-login`, {
         method: "POST",
         body: JSON.stringify({
           username,
