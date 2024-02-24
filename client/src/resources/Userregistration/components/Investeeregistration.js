@@ -65,31 +65,17 @@ const Investeeregistration = () => {
 
   const register = () => {
 
-    const formData = new FormData()
-    formData.append('file', file)
-    formData.append('businessName', businessName);
-    formData.append('email', email);
-    formData.append('cnic', cnic);
-    formData.append('password', password);
-    formData.append('address', address);
-    formData.append('zipcode', zipcode);
-    formData.append('phoneNumber', phoneNumber);
-    formData.append('selectedCity', selectedCity);
-    formData.append('selectedCountry', selectedCountry);
-    formData.append('selectedCategory', selectedCategory);
-    // console.log({
-    //   businessName,
-    //   email,
-    //   cnic,
-    //   password,
-    //   address,
-    //   zipcode,
-    //   phoneNumber,
-    //   selectedCity,
-    //   selectedCountry,
-    //   selectedCategory,
-    //   file
-    // });
+    // const formData = new FormData()
+    // formData.append('businessName', businessName);
+    // formData.append('email', email);
+    // formData.append('cnic', cnic);
+    // formData.append('password', password);
+    // formData.append('address', address);
+    // formData.append('zipcode', zipcode);
+    // formData.append('phoneNumber', phoneNumber);
+    // formData.append('selectedCity', selectedCity);
+    // formData.append('selectedCountry', selectedCountry);
+    // formData.append('selectedCategory', selectedCategory);
     if (
       businessName &&
       email &&
@@ -103,6 +89,7 @@ const Investeeregistration = () => {
       selectedCategory &&
       checkbox && file
     ) {
+      // console.log(formData)
       if (!emailRegex.test(email)) {
 
         toast({
@@ -166,26 +153,34 @@ const Investeeregistration = () => {
       }
       if (password === confirmPassword) {
         const fileRef = ref(storage, `images/${Date.now() + file.name}`);
-        // const refString=`images/${Date.now() + file.name}`
-        formData.append('fileRef', url);
+        // formData.append('fileRef', url);
         uploadBytes(fileRef, file).then((snapshot) => {
-          // getDownloadURL(snapshot.ref).then((url) => {
-          //   setImageUrls((prev) => [...prev, url]);
-          // });
-
           getDownloadURL(snapshot.ref).then((url) => {
             console.log(url)
             setUrl(url)
           });
+
         });
         fetch(`${process.env.REACT_APP_FETCH_URL_}/api/auth/investee-registration`, {
           method: "POST",
-          body: formData,
-
-          // headers: {
-          //   Accept: "application/json",
-          //   "Content-Type": "application/json",
-          // },
+          body: JSON.stringify({
+            businessName,
+            email,
+            cnic,
+            password,
+            confirmPassword,
+            address,
+            zipcode,
+            phoneNumber,
+            selectedCity,
+            selectedCountry,
+            selectedCategory,
+            url
+          }),
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
         })
           .then((res) => {
             return res.json();
@@ -202,7 +197,7 @@ const Investeeregistration = () => {
               });
               navigate("/user-login");
             } else {
-              // alert(res.message);
+
               toast({
                 title: "Authentication Error",
                 description: res.message,

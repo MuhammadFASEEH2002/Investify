@@ -171,7 +171,6 @@ exports.investeeRegistration = async (req, res) => {
     const BusinessNameExist = await Investee.findOne({
       businessName: req.body.businessName,
     });
-
     const EmailExist = await Investee.findOne({ email: req.body.email });
     const CnicExist = await Investee.findOne({ cnic: req.body.cnic });
     const PhoneExist = await Investee.findOne({
@@ -320,7 +319,7 @@ exports.investeeRegistration = async (req, res) => {
       city: req.body.selectedCity,
       category: req.body.selectedCategory,
       isVerified: false,
-      cnicDoc: req.body.fileRef
+      cnicDoc: req.body.url
     });
 
     res.json({ message: "user created", status: true });
