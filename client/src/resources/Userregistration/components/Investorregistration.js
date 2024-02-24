@@ -12,6 +12,7 @@ import {
   Select,
   Checkbox,
   useToast,
+  Spinner
 } from "@chakra-ui/react";
 
 const Investorregistration = () => {
@@ -40,10 +41,12 @@ const Investorregistration = () => {
   const nameRegex = /^[A-Za-z]+$/;
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const cnicRegex = /^\d{13}$/;
-  const phoneNumberRegex =  /^0\d{10}$/;
+  const phoneNumberRegex = /^0\d{10}$/;
   const passwordRegex = /^(?=.*[A-Za-z0-9])(?!.*\s).{8,}$/;
   const handlePasswordClick = () => setShowPassword(!showPassword);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const [loading, setLoading] = useState(false);
+
   const handleConfirmPasswordClick = () =>
     setShowConfirmPassword(!showConfirmPassword);
   const register = () => {
@@ -59,8 +62,9 @@ const Investorregistration = () => {
       checkbox &&
       selectedCountry
     ) {
+      setLoading(true)
       if (!nameRegex.test(firstName) || !nameRegex.test(lastName)) {
-        
+
         toast({
           title: "Inappropriate First Name or Last Name",
           status: "error",
@@ -68,11 +72,12 @@ const Investorregistration = () => {
           isClosable: true,
           position: "top",
         });
+        setLoading(false)
         return
       }
-  
+
       if (!emailRegex.test(email)) {
-         
+
         toast({
           title: "Invalid Email Address",
           status: "error",
@@ -80,9 +85,11 @@ const Investorregistration = () => {
           isClosable: true,
           position: "top",
         });
+        setLoading(false)
+
         return
       }
-      if (!cnicRegex.test(cnic)) {  
+      if (!cnicRegex.test(cnic)) {
         toast({
           title: "Invalid Format of CNIC or not in 13 digits",
           status: "error",
@@ -90,9 +97,11 @@ const Investorregistration = () => {
           isClosable: true,
           position: "top",
         });
-        return 
+        setLoading(false)
+
+        return
       }
-  
+
       if (!phoneNumberRegex.test(phoneNumber)) {
         toast({
           title: "Invalid Phone Number",
@@ -100,11 +109,13 @@ const Investorregistration = () => {
           duration: 9000,
           isClosable: true,
           position: "top",
-        });    
+        });
+        setLoading(false)
+
         return
       }
-  
-      if (!passwordRegex.test(password) || !passwordRegex.test(confirmPassword) ) {
+
+      if (!passwordRegex.test(password) || !passwordRegex.test(confirmPassword)) {
         toast({
           title: "Invalid Password",
           status: "error",
@@ -112,9 +123,11 @@ const Investorregistration = () => {
           isClosable: true,
           position: "top",
         });
-        return 
+        setLoading(false)
+
+        return
       }
-  
+
       if (password === confirmPassword) {
         fetch(`${process.env.REACT_APP_FETCH_URL_}/api/auth/investor-registration`, {
           method: "POST",
@@ -159,6 +172,8 @@ const Investorregistration = () => {
                 isClosable: true,
                 position: "top",
               });
+              setLoading(false)
+
             }
           })
           .catch((err) => alert(err));
@@ -172,6 +187,8 @@ const Investorregistration = () => {
           isClosable: true,
           position: "top",
         });
+        setLoading(false)
+
       }
     } else {
       // alert("Fields are empty");
@@ -183,11 +200,13 @@ const Investorregistration = () => {
         isClosable: true,
         position: "top",
       });
+      setLoading(false)
+
     }
   };
   return (
     <>
-      <HStack
+      {loading ? (<>        <Stack width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack></>) : (<>    <HStack
         width={"100%"}
         flexDirection={{ base: "column", md: "row", lg: "row" }}
       >
@@ -347,24 +366,25 @@ const Investorregistration = () => {
           </HStack>
         </Stack>
       </HStack>
-      <Stack alignItems={"center"} justifyContent={"center"} marginTop={"30px"}>
-        <Checkbox
-          onChange={(event) => handleCheckboxChange(event, setCheckbox)}
-          checked={setCheckbox}
-          borderColor="black"
-        >
-          I agree to Investify terms and conditions
-        </Checkbox>
-        <Button
-          colorScheme="teal"
-          variant="solid"
-          marginRight={"10px"}
-          size={{ base: "md", md: "md", lg: "lg" }}
-          onClick={register}
-        >
-          Register
-        </Button>
-      </Stack>
+        <Stack alignItems={"center"} justifyContent={"center"} marginTop={"30px"}>
+          <Checkbox
+            onChange={(event) => handleCheckboxChange(event, setCheckbox)}
+            checked={setCheckbox}
+            borderColor="black"
+          >
+            I agree to Investify terms and conditions
+          </Checkbox>
+          <Button
+            colorScheme="teal"
+            variant="solid"
+            marginRight={"10px"}
+            size={{ base: "md", md: "md", lg: "lg" }}
+            onClick={register}
+          >
+            Register
+          </Button>
+        </Stack></>)}
+
     </>
   );
 };
