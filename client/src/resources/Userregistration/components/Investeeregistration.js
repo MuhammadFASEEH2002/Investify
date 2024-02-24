@@ -158,7 +158,7 @@ const Investeeregistration = () => {
         return
       }
       if (password === confirmPassword) {
-        const fileRef = ref(storage, `images/${Date.now() + file.name}`);
+        const fileRef = ref(storage, `upload/verification_docs/${Date.now() + file.name}`);
         // formData.append('fileRef', url);
         await uploadBytes(fileRef, file).then((snapshot) => {
           getDownloadURL(snapshot.ref).then((url) => {
