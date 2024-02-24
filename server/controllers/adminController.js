@@ -3,7 +3,7 @@ const Investee = require("../model/investeeDB");
 const Admin = require("../model/admin");
 const Listing = require("../model/investeeListing");
 const Notification = require("../model/notification");
-
+const env = require('dotenv').config()
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 
@@ -77,8 +77,8 @@ exports.approveInvestees = async (req, res) => {
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "investify180@gmail.com",
-        pass: "vqkr elcq xdba mnbj",
+        user:  `${process.env.EMAIL}`,
+        pass: `${process.env.password}`,
       },
     });
     const mailOptions = await {
@@ -156,8 +156,8 @@ exports.approveListing = async (req, res) => {
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "investify180@gmail.com",
-        pass: "vqkr elcq xdba mnbj",
+        user:  `${process.env.EMAIL}`,
+        pass: `${process.env.password}`,
       },
     });
     const mailOptions = await {
@@ -232,8 +232,8 @@ exports.declineInvestees = async (req, res) => {
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "investify180@gmail.com",
-        pass: "vqkr elcq xdba mnbj",
+        user:  `${process.env.EMAIL}`,
+        pass: `${process.env.password}`,
       },
     });
     const mailOptions = await {
@@ -303,8 +303,8 @@ exports.declineListing = async (req, res) => {
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "investify180@gmail.com",
-        pass: "vqkr elcq xdba mnbj",
+        user:  `${process.env.EMAIL}`,
+        pass: `${process.env.password}`,
       },
     });
     const mailOptions = await {

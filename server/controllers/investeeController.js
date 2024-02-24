@@ -2,7 +2,7 @@ const Investor = require("../model/investorDB");
 const Investee = require("../model/investeeDB");
 const Listing = require("../model/investeeListing");
 const Notification = require("../model/notification");
-
+const env = require('dotenv').config()
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const emailValidator = require("deep-email-validator");
@@ -169,8 +169,8 @@ exports.createListing = async (req, res) => {
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "investify180@gmail.com",
-        pass: "vqkr elcq xdba mnbj",
+        user: `${process.env.EMAIL}`,
+        pass: `${process.env.password}`,
       },
     });
     const mailOptions = await {
@@ -300,8 +300,8 @@ exports.editListing = async (req, res) => {
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "investify180@gmail.com",
-        pass: "vqkr elcq xdba mnbj",
+        user: `${process.env.EMAIL}`,
+        pass: `${process.env.password}`,
       },
     });
     const mailOptions = await {

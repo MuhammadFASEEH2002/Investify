@@ -10,6 +10,8 @@ const nodemailer = require("nodemailer");
 const multer = require("multer");
 const path = require("path");
 const otpGenerator = require('otp-generator')
+const env = require('dotenv').config()
+
 
 exports.investorRegistration = async (req, res) => {
   try {
@@ -81,8 +83,8 @@ exports.investorRegistration = async (req, res) => {
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "investify180@gmail.com",
-        pass: "vqkr elcq xdba mnbj",
+        user: `${process.env.EMAIL}`,
+        pass: `${process.env.password}`,
       },
     });
     const mailOptions = await {
@@ -241,8 +243,8 @@ exports.investeeRegistration = async (req, res) => {
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: "investify180@gmail.com",
-        pass: "vqkr elcq xdba mnbj",
+        user: `${process.env.EMAIL}`,
+        pass: `${process.env.password}`,
       },
     });
     const mailOptions = await {
@@ -427,8 +429,8 @@ exports.sendOtp = async (req, res) => {
         const transporter = await nodemailer.createTransport({
           service: "gmail",
           auth: {
-            user: "investify180@gmail.com",
-            pass: "vqkr elcq xdba mnbj",
+            user: `${process.env.EMAIL}`,
+            pass: `${process.env.password}`,
           },
         });
         const mailOptions = await {
@@ -510,8 +512,8 @@ exports.sendOtp = async (req, res) => {
         const transporter = await nodemailer.createTransport({
           service: "gmail",
           auth: {
-            user: "investify180@gmail.com",
-            pass: "vqkr elcq xdba mnbj",
+            user: `${process.env.EMAIL}`,
+            pass: `${process.env.password}`,
           },
         });
         const mailOptions = await {
@@ -615,8 +617,8 @@ exports.updatePassword = async (req, res) => {
           const transporter = await nodemailer.createTransport({
             service: "gmail",
             auth: {
-              user: "investify180@gmail.com",
-              pass: "vqkr elcq xdba mnbj",
+              user: `${process.env.EMAIL}`,
+              pass: `${process.env.password}`,
             },
           });
           const mailOptions = await {
@@ -721,8 +723,8 @@ exports.updatePassword = async (req, res) => {
           const transporter = await nodemailer.createTransport({
             service: "gmail",
             auth: {
-              user: "investify180@gmail.com",
-              pass: "vqkr elcq xdba mnbj",
+              user: `${process.env.EMAIL}`,
+              pass: `${process.env.password}`,
             },
           });
           const mailOptions = await {

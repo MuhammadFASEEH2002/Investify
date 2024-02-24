@@ -2,7 +2,6 @@ const Investor = require("../model/investorDB");
 const Investee = require("../model/investeeDB");
 const Listing = require("../model/investeeListing");
 const Notification = require("../model/notification");
-
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const emailValidator = require("deep-email-validator");
@@ -64,3 +63,15 @@ exports.getProduct = async (req, res) => {
         res.json({ status: false, message: error.message });
     }
 };
+exports.getNotifications = async (req, res) => {
+    try {
+      const notifications = await Notification.find({ investeeId: req.user})
+        res.json({
+          status: true,
+          notifications
+        });
+    } catch (error) {
+      res.json({ message: error.message, status: false });
+    }
+  };
+  
