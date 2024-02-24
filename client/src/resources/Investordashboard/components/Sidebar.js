@@ -110,7 +110,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
 
   const getUser = () => {
     const token1 = window.localStorage.getItem('token1');
-    fetch("http://127.0.0.1:3001/api/investor/get-user", {
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/get-user`, {
       method: "GET",
       headers: {
         'token': token1,

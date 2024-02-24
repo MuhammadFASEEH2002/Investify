@@ -47,7 +47,7 @@ const Investeedashboardchangepassword = () => {
       confirmNewPassword
     ) {
       if (newPassword === confirmNewPassword) {
-        fetch("http://127.0.0.1:3001/api/investee/change-password", {
+        fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/change-password`, {
           method: "POST",
           body: JSON.stringify({
             oldPassword,

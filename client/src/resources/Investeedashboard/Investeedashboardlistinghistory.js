@@ -41,7 +41,7 @@ const Investeedashboardlistinghistory = () => {
   const getMyListing = () => {
     const adminToken = window.localStorage.getItem('token');
 
-    fetch("http://127.0.0.1:3001/api/investee/get-my-listing-history", {
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/get-my-listing-history`, {
       method: "GET",
       headers: {
         'token': adminToken,

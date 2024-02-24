@@ -178,7 +178,7 @@ const Investeeregistration = () => {
             setUrl(url)
           });
         });
-        fetch("http://127.0.0.1:3001/api/auth/investee-registration", {
+        fetch(`${process.env.REACT_APP_FETCH_URL_}/api/auth/investee-registration`, {
           method: "POST",
           body: formData,
 

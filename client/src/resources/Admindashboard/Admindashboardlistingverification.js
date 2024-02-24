@@ -51,7 +51,7 @@ const Admindashboardlistingverification = () => {
   const getListing = () => {
     const adminToken = window.localStorage.getItem('adminToken');
 
-    fetch("http://127.0.0.1:3001/api/admin/get-listing", {
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/admin/get-listing`, {
       method: "GET",
       headers: {
         'token': adminToken,
@@ -66,7 +66,7 @@ const Admindashboardlistingverification = () => {
   const approveListing = (listingId, listingInvesteeEmail) => {
     const adminToken = window.localStorage.getItem('adminToken');
     console.log(listingInvesteeEmail)
-    fetch("http://127.0.0.1:3001/api/admin/verify-listing", {
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/admin/verify-listing`, {
       method: "POST",
       body: JSON.stringify({
         listingId,
@@ -99,7 +99,7 @@ const Admindashboardlistingverification = () => {
   };
   const declineListing = (listingId, listingInvesteeEmail) => {
     const adminToken = window.localStorage.getItem('adminToken');
-    fetch("http://127.0.0.1:3001/api/admin/decline-listing", {
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/admin/decline-listing`, {
       method: "POST",
       body: JSON.stringify({
         listingId,

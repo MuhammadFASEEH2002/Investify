@@ -35,7 +35,7 @@ const Admindashboardaccountverification = () => {
   const getInvestees = () => {
     const adminToken = window.localStorage.getItem('adminToken');
 
-    fetch("http://127.0.0.1:3001/api/admin/get-investees", {
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/admin/get-investees`, {
       method: "GET",
       headers: {
         'token': adminToken,
@@ -49,7 +49,7 @@ const Admindashboardaccountverification = () => {
   };
   const approveInvestee = (investeeId, investeeEmail) => {
     const adminToken = window.localStorage.getItem('adminToken');
-    fetch("http://127.0.0.1:3001/api/admin/verify-investees", {
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/admin/verify-investees`, {
       method: "POST",
       body: JSON.stringify({
         investeeId,
@@ -82,7 +82,7 @@ const Admindashboardaccountverification = () => {
   };
   const declineInvestee = (investeeId, investeeEmail) => {
     const adminToken = window.localStorage.getItem('adminToken');
-    fetch("http://127.0.0.1:3001/api/admin/decline-investees", {
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/admin/decline-investees`, {
       method: "POST",
       body: JSON.stringify({
         investeeId,

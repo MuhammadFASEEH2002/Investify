@@ -71,7 +71,7 @@ const Userlogin = () => {
   }
   const investorLogin = () => {
     if (email && password) {
-      fetch("http://127.0.0.1:3001/api/auth/investor-login", {
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/auth/investor-login`, {
         method: "POST",
         body: JSON.stringify({
           email,
@@ -115,7 +115,7 @@ const Userlogin = () => {
   };
   const investeeLogin = () => {
     if (email && password) {
-      fetch("http://127.0.0.1:3001/api/auth/investee-login", {
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/auth/investee-login`, {
         method: "POST",
         body: JSON.stringify({
           email,
@@ -159,7 +159,7 @@ const Userlogin = () => {
   };
   const sendOtp = () => {
     if (forgotEmail && selectedRole1) {
-      fetch("http://127.0.0.1:3001/api/auth/send-otp", {
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/auth/send-otp`, {
         method: "POST",
         body: JSON.stringify({
           forgotEmail, selectedRole1
@@ -211,7 +211,7 @@ const Userlogin = () => {
   const updatePassword = () => {
     if (otpNumber && selectedRole1 && newPassword && confirmPassword){
       if (newPassword == confirmPassword) {
-        fetch("http://127.0.0.1:3001/api/auth/update-password", {
+        fetch(`${process.env.REACT_APP_FETCH_URL_}/api/auth/update-password`, {
           method: "POST",
           body: JSON.stringify({
             otpNumber, selectedRole1,  newPassword,forgotEmail

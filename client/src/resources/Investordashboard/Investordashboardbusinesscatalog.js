@@ -21,7 +21,7 @@ const Investordashboardbusinesscatalog = () => {
   const getListing = () => {
     const token1 = window.localStorage.getItem('token1');
 
-    fetch("http://127.0.0.1:3001/api/investor/get-listing", {
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/get-listing`, {
       method: "GET",
       headers: {
         'token': token1,
@@ -36,7 +36,7 @@ const Investordashboardbusinesscatalog = () => {
   const searchCourse = () => {
     const token1 = window.localStorage.getItem('token1');
     // console.log(search)
-    fetch("http://127.0.0.1:3001/api/investor/search-listing", {
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/search-listing`, {
       method: "POST",
       body: JSON.stringify({
         search

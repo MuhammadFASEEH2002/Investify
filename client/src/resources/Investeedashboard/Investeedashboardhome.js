@@ -82,7 +82,7 @@ const Investeedashboardhome = () => {
     if (
       address && zipcode
     ) {
-      fetch("http://127.0.0.1:3001/api/investee/edit-user", {
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/edit-user`, {
         method: "PUT",
         body: JSON.stringify({
           address, zipcode

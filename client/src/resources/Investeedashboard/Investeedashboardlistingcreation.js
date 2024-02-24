@@ -46,7 +46,7 @@ const Investeedashboardlistingcreation = () => {
     if (
       description && profitPercentage && amount && investmentDuration
     ) {
-      fetch("http://127.0.0.1:3001/api/investee/create-listing", {
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/create-listing`, {
         method: "POST",
         body: JSON.stringify({
           description, profitPercentage, amount, investmentDuration

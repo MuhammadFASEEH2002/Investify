@@ -36,7 +36,7 @@ const Admindashboardhome = () => {
 
   const getStatistics = () => {
     const adminToken = window.localStorage.getItem('adminToken');
-    fetch("http://127.0.0.1:3001/api/admin/get-stats", {
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/admin/get-stats`, {
       method: "GET",
       headers: {
         'token': adminToken,

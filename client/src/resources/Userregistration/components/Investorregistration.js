@@ -116,7 +116,7 @@ const Investorregistration = () => {
       }
   
       if (password === confirmPassword) {
-        fetch("http://127.0.0.1:3001/api/auth/investor-registration", {
+        fetch(`${process.env.REACT_APP_FETCH_URL_}/api/auth/investor-registration`, {
           method: "POST",
           body: JSON.stringify({
             firstName,

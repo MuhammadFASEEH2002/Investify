@@ -56,7 +56,7 @@ const Investeedashboardmylistings = () => {
     if (
       description && profitPercentage && amount && investmentDuration
     ) {
-      fetch("http://127.0.0.1:3001/api/investee/edit-listing", {
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/edit-listing`, {
         method: "PUT",
         body: JSON.stringify({
           description, profitPercentage, amount, investmentDuration, listingId, listingInvesteeEmail
@@ -109,7 +109,7 @@ const Investeedashboardmylistings = () => {
   const getMyListing = () => {
     const adminToken = window.localStorage.getItem('token');
 
-    fetch("http://127.0.0.1:3001/api/investee/get-my-listings", {
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/get-my-listings`, {
       method: "GET",
       headers: {
         'token': adminToken,
@@ -135,7 +135,7 @@ const Investeedashboardmylistings = () => {
   };
   const deleteListing = (listingId, listingInvesteeEmail) => {
     const token = window.localStorage.getItem('token');
-    fetch("http://127.0.0.1:3001/api/investee/delete-listing", {
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/delete-listing`, {
       method: "POST",
       body: JSON.stringify({
         listingId,
