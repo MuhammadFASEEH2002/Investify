@@ -185,14 +185,14 @@ const navigate=useNavigate();
           if(res.status){
             setInvestee(res.investee) 
           }else{
-            toast({
-              title: "Network Error",
-              status: "error",
-              duration: 9000,
-              isClosable: true,
-              position: "top",
-            });
-            navigate("/")
+            // toast({
+            //   title: "Network Error",
+            //   status: "error",
+            //   duration: 9000,
+            //   isClosable: true,
+            //   position: "top",
+            // });
+            // navigate("/")
 
           }
         })

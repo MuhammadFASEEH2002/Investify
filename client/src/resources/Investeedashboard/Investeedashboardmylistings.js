@@ -200,12 +200,12 @@ const Investeedashboardmylistings = () => {
                     <Heading size="md" textAlign={"center"} fontSize={30}>{item.investee_id.businessName}</Heading>
                   </CardHeader>
                   <CardBody>
+                    <Text textAlign={"center"}>Verification Status {item.isVerified?(<Text color={"green"}>Verified</Text>):(<Text color={"red"}>Unverified</Text>)}</Text>
                     <Text noOfLines={[1, 2, 3]}>
                       <span style={{ fontWeight: "bold" }}>Description: </span>
                       {item.description}
                     </Text>
                     <Link onClick={() => onOpen(item)} color={"blue"}>Read More</Link>
-
                     <Modal onClose={onClose} isOpen={isModalOpen && item === selectedItem} isCentered>
                       <ModalOverlay />
                       <ModalContent>
@@ -214,7 +214,6 @@ const Investeedashboardmylistings = () => {
                         <ModalBody>
                           <Text>
                             {item.description}
-
                           </Text>
                         </ModalBody>
                         <ModalFooter>

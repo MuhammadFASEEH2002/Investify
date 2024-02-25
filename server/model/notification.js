@@ -11,11 +11,15 @@ const NotificationSchema = new mongo.Schema({
         type: String,
         required: true
     },
-    isRead:{
+    isRead: {
         type: Boolean,
     }
 
-})
+},
+ {
+        timestamps: true
+    }
+)
 
 const Notification = mongo.model('Notification', NotificationSchema);
 

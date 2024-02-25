@@ -206,7 +206,7 @@ const Investorregistration = () => {
   };
   return (
     <>
-      {loading ? (<>        <Stack width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack></>) : (<>    <HStack
+      {loading ? (<><Stack width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack></>) : (<>    <HStack
         width={"100%"}
         flexDirection={{ base: "column", md: "row", lg: "row" }}
       >
