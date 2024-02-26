@@ -36,7 +36,7 @@ const Investeedashboardhome = () => {
   const getUser = () => {
     setLoading(true)
     const token = window.localStorage.getItem('token');
-    fetch("http://127.0.0.1:3001/api/investee/get-user", {
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/get-user`, {
       method: "GET",
       headers: {
         'token': token,
