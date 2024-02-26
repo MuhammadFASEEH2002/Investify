@@ -422,3 +422,14 @@ exports.getNotifications = async (req, res) => {
     res.json({ message: error.message, status: false });
   }
 };
+exports.setMarkAsRead = async (req, res) => {
+  try {
+    const notifications = await Notification.findByIdAndUpdate({ _id: req.body.notificationId},{isRead: true})
+      res.json({
+        status: true,
+      });
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};
+
