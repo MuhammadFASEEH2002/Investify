@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar'
 import { useToast, Text, Card, CardBody, Stack, Spinner, Divider, IconButton, HStack } from '@chakra-ui/react';
 import { IoCheckmarkDoneSharp } from "react-icons/io5";
 import { useNavigate } from 'react-router-dom';
+// import Tooltip from 'react-tooltip-lite';
 
 const Investeedashboardnotification = () => {
   const [notifications, setNotifications] = useState([]);
@@ -63,7 +64,9 @@ const Investeedashboardnotification = () => {
                   <Stack>
                     <HStack margin={2} justifyContent={"space-between"}>
                       <Text margin={2} >{noti.message}</Text>
-                        <IconButton aria-label='Search database' fontSize={15} icon={<IoCheckmarkDoneSharp />} />
+                      {/* <Tooltip content={<span style={{ fontSize: '10px' }}>mark as read</span>} direction="right" > */}
+                        <IconButton  fontSize={15} icon={<IoCheckmarkDoneSharp />} />
+                        {/* </Tooltip> */}
                     </HStack>
                     <Text textAlign={"right"} color={"grey"} fontSize={12}>{noti.createdAt}</Text>
                   </Stack>

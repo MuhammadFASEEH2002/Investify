@@ -138,7 +138,8 @@ exports.approveInvestees = async (req, res) => {
     });
     await Notification.create({
       investeeId: investee._id,
-      message: `Dear ${investee.businessName}, congratulations your account is approved now you can explore investment opportunities.`
+      message: `Dear ${investee.businessName}, congratulations your account is approved now you can explore investment opportunities.`,
+      isRead: false
     })
     res.json({ message: "Investee Approved", status: true });
   } catch (error) {
@@ -217,7 +218,8 @@ exports.approveListing = async (req, res) => {
     });
     await Notification.create({
       investeeId: listing.investee_id,
-      message: `Dear Investee, your listing was approved by our admin.`
+      message: `Dear Investee, your listing was approved by our admin.`,
+      isRead: false
     })
     res.json({ message: "Listing Approved", status: true });
   } catch (error) {
@@ -364,7 +366,8 @@ exports.declineListing = async (req, res) => {
     const listing=await Listing.findByIdAndDelete(req.body.listingId);
     await Notification.create({
       investeeId: listing.investee_id,
-      message: `Dear Investee, unfortunately your listing cannot be approved because of incorrect or false information.`
+      message: `Dear Investee, unfortunately your listing cannot be approved because of incorrect or false information.`,
+      isRead:false
     })
     res.json({ message: "Listing Declined", status: true });
   } catch (error) {

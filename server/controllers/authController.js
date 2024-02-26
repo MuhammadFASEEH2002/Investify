@@ -683,7 +683,8 @@ exports.updatePassword = async (req, res) => {
           });
           await Notification.create({
             investorId: investor._id,
-            message: `Dear ${investor.firstName}, your password is successfully updated`
+            message: `Dear ${investor.firstName}, your password is successfully updated`,
+            isRead: false
           })
           res.json({
             status: true,
@@ -789,7 +790,8 @@ exports.updatePassword = async (req, res) => {
           });
           await Notification.create({
             investeeId: investee._id,
-            message: `Dear ${investee.businessName}, your password is successfully updated`
+            message: `Dear ${investee.businessName}, your password is successfully updated`,
+            isRead:false
           })
           res.json({
             status: true,

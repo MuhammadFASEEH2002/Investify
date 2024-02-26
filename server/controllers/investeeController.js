@@ -231,7 +231,8 @@ exports.createListing = async (req, res) => {
     });
     await Notification.create({
       investeeId: investee._id,
-      message: `Dear ${investee.businessName}, your listing is successfully created and awaiting admin approval.`
+      message: `Dear ${investee.businessName}, your listing is successfully created and awaiting admin approval.`,
+      isRead: false
     })
     res.json({ message: "Listing created", status: true });
   } catch (error) {
@@ -362,7 +363,8 @@ exports.editListing = async (req, res) => {
     });
     await Notification.create({
       investeeId: investee._id,
-      message: `Dear ${investee.businessName}, your listing is successfully updated and awaiting admin approval to be republished again.`
+      message: `Dear ${investee.businessName}, your listing is successfully updated and awaiting admin approval to be republished again.`,
+      isRead:false
     })
     res.json({ message: "Listing created", status: true });
   } catch (error) {
