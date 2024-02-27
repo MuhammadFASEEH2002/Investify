@@ -159,6 +159,11 @@ exports.investorRegistration = async (req, res) => {
       country: req.body.selectedCountry,
       city: req.body.selectedCity,
     });
+    await Notification.create({
+      investorId: investor._id,
+      message: `Dear ${investor.firstName}, Congratulations your account is successfully created`,
+      isRead: false
+    })
     res.json({ message: "user created", status: true });
   } catch (error) {
     res.json({ message: error.message, status: false });
