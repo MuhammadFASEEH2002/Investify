@@ -90,7 +90,7 @@ const Homepage = () => {
                 colorScheme="gray"
                 rightIcon={<ArrowForwardIcon />}
                 marginRight={"10px"}
-                size={{ base: "xs", md: "sm", lg: "md" }}
+                size={{ base: "sm", md: "sm", lg: "md" }}
                 onClick={() => navigate("/user-login")}
               >
                 Explore
