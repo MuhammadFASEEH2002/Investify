@@ -45,7 +45,7 @@ exports.searchListing = async (req, res) => {
                         { description: { $regex: req.body.search, $options: "i" } },
                     ]
                 },
-                { isVerified: true, isActive:true }
+                { isVerified: true, isActive: true }
             ]
         }).populate("investee_id");
         console.log(listing);
@@ -56,7 +56,7 @@ exports.searchListing = async (req, res) => {
 };
 exports.getProduct = async (req, res) => {
     try {
-        const listing = await Listing.findOne({_id: req.headers.id}).populate("investee_id");
+        const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id");
         console.log(listing);
         res.json({ status: true, listing });
     } catch (error) {
@@ -65,13 +65,23 @@ exports.getProduct = async (req, res) => {
 };
 exports.getNotifications = async (req, res) => {
     try {
-      const notifications = await Notification.find({ investeeId: req.user})
+        const notifications = await Notification.find({ investorId: req.user })
         res.json({
-          status: true,
-          notifications
+            status: true,
+            notifications
         });
     } catch (error) {
-      res.json({ message: error.message, status: false });
+        res.json({ message: error.message, status: false });
     }
-  };
-  
+};
+
+exports.setMarkAsRead = async (req, res) => {
+    try {
+        const notifications = await Notification.findByIdAndUpdate({ _id: req.body.notificationId }, { isRead: true })
+        res.json({
+            status: true,
+        });
+    } catch (error) {
+        res.json({ message: error.message, status: false });
+    }
+};

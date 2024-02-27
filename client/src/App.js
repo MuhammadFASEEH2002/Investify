@@ -20,6 +20,7 @@ import Investordashboardlogout from "./resources/Investordashboard/Investordashb
 import Admindashboardhome from "./resources/Admindashboard/Admindashboardhome";
 import Investordashboardproductpage from "./resources/Investordashboard/Investordashboardproductpage";
 import Investeedashboardnotification from "./resources/Investeedashboard/Investeedashboardnotification";
+import Investordashboardnotification from "./resources/Investordashboard/Investordashboardnotification";
 
 function App() {
   return (
@@ -43,11 +44,15 @@ function App() {
             path="/user/investor-dashboard/business-catalog"
             element={<Investordashboardbusinesscatalog />}
           />
-           <Route
+          <Route
             path="/user/investor-dashboard/business-catalog/listing/:id"
             element={<Investordashboardproductpage />}
           />
-            <Route
+          <Route
+            path="/user/investor-dashboard/notifications"
+            element={<Investordashboardnotification />}
+          />
+          <Route
             path="/user/investor-dashboard/logout"
             element={<Investordashboardlogout />}
           />
@@ -63,7 +68,7 @@ function App() {
             path="/user/investee-dashboard/investee-listings"
             element={<Investeedashboardmylistings />}
           />
-                <Route
+          <Route
             path="/user/investee-dashboard/investee-listing-history"
             element={<Investeedashboardlistinghistory />}
           />
@@ -71,7 +76,7 @@ function App() {
             path="/user/investee-dashboard/password-change"
             element={<Investeedashboardchangepassword />}
           />
-            <Route
+          <Route
             path="/user/investee-dashboard/notifications"
             element={<Investeedashboardnotification />}
           />
