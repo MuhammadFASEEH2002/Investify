@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Card, CardBody, Text, HStack, Stack, VStack, Heading, Divider, Spinner, Button , CardFooter} from '@chakra-ui/react'
+import { Card, CardBody, Text, HStack, Stack, VStack, Heading, Divider, Spinner, Button, CardFooter } from '@chakra-ui/react'
+import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
 
 const Investordashboardproductpage = () => {
     const { id } = useParams();
@@ -55,67 +56,71 @@ const Investordashboardproductpage = () => {
                     </Stack>
                 </>) : (<>
                     <Card alignItems={"center"} justifyContent={"center"}>
-                        <HStack width={"95%"} alignItems={"flex-start"} justifyContent={"center"}>
-                            <Stack width={"60%"}>
+                        <Stack width={{ base: "100%", md: "95%", lg: "95%" }} alignItems={"flex-start"} justifyContent={"center"} flexDirection={{ base: "column", md: "column", lg: "row" }}>
+                            <Stack width={{ base: "100%", md: "100%", lg: "60%" }}>
                                 <CardBody width={"100%"}>
                                     < Heading fontSize={"2xl"} color={"blue.400"}>
                                         Business Details
                                     </Heading>
-                                    <Divider marginBottom={"10px"}/>
-                                    <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
-                                        <Text color={"blue.400"}>Business Name: </Text>
-                                        <Text>{listing?.investee_id?.businessName}</Text>
-                                    </HStack>
-                                    <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
-                                        <Text color={"blue.400"}>Business Category: </Text>
-                                        <Text>{listing?.investee_id?.category}</Text>
-                                    </HStack>
-                                    <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
-                                        <Text color={"blue.400"}>Description: </Text>
-                                        <Text>{listing?.description}</Text>
-                                    </HStack>
-                                    <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
-                                        <Text color={"blue.400"}>Investment Required: </Text>
-                                        <Text>Rs {listing?.amount}</Text>
-                                    </HStack>
-                                    <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
-                                        <Text color={"blue.400"}>Duration of Investment: </Text>
-                                        <Text>{listing?.investmentDuration} years</Text>
-                                    </HStack>
-                                    <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
-                                        <Text color={"blue.400"}>Profit Share: </Text>
-                                        <Text>{listing?.profitPercentage}% of Quarterly Profits</Text>
-                                    </HStack>
+                                    <Divider marginBottom={"10px"} />
+                                    <Stack fontSize={{ base: "10", md: "15", lg: "15" }}>
+                                        <HStack justifyContent={"flex-start"} alignItems={"flex-start"} >
+                                            <Text color={"blue.400"}>Business Name: </Text>
+                                            <Text>{listing?.investee_id?.businessName}</Text>
+                                        </HStack>
+                                        <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                                            <Text color={"blue.400"}>Business Category: </Text>
+                                            <Text>{listing?.investee_id?.category}</Text>
+                                        </HStack>
+                                        <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                                            <Text color={"blue.400"}>Description: </Text>
+                                            <Text>{listing?.description}</Text>
+                                        </HStack>
+                                        <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                                            <Text color={"blue.400"}>Investment Required: </Text>
+                                            <Text>Rs {listing?.amount}</Text>
+                                        </HStack>
+                                        <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                                            <Text color={"blue.400"}>Duration of Investment: </Text>
+                                            <Text>{listing?.investmentDuration} years</Text>
+                                        </HStack>
+                                        <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                                            <Text color={"blue.400"}>Profit Share: </Text>
+                                            <Text>{listing?.profitPercentage}% of Quarterly Profits</Text>
+                                        </HStack>
+                                    </Stack>
                                 </CardBody>
                             </Stack>
-                            <Stack width={"35%"}>
+                            <Stack width={{ base: "100%", md: "100%", lg: "35%" }}>
                                 <CardBody width={"100%"}>
                                     < Heading fontSize={"2xl"} color={"blue.400"} >
                                         Investee Information
                                     </Heading>
-                                    <Divider marginBottom={"10px"}/>
-                                    <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
-                                        <Text color={"blue.400"}>Contact Number: </Text>
-                                        <Text>{listing?.investee_id?.phoneNumber}</Text>
-                                    </HStack>
-                                    <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
-                                        <Text color={"blue.400"}>Email: </Text>
-                                        <Text>{listing?.investee_id?.email}</Text>
-                                    </HStack>
-                                    <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
-                                        <Text color={"blue.400"}>Location: </Text>
-                                        <Text>{listing?.investee_id?.address}, {listing?.investee_id?.zipcode}, {listing?.investee_id?.city}, {listing?.investee_id?.country}</Text>
-                                    </HStack>
+                                    <Divider marginBottom={"10px"} />
+                                    <Stack fontSize={{ base: "10", md: "15", lg: "15" }}>
+                                        <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                                            <Text color={"blue.400"}>Contact Number: </Text>
+                                            <Text>{listing?.investee_id?.phoneNumber}</Text>
+                                        <Button colorScheme='blue' variant='outline' leftIcon={<IoChatbubbleEllipsesSharp />}>Chat</Button>
+                                        </HStack>
+                                        <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                                            <Text color={"blue.400"}>Email: </Text>
+                                            <Text>{listing?.investee_id?.email}</Text>
+                                        </HStack>
+                                        <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                                            <Text color={"blue.400"}>Location: </Text>
+                                            <Text>{listing?.investee_id?.address}, {listing?.investee_id?.zipcode}, {listing?.investee_id?.city}, {listing?.investee_id?.country}</Text>
+                                        </HStack>
+                                    </Stack>
                                     <Stack width={"100%"} justifyContent={"center"} alignItems={"center"} marginTop={"10px"}>
-                                        <Button colorScheme='blue'>Chat</Button>
                                     </Stack>
                                 </CardBody>
                             </Stack>
-                        </HStack>
-                            <Button colorScheme='blue'>Initiate Investment</Button>
-                            <CardFooter>
+                        </Stack>
+                        <CardFooter>
+                        <Button colorScheme='blue' >Initiate Investment</Button>
 
-                            </CardFooter>
+                        </CardFooter>
                     </Card>
                 </>)}
             </Sidebar>
