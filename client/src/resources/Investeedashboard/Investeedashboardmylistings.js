@@ -44,9 +44,9 @@ const Investeedashboardmylistings = () => {
   useEffect(() => {
     if (window.localStorage.getItem('token')) {
       document.title = "Investify | Investee Listings";
-      setIsLoading(true);
+    
       getMyListing();
-      setIsLoading(false);
+      
     } else {
       navigate("/user-login");
     }
@@ -107,8 +107,8 @@ const Investeedashboardmylistings = () => {
     }
   };
   const getMyListing = () => {
+    setIsLoading(true)
     const adminToken = window.localStorage.getItem('token');
-
     fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/get-my-listings`, {
       method: "GET",
       headers: {
@@ -118,7 +118,22 @@ const Investeedashboardmylistings = () => {
       },
     })
       .then((res) => res.json())
-      .then((data) => { setListing(data.listing) })
+      .then((res) => { 
+        if(res.status){
+          setListing(res.listing)
+          setIsLoading(false)
+        }else{
+          toast({
+            title: "Network Error",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top",
+          });
+          setIsLoading(false)
+
+        }
+      })
       .catch((err) => console.log(err));
   };
   const { isOpen: isSecondModalOpen, onOpen: onSecondModalOpen, onClose: onSecondModalClose } = useDisclosure();
@@ -157,6 +172,7 @@ const Investeedashboardmylistings = () => {
             status: "success",
             duration: 9000,
             isClosable: true,
+            position: "top",
           });
           getMyListing();
         } else {

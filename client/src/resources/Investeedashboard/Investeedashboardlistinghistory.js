@@ -17,7 +17,7 @@ import {
   ModalCloseButton,
   Spinner
 } from "@chakra-ui/react";
-import { Card, CardHeader, CardBody} from "@chakra-ui/react";
+import { Card, CardHeader, CardBody } from "@chakra-ui/react";
 import { useNavigate } from 'react-router-dom';
 
 const Investeedashboardlistinghistory = () => {
@@ -29,18 +29,18 @@ const Investeedashboardlistinghistory = () => {
   const [listing, setListing] = useState([]);
 
   useEffect(() => {
-    if(window.localStorage.getItem('token')){
+    if (window.localStorage.getItem('token')) {
       document.title = "Investify | Investee Listing History";
-      setIsLoading(true);
+    
       getMyListing();
-      setIsLoading(false)
-    }else{
+     
+    } else {
       navigate("/user-login");
     }
   }, []);
   const getMyListing = () => {
+    setIsLoading(true)
     const adminToken = window.localStorage.getItem('token');
-
     fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/get-my-listing-history`, {
       method: "GET",
       headers: {
@@ -50,7 +50,21 @@ const Investeedashboardlistinghistory = () => {
       },
     })
       .then((res) => res.json())
-      .then((data) => setListing(data.listing))
+      .then((res) => {
+        if(res.status) {
+          setListing(res.listing)
+          setIsLoading(false)
+        } else {
+          toast({
+            title: "Network Error",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top",
+          });
+          setIsLoading(false)
+        }
+      })
       .catch((err) => console.log(err));
   };
   // const { isOpen, onOpen, onClose } = useDisclosure()
@@ -71,7 +85,7 @@ const Investeedashboardlistinghistory = () => {
             display: "flex",
             flexWrap: "wrap",
             alignItems: "center",
-            justifyContent:'center'
+            justifyContent: 'center'
           }}
         >
           {isLoading ? (

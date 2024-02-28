@@ -101,7 +101,7 @@ const Investordashboardproductpage = () => {
                                         <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
                                             <Text color={"blue.400"}>Contact Number: </Text>
                                             <Text>{listing?.investee_id?.phoneNumber}</Text>
-                                        <Button colorScheme='blue' variant='outline' leftIcon={<IoChatbubbleEllipsesSharp />}>Chat</Button>
+                                            <Button colorScheme='blue' variant='outline' leftIcon={<IoChatbubbleEllipsesSharp />}>Chat</Button>
                                         </HStack>
                                         <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
                                             <Text color={"blue.400"}>Email: </Text>
@@ -118,7 +118,7 @@ const Investordashboardproductpage = () => {
                             </Stack>
                         </Stack>
                         <CardFooter>
-                        <Button colorScheme='blue' >Initiate Investment</Button>
+                            <Button colorScheme='blue' >Initiate Investment</Button>
 
                         </CardFooter>
                     </Card>

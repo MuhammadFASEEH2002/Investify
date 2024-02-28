@@ -16,7 +16,7 @@ const NotificationSchema = new mongo.Schema({
     }
 
 },
- {
+    {
         timestamps: true
     }
 )

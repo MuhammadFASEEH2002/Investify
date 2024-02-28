@@ -43,7 +43,7 @@ exports.updateMe = async (req, res) => {
           isVerified: false
         }
       );
-    res.json({ message: "Listing Updated", status: true });
+      res.json({ message: "Listing Updated", status: true });
 
     } else {
       res.json({ message: "you cannot edit your profile with active listings", status: false });
@@ -364,7 +364,7 @@ exports.editListing = async (req, res) => {
     await Notification.create({
       investeeId: investee._id,
       message: `Dear ${investee.businessName}, your listing is successfully updated and awaiting admin approval to be republished again.`,
-      isRead:false
+      isRead: false
     })
     res.json({ message: "Listing created", status: true });
   } catch (error) {
@@ -413,21 +413,21 @@ exports.deleteListing = async (req, res) => {
 };
 exports.getNotifications = async (req, res) => {
   try {
-    const notifications = await Notification.find({ investeeId: req.user})
-      res.json({
-        status: true,
-        notifications
-      });
+    const notifications = await Notification.find({ investeeId: req.user })
+    res.json({
+      status: true,
+      notifications
+    });
   } catch (error) {
     res.json({ message: error.message, status: false });
   }
 };
 exports.setMarkAsRead = async (req, res) => {
   try {
-    const notifications = await Notification.findByIdAndUpdate({ _id: req.body.notificationId},{isRead: true})
-      res.json({
-        status: true,
-      });
+    const notifications = await Notification.findByIdAndUpdate({ _id: req.body.notificationId }, { isRead: true })
+    res.json({
+      status: true,
+    });
   } catch (error) {
     res.json({ message: error.message, status: false });
   }

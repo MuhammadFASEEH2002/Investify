@@ -103,85 +103,85 @@ const Homepage = () => {
           <HomepageAboutus />
           {/* Services section */}
           <HomepageServices />
-          <VStack 
+          <VStack
             bgGradient="linear(to-r, #42B2FE, #001F44)"
-            >
-          <HStack
-            width={"100%"}
-            bgGradient="linear(to-r, #42B2FE, #001F44)"
-            padding={"20px 15px 20px 15px"}
-            flexDirection={{ base: "column", md: "row", lg: "row" }}
           >
-            <Stack
-              width={"30%"}
-              alignItems={"center"}
-              justifyContent={"center"}
+            <HStack
+              width={"100%"}
+              bgGradient="linear(to-r, #42B2FE, #001F44)"
+              padding={"20px 15px 20px 15px"}
+              flexDirection={{ base: "column", md: "row", lg: "row" }}
             >
               <Stack
-                width={{ base: "80px", md: "100px", lg: "150px" }}
-                height={{ base: "80px", md: "100px", lg: "150px" }}
-                backgroundSize={"100% 100%"}
-                backgroundImage="url('/images/logo.png')"
-              ></Stack>
-            </Stack>
-            <Stack
-              width={"40%"}
-              alignItems={"center"}
-              justifyContent={"center"}
-            >
-              <Heading size={"lg"} color={"white"} width={"100%"} textAlign={"center"}>
-                Investify
-              </Heading>
-              <UnorderedList
-                style={{ display: "flex", flexDirection: "column" }}
+                width={"30%"}
                 alignItems={"center"}
                 justifyContent={"center"}
               >
-                {navigationButtons.map((item) => (
-                  <ListItem
-                    key={item.id}
-                    fontSize={{ base: "0.7rem", md: "1rem", lg: "1rem" }}
-                    listStyleType={"none"}
-                  >
-                    <Link
-                      href={item.link}
-                      textDecoration={"none"}
-                      color={"white"}
+                <Stack
+                  width={{ base: "80px", md: "100px", lg: "150px" }}
+                  height={{ base: "80px", md: "100px", lg: "150px" }}
+                  backgroundSize={"100% 100%"}
+                  backgroundImage="url('/images/logo.png')"
+                ></Stack>
+              </Stack>
+              <Stack
+                width={"40%"}
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
+                <Heading size={"lg"} color={"white"} width={"100%"} textAlign={"center"}>
+                  Investify
+                </Heading>
+                <UnorderedList
+                  style={{ display: "flex", flexDirection: "column" }}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                >
+                  {navigationButtons.map((item) => (
+                    <ListItem
+                      key={item.id}
+                      fontSize={{ base: "0.7rem", md: "1rem", lg: "1rem" }}
+                      listStyleType={"none"}
                     >
-                      {item.title}
-                    </Link>
-                  </ListItem>
-                ))}
-              </UnorderedList>
-            </Stack>
-            <HStack
-              width={"30%"}
-              alignItems={"center"}
-              justifyContent={"center"}
-            >
-              <Stack
-                width={{ base: "20px", md: "30px", lg: "40px" }}
-                height={{ base: "20px", md: "30px", lg: "40px" }}
-                backgroundSize={"100% 100%"}
-                backgroundImage="url('/images/whatsapp.png')"
-              ></Stack>
-              <Stack
-                width={{ base: "20px", md: "30px", lg: "40px" }}
-                height={{ base: "20px", md: "30px", lg: "40px" }}
-                backgroundSize={"100% 100%"}
-                backgroundImage="url('/images/fb.png')"
-              ></Stack>
-              <Stack
-                width={{ base: "20px", md: "30px", lg: "40px" }}
-                height={{ base: "20px", md: "30px", lg: "40px" }}
-                backgroundSize={"100% 100%"}
-                backgroundImage="url('/images/insta.png')"
-              ></Stack>
+                      <Link
+                        href={item.link}
+                        textDecoration={"none"}
+                        color={"white"}
+                      >
+                        {item.title}
+                      </Link>
+                    </ListItem>
+                  ))}
+                </UnorderedList>
+              </Stack>
+              <HStack
+                width={"30%"}
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
+                <Stack
+                  width={{ base: "20px", md: "30px", lg: "40px" }}
+                  height={{ base: "20px", md: "30px", lg: "40px" }}
+                  backgroundSize={"100% 100%"}
+                  backgroundImage="url('/images/whatsapp.png')"
+                ></Stack>
+                <Stack
+                  width={{ base: "20px", md: "30px", lg: "40px" }}
+                  height={{ base: "20px", md: "30px", lg: "40px" }}
+                  backgroundSize={"100% 100%"}
+                  backgroundImage="url('/images/fb.png')"
+                ></Stack>
+                <Stack
+                  width={{ base: "20px", md: "30px", lg: "40px" }}
+                  height={{ base: "20px", md: "30px", lg: "40px" }}
+                  backgroundSize={"100% 100%"}
+                  backgroundImage="url('/images/insta.png')"
+                ></Stack>
+              </HStack>
             </HStack>
-          </HStack>
-          <Text color={"white"}>© {Date().split(" ")[3]} Investify. All rights reserved</Text>
+            <Text color={"white"}>© {Date().split(" ")[3]} Investify. All rights reserved</Text>
           </VStack>
-         
+
         </Stack>
       </Stack>
     </>
