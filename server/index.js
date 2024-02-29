@@ -20,10 +20,10 @@ app.use(
 );
 // using web sockets
 const server = createServer(app);
-exports.io = new Server(server, {
+const io = new Server(server, {
   cors: {
     origin: `${process.env.ORIGIN_URL}`,
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
 mongo
