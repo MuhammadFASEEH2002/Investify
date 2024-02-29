@@ -20,7 +20,7 @@ app.use(
 );
 // using web sockets
 const server = createServer(app);
-const io = new Server(server, {
+exports.io = new Server(server, {
   cors: {
     origin: `${process.env.ORIGIN_URL}`,
     methods: ["GET", "POST"],
@@ -44,4 +44,3 @@ app.get("/",(req,res)=>{
 
 server.listen(PORT, () => console.log(`Listening on http://127.0.0.1:${PORT}`));
 // module.exports = { io };
-module.exports = io;
