@@ -26,6 +26,13 @@ const io = new Server(server, {
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
+io.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+  });
+})
 mongo
   .connect(`${process.env.MONGO_URL}`)
   .then((res) => console.log("MongoDB connected"))
@@ -38,7 +45,7 @@ app.use("/api/auth", AuthRouter);
 app.use("/api/admin", AdminRouter);
 app.use("/api/investee", InvesteeRouter);
 app.use("/api/investor", InvestorRouter);
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
   res.json("hello")
 })
 
