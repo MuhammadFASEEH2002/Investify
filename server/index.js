@@ -16,7 +16,7 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
-);yyy
+);
 
 mongo
   .connect(`${process.env.MONGO_URL}`)
