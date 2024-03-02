@@ -82,7 +82,7 @@ const toast=useToast()
 
       <Sidebar>
         <Center>
-          <HStack width={'50%'}>
+          <HStack   width={{ base: "100%", md: "50%", lg: "50%" }}>
             <InputGroup>
               <Input border={"0.8px solid grey"} variant='outline' placeholder='Enter keywords to search' onChange={(event) => { handleInputChange(event, setSearch); searchCourse(); }} />
               <InputRightAddon>
