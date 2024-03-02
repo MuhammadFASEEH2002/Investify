@@ -65,7 +65,7 @@ exports.getProduct = async (req, res) => {
 };
 exports.getNotifications = async (req, res) => {
     try {
-        const notifications = await Notification.find({ investorId: req.user })
+        const notifications = await Notification.find({ investorId: req.user }).sort({createdAt:-1})
         res.json({
             status: true,
             notifications
