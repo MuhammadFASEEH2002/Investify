@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Card, CardBody, Text, HStack, Stack, VStack, Heading, Divider, Spinner, Button, CardFooter } from '@chakra-ui/react'
+import { Card, CardBody, Text, HStack, Stack, VStack, Heading, Divider, Spinner, Button, CardFooter, useToast } from '@chakra-ui/react'
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
 
 const Investordashboardproductpage = () => {
@@ -9,6 +9,7 @@ const Investordashboardproductpage = () => {
     const navigate = useNavigate()
     const [listing, setListing] = useState("")
     const [loading, setLoading] = useState(false)
+    const toast=useToast()
     function getProduct() {
         setLoading(true)
         const token1 = window.localStorage.getItem('token1');
@@ -22,10 +23,22 @@ const Investordashboardproductpage = () => {
             },
         })
             .then((res) => res.json())
-            .then((data) => {
-                setListing(data.listing)
-                setLoading(false)
+            .then((res) => {
+                if (res.status) {
 
+                    setListing(res.listing)
+                    setLoading(false)
+                }
+                else {
+                    toast({
+                        title: "Network Error",
+                        status: "error",
+                        duration: 9000,
+                        isClosable: true,
+                        position: "top",
+                    });
+                    setLoading(false)
+                }
             })
             .catch((err) => {
                 console.log(err)

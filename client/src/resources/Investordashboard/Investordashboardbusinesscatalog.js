@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
-import { Center, HStack, Input, Text, Box, Card, CardHeader, Heading, CardBody, CardFooter, Button, InputRightAddon, InputGroup } from "@chakra-ui/react";
+import { Center, HStack, Input, Text, Box, Card, CardHeader, Heading, CardBody, CardFooter, Button, InputRightAddon, InputGroup , Spinner, Stack, useToast} from "@chakra-ui/react";
 import { IoMdSearch } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -8,6 +8,8 @@ import { Link, useNavigate } from "react-router-dom";
 const Investordashboardbusinesscatalog = () => {
   const [listing, setListing] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false)
+const toast=useToast()
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,8 +21,8 @@ const Investordashboardbusinesscatalog = () => {
     }
   }, []);
   const getListing = () => {
+    setLoading(true)
     const token1 = window.localStorage.getItem('token1');
-
     fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/get-listing`, {
       method: "GET",
       headers: {
@@ -31,15 +33,24 @@ const Investordashboardbusinesscatalog = () => {
     })
       .then((res) => res.json())
       .then((res) => {
-        if(res.status){
-        setListing(res.listing)
+        if (res.status) {
+          setListing(res.listing)
+          setLoading(false)
+        } else {
+          toast({
+            title: "Network Error",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top",
+          });
+          setLoading(false)
         }
       })
       .catch((err) => console.log(err));
   };
   const searchCourse = () => {
     const token1 = window.localStorage.getItem('token1');
-    // console.log(search)
     fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/search-listing`, {
       method: "POST",
       body: JSON.stringify({
@@ -80,57 +91,70 @@ const Investordashboardbusinesscatalog = () => {
             </InputGroup>
           </HStack>
         </Center>
-        <Box
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            alignItems: "center",
-            justifyContent: "center"
-          }}
-        >
-          {listing?.length>0?(<>
-            {listing?.map((item) =>
+        {loading ? (<>
+          <Stack alignItems={'center'} justifyContent={'center'}>
+            <Spinner
+              thickness='4px'
+              speed='0.65s'
+              emptyColor='gray.200'
+              color='blue.500'
+              size='xl'
+            />
+          </Stack>
+        </>) : (<>
 
-(
-  <Card align="center" width={"350px"} margin={"10px"}>
-    <CardHeader>
-      <Heading size="md">{item?.investee_id?.businessName}</Heading>
-    </CardHeader>
-    <CardBody>
-      <Text noOfLines={[1, 2, 3]}>
-        <span style={{ fontWeight: "bold" }}>Description : </span>
-        {item?.description}
+          <Box
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            {listing?.length > 0 ? (<>
+              {listing?.map((item) =>
 
-      </Text>
-      <Text>
-        <span style={{ fontWeight: "bold" }}>Required Amount : </span>
-        Rs {item?.amount}
-      </Text>
-      <Text>
-        <span style={{ fontWeight: "bold" }}>Profit Share Percentage : </span>
-        {item?.profitPercentage}%
-      </Text>
-      <Text>
-        <span style={{ fontWeight: "bold" }}>Investment Duration : </span>
-        {item?.investmentDuration} years
-      </Text>
-    </CardBody>
-    <CardFooter>
-      <Button
-        colorScheme="blue"
-        margin={"10px"}
-        size="lg"
-      >
-        <Link to={`/user/investor-dashboard/business-catalog/listing/${item._id}`}> 
-          View
-        </Link>
-      </Button>
-    </CardFooter>
-  </Card>
-))}
-          </>):(<><Text>no listing available</Text></>)}
-        
-        </Box>
+              (
+                <Card align="center" width={"350px"} margin={"10px"}>
+                  <CardHeader>
+                    <Heading size="md">{item?.investee_id?.businessName}</Heading>
+                  </CardHeader>
+                  <CardBody>
+                    <Text noOfLines={[1, 2, 3]}>
+                      <span style={{ fontWeight: "bold" }}>Description : </span>
+                      {item?.description}
+
+                    </Text>
+                    <Text>
+                      <span style={{ fontWeight: "bold" }}>Required Amount : </span>
+                      Rs {item?.amount}
+                    </Text>
+                    <Text>
+                      <span style={{ fontWeight: "bold" }}>Profit Share Percentage : </span>
+                      {item?.profitPercentage}%
+                    </Text>
+                    <Text>
+                      <span style={{ fontWeight: "bold" }}>Investment Duration : </span>
+                      {item?.investmentDuration} years
+                    </Text>
+                  </CardBody>
+                  <CardFooter>
+                    <Button
+                      colorScheme="blue"
+                      margin={"10px"}
+                      size="lg"
+                    >
+                      <Link to={`/user/investor-dashboard/business-catalog/listing/${item._id}`}>
+                        View
+                      </Link>
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ))}
+            </>) : (<><Text>no listing available</Text></>)}
+
+          </Box>
+        </>)}
       </Sidebar>
     </>
   )
