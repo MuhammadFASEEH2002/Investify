@@ -208,28 +208,28 @@ const Investeedashboardmylistings = () => {
                 size='xl'
               />
             </Stack>) : (
-            listing.length > 0 ? (
+            listing?.length > 0 ? (
               listing?.map((item) =>
               (
                 <Card align="center" width={"350px"} margin={"10px"} borderRadius={20}>
                   <CardHeader width={"100%"} alignItems={"center"} justifyContent={"center"}>
-                    <Heading size="md" textAlign={"center"} fontSize={30}>{item.investee_id.businessName}</Heading>
+                    <Heading size="md" textAlign={"center"} fontSize={30}>{item?.investee_id?.businessName}</Heading>
                   </CardHeader>
                   <CardBody>
-                    <Text textAlign={"center"}>Verification Status {item.isVerified?(<Text color={"green"}>Verified</Text>):(<Text color={"red"}>Unverified</Text>)}</Text>
+                    <Text textAlign={"center"}>Verification Status {item?.isVerified?(<Text color={"green"}>Verified</Text>):(<Text color={"red"}>Unverified</Text>)}</Text>
                     <Text noOfLines={[1, 2, 3]}>
                       <span style={{ fontWeight: "bold" }}>Description: </span>
-                      {item.description}
+                      {item?.description}
                     </Text>
                     <Link onClick={() => onOpen(item)} color={"blue"}>Read More</Link>
                     <Modal onClose={onClose} isOpen={isModalOpen && item === selectedItem} isCentered>
                       <ModalOverlay />
                       <ModalContent>
-                        <ModalHeader>{item.investee_id.businessName}</ModalHeader>
+                        <ModalHeader>{item?.investee_id?.businessName}</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
                           <Text>
-                            {item.description}
+                            {item?.description}
                           </Text>
                         </ModalBody>
                         <ModalFooter>
@@ -239,34 +239,34 @@ const Investeedashboardmylistings = () => {
                     </Modal>
                     <Text>
                       <span style={{ fontWeight: "bold" }}>Amount Required: </span>
-                      Rs {item.amount}
+                      Rs {item?.amount}
                     </Text>
                     <Text>
                       <span style={{ fontWeight: "bold" }}>Profit Percentage: </span>
-                      {item.profitPercentage}%
+                      {item?.profitPercentage}%
                     </Text>
                     <Text>
                       <span style={{ fontWeight: "bold" }}>Investment Duration: </span>
-                      {item.investmentDuration} year
+                      {item?.investmentDuration} year
                     </Text>
                     <Text>
                       <span style={{ fontWeight: "bold" }}>Email: </span>
-                      {item.investee_id.email}
+                      {item?.investee_id.email}
                     </Text>
                     <Text>
                       <span style={{ fontWeight: "bold" }}>Address: </span>
-                      {item.investee_id.address}, {item.investee_id.zipcode}, {item.investee_id.city}, {item.investee_id.country}
+                      {item?.investee_id?.address}, {item?.investee_id?.zipcode}, {item?.investee_id?.city}, {item?.investee_id?.country}
                     </Text>
                     <Text>
                       <span style={{ fontWeight: "bold" }}>Phone Number: </span>
-                      {item.investee_id.phoneNumber}
+                      {item?.investee_id?.phoneNumber}
                     </Text>
 
                   </CardBody>
                   <CardFooter width={"100%"} alignItems={"center"} justifyContent={"space-evenly"}>
                     <Button colorScheme="gray"
                       onClick={() => {
-                        deleteListing(item._id, item.investee_id.email);
+                        deleteListing(item?._id, item?.investee_id?.email);
                       }}
                     >
                       Delete
@@ -360,7 +360,7 @@ const Investeedashboardmylistings = () => {
                               variant="solid"
                               marginTop={"30px"}
                               size={{ base: "md", md: "md", lg: "lg" }}
-                              onClick={() => { editListing(item._id, item.investee_id.email) }}
+                              onClick={() => { editListing(item?._id, item?.investee_id?.email) }}
                             >
                               Update
                             </Button>

@@ -72,8 +72,8 @@ const Investeedashboardhome = () => {
     }
   }, []);
   const openEditModal = (investee) => {
-    setAddress(investee.address);
-    setZipcode(investee.zipcode);
+    setAddress(investee?.address);
+    setZipcode(investee?.zipcode);
     onFirstModalOpen();
   };
   const updateProfile = () => {
@@ -148,7 +148,7 @@ const Investeedashboardhome = () => {
                     Business Name
                   </Heading>
                   <Text pt='2' fontSize='sm'>
-                    {investee.businessName}
+                    {investee?.businessName}
                   </Text>
                 </Box>
                 <Box>
@@ -156,7 +156,7 @@ const Investeedashboardhome = () => {
                     Email
                   </Heading>
                   <Text pt='2' fontSize='sm'>
-                    {investee.email}
+                    {investee?.email}
                   </Text>
                 </Box>
                 <Box>
@@ -164,7 +164,7 @@ const Investeedashboardhome = () => {
                     Phone Number:
                   </Heading>
                   <Text pt='2' fontSize='sm'>
-                    {investee.phoneNumber}
+                    {investee?.phoneNumber}
                   </Text>
                 </Box>
                 <Box>
@@ -172,7 +172,7 @@ const Investeedashboardhome = () => {
                     Location
                   </Heading>
                   <Text pt='2' fontSize='sm'>
-                    {investee.address}, {investee.zipcode}, {investee.city}, {investee.country}
+                    {investee?.address}, {investee?.zipcode}, {investee?.city}, {investee?.country}
                   </Text>
                 </Box>
               </Stack>

@@ -122,31 +122,29 @@ const Investordashboardnotification = () => {
         <Stack width={"100%"} alignItems={"center"} justifyContent={"center"}>
           <Card size={"md"} width={{ base: "100%", md: "80%", lg: "70%" }}>
             <CardBody>
-              {notifications.map(noti => (
+              {notifications?.map(noti => (
                 <>
                   {noti.isRead ? (<>
                     <Stack bgColor={"grey.400"}>
                       <HStack margin={2} justifyContent={"space-between"}>
-                        <Text margin={2} >{noti.message}</Text>
+                        <Text margin={2} >{noti?.message}</Text>
 
                       </HStack>
-                      <Text textAlign={"right"} color={"grey"} fontSize={12}>{noti.createdAt}</Text>
+                      <Text textAlign={"right"} color={"grey"} fontSize={12}>{noti?.createdAt}</Text>
                     </Stack>
 
                   </>) : (<>
                     <Stack>
                       <HStack margin={2} justifyContent={"space-between"}>
-                        <Text margin={2} >{noti.message}</Text>
+                        <Text margin={2} >{noti?.message}</Text>
                         {isRead ? (<>
-
                         </>) : (<>
                           <Tooltip hasArrow label='Mark as read' bg='blue.600'>
-                            <IconButton onClick={() => { markAsRead(noti._id) }} fontSize={15} icon={<IoCheckmarkDoneSharp />} />
+                            <IconButton onClick={() => { markAsRead(noti?._id) }} fontSize={15} icon={<IoCheckmarkDoneSharp />} />
                           </Tooltip>
                         </>)}
-
                       </HStack>
-                      <Text textAlign={"right"} color={"grey"} fontSize={12}>{noti.createdAt}</Text>
+                      <Text textAlign={"right"} color={"grey"} fontSize={12}>{noti?.createdAt}</Text>
 
                     </Stack>
                   </>)}

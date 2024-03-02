@@ -413,7 +413,7 @@ exports.deleteListing = async (req, res) => {
 };
 exports.getNotifications = async (req, res) => {
   try {
-    const notifications = await Notification.find({ investeeId: req.user })
+    const notifications = await Notification.find({ investeeId: req.user }).sort({createdAt:-1})
     res.json({
       status: true,
       notifications

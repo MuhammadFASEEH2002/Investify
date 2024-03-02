@@ -30,7 +30,11 @@ const Investordashboardbusinesscatalog = () => {
       },
     })
       .then((res) => res.json())
-      .then((data) => setListing(data.listing))
+      .then((res) => {
+        if(res.status){
+        setListing(res.listing)
+        }
+      })
       .catch((err) => console.log(err));
   };
   const searchCourse = () => {
@@ -57,10 +61,6 @@ const Investordashboardbusinesscatalog = () => {
           setListing(res.listing)
         }
       })
-    // const { data } = await api.post('/api/search', { search: search } )
-    // if (data.status) {
-    //     setSearchCourses(data.courses)
-    // }
   }
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
@@ -88,31 +88,31 @@ const Investordashboardbusinesscatalog = () => {
             justifyContent: "center"
           }}
         >
-          {listing.length>0?(<>
+          {listing?.length>0?(<>
             {listing?.map((item) =>
 
 (
   <Card align="center" width={"350px"} margin={"10px"}>
     <CardHeader>
-      <Heading size="md">{item.investee_id.businessName}</Heading>
+      <Heading size="md">{item?.investee_id?.businessName}</Heading>
     </CardHeader>
     <CardBody>
       <Text noOfLines={[1, 2, 3]}>
         <span style={{ fontWeight: "bold" }}>Description : </span>
-        {item.description}
+        {item?.description}
 
       </Text>
       <Text>
         <span style={{ fontWeight: "bold" }}>Required Amount : </span>
-        Rs {item.amount}
+        Rs {item?.amount}
       </Text>
       <Text>
         <span style={{ fontWeight: "bold" }}>Profit Share Percentage : </span>
-        {item.profitPercentage}%
+        {item?.profitPercentage}%
       </Text>
       <Text>
         <span style={{ fontWeight: "bold" }}>Investment Duration : </span>
-        {item.investmentDuration} years
+        {item?.investmentDuration} years
       </Text>
     </CardBody>
     <CardFooter>

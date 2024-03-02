@@ -99,17 +99,17 @@ const Investeedashboardlistinghistory = () => {
               />
             </Stack>
           ) : (
-            listing.length > 0 ? (
+            listing?.length > 0 ? (
               listing?.map((item) =>
               (
                 <Card align="center" width={"350px"} margin={"10px"}>
                   <CardHeader>
-                    <Heading size="md">{item.investee_id.businessName}</Heading>
+                    <Heading size="md">{item?.investee_id?.businessName}</Heading>
                   </CardHeader>
                   <CardBody>
                     <Text noOfLines={[1, 2, 3]}>
                       <span style={{ fontWeight: "bold" }}>Description : </span>
-                      {item.description}
+                      {item?.description}
 
                     </Text>
                     <Link onClick={() => onOpen(item)} color={"blue"}>Read More</Link>
@@ -117,11 +117,11 @@ const Investeedashboardlistinghistory = () => {
                     <Modal onClose={onClose} isOpen={isModalOpen && item === selectedItem} isCentered>
                       <ModalOverlay />
                       <ModalContent>
-                        <ModalHeader>{item.investee_id.businessName}</ModalHeader>
+                        <ModalHeader>{item?.investee_id?.businessName}</ModalHeader>
                         <ModalCloseButton />
                         <ModalBody>
                           <Text>
-                            {item.description}
+                            {item?.description}
 
                           </Text>
                         </ModalBody>
@@ -132,15 +132,15 @@ const Investeedashboardlistinghistory = () => {
                     </Modal>
                     <Text>
                       <span style={{ fontWeight: "bold" }}>Email : </span>
-                      {item.investee_id.email}
+                      {item?.investee_id?.email}
                     </Text>
                     <Text>
                       <span style={{ fontWeight: "bold" }}>Address : </span>
-                      {item.investee_id.address}, {item.investee_id.zipcode}, {item.investee_id.city}, {item.investee_id.country}
+                      {item?.investee_id?.address}, {item?.investee_id?.zipcode}, {item?.investee_id?.city}, {item?.investee_id?.country}
                     </Text>
                     <Text>
                       <span style={{ fontWeight: "bold" }}>Phone Number : </span>
-                      {item.investee_id.phoneNumber}
+                      {item?.investee_id?.phoneNumber}
                     </Text>
 
                   </CardBody>
