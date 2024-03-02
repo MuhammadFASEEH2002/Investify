@@ -1,7 +1,5 @@
 const express = require("express");
-const { Server } = require("socket.io");
 const app = express();
-const { createServer } = require('node:http');
 const mongo = require("mongoose");
 const env = require('dotenv').config();
 const cors = require("cors");
@@ -10,6 +8,7 @@ const AuthRouter = require('./routes/authRoutes')
 const AdminRouter = require('./routes/adminRoutes')
 const InvesteeRouter = require('./routes/investeeRoutes')
 const InvestorRouter = require('./routes/investorRoutes')
+
 console.log(process.env.MONGO_URL)
 app.use(
   cors({
@@ -17,22 +16,8 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
-);
-// using web sockets
-const server = createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: `${process.env.ORIGIN_URL}`,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  },
-});
-io.on("connection", (socket) => {
-  console.log(`User Connected: ${socket.id}`);
+);yyy
 
-  socket.on("disconnect", () => {
-    console.log("User Disconnected", socket.id);
-  });
-})
 mongo
   .connect(`${process.env.MONGO_URL}`)
   .then((res) => console.log("MongoDB connected"))
@@ -49,5 +34,5 @@ app.get("/", (req, res) => {
   res.json("hello")
 })
 
-server.listen(PORT, () => console.log(`Listening on http://127.0.0.1:${PORT}`));
-// module.exports = { io };
+app.listen(PORT, () => console.log(`Listening on http://127.0.0.1:${PORT}`));
+
