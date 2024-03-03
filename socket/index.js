@@ -22,6 +22,7 @@ const io = new Server(server, {
     origin: `${process.env.ORIGIN_URL}`,
     methods: ["GET", "POST", "PUT", "DELETE"],
   },
+  addTrailingSlash: false
 });
 
 // API Routes
