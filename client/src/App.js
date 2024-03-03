@@ -21,6 +21,8 @@ import Admindashboardhome from "./resources/Admindashboard/Admindashboardhome";
 import Investordashboardproductpage from "./resources/Investordashboard/Investordashboardproductpage";
 import Investeedashboardnotification from "./resources/Investeedashboard/Investeedashboardnotification";
 import Investordashboardnotification from "./resources/Investordashboard/Investordashboardnotification";
+import Investeedashboardchat from "./resources/Investeedashboard/Investeedashboardchat";
+
 
 function App() {
   return (
@@ -79,6 +81,10 @@ function App() {
           <Route
             path="/user/investee-dashboard/notifications"
             element={<Investeedashboardnotification />}
+          />
+              <Route
+            path="/user/investee-dashboard/chat"
+            element={<Investeedashboardchat />}
           />
           <Route
             path="/user/investee-dashboard/logout"
