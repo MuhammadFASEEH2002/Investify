@@ -9,6 +9,7 @@ const Investordashboardproductpage = () => {
     const navigate = useNavigate()
     const [listing, setListing] = useState("")
     const [loading, setLoading] = useState(false)
+    const [investorId,setInvestorId]=useState("");
     const toast=useToast()
     function getProduct() {
         setLoading(true)
@@ -27,6 +28,7 @@ const Investordashboardproductpage = () => {
                 if (res.status) {
 
                     setListing(res.listing)
+                    setInvestorId(res.investorId)
                     setLoading(false)
                 }
                 else {
@@ -115,7 +117,7 @@ const Investordashboardproductpage = () => {
                                             <Text color={"blue.400"}>Contact Number: </Text>
                                             <Text>{listing?.investee_id?.phoneNumber}</Text>
                                             <Button colorScheme='blue' variant='outline' onClick={()=>{
-                                                navigate('/user/investee-dashboard/chat')
+                                                navigate(`/user/investee-dashboard/chat/${investorId}/${listing?.investee_id?._id}`)
                                             }
                                             } leftIcon={<IoChatbubbleEllipsesSharp />}>Chat</Button>
                                         </HStack>

@@ -8,12 +8,12 @@ import { Card, CardBody, Text, HStack, Stack, VStack, Heading, Divider, Spinner,
 const Investeedashboardchat = () => {
   return (
     <>
-    <Sidebar>
-<Text>Hello</Text>
-    </Sidebar>
+      <Sidebar>
+        <Text>Hello</Text>
+      </Sidebar>
     </>
- 
- 
+
+
   )
 }
 
