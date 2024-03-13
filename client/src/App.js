@@ -85,11 +85,11 @@ function App() {
             path="/user/investee-dashboard/notifications"
             element={<Investeedashboardnotification />}
           />
-             <Route
+          <Route
             path="/user/investee-dashboard/chat"
             element={<Investeedashboardallchats />}
           />
-                 <Route
+          <Route
             path="/user/investor-dashboard/chat"
             element={<Investordashboardallchats />}
           />

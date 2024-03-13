@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react'
 import Sidebar from "./components/Sidebar";
 import { Spinner, Stack } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
+import useInvestee from '../../providers/investeeStore';
 
 
 const Investeedashboardlogout = () => {
     const navigate = useNavigate();
-
+    const setInvestee = useInvestee((state) => state?.setInvestee)
     const logout = () => {
         window.localStorage.removeItem('token');
+        setInvestee(null)
         navigate("/user-login")
     };
     useEffect(() => {

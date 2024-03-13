@@ -37,6 +37,7 @@ import { useEffect, useState } from "react";
 import { BsChatRight } from "react-icons/bs";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { MdOutlineNotificationsActive } from "react-icons/md";
+import useInvestee from "../../../providers/investeeStore";
 
 const LinkItems = [
   { name: "Home", icon: IoHomeOutline, link: "/user/investee-dashboard/home", dropdown: false },
@@ -165,73 +166,53 @@ const NavItem = ({ icon, children, link, ...rest }) => {
 
 const MobileNav = ({ onOpen, ...rest }) => {
 
-  const [investee, setInvestee] = useState([]);
-  const toast=useToast()
-const navigate=useNavigate();
+  // const [investee, setInvestee] = useState([]);
+  const setInvestee = useInvestee((state) => state?.setInvestee)
+  const investee = useInvestee((state) => state?.investees)
+
+  const toast = useToast()
+  const navigate = useNavigate();
 
   const getUser = () => {
     try {
-      const token = window.localStorage.getItem('token');
-      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/get-user`, {
-        method: "GET",
-        headers: {
-          'token': token,
-          'Accept': "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((res) => { 
-          if(res.status){
-            setInvestee(res.investee) 
-          }else{
-            // toast({
-            //   title: "Network Error",
-            //   status: "error",
-            //   duration: 9000,
-            //   isClosable: true,
-            //   position: "top",
-            // });
-            // navigate("/")
-
-          }
+      console.log(investee)
+      if (isEmptyObject(investee)) {
+        const token = window.localStorage.getItem('token');
+        fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/get-user`, {
+          method: "GET",
+          headers: {
+            'token': token,
+            'Accept': "application/json",
+            "Content-Type": "application/json",
+          },
         })
-        .catch((err) => console.log(err) );
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.status) {
+              setInvestee(res.investee)
+            } else {
+              console.log("error")
+            }
+          })
+          .catch((err) => console.log(err));
+      } else { console.log("investor data is present") }
+
     } catch (error) {
       console.log(error)
     }
- 
+
   };
-  // const getNotifications = () => {
-  //   try {
-  //     const token = window.localStorage.getItem('token');
-  //     fetch("http://127.0.0.1:3001/api/investee/get-notifications", {
-  //       method: "GET",
-  //       headers: {
-  //         'token': token,
-  //         'Accept': "application/json",
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
-  //       .then((res) => res.json())
-  //       .then((res) => {
-  //          setNotifications(notifications.notifications) 
-  //       })
-  //       .catch((err) => console.log(err));
-      
-  //   } catch (error) {
-  //     navigate("/")
-  //   }
-  // };
   useEffect(() => {
     document.title = "Investify | Investee-Home";
     try {
       getUser();
-      // getNotifications() 
     } catch (error) {
       navigate("/")
     }
   }, []);
+  const isEmptyObject = (obj) => {
+    return obj ? Object.keys(obj).length === 0 : true;
+  };
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -266,19 +247,7 @@ const navigate=useNavigate();
         <Flex alignItems={"center"}>
           <Menu>
             <HStack>
-            {/* <Menu>
-  <MenuButton as={Button} icon={<MdOutlineNotificationsActive/>}>
-  <MdOutlineNotificationsActive/>
-  </MenuButton>
-  <MenuList>
-    {notifications.map(notification=>(
 
-    <MenuItem>{notification.message}</MenuItem>
-    ))}
-
-    
-  </MenuList>
-</Menu> */}
               <Menu>
                 <MenuButton as={Button} >
                   <Avatar

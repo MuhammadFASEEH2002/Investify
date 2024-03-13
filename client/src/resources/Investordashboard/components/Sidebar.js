@@ -28,13 +28,14 @@ import { NavLink, Link} from 'react-router-dom';
 import Logo from "../../../components/Logo";
 import { useEffect, useState } from "react";
 import { BsChatRight } from "react-icons/bs";
+import useInvestor from "../../../providers/investorStore";
 
 
 
 const LinkItems = [
   { name: "Home", icon: FiHome, link: "/user/investor-dashboard/home" },
   { name: "Business Catalog", icon: FiList, link: "/user/investor-dashboard/business-catalog" },
-  { name: "Chats", icon: FiList, link: "/user/investor-dashboard/chat" },
+  { name: "Chats", icon: BsChatRight, link: "/user/investor-dashboard/chat" },
 
   // { name: "My Investments", icon: FiCompass },
   // { name: "Chats", icon: FiStar },
@@ -108,26 +109,50 @@ const NavItem = ({ icon, children, link, ...rest }) => {
 };
 
 const MobileNav = ({ onOpen, ...rest }) => {
-  const [investor, setInvestor] = useState([]);
+  // const [investor, setInvestor] = useState([]);
+  const setInvestor = useInvestor((state) => state?.setInvestor)
+  const investor = useInvestor((state) => state?.investors)
 
   const getUser = () => {
-    const token1 = window.localStorage.getItem('token1');
-    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/get-user`, {
-      method: "GET",
-      headers: {
-        'token': token1,
-        'Accept': "application/json",
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((investor) => { console.log(investor); setInvestor(investor.investor); })
-      .catch((err) => console.log(err));
+  try {
+    console.log(investor)
+    if(isEmptyObject(investor)){
+      const token1 = window.localStorage.getItem('token1');
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/get-user`, {
+        method: "GET",
+        headers: {
+          'token': token1,
+          'Accept': "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {  
+          if(res.status){
+            setInvestor(res.investor);
+          }
+         else{
+            console.log("error")
+          }
+        })
+        .catch((err) => console.log(err));
+    } else{
+      console.log("investor data is present")
+    }
+  } catch (error) {
+    console.log(error)
+  }
+  
   };
   useEffect(() => {
     document.title = "Investify | Investor-Home";
+
     getUser();
+ 
   }, []);
+  const isEmptyObject = (obj) => {
+    return obj ? Object.keys(obj).length === 0 : true;
+  };
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -178,7 +203,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                     />
                   </MenuButton>
                   <MenuList>
-                    <MenuGroup title={`${investor.firstName} ${investor.lastName}`}>
+                    <MenuGroup title={`${investor?.firstName} ${investor?.lastName}`}>
                       <MenuItem><Link to={"#"}>Chats</Link></MenuItem>
                       <MenuItem><Link to={"/user/investor-dashboard/notifications"}>Notifications</Link></MenuItem>
                       <MenuItem><Link to={"/user/investor-dashboard/logout"}>Log Out</Link></MenuItem>
