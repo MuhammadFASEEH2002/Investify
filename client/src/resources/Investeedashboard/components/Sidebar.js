@@ -41,8 +41,8 @@ import { MdOutlineNotificationsActive } from "react-icons/md";
 const LinkItems = [
   { name: "Home", icon: IoHomeOutline, link: "/user/investee-dashboard/home", dropdown: false },
   { name: "Create Listing", icon: FiEdit, link: "/user/investee-dashboard/listing-creation", dropdown: false },
-  // { name: "Active Listings", icon: FiList, link: "/user/investee-dashboard/investee-listings" },
   { name: "Listings", icon: FiList, link: "#", dropdown: true, dropdownIcon: RiArrowDropDownLine, dropdownItem: [{ name: "Active Listings", link: "/user/investee-dashboard/investee-listings" }, { name: "Deleted Listings", link: "/user/investee-dashboard/investee-listing-history" }] },
+  { name: "Chats", icon: FiList, link: "/user/investee-dashboard/chat" },
   // { name: "Deleted Listings", icon: FiList, link: "/user/investee-dashboard/investee-listing-history" },
   { name: "My Investments", icon: FiList, link: "#", dropdown: false },
 ];

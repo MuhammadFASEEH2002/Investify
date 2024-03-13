@@ -34,6 +34,8 @@ import { BsChatRight } from "react-icons/bs";
 const LinkItems = [
   { name: "Home", icon: FiHome, link: "/user/investor-dashboard/home" },
   { name: "Business Catalog", icon: FiList, link: "/user/investor-dashboard/business-catalog" },
+  { name: "Chats", icon: FiList, link: "/user/investor-dashboard/chat" },
+
   // { name: "My Investments", icon: FiCompass },
   // { name: "Chats", icon: FiStar },
   // { name: "Settings", icon: FiSettings },

@@ -21,7 +21,10 @@ import Admindashboardhome from "./resources/Admindashboard/Admindashboardhome";
 import Investordashboardproductpage from "./resources/Investordashboard/Investordashboardproductpage";
 import Investeedashboardnotification from "./resources/Investeedashboard/Investeedashboardnotification";
 import Investordashboardnotification from "./resources/Investordashboard/Investordashboardnotification";
+import Investordashboardchat from "./resources/Investordashboard/Investordashboardchat";
 import Investeedashboardchat from "./resources/Investeedashboard/Investeedashboardchat";
+import Investeedashboardallchats from "./resources/Investeedashboard/Investeedashboardallchats";
+import Investordashboardallchats from "./resources/Investordashboard/Investordashboardallchats";
 
 
 function App() {
@@ -82,8 +85,20 @@ function App() {
             path="/user/investee-dashboard/notifications"
             element={<Investeedashboardnotification />}
           />
-              <Route
-            path="/user/investee-dashboard/chat/:id_1/:id_2"
+             <Route
+            path="/user/investee-dashboard/chat"
+            element={<Investeedashboardallchats />}
+          />
+                 <Route
+            path="/user/investor-dashboard/chat"
+            element={<Investordashboardallchats />}
+          />
+          <Route
+            path="/user/investor-dashboard/chat/:id1/:id2"
+            element={<Investordashboardchat />}
+          />
+          <Route
+            path="/user/investee-dashboard/chat/:id1/:id2"
             element={<Investeedashboardchat />}
           />
           <Route

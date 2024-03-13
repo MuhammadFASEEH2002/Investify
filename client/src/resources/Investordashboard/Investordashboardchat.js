@@ -1,9 +1,92 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { Box, Text, Input, Button } from '@chakra-ui/react';
+import Sidebar from './components/Sidebar';
+import { useNavigate, useParams } from 'react-router-dom';
+import { db } from '../../utils/firebase';
+import {
+  collection,
+  addDoc,
+  where,
+  serverTimestamp,
+  onSnapshot,
+  query,
+  orderBy,
+} from "firebase/firestore";
 
 const Investordashboardchat = () => {
-  return (
-    <div>Investordashboardchat</div>
-  )
-}
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const { id1, id2 } = useParams();
+  const navigate = useNavigate();
+  const messagesRef = collection(db, "messages");
 
-export default Investordashboardchat
+  const roomId = `${id1}_${id2}`;
+
+
+  useEffect(() => {
+    if (window.localStorage.getItem('token1')) {
+      document.title = 'Investify | Investor-chat';
+      const queryMessages = query(
+        messagesRef,
+        where("roomId", "==", roomId),
+        orderBy("createdAt")
+      );
+      const unsuscribe = onSnapshot(queryMessages, (snapshot) => {
+        let messages = [];
+        snapshot.forEach((doc) => {
+          messages.push({ ...doc.data(), id: doc.id });
+        });
+        console.log(messages);
+        setMessages(messages);
+      });
+
+      return () => unsuscribe();
+
+    } else {
+      navigate('/user-login');
+    }
+  }, []);
+
+
+  const handleSubmit = async () => {
+    if (newMessage === "") return;
+    await addDoc(messagesRef, {
+      text: newMessage,
+      createdAt: serverTimestamp(),
+      user: id1,
+      roomId,
+    });
+
+    setNewMessage("");
+  };
+
+
+  return (
+    <>
+      <Sidebar>
+        <Box p={4} borderWidth="1px" borderRadius="lg" bgColor={"white"}>
+          <Box height="300px" overflowY="scroll" p={4} borderWidth="" borderRadius="lg">
+            {/* Chat messages */}
+            {messages.map((message) => (
+                       <Text textAlign={message.user==id1?"right":"left"} padding={2}> <span style={{ padding: "8px", borderRadius:"10px", backgroundColor: message?.user==id1?"#0096FF":"#89CFF0" }}>{message.text}</span></Text>
+
+            ))}
+          </Box>
+
+          <Input
+            placeholder="Enter message"
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+          />
+
+          <Button colorScheme="blue" mt={4} onClick={() => { handleSubmit() }}>
+            Send
+          </Button>
+        </Box>
+      </Sidebar>
+    </>
+  );
+};
+
+
+export default Investordashboardchat;

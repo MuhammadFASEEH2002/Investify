@@ -117,7 +117,7 @@ const Investordashboardproductpage = () => {
                                             <Text color={"blue.400"}>Contact Number: </Text>
                                             <Text>{listing?.investee_id?.phoneNumber}</Text>
                                             <Button colorScheme='blue' variant='outline' onClick={()=>{
-                                                navigate(`/user/investee-dashboard/chat/${investorId}/${listing?.investee_id?._id}`)
+                                                navigate(`/user/investor-dashboard/chat/${investorId}/${listing?.investee_id?._id}`)
                                             }
                                             } leftIcon={<IoChatbubbleEllipsesSharp />}>Chat</Button>
                                         </HStack>
