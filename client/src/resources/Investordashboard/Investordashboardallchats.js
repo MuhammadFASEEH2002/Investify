@@ -19,7 +19,7 @@ const Investordashboardallchats = () => {
   const [roomIdsArray, setRoomIdsArray] = useState([]);
   const [loading, setLoading] = useState(false);
   const investor = useInvestor((state) => state?.investors)
-
+const navigate=useNavigate()
   
 
   useEffect(() => {
@@ -50,7 +50,6 @@ const Investordashboardallchats = () => {
     }
   }, []);
 
-  const navigate = useNavigate();
 
   return (
     <Sidebar>

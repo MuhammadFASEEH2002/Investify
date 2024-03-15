@@ -52,17 +52,17 @@ const Investordashboardchat = () => {
 
 
   const handleSubmit = async () => {
-    
-    if (newMessage === "") return;
-    await addDoc(messagesRef, {
-      text: newMessage,
-      createdAt: serverTimestamp(),
-      userId: id1,
-      userName: `${investor?.firstName} ${investor?.lastName}`,
-      roomId,
-    });
-
-    setNewMessage("");
+    if(investor?.firstName && investor?.lastName){
+      if (newMessage === "") return;
+      await addDoc(messagesRef, {
+        text: newMessage,
+        createdAt: serverTimestamp(),
+        userId: id1,
+        userName: `${investor?.firstName} ${investor?.lastName}`,
+        roomId,
+      });
+      setNewMessage("");
+    }
   };
 
 
