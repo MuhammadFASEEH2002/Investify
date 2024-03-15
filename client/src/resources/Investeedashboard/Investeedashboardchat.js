@@ -12,6 +12,7 @@ import {
   query,
   orderBy,
 } from "firebase/firestore";
+import useInvestee from '../../providers/investeeStore';
 
 const Investeedashboardchat = () => {
   const [messages, setMessages] = useState([]);
@@ -19,6 +20,7 @@ const Investeedashboardchat = () => {
   const { id1, id2 } = useParams();
   const navigate = useNavigate();
   const messagesRef = collection(db, "messages");
+  const investee = useInvestee((state) => state?.investees)
 
   const roomId = `${id1}_${id2}`;
 
@@ -53,7 +55,8 @@ const Investeedashboardchat = () => {
     await addDoc(messagesRef, {
       text: newMessage,
       createdAt: serverTimestamp(),
-      user: id2,
+      userId: id2,
+      userName: investee?.businessName,
       roomId,
     });
 
@@ -68,7 +71,7 @@ const Investeedashboardchat = () => {
           <Box height="300px" overflowY="scroll" p={4} borderWidth="1px" borderRadius="lg">
             {/* Chat messages */}
             {messages.map((message) => (
-              <Text textAlign={message.user == id2 ? "right" : "left"} padding={10}>{message.text}</Text>
+              <Text textAlign={message.userId == id2 ? "right" : "left"} padding={10}>{message.text}</Text>
             ))}
           </Box>
 

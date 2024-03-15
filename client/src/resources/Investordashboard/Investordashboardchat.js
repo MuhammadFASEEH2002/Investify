@@ -12,6 +12,8 @@ import {
   query,
   orderBy,
 } from "firebase/firestore";
+import useInvestor from '../../providers/investorStore';
+
 
 const Investordashboardchat = () => {
   const [messages, setMessages] = useState([]);
@@ -19,6 +21,7 @@ const Investordashboardchat = () => {
   const { id1, id2 } = useParams();
   const navigate = useNavigate();
   const messagesRef = collection(db, "messages");
+  const investor = useInvestor((state) => state?.investors)
 
   const roomId = `${id1}_${id2}`;
 
@@ -49,11 +52,13 @@ const Investordashboardchat = () => {
 
 
   const handleSubmit = async () => {
+    
     if (newMessage === "") return;
     await addDoc(messagesRef, {
       text: newMessage,
       createdAt: serverTimestamp(),
-      user: id1,
+      userId: id1,
+      userName: `${investor?.firstName} ${investor?.lastName}`,
       roomId,
     });
 
@@ -68,7 +73,7 @@ const Investordashboardchat = () => {
           <Box height="300px" overflowY="scroll" p={4} borderWidth="" borderRadius="lg">
             {/* Chat messages */}
             {messages.map((message) => (
-                       <Text textAlign={message.user==id1?"right":"left"} padding={2}> <span style={{ padding: "8px", borderRadius:"10px", backgroundColor: message?.user==id1?"#0096FF":"#89CFF0" }}>{message.text}</span></Text>
+                       <Text textAlign={message.userId==id1?"right":"left"} padding={2}> <span style={{ padding: "8px", borderRadius:"10px", backgroundColor: message?.userId==id1?"#0096FF":"#89CFF0" }}>{message.text}</span></Text>
 
             ))}
           </Box>

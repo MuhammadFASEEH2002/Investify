@@ -58,7 +58,7 @@ const Userlogin = () => {
     if (window.localStorage.getItem('token')) {
       navigate("/user/investee-dashboard/home");
     } else if (window.localStorage.getItem('token1')) {
-      navigate("/user/investor-dashboard/business-catalog");
+      navigate("/user/investor-dashboard/home");
     }
   });
   const onOpen = () => {
