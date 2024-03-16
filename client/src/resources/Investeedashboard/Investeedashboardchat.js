@@ -71,7 +71,8 @@ const Investeedashboardchat = () => {
           <Box height="300px" overflowY="scroll" p={4} borderWidth="1px" borderRadius="lg">
             {/* Chat messages */}
             {messages.map((message) => (
-              <Text textAlign={message.userId == id2 ? "right" : "left"} padding={10}>{message.text}</Text>
+              <Text textAlign={message?.userId==id2?"right":"left"} padding={2}> <span style={{ padding: "8px", borderRadius:"10px", backgroundColor: message?.userId==id2?"#0096FF":"#89CFF0" }}>{message.text}</span></Text>
+
             ))}
           </Box>
 
