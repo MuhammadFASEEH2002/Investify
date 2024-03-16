@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from "./components/Sidebar";
 import {
-  Card, CardHeader, CardBody, CardFooter, Heading, Box, Stack, StackDivider, Text, Button, ButtonGroup, Divider, Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  Input,
+  Card, CardHeader, CardBody, Heading, Box, Stack, StackDivider, Text, Button,
   useToast,
-  Spinner
+  Spinner,
+  Badge, HStack
 } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
+import { IoGrid } from 'react-icons/io5';
+
 
 const Investordashboardhome = () => {
 
   const [investor, setInvestor] = useState([]);
-   
+
   const [loading, setLoading] = useState(false);
 
   const toast = useToast();
@@ -63,14 +58,20 @@ const Investordashboardhome = () => {
   }, []);
   return (
     <>
-  
-  <Sidebar>
+      <Sidebar>
         {loading ? (<><Stack minHeight={'100%'} width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack> </>) : (<>
+          <HStack justifyContent={'space-evenly'} my={5} >
+
+            <StatCard colorscheme="purple" title="All Payments" recordsCount={"2"} icon={<IoGrid />} />
+            <StatCard colorscheme="purple" title="All Payments" recordsCount={"2"} icon={<IoGrid />} />
+            <StatCard colorscheme="purple" title="All Payments" recordsCount={"2"} icon={<IoGrid />} />
+
+
+          </HStack>
           <Card >
             <CardHeader>
               <Heading size='md'>Investor Profile</Heading>
             </CardHeader>
-
             <CardBody>
               <Stack divider={<StackDivider />} spacing='4'>
                 <Box>
@@ -102,7 +103,7 @@ const Investordashboardhome = () => {
                     Location
                   </Heading>
                   <Text pt='2' fontSize='sm'>
-                     {investor?.city}, {investor?.country}
+                    {investor?.city}, {investor?.country}
                   </Text>
                 </Box>
               </Stack>
@@ -117,4 +118,27 @@ const Investordashboardhome = () => {
   )
 }
 
+const StatCard = (props) => {
+  return <Card
+    direction={'column'}
+    overflow='hidden'
+    variant='outline'
+    backgroundColor={`${props.colorscheme}.50`}
+    borderColor={props.colorscheme}
+    colorScheme={props.colorscheme}
+    padding={4}
+    minW={'30%'}
+  >
+    <HStack justifyContent={'space-between'} width={'100%'} >
+      <Text>{props.title}</Text>
+      <Button colorScheme={props.colorscheme}>
+        {props.icon}
+      </Button>
+    </HStack>
+    <HStack mt={2}>
+      <Badge colorScheme={props.colorscheme} p={1} >{props.recordsCount} records</Badge>
+    </HStack>
+
+  </Card>
+}
 export default Investordashboardhome
