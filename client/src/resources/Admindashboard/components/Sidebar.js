@@ -36,13 +36,14 @@ import Logo from "../../../components/Logo";
 import { useEffect, useState } from "react";
 import { IoHomeOutline } from "react-icons/io5";
 import { MdDomainVerification } from "react-icons/md";
+import { CiViewTable } from "react-icons/ci";
 
 const LinkItems = [
   { name: "Home", icon: IoHomeOutline, link: "/admin/admin-dashboard/home" },
   { name: "Account Verification", icon: FiUserCheck, link: "/admin/admin-dashboard/account-verification" },
   { name: "Listing Verification", icon: MdDomainVerification, link: "/admin/admin-dashboard/listing-verification" },
-  { name: "Total Investees", icon: MdDomainVerification, link: "/admin/admin-dashboard/all-investees" },
-  { name: "Total Investors", icon: MdDomainVerification, link: "/admin/admin-dashboard/all-investors" },
+  { name: "Total Investees", icon: CiViewTable, link: "/admin/admin-dashboard/all-investees" },
+  { name: "Total Investors", icon: CiViewTable, link: "/admin/admin-dashboard/all-investors" },
 
 
 
