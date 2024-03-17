@@ -131,11 +131,17 @@ const Adminlogin = () => {
                   <Text color={"white"}>Username</Text>
                   <Input
                     type="email"
-                    placeholder="Enter Your email"
+                    placeholder="Enter Your Username"
                     width={{ base: "100%", md: "90%", lg: "90%" }}
-                    variant={"filled"}
+                    variant={"solid"}
                     border={"0.5px solid grey"}
                     onChange={(event) => handleInputChange(event, setUsername)}
+                    onKeyDown={(event) => {
+                        if (event.key === "Enter") {
+                          adminLogin()
+                        }
+                      }}
+                    
                   />
                 </Stack>
                 <Stack width={"80%"}>
@@ -144,8 +150,8 @@ const Adminlogin = () => {
                     <Input
                       pr="4.5rem"
                       type={show ? "text" : "password"}
-                      placeholder="Enter password"
-                      variant={"filled"}
+                      placeholder="Enter Password"
+                      variant={"solid"}
                       border={"0.5px solid grey"}
                       onChange={(event) =>
                         handleInputChange(event, setPassword)

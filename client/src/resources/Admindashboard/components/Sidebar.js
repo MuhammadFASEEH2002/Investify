@@ -41,6 +41,11 @@ const LinkItems = [
   { name: "Home", icon: IoHomeOutline, link: "/admin/admin-dashboard/home" },
   { name: "Account Verification", icon: FiUserCheck, link: "/admin/admin-dashboard/account-verification" },
   { name: "Listing Verification", icon: MdDomainVerification, link: "/admin/admin-dashboard/listing-verification" },
+  { name: "Total Investees", icon: MdDomainVerification, link: "/admin/admin-dashboard/all-investees" },
+  { name: "Total Investors", icon: MdDomainVerification, link: "/admin/admin-dashboard/all-investors" },
+
+
+
 ];
 const SidebarContent = ({ onClose, ...rest }) => {
   return (

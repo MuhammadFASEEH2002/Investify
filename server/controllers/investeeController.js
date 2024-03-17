@@ -53,26 +53,7 @@ exports.updateMe = async (req, res) => {
     res.json({ message: error.message, status: false });
   }
 };
-// exports.getListing = async (req, res) => {
-//   try {
-//     const listing = await Listing.find({ isVerified: false }).populate(
-//       "investee_id"
-//     );
-//     if (listing) {
-//       res.json({
-//         status: true,
-//         listing,
-//       });
-//     }
-//   } catch (error) {
-//     res.json({ message: error.message, status: false });
-//   }
-// };
-// exports.updateMe = async (req, res) => {
-//   const investee = await Investee.findOne({ _id: req.user });
-//   console.log(investee._id)
 
-// };
 exports.changePassword = async (req, res) => {
   try {
     // const hashOldPassword = await bcrypt.hash(req.body.oldPassword, 10);
@@ -428,6 +409,20 @@ exports.setMarkAsRead = async (req, res) => {
     res.json({
       status: true,
     });
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};
+exports.getStats = async (req, res) => {
+  try {
+   const investee = await Investee.findOne({ _id: req.user });
+    const TotalListingCount = await Listing.countDocuments({ investee_id: req.user })
+    const ActiveListingCount = await Listing.countDocuments({ investee_id: req.user , isActive:true, isVerified:true })
+    const DeletedListingCount = await Listing.countDocuments({ investee_id: req.user , isActive:false, isVerified:true })
+
+
+    res.json({ status: true, TotalListingCount , ActiveListingCount, DeletedListingCount});
+  
   } catch (error) {
     res.json({ message: error.message, status: false });
   }

@@ -25,6 +25,8 @@ import Investordashboardchat from "./resources/Investordashboard/Investordashboa
 import Investeedashboardchat from "./resources/Investeedashboard/Investeedashboardchat";
 import Investeedashboardallchats from "./resources/Investeedashboard/Investeedashboardallchats";
 import Investordashboardallchats from "./resources/Investordashboard/Investordashboardallchats";
+import Admindashboardallinvestees from "./resources/Admindashboard/Admindashboardallinvestees";
+import Admindashboardallinvestors from "./resources/Admindashboard/Admindashboardallinvestors";
 
 
 function App() {
@@ -37,6 +39,10 @@ function App() {
           <Route path="/admin/admin-dashboard/home" element={<Admindashboardhome />} />
           <Route path="/admin/admin-dashboard/account-verification" element={<Admindashboardaccountverification />} />
           <Route path="/admin/admin-dashboard/listing-verification" element={<Admindashboardlistingverification />} />
+          <Route path="/admin/admin-dashboard/all-investees" element={<Admindashboardallinvestees />} />
+          <Route path="/admin/admin-dashboard/all-investors" element={<Admindashboardallinvestors />} />
+
+
           <Route path="/admin/admin-dashboard/logout" element={<Admindashboardlogout />} />
           <Route path="/user-login" element={<Userlogin />} />
           <Route path="/user-registration/user-role" element={<Userrole />} />

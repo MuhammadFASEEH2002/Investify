@@ -299,7 +299,6 @@ exports.declineInvestees = async (req, res) => {
   }
 };
 
-
 exports.declineListing = async (req, res) => {
   try {
     const transporter = await nodemailer.createTransport({
@@ -374,6 +373,35 @@ exports.declineListing = async (req, res) => {
     res.json({ message: error.message, status: false });
   }
 };
+
+exports.getAllInvestees = async (req, res) => {
+  try {
+    const investees = await Investee.find();
+    if (investees) {
+      res.json({
+        status: true,
+        investees,
+      });
+    }
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};
+exports.getAllInvestors = async (req, res) => {
+  try {
+    const investors = await Investor.find();
+    if (investors) {
+      res.json({
+        status: true,
+        investors,
+      });
+    }
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};
+
+
 
 
 

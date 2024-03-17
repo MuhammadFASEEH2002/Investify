@@ -12,6 +12,9 @@ router.post('/verify-investees' ,verifyAdminToken, AdminController.approveInvest
 router.post('/decline-investees' ,verifyAdminToken, AdminController.declineInvestees)
 router.post('/verify-listing' ,verifyAdminToken, AdminController.approveListing)
 router.post('/decline-listing' ,verifyAdminToken, AdminController.declineListing)
+router.get('/get-all-investees' ,verifyAdminToken, AdminController.getAllInvestees)
+router.get('/get-all-investors' ,verifyAdminToken, AdminController.getAllInvestors)
+
 
 
 
