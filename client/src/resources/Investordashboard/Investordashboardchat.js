@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import { Box, Text, Input, Button } from '@chakra-ui/react';
 import Sidebar from './components/Sidebar';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -22,7 +22,7 @@ const Investordashboardchat = () => {
   const navigate = useNavigate();
   const messagesRef = collection(db, "messages");
   const investor = useInvestor((state) => state?.investors)
-
+  const chatContainerRef = useRef(null);
   const roomId = `${id1}_${id2}`;
 
 
@@ -50,9 +50,13 @@ const Investordashboardchat = () => {
     }
   }, []);
 
+  useEffect(() => {
+    // Scroll to the bottom when new messages are added
+    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+  }, [messages]);
 
   const handleSubmit = async () => {
-    if(investor?.firstName && investor?.lastName){
+    if (investor?.firstName && investor?.lastName) {
       if (newMessage === "") return;
       await addDoc(messagesRef, {
         text: newMessage,
@@ -70,10 +74,10 @@ const Investordashboardchat = () => {
     <>
       <Sidebar>
         <Box p={4} borderWidth="1px" borderRadius="lg" bgColor={"white"}>
-          <Box height="300px" overflowY="scroll" p={4} borderWidth="" borderRadius="lg">
+          <Box height="300px" overflowY="scroll" p={4} borderWidth="" borderRadius="lg" ref={chatContainerRef}>
             {/* Chat messages */}
             {messages.map((message) => (
-                       <Text textAlign={message.userId==id1?"right":"left"} padding={2}> <span style={{ padding: "8px", borderRadius:"10px", backgroundColor: message?.userId==id1?"#0096FF":"#89CFF0" }}>{message.text}</span></Text>
+              <Text textAlign={message.userId == id1 ? "right" : "left"} padding={2}> <span style={{ padding: "8px", borderRadius: "10px", backgroundColor: message?.userId == id1 ? "#0096FF" : "#89CFF0" }}>{message.userId==id1 ?`${message?.text}`:`${message?.userName}: ${message?.text}`}</span></Text>
 
             ))}
           </Box>

@@ -43,7 +43,11 @@ const listingSchema = new mongo.Schema({
   //   ref: "Investor"
   // }
   
-});
+},
+{
+  timestamps: true
+}
+);
 
 const Listing = mongo.model("Listing", listingSchema);
 
