@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
-import { Button, Stack, Spinner } from '@chakra-ui/react';
+import { Button, Stack, Spinner, Card, CardBody, Text } from '@chakra-ui/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { db } from '../../utils/firebase';
 import {
@@ -21,29 +21,33 @@ const Investeedashboardallchats = () => {
     const [loading, setLoading] = useState(false);
     const investee = useInvestee((state) => state?.investees);
     const navigate = useNavigate();
-
     useEffect(() => {
         if (window.localStorage.getItem('token')) {
             document.title = 'Investify | Investor-All-Chats';
             if (investee?._id) {
                 console.log(investee?._id);
                 const queryMessages = query(messagesRef, orderBy('roomId'));
+                setLoading(true);
+                console.log(queryMessages)
                 const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
                     const distinctRoomIds = new Set();
                     snapshot.forEach((doc) => {
-                        const { roomId } = doc.data();
-
+                        const { roomId, userName } = doc.data();
                         if (roomId.split('_')[0] == investee?._id || roomId.split('_')[1] == investee?._id) {
+                            // if (userName != investee?.businessName) {
+
                             distinctRoomIds.add(roomId);
+                            // }
+
                         } else {
                             console.log('not same')
                         }
-
                     });
                     const roomIds = Array.from(distinctRoomIds);
                     setRoomIdsArray(roomIds);
-                });
+                    setLoading(false);
 
+                });
                 return () => {
                     unsubscribe();
                 };
@@ -61,25 +65,23 @@ const Investeedashboardallchats = () => {
             {loading ? (<>
                 <><Stack minHeight={'100%'} width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack> </>
             </>) : (<>
-                {roomIdsArray.length > 0 ? (<>
-                    {roomIdsArray.map((roomId,index) => (
-                        <>
-                            <Button
-                                key={roomId}
-                                colorScheme="blue"
-                                variant="outline"
-                                onClick={() => {
-                                    navigate(`/user/investee-dashboard/chat/${roomId.split('_')[0]}/${roomId.split('_')[1]}`);
-                                }}
-                            >
-                                chat {index+1}
-                            </Button>
-                            <p>
-                                {/* Testing Zustand: {investee?._id} */}
-                            </p>
-                        </>
-                    ))}
-                </>) : (<>No Chats</>)}
+                {roomIdsArray.length > 0 ? (
+                    <>
+                        <Stack width={"100%"} alignItems={"center"} justifyContent={"center"}>
+                            <Stack width={{ base: "100%", md: "80%", lg: "70%" }} flexDirection={"column"}>
+                                {roomIdsArray.map((roomId, index) => (
+                                    <Card onClick={() => {
+                                        navigate(`/user/investee-dashboard/chat/${roomId.split('_')[0]}/${roomId.split('_')[1]}`);
+                                    }} cursor={"pointer"} key={roomId} width={"100%"}>
+                                        <CardBody>
+                                            <Text fontSize={"1em"}>chat {index + 1}</Text>
+                                        </CardBody>
+                                    </Card>
+                                ))}
+                            </Stack>
+                        </Stack>
+                    </>
+                ) : (<>No Chats</>)}
             </>)}
         </Sidebar>
     );

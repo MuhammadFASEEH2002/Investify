@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react'
 import Sidebar from "./components/Sidebar";
 import {
   Card, CardHeader, CardBody, CardFooter, Heading, Box, Stack, StackDivider, Text, ButtonGroup,
- 
+
   useToast,
   Spinner,
-   HStack, Button
+  HStack, Button
 } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
 import { IoGrid } from 'react-icons/io5';
 import { FiList } from 'react-icons/fi';
+import { MdDelete } from "react-icons/md";
+import { FaCheckCircle } from "react-icons/fa";
 
 const Investeedashboardhome = () => {
   const [investee, setInvestee] = useState([]);
@@ -58,12 +60,14 @@ const Investeedashboardhome = () => {
             isClosable: true,
             position: "top",
           });
-         
+
         }
       })
       .catch((err) => console.log(err));
   };
   const getStats = () => {
+    setLoading(true)
+
     const token = window.localStorage.getItem('token');
     fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/get-stats`, {
       method: "GET",
@@ -79,6 +83,8 @@ const Investeedashboardhome = () => {
           setTotalListingCount(res.TotalListingCount)
           setActiveListingCount(res.ActiveListingCount)
           setDeletedListingCount(res.DeletedListingCount)
+          setLoading(false)
+
         } else {
           toast({
             title: "Network Error, Reload Again",
@@ -87,6 +93,7 @@ const Investeedashboardhome = () => {
             isClosable: true,
             position: "top",
           });
+          setLoading(false)
 
         }
       })
@@ -166,11 +173,11 @@ const Investeedashboardhome = () => {
     <>
       <Sidebar>
         {loading ? (<><Stack minHeight={'100%'} width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack> </>) : (<>
-          <HStack justifyContent={'space-evenly'} my={5} >
+          <HStack justifyContent={'space-evenly'} my={5} flexWrap={"wrap"} >
 
             <StatCard colorscheme="blue" title="Total Listings" listings={totalListingCount} icon={<FiList />} />
-            <StatCard colorscheme="green" title="Active Listings" listings={activeListingCount} icon={<FiList />} />
-            <StatCard colorscheme="red" title="Deleted Listings" listings={deletedListingCount} icon={<FiList />} />
+            <StatCard colorscheme="green" title="Active Listings" listings={activeListingCount} icon={<FaCheckCircle />} />
+            <StatCard colorscheme="red" title="Deleted Listings" listings={deletedListingCount} icon={<MdDelete/>} />
 
 
 

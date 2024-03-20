@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
-import { Button, Stack, Spinner, Text } from '@chakra-ui/react';
-import { Link, useNavigate } from 'react-router-dom';
+import {  Stack, Spinner, Text , Card, CardBody} from '@chakra-ui/react';
+import {  useNavigate } from 'react-router-dom';
 import { db } from '../../utils/firebase';
 import {
   collection,
@@ -61,23 +61,22 @@ const Investordashboardallchats = () => {
         <><Stack minHeight={'100%'} width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack> </>
       </>) : (<>
         {roomIdsArray.length > 0 ? (<>
-          {roomIdsArray.map((roomId, index) => (
-            <>
-              <Button
-                key={roomId}
-                colorScheme="blue"
-                variant="outline"
-                onClick={() => {
-                  navigate(`/user/investor-dashboard/chat/${roomId.split('_')[0]}/${roomId.split('_')[1]}`);
-                }}
-              >
-                chat {index + 1}
-              </Button>
-              <p>
-                {/* Testing Zustand: {investor._id} */}
-              </p>
-            </>
-          ))}
+          <>
+                        <Stack width={"100%"} alignItems={"center"} justifyContent={"center"}>
+                            <Stack width={{ base: "100%", md: "80%", lg: "70%" }} flexDirection={"column"}>
+                                {roomIdsArray.map((roomId, index) => (
+                                    <Card onClick={() => {
+                                      navigate(`/user/investor-dashboard/chat/${roomId.split('_')[0]}/${roomId.split('_')[1]}`);
+                                    }} cursor={"pointer"} key={roomId} width={"100%"}>
+                                        <CardBody>
+                                            <Text fontSize={"1em"}>chat {index + 1}</Text>
+                                        </CardBody>
+                                    </Card>
+                                ))}
+                            </Stack>
+                        </Stack>
+                    </>
+        
         </>) : (<>No Chats</>)}
 
 

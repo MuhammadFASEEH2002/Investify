@@ -53,7 +53,6 @@ export default function JTable(props) {
     const totalDisplayRows = page * showCount;
     const startIndex = (page - 1) * showCount;
     const endIndex = totalDisplayRows > array.length ? array.length : totalDisplayRows;
-
     if (endIndex > array.length) {
       return array.slice(startIndex, array.length);
     }
