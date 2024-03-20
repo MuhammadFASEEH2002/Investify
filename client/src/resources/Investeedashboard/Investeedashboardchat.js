@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Box, Text, Input, Button } from '@chakra-ui/react';
 import Sidebar from './components/Sidebar';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -73,13 +73,12 @@ const Investeedashboardchat = () => {
     <>
       <Sidebar>
         <Box p={4} borderWidth="1px" borderRadius="lg">
-          <Box height="300px" overflowY="scroll" p={4} borderWidth="1px" borderRadius="lg"  ref={chatContainerRef}>
+          <Box height="300px" overflowY="scroll" p={4} borderWidth="1px" borderRadius="lg" ref={chatContainerRef}>
             {/* Chat messages */}
             {messages.map((message) => (
-              <Text textAlign={message?.userId==id2?"right":"left"} padding={2}> <span style={{ padding: "8px", borderRadius:"10px", backgroundColor: message?.userId==id2?"#0096FF":"#89CFF0" }}>{message.userId==id2 ?`${message?.text}`:`${message?.userName}: ${message?.text}`}</span></Text>
+              <Text textAlign={message?.userId == id2 ? "right" : "left"} padding={2}> <span style={{ padding: "8px", borderRadius: "10px", backgroundColor: message?.userId == id2 ? "#0096FF" : "#89CFF0" }}>{message.userId == id2 ? `${message?.text}` : `${message?.userName}: ${message?.text}`}</span></Text>
             ))}
           </Box>
-
           <Input
             placeholder="Enter message"
             value={newMessage}

@@ -8,5 +8,6 @@ router.get('/get-listing-view' ,verifyInvestorToken, InvestorController.getProdu
 router.post('/search-listing' ,verifyInvestorToken, InvestorController.searchListing)
 router.get("/get-notifications", verifyInvestorToken, InvestorController.getNotifications)
 router.put("/set-mark-as-read", verifyInvestorToken, InvestorController.setMarkAsRead)
+router.get('/get-stats' ,verifyInvestorToken, InvestorController.getStats)
 
 module.exports = router;

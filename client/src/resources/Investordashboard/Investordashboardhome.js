@@ -15,6 +15,8 @@ const Investordashboardhome = () => {
   const [investor, setInvestor] = useState([]);
 
   const [loading, setLoading] = useState(false);
+  const [totalNotifications, setTotalNotifications] = useState("");
+
 
   const toast = useToast();
   const navigate = useNavigate();
@@ -62,9 +64,8 @@ const Investordashboardhome = () => {
         {loading ? (<><Stack minHeight={'100%'} width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack> </>) : (<>
           <HStack justifyContent={'space-evenly'} my={5} >
 
-            <StatCard colorscheme="purple" title="All Payments" recordsCount={"2"} icon={<IoGrid />} />
-            <StatCard colorscheme="purple" title="All Payments" recordsCount={"2"} icon={<IoGrid />} />
-            <StatCard colorscheme="purple" title="All Payments" recordsCount={"2"} icon={<IoGrid />} />
+          <StatCard colorscheme="blue" title="Notifications" listings={totalNotifications} icon={<IoGrid />} />
+
 
 
           </HStack>
@@ -127,7 +128,7 @@ const StatCard = (props) => {
     borderColor={props.colorscheme}
     colorScheme={props.colorscheme}
     padding={4}
-    minW={'30%'}
+    minW={'24%'}
   >
     <HStack justifyContent={'space-between'} width={'100%'} >
       <Text>{props.title}</Text>
@@ -135,9 +136,12 @@ const StatCard = (props) => {
         {props.icon}
       </Button>
     </HStack>
-    <HStack mt={2}>
-      <Badge colorScheme={props.colorscheme} p={1} >{props.recordsCount} records</Badge>
+    <HStack>
+      <Heading>{props.listings}</Heading>
     </HStack>
+    {/* <HStack mt={2}>
+    <Badge colorScheme={props.colorscheme} p={1} >{props.recordsCount} records</Badge>
+  </HStack> */}
 
   </Card>
 }
