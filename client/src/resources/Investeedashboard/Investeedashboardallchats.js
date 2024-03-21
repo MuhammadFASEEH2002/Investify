@@ -34,16 +34,17 @@ const Investeedashboardallchats = () => {
                     snapshot.forEach((doc) => {
                         const { roomId, userName } = doc.data();
                         if (roomId.split('_')[0] == investee?._id || roomId.split('_')[1] == investee?._id) {
-                            // if (userName != investee?.businessName) {
+                            if (userName != investee?.businessName) {
 
-                            distinctRoomIds.add(roomId);
-                            // }
+                            distinctRoomIds.add({roomId,userName});
+                            }
 
                         } else {
                             console.log('not same')
                         }
                     });
                     const roomIds = Array.from(distinctRoomIds);
+                    console.log(roomIds);
                     setRoomIdsArray(roomIds);
                     setLoading(false);
 
@@ -69,12 +70,12 @@ const Investeedashboardallchats = () => {
                     <>
                         <Stack width={"100%"} alignItems={"center"} justifyContent={"center"}>
                             <Stack width={{ base: "100%", md: "80%", lg: "70%" }} flexDirection={"column"}>
-                                {roomIdsArray.map((roomId, index) => (
+                                {roomIdsArray.map((room, index) => (
                                     <Card onClick={() => {
-                                        navigate(`/user/investee-dashboard/chat/${roomId.split('_')[0]}/${roomId.split('_')[1]}`);
-                                    }} cursor={"pointer"} key={roomId} width={"100%"}>
+                                        navigate(`/user/investee-dashboard/chat/${room?.roomId.split('_')[0]}/${room?.roomId.split('_')[1]}`);
+                                    }} cursor={"pointer"} key={room?.roomId} width={"100%"}>
                                         <CardBody>
-                                            <Text fontSize={"1em"}>chat {index + 1}</Text>
+                                            <Text fontSize={"1em"}>chat {index + 1}: {room?.userName} </Text>
                                         </CardBody>
                                     </Card>
                                 ))}

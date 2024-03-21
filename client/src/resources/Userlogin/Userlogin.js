@@ -334,11 +334,14 @@ const Userlogin = () => {
                   alignItems={"center"}
                   justifyContent={"flex-start"}
                 >
+
                   <RadioGroup
                     onChange={setSelectedRole}
                     value={selectedRole}
                     width={"80%"}
-                  >
+                    marginBottom={5}
+                    >
+                    <Text marginBottom={3}>Select Role</Text>
                     <Stack
                       direction="row"
                       alignItems={"center"}
@@ -371,6 +374,15 @@ const Userlogin = () => {
                       variant={"filled"}
                       border={"0.5px solid grey"}
                       onChange={(event) => handleInputChange(event, setEmail)}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter") {
+                          if (selectedRole === "investor") {
+                            investorLogin();
+                          } else {
+                            investeeLogin();
+                          }
+                        }
+                      }}
                     />
                   </Stack>
                   <Stack width={"80%"}>
