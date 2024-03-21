@@ -89,7 +89,8 @@ exports.setMarkAsRead = async (req, res) => {
 
 exports.getStats = async (req, res) => {
     try {
-        const notifications = await Notification.countDocuments({ _id: req.user }, { isRead: true })
+        const TotalNotifications = await Notification.countDocuments({ _id: req.user })
+        res.json({  status: true , TotalNotifications});
        
     } catch (error) {
         res.json({ message: error.message, status: false });

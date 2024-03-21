@@ -8,7 +8,7 @@ import {
 } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
 import { IoGrid } from 'react-icons/io5';
-
+import { IoIosNotifications } from "react-icons/io";
 
 const Investordashboardhome = () => {
 
@@ -50,10 +50,46 @@ const Investordashboardhome = () => {
       })
       .catch((err) => console.log(err));
   };
+  const getStats = () => {
+    setLoading(true)
+
+    const token = window.localStorage.getItem('token1');
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/get-stats`, {
+      method: "GET",
+      headers: {
+        'token': token,
+        'Accept': "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status) {
+          // setTotalListingCount(res.TotalListingCount)
+          // setActiveListingCount(res.ActiveListingCount)
+          // setDeletedListingCount(res.DeletedListingCount)
+          setTotalNotifications(res.TotalNotifications)
+          setLoading(false)
+
+        } else {
+          toast({
+            title: "Network Error, Reload Again",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top",
+          });
+          setLoading(false)
+
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   useEffect(() => {
     if (window.localStorage.getItem('token1')) {
       document.title = "Investify | Investor-Home";
       getUser();
+      getStats()
     } else {
       navigate("/user-login");
     }
@@ -64,10 +100,7 @@ const Investordashboardhome = () => {
         {loading ? (<><Stack minHeight={'100%'} width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack> </>) : (<>
           <HStack justifyContent={'space-evenly'} my={5} >
 
-          <StatCard colorscheme="blue" title="Notifications" listings={totalNotifications} icon={<IoGrid />} />
-
-
-
+          <StatCard colorscheme="blue" title="Notifications" listings={totalNotifications} icon={<IoIosNotifications />} />
           </HStack>
           <Card >
             <CardHeader>

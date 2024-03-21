@@ -91,7 +91,7 @@ exports.changePassword = async (req, res) => {
 exports.createListing = async (req, res) => {
   try {
     const investee = await Investee.findOne({ _id: req.user });
-    const listingCount = await Listing.count({ investee_id: req.user, isActive: true })
+    const listingCount = await Listing.countDocuments({ investee_id: req.user, isActive: true })
     const descriptionWordCount = req.body.description
       .trim()
       .split(/\s+/).length;

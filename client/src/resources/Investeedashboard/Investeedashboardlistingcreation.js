@@ -40,9 +40,6 @@ const Investeedashboardlistingcreation = () => {
   const createListing = () => {
     setLoading(true)
     const token = window.localStorage.getItem('token');
-    // console.log({
-    //   description, profitPercentage, amount
-    // });
     if (
       description && profitPercentage && amount && investmentDuration
     ) {
@@ -96,6 +93,8 @@ const Investeedashboardlistingcreation = () => {
         isClosable: true,
         position: "top",
       });
+      setLoading(false)
+
     }
   };
   return (
@@ -121,6 +120,11 @@ const Investeedashboardlistingcreation = () => {
                     onChange={(event) =>
                       handleInputChange(event, setDescription)
                     }
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter") {
+                        createListing()
+                      }
+                    }}
                     isRequired
                   />
                 </Stack>
@@ -135,7 +139,10 @@ const Investeedashboardlistingcreation = () => {
                     variant={"filled"}
                     border={"0.5px solid grey"}
                     isRequired
-                    onKeyDown={(event) => checkIfNumber(event)}
+                    onKeyDown={(event) => {checkIfNumber(event)
+                      if (event.key === "Enter") {
+                        createListing()
+                      }}}
                     onChange={(event) => handleInputChange(event, setProfitPercentage)}
                   />
                 </Stack>
@@ -150,7 +157,10 @@ const Investeedashboardlistingcreation = () => {
                     variant={"filled"}
                     border={"0.5px solid grey"}
                     isRequired
-                    onKeyDown={(event) => checkIfNumber(event)}
+                    onKeyDown={(event) => {checkIfNumber(event)
+                      if (event.key === "Enter") {
+                        createListing()
+                      }}}
                     onChange={(event) => handleInputChange(event, setInvestmentDuration)}
                   />
                 </Stack>
@@ -165,7 +175,10 @@ const Investeedashboardlistingcreation = () => {
                     variant={"filled"}
                     border={"0.5px solid grey"}
                     isRequired
-                    onKeyDown={(event) => checkIfNumber(event)}
+                    onKeyDown={(event) => {checkIfNumber(event)
+                      if (event.key === "Enter") {
+                        createListing()
+                      }}}
                     onChange={(event) => handleInputChange(event, setAmount)}
                   />
                 </Stack>
@@ -175,7 +188,7 @@ const Investeedashboardlistingcreation = () => {
                 variant="solid"
                 marginTop={"30px"}
                 size={{ base: "md", md: "md", lg: "lg" }}
-                onClick={createListing}
+                onClick={()=>{createListing()}}
               >
                 Create Listing
               </Button>
