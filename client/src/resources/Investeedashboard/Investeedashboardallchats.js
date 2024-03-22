@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
-import { Button, Stack, Spinner, Card, CardBody, Text } from '@chakra-ui/react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Stack, Spinner, Card, CardBody, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import { db } from '../../utils/firebase';
 import {
     collection,
-    addDoc,
-    where,
-    serverTimestamp,
     onSnapshot,
     query,
     orderBy,
@@ -36,7 +33,7 @@ const Investeedashboardallchats = () => {
                         if (roomId.split('_')[0] == investee?._id || roomId.split('_')[1] == investee?._id) {
                             if (userName != investee?.businessName) {
 
-                            distinctRoomIds.add({roomId,userName});
+                                distinctRoomIds.add({ roomId, userName });
                             }
 
                         } else {

@@ -15,7 +15,9 @@ export default function JTable(props) {
 
   const length = props.tableData.length
 
-  const [search, SetSearch] = useState('')
+  const [search, setSearch] = useState('')
+  const [fieldFilter, setFieldFilter] = useState('')
+
 
   const [displayPage, setDisplayPage] = useState('1 to 10')
 
@@ -46,7 +48,16 @@ export default function JTable(props) {
       setFilteredRows(DisplayRowsByPageCount(props.tableData))
     }
   }
-
+  // const handleSearch = () => {
+  //   if (search.length > 2) {
+  //     let filtered = props.tableData.filter(row => {
+  //       return row.amount.toString().toLowerCase().includes(search.toLowerCase());
+  //     });
+  //     setFilteredRows(filtered);
+  //   } else {
+  //     setFilteredRows(DisplayRowsByPageCount(props.tableData));
+  //   }
+  // };
 
   const DisplayRowsByPageCount = (array) => {
 
@@ -61,7 +72,7 @@ export default function JTable(props) {
     return array.slice(startIndex, endIndex);
   }
 
-  const OnNext  = () =>{
+  const OnNext = () => {
     if (page < Math.ceil(length / showCount)) {
       setPage(page + 1)
     }
@@ -74,7 +85,7 @@ export default function JTable(props) {
   }
 
   return (
-    <TableContainer bg={props.bg} p={2} >
+    <TableContainer bg={props.bg} p={2} borderRadius={10}>
       <HStack m={4} justifyContent={'space-between'}>
         <Stack>
           <Select size='sm' onChange={(e) => setShowCount(Number(e.target.value))}  >
@@ -83,15 +94,22 @@ export default function JTable(props) {
             <option value='50'>50</option>
           </Select>
         </Stack>
+        <HStack>
+          <Select size='sm' onChange={(e) => setFieldFilter(e.target.value)} placeholder="Select field to search" >
+            <option value='amount' >Amount</option>
+            <option value='investmentDuration'>Investment Duration</option>
+            <option value='profitPercentage'>Profit Percentage</option>
+          </Select>
+          <Stack >
+            <InputGroup>
+              <Input placeholder='Search...' value={search} onChange={(e) => setSearch(e.target.value)} />
+              <InputRightElement>
+                <IoMdSearch size={22} />
+              </InputRightElement>
+            </InputGroup>
+          </Stack>
+        </HStack>
 
-        <Stack>
-          <InputGroup>
-            <Input placeholder='Search...' value={search} onChange={(e) => SetSearch(e.target.value)} />
-            <InputRightElement>
-              <IoMdSearch size={22} />
-            </InputRightElement>
-          </InputGroup>
-        </Stack>
       </HStack>
       <Table size={props.size}>
         <Thead>

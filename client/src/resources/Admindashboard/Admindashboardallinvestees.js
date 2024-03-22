@@ -43,7 +43,7 @@ const Admindashboardallinvestees = () => {
             <Sidebar>
                 {investee.length > 0 && <JTable
                     tableData={investee}
-                    tableHeads={['Business Name', 'Email','Phone Number','CNIC','Verification Status']}
+                    tableHeads={['Business Name', 'Email', 'Phone Number', 'CNIC', 'Verification Status']}
                     tableRender={(index, investee) => {
                         return <Row key={index} investee={investee} />
                     }}
@@ -65,7 +65,7 @@ const Row = ({ investee }) => {
         <Td>{investee?.email}</Td>
         <Td>{investee?.phoneNumber}</Td>
         <Td>{investee?.cnic}</Td>
-        <Td>{investee?.isVerified?"verified":"not verified"}</Td>
+        <Td>{investee?.isVerified ? "verified" : "not verified"}</Td>
 
 
 

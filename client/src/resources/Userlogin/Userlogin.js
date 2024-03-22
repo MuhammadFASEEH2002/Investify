@@ -340,7 +340,7 @@ const Userlogin = () => {
                     value={selectedRole}
                     width={"80%"}
                     marginBottom={5}
-                    >
+                  >
                     <Text marginBottom={3}>Select Role</Text>
                     <Stack
                       direction="row"
@@ -553,8 +553,8 @@ const Userlogin = () => {
                   >
                     Sign In
                   </Button>
-                  <Link marginTop={"10"} href="#signup" display={{base:"flex",md:"flex",lg:"none"}}>
-                  <IoIosArrowDropdown fontSize={30}  />
+                  <Link marginTop={"10"} href="#signup" display={{ base: "flex", md: "flex", lg: "none" }}>
+                    <IoIosArrowDropdown fontSize={30} />
                   </Link>
                 </Stack>
               </Stack>
@@ -566,8 +566,8 @@ const Userlogin = () => {
                 justifyContent={"center"}
                 id="signup"
               >
-                <Link marginBottom={"50"} href="#signin" display={{ base: "flex", md: "flex", lg: "none" }}> 
-                <IoArrowUpCircle color="white" fontSize={30}  />
+                <Link marginBottom={"50"} href="#signin" display={{ base: "flex", md: "flex", lg: "none" }}>
+                  <IoArrowUpCircle color="white" fontSize={30} />
                 </Link>
                 <Heading color={"white"}> New Here?</Heading>
                 <Text

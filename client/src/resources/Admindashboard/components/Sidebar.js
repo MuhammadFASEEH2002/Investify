@@ -42,8 +42,8 @@ const LinkItems = [
   { name: "Home", icon: IoHomeOutline, link: "/admin/admin-dashboard/home" },
   { name: "Account Verification", icon: FiUserCheck, link: "/admin/admin-dashboard/account-verification" },
   { name: "Listing Verification", icon: MdDomainVerification, link: "/admin/admin-dashboard/listing-verification" },
-  { name: "Total Investees", icon: CiViewTable, link: "/admin/admin-dashboard/all-investees" },
-  { name: "Total Investors", icon: CiViewTable, link: "/admin/admin-dashboard/all-investors" },
+  { name: "Investee Data", icon: CiViewTable, link: "/admin/admin-dashboard/all-investees" },
+  { name: "Investor Data", icon: CiViewTable, link: "/admin/admin-dashboard/all-investors" },
 
 
 

@@ -85,13 +85,14 @@ const Investordashboardchat = () => {
             placeholder="Enter message"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                handleSubmit()
+              }
+            }}
           />
           <Button colorScheme="blue" mt={4} onClick={() => { handleSubmit() }}
-           onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              handleSubmit()
-            }
-          }}
+          
           >
             Send
           </Button>

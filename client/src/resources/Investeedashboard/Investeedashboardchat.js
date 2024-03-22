@@ -83,13 +83,14 @@ const Investeedashboardchat = () => {
             placeholder="Enter message"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
-          />
-          <Button colorScheme="blue" mt={4} onClick={() => { handleSubmit() }}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
                 handleSubmit()
               }
-            }}>
+            }}
+          />
+          <Button colorScheme="blue" mt={4} onClick={() => { handleSubmit() }}
+            >
             Send
           </Button>
         </Box>

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
-import { Center, HStack, Input, Text, Box, Card, CardHeader, Heading, CardBody, CardFooter, Button, InputRightAddon, InputGroup , Spinner, Stack, useToast} from "@chakra-ui/react";
+import { Center, HStack, Input, Text, Box, Card, CardHeader, Heading, CardBody, CardFooter, Button, InputRightAddon, InputGroup , Spinner, Stack, useToast, Tr, Td,} from "@chakra-ui/react";
 import { IoMdSearch } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
-
+import JTable from './components/JTable';
 
 const Investordashboardbusinesscatalog = () => {
   const [listing, setListing] = useState([]);
@@ -81,7 +81,7 @@ const toast=useToast()
     <>
 
       <Sidebar>
-        <Center>
+        {/* <Center>
           <HStack   width={{ base: "100%", md: "50%", lg: "50%" }}>
             <InputGroup>
               <Input border={"0.8px solid grey"} variant='outline' placeholder='Enter keywords to search' onChange={(event) => { handleInputChange(event, setSearch); searchCourse(); }} />
@@ -154,10 +154,41 @@ const toast=useToast()
             </>) : (<><Text>no listing available</Text></>)}
 
           </Box>
-        </>)}
+        </>)} */}
+         {listing.length > 0 && <JTable
+                    tableData={listing}
+                    tableHeads={['Business Name', 'Business Description','Amount Required','Investment Duration','Profit Share Percentage']}
+                    tableRender={(index, listing) => {
+                        return <Row key={index} listing={listing} />
+                    }}
+                    bg='white'
+                />}
       </Sidebar>
     </>
   )
+}
+
+const Row = ({ listing }) => {
+
+  return <Tr
+      _hover={{
+          backgroundColor: 'gray.100',
+          cursor: 'pointer'
+      }}
+  >
+      <Td style={{ fontWeight: 'bold' }} color={"blue"}><Link to={`/user/investor-dashboard/business-catalog/listing/${listing?._id}`} >{listing?.investee_id?.businessName}</Link></Td>
+      <Td>{listing?.description.slice(0,80)}... </Td>
+      <Td>Rs {listing?.amount} /- </Td>
+      <Td>{listing?.investmentDuration} years </Td>
+      <Td>{listing?.profitPercentage} % </Td>
+
+
+
+      {/* <Td>{investor?.email}</Td>
+      <Td>{investor?.phoneNumber}</Td>
+      <Td>{investor?.cnic}</Td> */}
+      {/* <Td>{investee?.isVerified?"verified":"not verified"}</Td> */}
+  </Tr>
 }
 
 export default Investordashboardbusinesscatalog
