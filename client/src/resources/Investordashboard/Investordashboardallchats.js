@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
-import {  Stack, Spinner, Text , Card, CardBody} from '@chakra-ui/react';
-import {  useNavigate } from 'react-router-dom';
+import { Stack, Spinner, Text, Card, CardBody } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import { db } from '../../utils/firebase';
 import {
   collection,
@@ -33,14 +33,20 @@ const Investordashboardallchats = () => {
 
         const distinctRoomIds = new Set();
         snapshot.forEach((doc) => {
-          const { roomId } = doc.data();
+          const { roomId ,userName} = doc.data();
           if (roomId.split('_')[0] == investor?._id || roomId.split('_')[1] == investor?._id) {
-            distinctRoomIds.add(roomId);
+            // distinctRoomIds.add(roomId);
+            if (userName.split(" ")[0] != investor?.firstName && userName.split(" ")[1] != investor?.lastName) {
+           
+              const uniqueIdentifier = `${roomId}-${userName}`; // Combine roomId and userName
+              distinctRoomIds.add(uniqueIdentifier);
+            }
           } else {
             console.log('not same')
           }
 
         });
+        console.log(distinctRoomIds);
         const roomIds = Array.from(distinctRoomIds);
         setRoomIdsArray(roomIds);
         setLoading(false);
@@ -62,21 +68,21 @@ const Investordashboardallchats = () => {
       </>) : (<>
         {roomIdsArray.length > 0 ? (<>
           <>
-                        <Stack width={"100%"} alignItems={"center"} justifyContent={"center"}>
-                            <Stack width={{ base: "100%", md: "80%", lg: "70%" }} flexDirection={"column"}>
-                                {roomIdsArray.map((roomId, index) => (
-                                    <Card onClick={() => {
-                                      navigate(`/user/investor-dashboard/chat/${roomId.split('_')[0]}/${roomId.split('_')[1]}`);
-                                    }} cursor={"pointer"} key={roomId} width={"100%"}>
-                                        <CardBody>
-                                            <Text fontSize={"1em"}>chat {index + 1}</Text>
-                                        </CardBody>
-                                    </Card>
-                                ))}
-                            </Stack>
-                        </Stack>
-                    </>
-        
+            <Stack width={"100%"} alignItems={"center"} justifyContent={"center"}>
+              <Stack width={{ base: "100%", md: "80%", lg: "70%" }} flexDirection={"column"}>
+                {roomIdsArray.map((room, index) => (
+                  <Card onClick={() => {
+                    navigate(`/user/investor-dashboard/chat/${room?.split('-')[0].split('_')[0]}/${room?.split('-')[0].split('_')[1]}`);
+                  }} cursor={"pointer"} key={room} width={"100%"}>
+                    <CardBody>
+                      <Text fontSize={"1em"}>chat {index + 1}: {room.split('-')[1]} </Text>
+                    </CardBody>
+                  </Card>
+                ))}
+              </Stack>
+            </Stack>
+          </>
+
         </>) : (<>No Chats</>)}
 
 
