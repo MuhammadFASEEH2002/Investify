@@ -89,7 +89,7 @@ exports.setMarkAsRead = async (req, res) => {
 
 exports.getStats = async (req, res) => {
     try {
-        const TotalNotifications = await Notification.countDocuments({ _id: req.user })
+        const TotalNotifications = await Notification.countDocuments({ investorId: req.user })
         res.json({  status: true , TotalNotifications});
        
     } catch (error) {
