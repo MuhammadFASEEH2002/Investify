@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
-import { Center, HStack, Input, Text, Box, Card, CardHeader, Heading, CardBody, CardFooter, Button, InputRightAddon, InputGroup , Spinner, Stack, useToast, Tr, Td,} from "@chakra-ui/react";
+import { Center, HStack, Input, Text, Box, Card, CardHeader, Heading, CardBody, CardFooter, Button, InputRightAddon, InputGroup, Spinner, Stack, useToast, Tr, Td, } from "@chakra-ui/react";
 import { IoMdSearch } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import JTable from './components/JTable';
@@ -9,7 +9,7 @@ const Investordashboardbusinesscatalog = () => {
   const [listing, setListing] = useState([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false)
-const toast=useToast()
+  const toast = useToast()
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -155,14 +155,27 @@ const toast=useToast()
 
           </Box>
         </>)} */}
-         {listing.length > 0 && <JTable
-                    tableData={listing}
-                    tableHeads={['Business Name', 'Business Description','Amount Required','Investment Duration','Profit Share Percentage']}
-                    tableRender={(index, listing) => {
-                        return <Row key={index} listing={listing} />
-                    }}
-                    bg='white'
-                />}
+        {loading ? (<>
+          <Stack alignItems={'center'} justifyContent={'center'}>
+            <Spinner
+              thickness='4px'
+              speed='0.65s'
+              emptyColor='gray.200'
+              color='blue.500'
+              size='xl'
+            />
+          </Stack>
+        </>) : (<>
+          {listing.length > 0 && <JTable
+            tableData={listing}
+            tableHeads={['Business Name', 'Business Description', 'Amount Required', 'Investment Duration', 'Profit Share Percentage']}
+            tableRender={(index, listing) => {
+              return <Row key={index} listing={listing} />
+            }}
+            bg='white'
+          />}
+        </>)}
+
       </Sidebar>
     </>
   )
@@ -171,23 +184,23 @@ const toast=useToast()
 const Row = ({ listing }) => {
 
   return <Tr
-      _hover={{
-          backgroundColor: 'gray.100',
-          cursor: 'pointer'
-      }}
+    _hover={{
+      backgroundColor: 'gray.100',
+      cursor: 'pointer'
+    }}
   >
-      <Td style={{ fontWeight: 'bold' }} color={"blue"}><Link to={`/user/investor-dashboard/business-catalog/listing/${listing?._id}`} >{listing?.investee_id?.businessName}</Link></Td>
-      <Td>{listing?.description.slice(0,80)}... </Td>
-      <Td>Rs {listing?.amount} /- </Td>
-      <Td>{listing?.investmentDuration} years </Td>
-      <Td>{listing?.profitPercentage} % </Td>
+    <Td style={{ fontWeight: 'bold' }} color={"blue"}><Link to={`/user/investor-dashboard/business-catalog/listing/${listing?._id}`} >{listing?.investee_id?.businessName}</Link></Td>
+    <Td>{listing?.description.slice(0, 80)}... </Td>
+    <Td>Rs {listing?.amount} /- </Td>
+    <Td>{listing?.investmentDuration} years </Td>
+    <Td>{listing?.profitPercentage} % </Td>
 
 
 
-      {/* <Td>{investor?.email}</Td>
+    {/* <Td>{investor?.email}</Td>
       <Td>{investor?.phoneNumber}</Td>
       <Td>{investor?.cnic}</Td> */}
-      {/* <Td>{investee?.isVerified?"verified":"not verified"}</Td> */}
+    {/* <Td>{investee?.isVerified?"verified":"not verified"}</Td> */}
   </Tr>
 }
 

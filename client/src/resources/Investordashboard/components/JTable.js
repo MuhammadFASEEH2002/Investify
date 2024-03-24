@@ -36,29 +36,6 @@ export default function JTable(props) {
 
   }, [page, showCount])
 
-  // const handleSearch = () => {
-  //   if (search.length > 2) {
-  //     let filtered = props.tableData.filter(row => {
-  //       return Object.values(row).some(value => {     //row.tableHead/title
-  //         return value.toString().toLowerCase().includes(search.toLowerCase())
-  //       })
-  //     })
-  //     setFilteredRows(filtered)
-  //   } else {
-  //     setFilteredRows(DisplayRowsByPageCount(props.tableData))
-  //   }
-  // }
-  // const handleSearch = () => {
-  //   if (search.length > 2) {
-  //     let filtered = props.tableData.filter(row => {
-  //       return row.amount.toString().toLowerCase().includes(search.toLowerCase());
-  //     });
-  //     setFilteredRows(filtered);
-  //   } else {
-  //     setFilteredRows(DisplayRowsByPageCount(props.tableData));
-  //   }
-  // };
-
   const handleSearch = () => {
     if (fieldFilter.length > 0) {
       if (fieldFilter == "amount") {
@@ -69,10 +46,7 @@ export default function JTable(props) {
           setFilteredRows(filtered);
         } else {
           setFilteredRows(DisplayRowsByPageCount(props.tableData))
-
         }
-
-
       }
       else if (fieldFilter == "investmentDuration") {
         if (search.length > 0) {
