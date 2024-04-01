@@ -27,6 +27,7 @@ import Investeedashboardallchats from "./resources/Investeedashboard/Investeedas
 import Investordashboardallchats from "./resources/Investordashboard/Investordashboardallchats";
 import Admindashboardallinvestees from "./resources/Admindashboard/Admindashboardallinvestees";
 import Admindashboardallinvestors from "./resources/Admindashboard/Admindashboardallinvestors";
+import Investordashboardinitiateinvestment from "./resources/Investordashboard/Investordashboardinitiateinvestment";
 
 
 function App() {
@@ -56,8 +57,12 @@ function App() {
             element={<Investordashboardbusinesscatalog />}
           />
           <Route
-            path="/user/investor-dashboard/business-catalog/listing/:id"
+            path="/user/investor-dashboard/business-catalog/product-page/:id"
             element={<Investordashboardproductpage />}
+          />
+            <Route
+            path="/user/investor-dashboard/business-catalog/product-page/initiate-investment/:id"
+            element={<Investordashboardinitiateinvestment/>}
           />
           <Route
             path="/user/investor-dashboard/notifications"

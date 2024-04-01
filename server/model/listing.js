@@ -33,7 +33,14 @@ const listingSchema = new mongo.Schema({
   // investor_id:{
   //   type:String,
   //   ref: "Investor"
-  // }
+  // },
+  // investor_agreement: {
+  //   type: Boolean,
+ 
+  // },
+  // investee_agreement: {
+  //   type: Boolean,
+  // },
 },
 {
   timestamps: true

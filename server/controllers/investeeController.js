@@ -1,6 +1,6 @@
 const Investor = require("../model/investorDB");
 const Investee = require("../model/investeeDB");
-const Listing = require("../model/investeeListing");
+const Listing = require("../model/listing");
 const Notification = require("../model/notification");
 const env = require('dotenv').config()
 const bcrypt = require("bcrypt");

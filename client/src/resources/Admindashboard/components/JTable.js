@@ -56,7 +56,7 @@ export default function JTable(props) {
     if (endIndex > array.length) {
       return array.slice(startIndex, array.length);
     }
-
+      
     setDisplayPage(`${startIndex} to ${endIndex}`)
     return array.slice(startIndex, endIndex);
   }

@@ -1,6 +1,6 @@
 const Investor = require("../model/investorDB");
 const Investee = require("../model/investeeDB");
-const Listing = require("../model/investeeListing");
+const Listing = require("../model/listing");
 const Notification = require("../model/notification");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -36,24 +36,24 @@ exports.getListing = async (req, res) => {
         res.json({ message: error.message, status: false });
     }
 };
-exports.searchListing = async (req, res) => {
-    try {
-        const listing = await Listing.find({
-            $and: [
-                {
-                    $or: [
-                        { description: { $regex: req.body.search, $options: "i" } },
-                    ]
-                },
-                { isVerified: true, isActive: true }
-            ]
-        }).populate("investee_id");
-        console.log(listing);
-        res.json({ status: true, listing });
-    } catch (error) {
-        res.json({ status: false, message: error.message });
-    }
-};
+// exports.searchListing = async (req, res) => {
+//     try {
+//         const listing = await Listing.find({
+//             $and: [
+//                 {
+//                     $or: [
+//                         { description: { $regex: req.body.search, $options: "i" } },
+//                     ]
+//                 },
+//                 { isVerified: true, isActive: true }
+//             ]
+//         }).populate("investee_id");
+//         console.log(listing);
+//         res.json({ status: true, listing });
+//     } catch (error) {
+//         res.json({ status: false, message: error.message });
+//     }
+// };
 exports.getProduct = async (req, res) => {
     try {
         const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id");

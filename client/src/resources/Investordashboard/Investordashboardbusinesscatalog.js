@@ -189,7 +189,7 @@ const Row = ({ listing }) => {
       cursor: 'pointer'
     }}
   >
-    <Td style={{ fontWeight: 'bold' }} color={"blue"}><Link to={`/user/investor-dashboard/business-catalog/listing/${listing?._id}`} >{listing?.investee_id?.businessName}</Link></Td>
+    <Td style={{ fontWeight: 'bold' }} color={"blue"}><Link to={`/user/investor-dashboard/business-catalog/product-page/${listing?._id}`} >{listing?.investee_id?.businessName}</Link></Td>
     <Td>{listing?.description.slice(0, 80)}... </Td>
     <Td>Rs {listing?.amount} /- </Td>
     <Td>{listing?.investmentDuration} years </Td>

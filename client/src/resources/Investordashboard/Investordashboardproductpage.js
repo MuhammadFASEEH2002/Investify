@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Card, CardBody, Text, HStack, Stack, VStack, Heading, Divider, Spinner, Button, CardFooter, useToast } from '@chakra-ui/react'
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
 
@@ -136,8 +136,11 @@ const Investordashboardproductpage = () => {
                             </Stack>
                         </Stack>
                         <CardFooter>
-                            <Button colorScheme='blue' >Initiate Investment</Button>
-
+                            <Button colorScheme='blue' >
+                            <Link to={`/user/investor-dashboard/business-catalog/product-page/initiate-investment/${listing?._id}`}>
+                                Initiate Investment
+                            </Link>
+                                </Button>
                         </CardFooter>
                     </Card>
                 </>)}
