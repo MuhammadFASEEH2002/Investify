@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
 import { Button, Checkbox, Spinner, Stack } from '@chakra-ui/react'
 import { Link, useParams } from 'react-router-dom'
-import { loadStripe } from '@stripe/stripe-js'
 import useListing from "../../providers/listingStore";
 import { useNavigate } from "react-router-dom";
 
