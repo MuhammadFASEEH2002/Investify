@@ -25,7 +25,7 @@ exports.getMe = async (req, res) => {
 
 exports.getListing = async (req, res) => {
     try {
-        const listing = await Listing.find({ isVerified: true, isActive: true }).populate(
+        const listing = await Listing.find({ isVerified: true, isActive: true,   session_id: { $exists: false } }).populate(
             "investee_id"
         );
         if (listing) {
@@ -85,7 +85,9 @@ exports.makePayment = async (req, res) => {
     try {
         // const {listing} = req.body
         const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id");
-        console.log(listing.investee_id)
+        const investor = await Investor.findOne({ _id: req.user })
+console.log(investor)
+        // console.log(listing.investee_id)
         const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
         const session =await  stripe.checkout.sessions.create({
 
@@ -93,15 +95,17 @@ exports.makePayment = async (req, res) => {
             cancel_url:`${process.env.ORIGIN_URL}/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-failure`,
             payment_method_types: ['card'],
             mode: 'payment',
-            customer: listing.investee_id._id,
+            customer: listing?.investee_id?._id,
+            customer_email: investor?.email,
+        //   customer_name: `${investor?.firstName}+ " " + ${investor?.lastName}`,
             line_items: [
                 {
                     price_data:{
                         currency: 'pkr',
-                        unit_amount: Number(listing.amount) * 100,
+                        unit_amount: Number(listing?.amount) * 100,
                         product_data: {
-                            name: listing.investee_id.businessName,
-                            description: listing.description
+                            name: listing?.investee_id?.businessName,
+                            description: listing?.description
                         },
                     },
                     quantity: 1,
