@@ -30,6 +30,9 @@ const listingSchema = new mongo.Schema({
     required: true,
     ref : 'Investee'
   },
+  session_id: {
+    type: String,
+  }
   // investor_id:{
   //   type:String,
   //   ref: "Investor"

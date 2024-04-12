@@ -9,6 +9,7 @@
     "@emotion/styled": "^11.11.0",
     "@firebase/database": "^1.0.3",
     "@reduxjs/toolkit": "^1.9.7",
+    "@stripe/stripe-js": "^3.3.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -25,6 +26,7 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.7.7",
     "socket.io-client": "^4.7.4",
+    "stripe": "^15.1.0",
     "uuid": "^9.0.1",
     "web-vitals": "^2.1.4",
     "zustand": "^4.5.2"

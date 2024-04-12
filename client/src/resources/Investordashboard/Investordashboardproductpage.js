@@ -3,14 +3,17 @@ import Sidebar from './components/Sidebar'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Card, CardBody, Text, HStack, Stack, VStack, Heading, Divider, Spinner, Button, CardFooter, useToast } from '@chakra-ui/react'
 import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
+import useListing from "../../providers/listingStore";
 
 const Investordashboardproductpage = () => {
     const { id } = useParams();
     const navigate = useNavigate()
-    const [listing, setListing] = useState("")
+    // const [listing, setListing] = useState("")
+    const setListing = useListing((state) => state?.setListing)
+    const listing = useListing((state) => state?.listings)
     const [loading, setLoading] = useState(false)
-    const [investorId,setInvestorId]=useState("");
-    const toast=useToast()
+    const [investorId, setInvestorId] = useState("");
+    const toast = useToast()
     function getProduct() {
         setLoading(true)
         const token1 = window.localStorage.getItem('token1');
@@ -116,7 +119,7 @@ const Investordashboardproductpage = () => {
                                         <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
                                             <Text color={"blue.400"}>Contact Number: </Text>
                                             <Text>{listing?.investee_id?.phoneNumber}</Text>
-                                            <Button colorScheme='blue' variant='outline' onClick={()=>{
+                                            <Button colorScheme='blue' variant='outline' onClick={() => {
                                                 navigate(`/user/investor-dashboard/chat/${investorId}/${listing?.investee_id?._id}`)
                                             }
                                             } leftIcon={<IoChatbubbleEllipsesSharp />}>Chat</Button>
@@ -137,10 +140,10 @@ const Investordashboardproductpage = () => {
                         </Stack>
                         <CardFooter>
                             <Button colorScheme='blue' >
-                            <Link to={`/user/investor-dashboard/business-catalog/product-page/initiate-investment/${listing?._id}`}>
-                                Initiate Investment
-                            </Link>
-                                </Button>
+                                <Link to={`/user/investor-dashboard/business-catalog/product-page/initiate-investment/${listing?._id}`}>
+                                    Initiate Investment
+                                </Link>
+                            </Button>
                         </CardFooter>
                     </Card>
                 </>)}

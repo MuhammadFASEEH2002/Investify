@@ -3,15 +3,19 @@ import Sidebar from "./components/Sidebar";
 import { Spinner, Stack } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
 import useInvestor from '../../providers/investorStore';
+import useListing from '../../providers/listingStore';
 
 
 const Investordashboardlogout = () => {
     const navigate = useNavigate();
     const setInvestor = useInvestor((state) => state?.setInvestor)
+    const setListing = useListing((state) => state?.setListing)
+
 
     const logout = () => {
         window.localStorage.removeItem('token1');
-        setInvestor(null) 
+        setInvestor(null)
+        setListing(null)
         navigate("/user-login")
     };
     useEffect(() => {

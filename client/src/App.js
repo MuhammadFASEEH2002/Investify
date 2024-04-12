@@ -28,8 +28,8 @@ import Investordashboardallchats from "./resources/Investordashboard/Investordas
 import Admindashboardallinvestees from "./resources/Admindashboard/Admindashboardallinvestees";
 import Admindashboardallinvestors from "./resources/Admindashboard/Admindashboardallinvestors";
 import Investordashboardinitiateinvestment from "./resources/Investordashboard/Investordashboardinitiateinvestment";
-
-
+import Paymentsuccess from "./resources/Paymentsuccess/Paymentsuccess";
+import Paymentfailure from "./resources/Paymentfailure/Paymentfailure";
 function App() {
   return (
     <>
@@ -63,6 +63,14 @@ function App() {
             <Route
             path="/user/investor-dashboard/business-catalog/product-page/initiate-investment/:id"
             element={<Investordashboardinitiateinvestment/>}
+          />
+            <Route
+            path="/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-success"
+            element={<Paymentsuccess/>}
+          />
+          <Route
+            path="/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-failure"
+            element={<Paymentfailure/>}
           />
           <Route
             path="/user/investor-dashboard/notifications"

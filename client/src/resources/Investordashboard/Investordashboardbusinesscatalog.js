@@ -49,34 +49,33 @@ const Investordashboardbusinesscatalog = () => {
       })
       .catch((err) => console.log(err));
   };
-  const searchCourse = () => {
-    const token1 = window.localStorage.getItem('token1');
-    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/search-listing`, {
-      method: "POST",
-      body: JSON.stringify({
-        search
-      }),
-      headers: {
-        'token': token1,
-        'Accept': "application/json",
-        "Content-Type": "application/json",
-      },
+  // const searchCourse = () => {
+  //   const token1 = window.localStorage.getItem('token1');
+  //   fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/search-listing`, {
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       search
+  //     }),
+  //     headers: {
+  //       'token': token1,
+  //       'Accept': "application/json",
+  //       "Content-Type": "application/json",
+  //     },
 
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((res) => {
-        if (res.status) {
-          console.log(res.listing)
-          setListing(res.listing)
-        }
-      })
-  }
-  const handleInputChange = (event, setState) => {
-    setState(event.target.value);
-
-  }
+  //   })
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((res) => {
+  //       if (res.status) {
+  //         console.log(res.listing)
+  //         setListing(res.listing)
+  //       }
+  //     })
+  // }
+  // const handleInputChange = (event, setState) => {
+  //   setState(event.target.value);
+  // }
   return (
     <>
 
