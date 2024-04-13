@@ -29,13 +29,24 @@ import Logo from "../../../components/Logo";
 import { useEffect, useState } from "react";
 import { BsChatRight } from "react-icons/bs";
 import useInvestor from "../../../providers/investorStore";
-
+import { db } from '../../../utils/firebase';
+import {
+  collection,
+  addDoc,
+  where,
+  serverTimestamp,
+  onSnapshot,
+  query,
+  orderBy,
+} from "firebase/firestore";
+import { FaDollarSign } from "react-icons/fa";
 
 
 const LinkItems = [
   { name: "Home", icon: FiHome, link: "/user/investor-dashboard/home" },
   { name: "Business Catalog", icon: FiList, link: "/user/investor-dashboard/business-catalog" },
-  { name: "Chats", icon: BsChatRight, link: "/user/investor-dashboard/chat" },
+  { name: `Chats`, icon: BsChatRight, link: "/user/investor-dashboard/chat" },
+  { name: "My Investments", icon: FaDollarSign, link: "/user/investor-dashboard/investments", dropdown: false },
 
   // { name: "My Investments", icon: FiCompass },
   // { name: "Chats", icon: FiStar },
@@ -109,9 +120,11 @@ const NavItem = ({ icon, children, link, ...rest }) => {
 };
 
 const MobileNav = ({ onOpen, ...rest }) => {
-  // const [investor, setInvestor] = useState([]);
+  const messagesRef = collection(db, 'messages');
+
   const setInvestor = useInvestor((state) => state?.setInvestor)
   const investor = useInvestor((state) => state?.investors)
+  const [roomIdsArray, setRoomIdsArray] = useState([]);
 
   const getUser = () => {
   try {
@@ -144,10 +157,41 @@ const MobileNav = ({ onOpen, ...rest }) => {
   }
   
   };
+  const getChatCount =()=>{
+    const queryMessages = query(messagesRef, orderBy('roomId'));
+    const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
+
+      const distinctRoomIds = new Set();
+      snapshot.forEach((doc) => {
+        console.log(doc.data())
+        const { roomId, userName } = doc.data();
+        if (roomId.split('_')[0] == investor?._id || roomId.split('_')[1] == investor?._id) {
+          // distinctRoomIds.add(roomId);
+          if (userName.split(" ")[0] != investor?.firstName && userName.split(" ")[1] != investor?.lastName) {
+
+            const uniqueIdentifier = `${roomId}-${userName}`; // Combine roomId and userName
+            distinctRoomIds.add(uniqueIdentifier);
+          }
+        } else {
+          console.log('not same')
+        }
+      });
+      // console.log(distinctRoomIds.length);
+      const roomIds = Array.from(distinctRoomIds);
+      setRoomIdsArray(roomIds);
+      
+      // setLoading(false);
+    });
+  
+    return () => {
+      unsubscribe();
+    };
+  }
   useEffect(() => {
     document.title = "Investify | Investor-Home";
 
     getUser();
+    getChatCount()
  
   }, []);
   const isEmptyObject = (obj) => {
@@ -202,7 +246,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                   </MenuButton>
                   <MenuList>
                     <MenuGroup title={`${investor?.firstName} ${investor?.lastName}`}>
-                      <MenuItem><Link to={"#"}>Chats</Link></MenuItem>
+                      <MenuItem><Link to={"#"}>Chats {roomIdsArray.length}</Link></MenuItem>
                       <MenuItem><Link to={"/user/investor-dashboard/notifications"}>Notifications</Link></MenuItem>
                       <MenuItem><Link to={"/user/investor-dashboard/logout"}>Log Out</Link></MenuItem>
 
@@ -239,7 +283,7 @@ const Sidebar = ({ children }) => {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose} />
+          <SidebarContent onClose={onClose}/>
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}

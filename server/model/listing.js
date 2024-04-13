@@ -30,16 +30,18 @@ const listingSchema = new mongo.Schema({
     required: true,
     ref : 'Investee'
   },
-  session_id: {
+  payment_session_id: {
     type: String,
   },
   investor_id:{
     type:String,
     ref: "Investor"
   },
+  investment_start_date:{
+    type:Date
+  },
   // investor_agreement: {
-  //   type: Boolean,
- 
+  //   type: Boolean, 
   // },
   // investee_agreement: {
   //   type: Boolean,

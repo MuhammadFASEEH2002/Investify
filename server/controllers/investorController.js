@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const emailValidator = require("deep-email-validator");
 const nodemailer = require("nodemailer");
 const env = require('dotenv').config();
-const Stripe=require('stripe')
+const Stripe = require('stripe')
 
 exports.getMe = async (req, res) => {
     try {
@@ -25,7 +25,7 @@ exports.getMe = async (req, res) => {
 
 exports.getListing = async (req, res) => {
     try {
-        const listing = await Listing.find({ isVerified: true, isActive: true,   session_id: { $exists: false } }).populate(
+        const listing = await Listing.find({ isVerified: true, isActive: true, payment_session_id: { $exists: false } }).populate(
             "investee_id"
         );
         if (listing) {
@@ -86,34 +86,39 @@ exports.makePayment = async (req, res) => {
         // const {listing} = req.body
         const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id");
         const investor = await Investor.findOne({ _id: req.user })
-console.log(investor)
+        // console.log(req.body.checkbox)
         // console.log(listing.investee_id)
         const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
-        const session =await  stripe.checkout.sessions.create({
-
-            success_url: `${process.env.ORIGIN_URL}/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-success`,
-            cancel_url:`${process.env.ORIGIN_URL}/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-failure`,
-            payment_method_types: ['card'],
-            mode: 'payment',
-            customer: listing?.investee_id?._id,
-            customer_email: investor?.email,
-        //   customer_name: `${investor?.firstName}+ " " + ${investor?.lastName}`,
-            line_items: [
-                {
-                    price_data:{
-                        currency: 'pkr',
-                        unit_amount: Number(listing?.amount) * 100,
-                        product_data: {
-                            name: listing?.investee_id?.businessName,
-                            description: listing?.description
+        if (req.body.checkbox) {
+            const session = await stripe.checkout.sessions.create({
+                success_url: `${process.env.ORIGIN_URL}/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-success`,
+                cancel_url: `${process.env.ORIGIN_URL}/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-failure`,
+                payment_method_types: ['card'],
+                mode: 'payment',
+                customer: listing?.investee_id?._id,
+                customer_email: investor?.email,
+                //   customer_name: `${investor?.firstName}+ " " + ${investor?.lastName}`,
+                line_items: [
+                    {
+                        price_data: {
+                            currency: 'pkr',
+                            unit_amount: Number(listing?.amount) * 100,
+                            product_data: {
+                                name: listing?.investee_id?.businessName,
+                                description: listing?.description
+                            },
                         },
+                        quantity: 1,
                     },
-                    quantity: 1,
-                },
-            ],
-        })
-        await Listing.findByIdAndUpdate({ _id: listing._id }, { session_id: session.id })
-        res.json({ message: "payment successful", status: true, session });
+                ],
+            })
+            await Listing.findByIdAndUpdate({ _id: listing._id }, { payment_session_id: session.id, investor_id: investor._id })
+            res.json({ message: "payment successful", status: true, session });
+        } else {
+            res.json({ message: "agreement not signed", status: false });
+
+        }
+
 
 
     } catch (error) {

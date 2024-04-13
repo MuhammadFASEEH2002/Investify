@@ -31,6 +31,7 @@ import Investordashboardinitiateinvestment from "./resources/Investordashboard/I
 // import Investordashboardpaymentsuccess from "./resources/Investordashboard/Investordashboardpaymentsuccess";
 import Investordashboardpaymentfailure from "./resources/Investordashboard/Investordashboardpaymentfailure";
 import Investordashboardpaymentsuccess from "./resources/Investordashboard/Investordashboardpaymentsuccess";
+import Investordashboardinvestmentspage from "./resources/Investordashboard/Investordashboardinvestmentspage";
 
 function App() {
   return (
@@ -77,6 +78,10 @@ function App() {
           <Route
             path="/user/investor-dashboard/notifications"
             element={<Investordashboardnotification />}
+          />
+            <Route
+            path="/user/investor-dashboard/investments"
+            element={<Investordashboardinvestmentspage />}
           />
           <Route
             path="/user/investor-dashboard/logout"
