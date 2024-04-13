@@ -10,10 +10,7 @@ const Investordashboardinitiateinvestment = () => {
   const [loading, setLoading] = useState(false)
   const { id } = useParams();
 
-  // const setListing = useListing((state) => state?.setListing)
-  // const listing = useListing((state) => state?.listings)
   const makePayment = async () => {
-
     setLoading(true)
     const token1 = window.localStorage.getItem('token1');
     fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/make-payment`, {
@@ -38,7 +35,7 @@ const Investordashboardinitiateinvestment = () => {
       .catch((err) => console.log(err));
   }
   useEffect(() => {
-    // console.log(listing)
+   
     if (window.localStorage.getItem('token1')) {
       document.title = "Investify | Investor-investment-initiation";
 

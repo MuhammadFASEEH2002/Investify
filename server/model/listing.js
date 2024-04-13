@@ -32,11 +32,11 @@ const listingSchema = new mongo.Schema({
   },
   session_id: {
     type: String,
-  }
-  // investor_id:{
-  //   type:String,
-  //   ref: "Investor"
-  // },
+  },
+  investor_id:{
+    type:String,
+    ref: "Investor"
+  },
   // investor_agreement: {
   //   type: Boolean,
  
