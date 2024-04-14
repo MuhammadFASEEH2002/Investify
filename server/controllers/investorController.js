@@ -118,11 +118,26 @@ exports.makePayment = async (req, res) => {
             res.json({ message: "agreement not signed", status: false });
 
         }
-
-
-
     } catch (error) {
         console.log(error)
+        res.json({ message: error.message, status: false });
+    }
+};
+exports.getInvestments = async (req, res) => {
+    try {
+        const investor= await Investor.findOne({ _id: req.user })
+        console.log(investor._id)
+        const listing = await Listing.find({ isVerified: true, isActive: true, investor_id: investor._id  }).populate(
+            "investee_id investor_id"
+        );
+        console.log(listing)
+        if (listing) {
+            res.json({
+                status: true,
+                listing,
+            });
+        }
+    } catch (error) {
         res.json({ message: error.message, status: false });
     }
 };

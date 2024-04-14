@@ -10,6 +10,8 @@ router.get("/get-notifications", verifyInvestorToken, InvestorController.getNoti
 router.put("/set-mark-as-read", verifyInvestorToken, InvestorController.setMarkAsRead)
 router.get('/get-stats' ,verifyInvestorToken, InvestorController.getStats)
 router.post('/make-payment' ,verifyInvestorToken, InvestorController.makePayment)
+router.get('/get-investments' ,verifyInvestorToken, InvestorController.getInvestments)
+
 
 
 module.exports = router;
