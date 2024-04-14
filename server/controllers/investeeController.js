@@ -91,7 +91,7 @@ exports.changePassword = async (req, res) => {
 exports.createListing = async (req, res) => {
   try {
     const investee = await Investee.findOne({ _id: req.user });
-    const listingCount = await Listing.countDocuments({ investee_id: req.user, isActive: true })
+    const listingCount = await Listing.countDocuments({ investee_id: req.user, isActive: true  }) //in futire add a tag to verify that the investment is ended in a listing inorder to only get the count of active listing listings
     const descriptionWordCount = req.body.description
       .trim()
       .split(/\s+/).length;
@@ -356,10 +356,11 @@ exports.editListing = async (req, res) => {
 exports.getMyListings = async (req, res) => {
   try {
     // const investee = await Investee.findOne({ _id: req.user });
-    const listing = await Listing.find({ investee_id: req.user, isActive: true }).populate("investee_id")
+    const listing = await Listing.find({ investee_id: req.user, isActive: true }).populate("investee_id investor_id")
     // const listing = await Listing.find({ isVerified: false }).populate(
     //   "investee_id"
     // );
+    console.log(listing)
     if (listing) {
       res.json({
         status: true,

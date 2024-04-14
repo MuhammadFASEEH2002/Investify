@@ -36,7 +36,7 @@ import { FaDollarSign } from "react-icons/fa";
 const LinkItems = [
   { name: "Home", icon: IoHomeOutline, link: "/user/investee-dashboard/home", dropdown: false },
   { name: "Create Listing", icon: FiEdit, link: "/user/investee-dashboard/listing-creation", dropdown: false },
-  { name: "Listings", icon: FiList, link: "#", dropdown: true, dropdownIcon: RiArrowDropDownLine, dropdownItem: [{ name: "Active Listings", link: "/user/investee-dashboard/investee-listings" }, { name: "Deleted Listings", link: "/user/investee-dashboard/investee-listing-history" }] },
+  { name: "Listings", icon: FiList, link: "#", dropdown: true, dropdownIcon: RiArrowDropDownLine, dropdownItem: [{ name: "My Listings", link: "/user/investee-dashboard/investee-listings" }, { name: "Deleted Listings", link: "/user/investee-dashboard/investee-listing-history" }] },
   { name: "Chats", icon: BsChatRight, link: "/user/investee-dashboard/chat" },
   // { name: "Deleted Listings", icon: FiList, link: "/user/investee-dashboard/investee-listing-history" },
   { name: "My Investments", icon: FaDollarSign, link: "#", dropdown: false },

@@ -44,9 +44,9 @@ const Investeedashboardmylistings = () => {
   useEffect(() => {
     if (window.localStorage.getItem('token')) {
       document.title = "Investify | Investee Listings";
-    
+
       getMyListing();
-      
+
     } else {
       navigate("/user-login");
     }
@@ -118,11 +118,11 @@ const Investeedashboardmylistings = () => {
       },
     })
       .then((res) => res.json())
-      .then((res) => { 
-        if(res.status){
+      .then((res) => {
+        if (res.status) {
           setListing(res.listing)
           setIsLoading(false)
-        }else{
+        } else {
           toast({
             title: "Network Error",
             status: "error",
@@ -216,7 +216,7 @@ const Investeedashboardmylistings = () => {
                     <Heading size="md" textAlign={"center"} fontSize={30}>{item?.investee_id?.businessName}</Heading>
                   </CardHeader>
                   <CardBody>
-                    <Text textAlign={"center"}>Verification Status {item?.isVerified?(<Text color={"green"}>Verified</Text>):(<Text color={"red"}>Unverified</Text>)}</Text>
+                    <Text textAlign={"center"}>Verification Status {item?.isVerified ? (<Text color={"green"}>Verified</Text>) : (<Text color={"red"}>Unverified</Text>)}</Text>
                     <Text noOfLines={[1, 2, 3]}>
                       <span style={{ fontWeight: "bold" }}>Description: </span>
                       {item?.description}
@@ -263,21 +263,28 @@ const Investeedashboardmylistings = () => {
                     </Text>
 
                   </CardBody>
-                  <CardFooter width={"100%"} alignItems={"center"} justifyContent={"space-evenly"}>
-                    <Button colorScheme="gray"
-                      onClick={() => {
-                        deleteListing(item?._id, item?.investee_id?.email);
-                      }}
-                    >
-                      Delete
-                    </Button>
-                    <Button
-                      colorScheme="blue"
-                      onClick={() => openEditModal(item)}
-                    >
-                      Edit
-                    </Button>
-                  </CardFooter>
+                  {item?.investor_id?._id ? (
+                    <>
+                      <CardFooter><Text color={"red"} textAlign={"center"}>Edit/Delete is disabled on the listings in which funding is done</Text></CardFooter>
+                    </>) :
+                    (<>
+                      <CardFooter width={"100%"} alignItems={"center"} justifyContent={"space-evenly"}>
+                        <Button colorScheme="gray"
+                          onClick={() => {
+                            deleteListing(item?._id, item?.investee_id?.email);
+                          }}
+                        >
+                          Delete
+                        </Button>
+                        <Button
+                          colorScheme="blue"
+                          onClick={() => openEditModal(item)}
+                        >
+                          Edit
+                        </Button>
+                      </CardFooter>
+                    </>)}
+
                   <Modal onClose={onSecondModalClose} isOpen={isSecondModalOpen} size={"full"} isCentered>
                     <ModalOverlay />
                     <ModalContent>

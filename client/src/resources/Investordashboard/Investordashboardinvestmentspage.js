@@ -1,7 +1,6 @@
 import React , {useState, useEffect} from 'react'
 import Sidebar from './components/Sidebar'
-import { Center, HStack, Input, Text, Box, Card, CardHeader, Heading, CardBody, CardFooter, Button, InputRightAddon, InputGroup, Spinner, Stack, useToast, Tr, Td, } from "@chakra-ui/react";
-import { IoMdSearch } from "react-icons/io";
+import { Spinner, Stack, useToast, Tr, Td, } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import JTable from './components/JTable';
 
@@ -64,7 +63,7 @@ const Investordashboardinvestmentspage = () => {
         </>) : (<>
           {investment.length > 0 && <JTable
             tableData={investment}
-            tableHeads={['Business Name', 'Business Description', 'Amount Required', 'Investment Duration', 'Profit Share Percentage']}
+            tableHeads={['Business Name', 'Business Description', 'Amount Given', 'Investment Duration', 'Profit Share Percentage']}
             tableRender={(index, investment) => {
               return <Row key={index} investment={investment} />
             }}
@@ -83,7 +82,7 @@ const Row = ({ investment }) => {
       cursor: 'pointer'
     }}
   >
-    <Td style={{ fontWeight: 'bold' }} color={"blue"}><Link to={`/user/investor-dashboard/business-catalog/product-page/${investment?._id}`} >{investment?.investee_id?.businessName}</Link></Td>
+    <Td style={{ fontWeight: 'bold' }} color={"blue"}><Link to={`#`} >{investment?.investee_id?.businessName}</Link></Td>
     <Td>{investment?.description.slice(0, 80)}... </Td>
     <Td>Rs {investment?.amount} /- </Td>
     <Td>{investment?.investmentDuration} years </Td>
