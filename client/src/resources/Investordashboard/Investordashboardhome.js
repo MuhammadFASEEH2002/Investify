@@ -16,6 +16,8 @@ const Investordashboardhome = () => {
 
   const [loading, setLoading] = useState(false);
   const [totalNotifications, setTotalNotifications] = useState("");
+  const [totalAmount, setTotalAmount] = useState("");
+
 
 
   const toast = useToast();
@@ -67,7 +69,7 @@ const Investordashboardhome = () => {
         if (res.status) {
           // setTotalListingCount(res.TotalListingCount)
           // setActiveListingCount(res.ActiveListingCount)
-          // setDeletedListingCount(res.DeletedListingCount)
+          setTotalAmount(res.totalAmount)
           setTotalNotifications(res.TotalNotifications)
           setLoading(false)
 
@@ -101,6 +103,8 @@ const Investordashboardhome = () => {
           <HStack justifyContent={'space-evenly'} my={5} >
 
           <StatCard colorscheme="blue" title="Notifications" listings={totalNotifications} icon={<IoIosNotifications />} />
+          <StatCard colorscheme="red" title="Amount Invested" listings={`Rs ${totalAmount}`} icon={<IoIosNotifications />} />
+
           </HStack>
           <Card >
             <CardHeader>
