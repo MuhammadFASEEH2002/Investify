@@ -65,14 +65,18 @@ const Investordashboardbusinesscatalog = () => {
             />
           </Stack>
         </>) : (<>
-          {listing.length > 0 && <JTable
-            tableData={listing}
-            tableHeads={['Business Name', 'Business Description', 'Amount Required', 'Investment Duration', 'Profit Share Percentage']}
-            tableRender={(index, listing) => {
-              return <Row key={index} listing={listing} />
-            }}
-            bg='white'
-          />}
+          {listing.length > 0 ? (
+            <JTable
+              tableData={listing}
+              tableHeads={['Business Name', 'Business Description', 'Amount Required', 'Investment Duration', 'Profit Share Percentage']}
+              tableRender={(index, listing) => {
+                return <Row key={index} listing={listing} />;
+              }}
+              bg='white'
+            />
+          ) : (
+            <p>No listings found.</p>
+          )}
         </>)}
 
       </Sidebar>

@@ -152,7 +152,7 @@ const Investeedashboardlistingcreation = () => {
                   <Text>Investment Duration</Text>
                   <Input
                     type="number"
-                    placeholder="Enter the duration of investment in years"
+                    placeholder="Enter the duration of investment in years between 1 - 3"
                     width={"90%"}
                     variant={"filled"}
                     border={"0.5px solid grey"}

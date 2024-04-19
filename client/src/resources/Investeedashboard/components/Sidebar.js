@@ -39,7 +39,7 @@ const LinkItems = [
   { name: "Listings", icon: FiList, link: "#", dropdown: true, dropdownIcon: RiArrowDropDownLine, dropdownItem: [{ name: "My Listings", link: "/user/investee-dashboard/investee-listings" }, { name: "Deleted Listings", link: "/user/investee-dashboard/investee-listing-history" }] },
   { name: "Chats", icon: BsChatRight, link: "/user/investee-dashboard/chat" },
   // { name: "Deleted Listings", icon: FiList, link: "/user/investee-dashboard/investee-listing-history" },
-  { name: "My Investments", icon: FaDollarSign, link: "#", dropdown: false },
+  { name: "My Investments", icon: FaDollarSign, link: "/user/investee-dashboard/investments", dropdown: false },
 ];
 
 

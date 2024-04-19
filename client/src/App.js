@@ -32,6 +32,7 @@ import Investordashboardinitiateinvestment from "./resources/Investordashboard/I
 import Investordashboardpaymentfailure from "./resources/Investordashboard/Investordashboardpaymentfailure";
 import Investordashboardpaymentsuccess from "./resources/Investordashboard/Investordashboardpaymentsuccess";
 import Investordashboardinvestmentspage from "./resources/Investordashboard/Investordashboardinvestmentspage";
+import Investeedashboardinvestmentspage from "./resources/Investeedashboard/Investeedashboardinvestmentspage";
 
 function App() {
   return (
@@ -63,23 +64,23 @@ function App() {
             path="/user/investor-dashboard/business-catalog/product-page/:id"
             element={<Investordashboardproductpage />}
           />
-            <Route
+          <Route
             path="/user/investor-dashboard/business-catalog/product-page/initiate-investment/:id"
-            element={<Investordashboardinitiateinvestment/>}
+            element={<Investordashboardinitiateinvestment />}
           />
-            <Route
+          <Route
             path="/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-success"
-            element={<Investordashboardpaymentsuccess/>}
+            element={<Investordashboardpaymentsuccess />}
           />
           <Route
             path="/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-failure"
-            element={<Investordashboardpaymentfailure/>}
+            element={<Investordashboardpaymentfailure />}
           />
           <Route
             path="/user/investor-dashboard/notifications"
             element={<Investordashboardnotification />}
           />
-            <Route
+          <Route
             path="/user/investor-dashboard/investments"
             element={<Investordashboardinvestmentspage />}
           />
@@ -130,6 +131,10 @@ function App() {
           <Route
             path="/user/investee-dashboard/logout"
             element={<Investeedashboardlogout />}
+          />
+           <Route
+            path="/user/investee-dashboard/investments"
+            element={<Investeedashboardinvestmentspage />}
           />
         </Routes>
       </Router>

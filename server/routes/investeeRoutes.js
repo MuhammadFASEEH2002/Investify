@@ -15,6 +15,8 @@ router.post('/change-password' ,verifyInvesteeToken, InvesteeController.changePa
 router.get("/get-notifications", verifyInvesteeToken, InvesteeController.getNotifications)
 router.put("/set-mark-as-read", verifyInvesteeToken, InvesteeController.setMarkAsRead)
 router.get("/get-stats", verifyInvesteeToken, InvesteeController.getStats)
+router.get('/get-investments' ,verifyInvesteeToken, InvesteeController.getInvestments)
+
 
 
 

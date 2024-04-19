@@ -131,6 +131,10 @@ const Investeedashboardlistinghistory = () => {
                       </ModalContent>
                     </Modal>
                     <Text>
+                      <span style={{ fontWeight: "bold" }}>Amount: </span>
+                      {item?.amount}
+                    </Text>
+                    <Text>
                       <span style={{ fontWeight: "bold" }}>Email : </span>
                       {item?.investee_id?.email}
                     </Text>

@@ -91,7 +91,8 @@ exports.changePassword = async (req, res) => {
 exports.createListing = async (req, res) => {
   try {
     const investee = await Investee.findOne({ _id: req.user });
-    const listingCount = await Listing.countDocuments({ investee_id: req.user, isActive: true  }) //in futire add a tag to verify that the investment is ended in a listing inorder to only get the count of active listing listings
+    const listingCount = await Listing.countDocuments({ investee_id: req.user, isActive: true, isInvestmentEnded: false }) //in future add a tag to verify that the investment is ended in a listing inorder to only get the count of active listing listings
+    console.log(listingCount)
     const descriptionWordCount = req.body.description
       .trim()
       .split(/\s+/).length;
@@ -143,7 +144,8 @@ exports.createListing = async (req, res) => {
         investmentDuration: req.body.investmentDuration,
         amount: req.body.amount,
         isVerified: false,
-        isActive: true
+        isActive: true,
+        isInvestmentEnded: false
       });
     }
 
@@ -356,7 +358,7 @@ exports.editListing = async (req, res) => {
 exports.getMyListings = async (req, res) => {
   try {
     // const investee = await Investee.findOne({ _id: req.user });
-    const listing = await Listing.find({ investee_id: req.user, isActive: true }).populate("investee_id investor_id")
+    const listing = await Listing.find({ investee_id: req.user, isActive: true, isInvestmentEnded: false }).populate("investee_id investor_id")
     // const listing = await Listing.find({ isVerified: false }).populate(
     //   "investee_id"
     // );
@@ -373,7 +375,13 @@ exports.getMyListings = async (req, res) => {
 };
 exports.getMyListingHistory = async (req, res) => {
   try {
-    const listing = await Listing.find({ investee_id: req.user, isActive: false, isVerified: true }).populate("investee_id")
+    const listing = await Listing.find({
+      investee_id: req.user, 
+      $or: [
+        { isActive: false },
+        { isInvestmentEnded: true }
+      ], isVerified: true
+    }).populate("investee_id")
     if (listing) {
       res.json({
         status: true,
@@ -395,7 +403,7 @@ exports.deleteListing = async (req, res) => {
 };
 exports.getNotifications = async (req, res) => {
   try {
-    const notifications = await Notification.find({ investeeId: req.user }).sort({createdAt:-1})
+    const notifications = await Notification.find({ investeeId: req.user }).sort({ createdAt: -1 })
     res.json({
       status: true,
       notifications
@@ -416,16 +424,34 @@ exports.setMarkAsRead = async (req, res) => {
 };
 exports.getStats = async (req, res) => {
   try {
-   const investee = await Investee.findOne({ _id: req.user });
+    const investee = await Investee.findOne({ _id: req.user });
     const TotalListingCount = await Listing.countDocuments({ investee_id: req.user })
-    const ActiveListingCount = await Listing.countDocuments({ investee_id: req.user , isActive:true, isVerified:true })
-    const DeletedListingCount = await Listing.countDocuments({ investee_id: req.user , isActive:false, isVerified:true })
+    const ActiveListingCount = await Listing.countDocuments({ investee_id: req.user, isActive: true, isVerified: true })
+    const DeletedListingCount = await Listing.countDocuments({ investee_id: req.user, isActive: false, isVerified: true })
 
 
-    res.json({ status: true, TotalListingCount , ActiveListingCount, DeletedListingCount});
-  
+    res.json({ status: true, TotalListingCount, ActiveListingCount, DeletedListingCount });
+
   } catch (error) {
     res.json({ message: error.message, status: false });
+  }
+};
+exports.getInvestments = async (req, res) => {
+  try {
+      const investee = await Investee.findOne({ _id: req.user })
+      console.log(investee._id)
+      const listing = await Listing.find({ isVerified: true, investee_id: investee._id }).populate(
+          "investee_id investor_id"
+      );
+      console.log(listing)
+      if (listing) {
+          res.json({
+              status: true,
+              listing,
+          });
+      }
+  } catch (error) {
+      res.json({ message: error.message, status: false });
   }
 };
 

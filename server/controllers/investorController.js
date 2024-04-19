@@ -112,7 +112,23 @@ exports.makePayment = async (req, res) => {
                     },
                 ],
             })
-            await Listing.findByIdAndUpdate({ _id: listing._id }, { payment_session_id: session.id, investor_id: investor._id })
+            // setting up current date
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear();
+            const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+            const currentDay = currentDate.getDate().toString().padStart(2, '0');
+            const formattedCurrentDate = `${currentDay}-${currentMonth}-${currentYear}`;
+            // setting up end date
+            const investmentDuration = listing?.investmentDuration // Assuming the investment duration is 1 year
+            const endYear = parseInt(currentYear) + parseInt(investmentDuration);
+            const endMonth = currentMonth;
+            const endDay = currentDay;
+            const formattedEndDate = `${endDay}-${endMonth}-${endYear}`;
+            // updating the listing
+            await Listing.findByIdAndUpdate({ _id: listing?._id }, {
+                payment_session_id: session?.id, investor_id: investor._id, investment_start_date: formattedCurrentDate,
+                investment_end_date: formattedEndDate
+            })
             res.json({ message: "payment successful", status: true, session });
         } else {
             res.json({ message: "agreement not signed", status: false });
@@ -125,9 +141,9 @@ exports.makePayment = async (req, res) => {
 };
 exports.getInvestments = async (req, res) => {
     try {
-        const investor= await Investor.findOne({ _id: req.user })
+        const investor = await Investor.findOne({ _id: req.user })
         console.log(investor._id)
-        const listing = await Listing.find({ isVerified: true, investor_id: investor._id  }).populate(
+        const listing = await Listing.find({ isVerified: true, investor_id: investor._id }).populate(
             "investee_id investor_id"
         );
         console.log(listing)

@@ -14,7 +14,7 @@ const listingSchema = new mongo.Schema({
     required: true,
   },
   investmentDuration: {
-    type:String,
+    type: String,
     required: true,
   },
   isVerified: {
@@ -28,28 +28,28 @@ const listingSchema = new mongo.Schema({
   investee_id: {
     type: String,
     required: true,
-    ref : 'Investee'
+    ref: 'Investee'
   },
   payment_session_id: {
     type: String,
   },
-  investor_id:{
-    type:String,
+  investor_id: {
+    type: String,
     ref: "Investor"
   },
-  investment_start_date:{
-    type:Date
+  investment_start_date: {
+    type: String
   },
-  // investor_agreement: {
-  //   type: Boolean, 
-  // },
-  // investee_agreement: {
-  //   type: Boolean,
-  // },
+  investment_end_date: {
+    type: String
+  },
+  isInvestmentEnded: {
+    type: Boolean
+  }
 },
-{
-  timestamps: true
-}
+  {
+    timestamps: true
+  }
 );
 
 const Listing = mongo.model("Listing", listingSchema);
