@@ -440,7 +440,7 @@ exports.getInvestments = async (req, res) => {
   try {
       const investee = await Investee.findOne({ _id: req.user })
       console.log(investee._id)
-      const listing = await Listing.find({ isVerified: true, investee_id: investee._id }).populate(
+      const listing = await Listing.find({ isVerified: true, investee_id: investee._id,payment_session_id: { $exists: true} }).populate(
           "investee_id investor_id"
       );
       console.log(listing)

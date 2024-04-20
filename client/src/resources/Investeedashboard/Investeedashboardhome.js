@@ -12,6 +12,17 @@ import { IoGrid } from 'react-icons/io5';
 import { FiList } from 'react-icons/fi';
 import { MdDelete } from "react-icons/md";
 import { FaCheckCircle } from "react-icons/fa";
+import { db } from '../../utils/firebase';
+import {
+  collection,
+  addDoc,
+  where,
+  serverTimestamp,
+  onSnapshot,
+  query,
+  orderBy,
+  updateDoc
+} from "firebase/firestore";
 
 const Investeedashboardhome = () => {
   const [investee, setInvestee] = useState([]);
@@ -21,6 +32,7 @@ const Investeedashboardhome = () => {
   const [totalListingCount, setTotalListingCount] = useState("");
   const [activeListingCount, setActiveListingCount] = useState("");
   const [deletedListingCount, setDeletedListingCount] = useState("");
+  const messagesRef = collection(db, 'messages');
 
 
 

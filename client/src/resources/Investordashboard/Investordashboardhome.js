@@ -100,10 +100,10 @@ const Investordashboardhome = () => {
     <>
       <Sidebar>
         {loading ? (<><Stack minHeight={'100%'} width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack> </>) : (<>
-          <HStack justifyContent={'space-evenly'} my={5} >
+          <HStack justifyContent={'space-evenly'} my={5}  flexWrap={"wrap"}>
 
           <StatCard colorscheme="blue" title="Notifications" listings={totalNotifications} icon={<IoIosNotifications />} />
-          <StatCard colorscheme="red" title="Amount Invested" listings={`Rs ${totalAmount}`} icon={<IoIosNotifications />} />
+          <StatCard colorscheme="red" title="Total Amount Invested" listings={`Rs ${totalAmount}`} icon={<IoIosNotifications />} />
 
           </HStack>
           <Card >

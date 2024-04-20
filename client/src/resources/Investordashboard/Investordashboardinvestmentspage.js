@@ -1,4 +1,4 @@
-import React , {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
 import { Spinner, Stack, useToast, Tr, Td, } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
@@ -50,26 +50,30 @@ const Investordashboardinvestmentspage = () => {
 
   return (
     <Sidebar>
-         {loading ? (<>
-          <Stack alignItems={'center'} justifyContent={'center'}>
-            <Spinner
-              thickness='4px'
-              speed='0.65s'
-              emptyColor='gray.200'
-              color='blue.500'
-              size='xl'
-            />
-          </Stack>
-        </>) : (<>
-          {investment.length > 0 && <JTable
+      {loading ? (<>
+        <Stack alignItems={'center'} justifyContent={'center'}>
+          <Spinner
+            thickness='4px'
+            speed='0.65s'
+            emptyColor='gray.200'
+            color='blue.500'
+            size='xl'
+          />
+        </Stack>
+      </>) : (<>
+        {investment.length > 0 ? (
+          <JTable
             tableData={investment}
             tableHeads={['Business Name', 'Business Description', 'Amount Given', 'Investment Duration', 'Profit Share Percentage']}
             tableRender={(index, investment) => {
-              return <Row key={index} investment={investment} />
+              return <Row key={index} investment={investment} />;
             }}
             bg='white'
-          />}
-        </>)}
+          />
+        ) : (
+          <p>No investments found.</p>
+        )}
+      </>)}
 
     </Sidebar>
   )
