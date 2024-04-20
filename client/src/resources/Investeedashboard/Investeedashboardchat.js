@@ -19,12 +19,15 @@ import useInvestee from '../../providers/investeeStore';
 const Investeedashboardchat = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [name, setName] = useState('');
+
   const { id1, id2 } = useParams();
   const navigate = useNavigate();
   const messagesRef = collection(db, "messages");
   const investee = useInvestee((state) => state?.investees)
-  const chatContainerRef = useRef(null);
-  const roomId = `${id1}_${id2}`;
+  const chatContainerRef = useRef(null)
+  const roomId = `${id1}_${id2}`
+
 
 
   useEffect(() => {
@@ -40,8 +43,20 @@ const Investeedashboardchat = () => {
         snapshot.forEach((doc) => {
           messages.push({ ...doc.data(), id: doc.id });
         });
-        console.log(messages);
+        // console.log(messages);
         setMessages(messages);
+
+        const distinctName = new Set()
+
+        messages.map((message) => {
+          if (message.userId == id1) {
+            distinctName.add(message.userName)
+            console.log(distinctName)
+            setName(distinctName)
+            // const name=messages
+          }
+
+        });
       });
 
       return () => unsuscribe();
@@ -64,6 +79,7 @@ const Investeedashboardchat = () => {
       userId: id2,
       userName: investee?.businessName,
       roomId,
+      online: true
     });
 
     setNewMessage("");
@@ -74,7 +90,8 @@ const Investeedashboardchat = () => {
     <>
       <Sidebar>
         <Box p={4} borderWidth="1px" borderRadius="lg" backgroundColor={"white"}>
-          <Box height="300px" overflowY="scroll" p={4} borderWidth="1px" borderRadius="lg" ref={chatContainerRef} backgroundColor={""}>
+          <Text>{name}</Text>
+          <Box height="300px" overflowY="scroll" p={6} borderWidth="1px" borderRadius="lg" ref={chatContainerRef} backgroundColor={""}>
             {/* Chat messages */}
             {messages.map((message) => (
               <Text textAlign={message?.userId == id2 ? "right" : "left"} padding={2}> <span style={{ padding: "8px", borderRadius: "10px", backgroundColor: message?.userId == id2 ? "#0096FF" : "#89CFF0" }}>{message.userId == id2 ? `${message?.text}` : `${message?.userName}: ${message?.text}`}</span></Text>
@@ -91,7 +108,7 @@ const Investeedashboardchat = () => {
             }}
           />
           <Button colorScheme="blue" mt={4} onClick={() => { handleSubmit() }}
-            >
+          >
             Send
           </Button>
         </Box>

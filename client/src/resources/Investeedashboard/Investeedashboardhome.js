@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Sidebar from "./components/Sidebar";
 import {
   Card, CardHeader, CardBody, CardFooter, Heading, Box, Stack, StackDivider, Text, ButtonGroup,
-
   useToast,
   Spinner,
   HStack, Button
@@ -21,7 +20,9 @@ import {
   onSnapshot,
   query,
   orderBy,
-  updateDoc
+  updateDoc,
+  getDocs,
+  doc
 } from "firebase/firestore";
 
 const Investeedashboardhome = () => {
@@ -33,6 +34,8 @@ const Investeedashboardhome = () => {
   const [activeListingCount, setActiveListingCount] = useState("");
   const [deletedListingCount, setDeletedListingCount] = useState("");
   const messagesRef = collection(db, 'messages');
+  // const investeeID=  investee?._id
+  // const token = window.localStorage.getItem('token');
 
 
 
@@ -62,6 +65,10 @@ const Investeedashboardhome = () => {
       .then((res) => {
         if (res.status) {
           setInvestee(res.investee)
+      updateStatus(res.investee._id)
+      // console.log(res.investee._id)
+
+
           setLoading(false)
 
         } else {
@@ -111,6 +118,23 @@ const Investeedashboardhome = () => {
       })
       .catch((err) => console.log(err));
   };
+  const updateStatus = async (investeeID) => {
+    console.log(investeeID)
+    const queryMessages = query(
+      messagesRef,
+      where("userId", "==", investeeID)
+    );
+    const querySnapshot = await getDocs(queryMessages);
+    // console.log(querySnapshot)
+    querySnapshot.forEach((document) => {
+      console.log(document.id)
+      const documentRef = doc(db, "messages", document.id);
+      updateDoc(documentRef, {
+        online: true
+      })
+    });
+
+  }
   useEffect(() => {
     if (window.localStorage.getItem('token')) {
       document.title = "Investify | Investee-Home";
@@ -189,7 +213,7 @@ const Investeedashboardhome = () => {
 
             <StatCard colorscheme="blue" title="Total Listings" listings={totalListingCount} icon={<FiList />} />
             <StatCard colorscheme="green" title="Active Listings" listings={activeListingCount} icon={<FaCheckCircle />} />
-            <StatCard colorscheme="red" title="Deleted Listings" listings={deletedListingCount} icon={<MdDelete/>} />
+            <StatCard colorscheme="red" title="Deleted Listings" listings={deletedListingCount} icon={<MdDelete />} />
 
 
 

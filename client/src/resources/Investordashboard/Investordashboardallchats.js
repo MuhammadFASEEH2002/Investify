@@ -34,9 +34,7 @@ const Investordashboardallchats = () => {
         snapshot.forEach((doc) => {
           const { roomId, userName } = doc.data();
           if (roomId.split('_')[0] == investor?._id || roomId.split('_')[1] == investor?._id) {
-            // distinctRoomIds.add(roomId);
             if (userName.split(" ")[0] != investor?.firstName && userName.split(" ")[1] != investor?.lastName) {
-
               const uniqueIdentifier = `${roomId}-${userName}`; // Combine roomId and userName
               distinctRoomIds.add(uniqueIdentifier);
             }
@@ -50,7 +48,7 @@ const Investordashboardallchats = () => {
         setRoomIdsArray(roomIds);
         setLoading(false);
       });
-  
+
       return () => {
         unsubscribe();
       };
