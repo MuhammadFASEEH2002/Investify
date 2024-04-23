@@ -27,6 +27,8 @@ const Investeedashboardlogout = () => {
     const logout = () => {
         window.localStorage.removeItem('token');
         updateStatus(investee?._id)
+      
+
         navigate("/user-login")
     };
     const updateStatus = async (investeeID) => {

@@ -9,6 +9,19 @@ import {
 import { useNavigate } from "react-router-dom";
 import { IoGrid } from 'react-icons/io5';
 import { IoIosNotifications } from "react-icons/io";
+import { db } from '../../utils/firebase';
+import {
+  collection,
+  addDoc,
+  where,
+  serverTimestamp,
+  onSnapshot,
+  query,
+  orderBy,
+  updateDoc,
+  getDocs,
+  doc
+} from "firebase/firestore";
 
 const Investordashboardhome = () => {
 
@@ -17,6 +30,8 @@ const Investordashboardhome = () => {
   const [loading, setLoading] = useState(false);
   const [totalNotifications, setTotalNotifications] = useState("");
   const [totalAmount, setTotalAmount] = useState("");
+  const messagesRef = collection(db, 'messages');
+
 
 
 
@@ -37,6 +52,8 @@ const Investordashboardhome = () => {
       .then((res) => {
         if (res.status) {
           setInvestor(res.investor)
+          updateStatus(res.investor._id)
+
           setLoading(false)
 
         } else {
@@ -87,6 +104,23 @@ const Investordashboardhome = () => {
       })
       .catch((err) => console.log(err));
   };
+  const updateStatus = async (investorID) => {
+    console.log(investorID)
+    const queryMessages = query(
+      messagesRef,
+      where("userId", "==", investorID)
+    );
+    const querySnapshot = await getDocs(queryMessages);
+    // console.log(querySnapshot)
+    querySnapshot.forEach((document) => {
+      console.log(document.id)
+      const documentRef = doc(db, "messages", document.id);
+      updateDoc(documentRef, {
+        online: true
+      })
+    });
+
+  }
   useEffect(() => {
     if (window.localStorage.getItem('token1')) {
       document.title = "Investify | Investor-Home";
@@ -100,10 +134,10 @@ const Investordashboardhome = () => {
     <>
       <Sidebar>
         {loading ? (<><Stack minHeight={'100%'} width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack> </>) : (<>
-          <HStack justifyContent={'space-evenly'} my={5}  flexWrap={"wrap"}>
+          <HStack justifyContent={'space-evenly'} my={5} flexWrap={"wrap"}>
 
-          <StatCard colorscheme="blue" title="Notifications" listings={totalNotifications} icon={<IoIosNotifications />} />
-          <StatCard colorscheme="red" title="Total Amount Invested" listings={`Rs ${totalAmount}`} icon={<IoIosNotifications />} />
+            <StatCard colorscheme="blue" title="Notifications" listings={totalNotifications} icon={<IoIosNotifications />} />
+            <StatCard colorscheme="red" title="Total Amount Invested" listings={`Rs ${totalAmount}`} icon={<IoIosNotifications />} />
 
           </HStack>
           <Card >

@@ -376,11 +376,21 @@ exports.getMyListings = async (req, res) => {
 exports.getMyListingHistory = async (req, res) => {
   try {
     const listing = await Listing.find({
-      investee_id: req.user, 
-      $or: [
-        { isActive: false },
-        { isInvestmentEnded: true }
-      ], isVerified: true
+      investee_id: req.user,
+      $and: [
+        {
+          $or: [
+            { isActive: false },
+            { isInvestmentEnded: true }
+          ]
+        },
+        {
+          $or: [
+            { isVerified: true },
+            { isVerified: false }
+          ]
+        }
+      ]
     }).populate("investee_id")
     if (listing) {
       res.json({
@@ -427,8 +437,24 @@ exports.getStats = async (req, res) => {
     const investee = await Investee.findOne({ _id: req.user });
     const TotalListingCount = await Listing.countDocuments({ investee_id: req.user })
     const ActiveListingCount = await Listing.countDocuments({ investee_id: req.user, isActive: true, isVerified: true })
-    const DeletedListingCount = await Listing.countDocuments({ investee_id: req.user, isActive: false, isVerified: true })
-
+    const DeletedListingCount = await Listing.countDocuments({
+      investee_id: req.user,
+      $and: [
+        {
+          $or: [
+            { isActive: false },
+            { isInvestmentEnded: true }
+          ]
+        },
+        {
+          $or: [
+            { isVerified: true },
+            { isVerified: false }
+          ]
+        }
+      ]
+    })
+    console.log(DeletedListingCount)
 
     res.json({ status: true, TotalListingCount, ActiveListingCount, DeletedListingCount });
 
@@ -438,20 +464,20 @@ exports.getStats = async (req, res) => {
 };
 exports.getInvestments = async (req, res) => {
   try {
-      const investee = await Investee.findOne({ _id: req.user })
-      console.log(investee._id)
-      const listing = await Listing.find({ isVerified: true, investee_id: investee._id,payment_session_id: { $exists: true} }).populate(
-          "investee_id investor_id"
-      );
-      console.log(listing)
-      if (listing) {
-          res.json({
-              status: true,
-              listing,
-          });
-      }
+    const investee = await Investee.findOne({ _id: req.user })
+    console.log(investee._id)
+    const listing = await Listing.find({ isVerified: true, investee_id: investee._id, payment_session_id: { $exists: true } }).populate(
+      "investee_id investor_id"
+    );
+    console.log(listing)
+    if (listing) {
+      res.json({
+        status: true,
+        listing,
+      });
+    }
   } catch (error) {
-      res.json({ message: error.message, status: false });
+    res.json({ message: error.message, status: false });
   }
 };
 

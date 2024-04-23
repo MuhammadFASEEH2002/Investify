@@ -66,7 +66,7 @@ const Investeedashboardhome = () => {
         if (res.status) {
           setInvestee(res.investee)
       updateStatus(res.investee._id)
-      // console.log(res.investee._id)
+    
 
 
           setLoading(false)
