@@ -24,6 +24,8 @@ const Investordashboardchat = () => {
   const investor = useInvestor((state) => state?.investors)
   const chatContainerRef = useRef(null);
   const roomId = `${id1}_${id2}`;
+  const [userStatus, setUserStatus] = useState(false);
+  const [name, setName] = useState('');
 
 
   useEffect(() => {
@@ -39,8 +41,24 @@ const Investordashboardchat = () => {
         snapshot.forEach((doc) => {
           messages.push({ ...doc.data(), id: doc.id });
         });
-        console.log(messages);
+        // console.log(messages);
         setMessages(messages);
+        const distinctName = new Set()
+        const chatStatus = new Set()
+
+
+        messages.map((message) => {
+          if (message.userId == id2) {
+            distinctName.add(message?.userName)
+            chatStatus.add(message?.online)
+            setName(distinctName)
+            setUserStatus([...chatStatus][0])
+            console.log(userStatus)
+
+            // const name=messages
+          }
+
+        });
       });
 
       return () => unsuscribe();
@@ -74,10 +92,14 @@ const Investordashboardchat = () => {
     <>
       <Sidebar>
         <Box p={4} borderWidth="1px" borderRadius="lg" bgColor={"white"}>
-          <Box height="300px" overflowY="scroll" p={4} borderWidth="" borderRadius="lg" ref={chatContainerRef}>
+        <Box marginLeft={5}>
+          <Text>{name}</Text>
+            {userStatus ? <Text color={"green"}>online</Text> : <Text color={"red"}>offline</Text>}
+          </Box>
+          <Box height="300px" overflowY="scroll" p={6} borderWidth="1px" borderRadius="lg" ref={chatContainerRef} backgroundColor={""}>
             {/* Chat messages */}
             {messages.map((message) => (
-              <Text textAlign={message.userId == id1 ? "right" : "left"} padding={2}> <span style={{ padding: "8px", borderRadius: "10px", backgroundColor: message?.userId == id1 ? "#0096FF" : "#89CFF0" }}>{message.userId == id1 ? `${message?.text}` : `${message?.userName}: ${message?.text}`}</span></Text>
+              <Text textAlign={message.userId == id1 ? "right" : "left"} padding={2}> <span style={{ padding: "8px", borderRadius: "10px", backgroundColor: message?.userId == id1 ? "#0096FF" : "#89CFF0", color: message?.userId == id1 ? "white" : "black" }}>{message.userId == id1 ? `${message?.text}` : `${message?.userName}: ${message?.text}`}</span></Text>
 
             ))}
           </Box>
