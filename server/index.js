@@ -8,6 +8,9 @@ const AuthRouter = require('./routes/authRoutes')
 const AdminRouter = require('./routes/adminRoutes')
 const InvesteeRouter = require('./routes/investeeRoutes')
 const InvestorRouter = require('./routes/investorRoutes')
+const cron = require('node-cron');
+const Listing = require("./model/listing");
+
 
 console.log(process.env.MONGO_URL)
 app.use(
@@ -33,6 +36,13 @@ app.use("/api/investor", InvestorRouter);
 app.get("/", (req, res) => {
   res.json("hello")
 })
+cron.schedule('* * * * *', async () => {
+ 
+    // const listing = await Listing.find()
+    // console.log(listing)
+
+});
+
 
 app.listen(PORT, () => console.log(`Listening on http://127.0.0.1:${PORT}`));
 
