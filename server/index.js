@@ -36,11 +36,29 @@ app.use("/api/investor", InvestorRouter);
 app.get("/", (req, res) => {
   res.json("hello")
 })
-cron.schedule('* * * * *', async () => {
- 
-    // const listing = await Listing.find()
-    // console.log(listing)
+cron.schedule('0 0 * * *', async () => {
 
+  const listing = await Listing.find()
+  // console.log(listing)
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+  const currentDay = currentDate.getDate().toString().padStart(2, '0');
+  const formattedCurrentDate = `${currentDay}-${currentMonth}-${currentYear}`;
+  listing.map(async (listing) => {
+    if (listing?.investment_end_date) {
+      if(listing.investment_end_date == formattedCurrentDate) {
+        console.log(listing.investment_end_date)
+        await Listing.findByIdAndUpdate({ _id: listing?._id }, {
+          isInvestmentEnded: true
+        })
+        console.log("done")
+      
+      }
+      // console.log(listing.investment_end_date)
+
+    }
+  })
 });
 
 
