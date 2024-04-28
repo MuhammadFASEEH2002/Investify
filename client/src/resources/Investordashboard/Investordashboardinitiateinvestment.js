@@ -39,7 +39,7 @@ const Investordashboardinitiateinvestment = () => {
     setLoading(true)
     if (checkbox) {
       const token1 = window.localStorage.getItem('token1');
-      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/make-payment`, {
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/checkout-session`, {
         method: "POST",
         body: JSON.stringify({
           checkbox

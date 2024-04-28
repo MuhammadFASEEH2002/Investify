@@ -86,7 +86,7 @@ exports.getStats = async (req, res) => {
         res.json({ message: error.message, status: false });
     }
 };
-exports.makePayment = async (req, res) => {
+exports.checkoutSession = async (req, res) => {
     try {
         // const {listing} = req.body
         const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id");
@@ -96,13 +96,10 @@ exports.makePayment = async (req, res) => {
         const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
         if (req.body.checkbox) {
             const session = await stripe.checkout.sessions.create({
-                success_url: `${process.env.ORIGIN_URL}/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-success`,
-                cancel_url: `${process.env.ORIGIN_URL}/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-failure`,
                 payment_method_types: ['card'],
                 mode: 'payment',
                 customer: listing?.investee_id?._id,
                 customer_email: investor?.email,
-                //   customer_name: `${investor?.firstName}+ " " + ${investor?.lastName}`,
                 line_items: [
                     {
                         price_data: {
@@ -116,7 +113,39 @@ exports.makePayment = async (req, res) => {
                         quantity: 1,
                     },
                 ],
+                success_url: `${process.env.ORIGIN_URL}/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-success?session_id={CHECKOUT_SESSION_ID}`,
+                cancel_url: `${process.env.ORIGIN_URL}/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-failure`,
             })
+            const sessionStatus = await stripe.checkout.sessions.retrieve(
+                session.id,
+            );
+            // console.log(sessionStatus)
+
+            // updating the listing
+            // await Listing.findByIdAndUpdate({ _id: listing?._id }, {
+            //     payment_session_id: session?.id, investor_id: investor._id, investment_start_date: formattedCurrentDate,
+            //     investment_end_date: formattedEndDate
+            // })
+
+            await Listing.findByIdAndUpdate({ _id: listing?._id }, {
+                payment_session_id: session?.id
+            })
+            res.json({ message: "checkout successful", status: true, session });
+        } else {
+            res.json({ message: "agreement not signed", status: false });
+
+        }
+    } catch (error) {
+        console.log(error)
+        res.json({ message: error.message, status: false });
+    }
+};
+exports.paymentSuccess = async (req, res) => {
+    try {
+        const investor = await Investor.findOne({ _id: req.user })
+        if (req.body.sessionId) {
+            const listing = await Listing.findOne({ payment_session_id: req.body.sessionId }).populate("investee_id");
+            console.log(listing)
             // setting up current date
             const currentDate = new Date();
             const currentYear = currentDate.getFullYear();
@@ -129,21 +158,18 @@ exports.makePayment = async (req, res) => {
             const endMonth = currentMonth;
             const endDay = currentDay;
             const formattedEndDate = `${endDay}-${endMonth}-${endYear}`;
-            // updating the listing
             await Listing.findByIdAndUpdate({ _id: listing?._id }, {
-                payment_session_id: session?.id, investor_id: investor._id, investment_start_date: formattedCurrentDate,
+                investor_id: investor._id, investment_start_date: formattedCurrentDate,
                 investment_end_date: formattedEndDate
             })
-            res.json({ message: "payment successful", status: true, session });
-        } else {
-            res.json({ message: "agreement not signed", status: false });
-
+            res.json({ message: "payment successful", status: true,});
         }
+
     } catch (error) {
-        console.log(error)
         res.json({ message: error.message, status: false });
     }
 };
+
 exports.getInvestments = async (req, res) => {
     try {
         const investor = await Investor.findOne({ _id: req.user })
@@ -151,7 +177,7 @@ exports.getInvestments = async (req, res) => {
         const listing = await Listing.find({ isVerified: true, investor_id: investor._id }).populate(
             "investee_id investor_id"
         );
-        console.log(listing)
+        // console.log(listing)
         if (listing) {
             res.json({
                 status: true,
@@ -162,3 +188,6 @@ exports.getInvestments = async (req, res) => {
         res.json({ message: error.message, status: false });
     }
 };
+
+
+

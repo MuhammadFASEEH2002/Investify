@@ -9,7 +9,9 @@ router.get('/get-listing-view' ,verifyInvestorToken, InvestorController.getProdu
 router.get("/get-notifications", verifyInvestorToken, InvestorController.getNotifications)
 router.put("/set-mark-as-read", verifyInvestorToken, InvestorController.setMarkAsRead)
 router.get('/get-stats' ,verifyInvestorToken, InvestorController.getStats)
-router.post('/make-payment' ,verifyInvestorToken, InvestorController.makePayment)
+router.post('/checkout-session' ,verifyInvestorToken, InvestorController.checkoutSession)
+router.post('/payment-success' ,verifyInvestorToken, InvestorController.paymentSuccess)
+
 router.get('/get-investments' ,verifyInvestorToken, InvestorController.getInvestments)
 
 
