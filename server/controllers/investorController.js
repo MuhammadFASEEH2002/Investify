@@ -88,11 +88,9 @@ exports.getStats = async (req, res) => {
 };
 exports.checkoutSession = async (req, res) => {
     try {
-        // const {listing} = req.body
+       
         const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id");
         const investor = await Investor.findOne({ _id: req.user })
-        // console.log(req.body.checkbox)
-        // console.log(listing.investee_id)
         const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
         if (req.body.checkbox) {
             const session = await stripe.checkout.sessions.create({
@@ -116,17 +114,6 @@ exports.checkoutSession = async (req, res) => {
                 success_url: `${process.env.ORIGIN_URL}/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-success?session_id={CHECKOUT_SESSION_ID}`,
                 cancel_url: `${process.env.ORIGIN_URL}/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-failure`,
             })
-            const sessionStatus = await stripe.checkout.sessions.retrieve(
-                session.id,
-            );
-            // console.log(sessionStatus)
-
-            // updating the listing
-            // await Listing.findByIdAndUpdate({ _id: listing?._id }, {
-            //     payment_session_id: session?.id, investor_id: investor._id, investment_start_date: formattedCurrentDate,
-            //     investment_end_date: formattedEndDate
-            // })
-
             await Listing.findByIdAndUpdate({ _id: listing?._id }, {
                 payment_session_id: session?.id
             })
@@ -141,6 +128,98 @@ exports.checkoutSession = async (req, res) => {
     }
 };
 exports.paymentSuccess = async (req, res) => {
+    try {
+        const investor = await Investor.findOne({ _id: req.user })
+        if (req.body.sessionId) {
+            const listing = await Listing.findOne({ payment_session_id: req.body.sessionId }).populate("investee_id");
+            console.log(listing)
+            // setting up current date
+            const currentDate = new Date();
+            const currentYear = currentDate.getFullYear();
+            const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+            const currentDay = currentDate.getDate().toString().padStart(2, '0');
+            const formattedCurrentDate = `${currentDay}-${currentMonth}-${currentYear}`;
+            // setting up end date
+            const investmentDuration = listing?.investmentDuration // Assuming the investment duration is 1 year
+            const endYear = parseInt(currentYear) + parseInt(investmentDuration);
+            const endMonth = currentMonth;
+            const endDay = currentDay;
+            const formattedEndDate = `${endDay}-${endMonth}-${endYear}`;
+            await Listing.findByIdAndUpdate({ _id: listing?._id }, {
+                investor_id: investor._id, investment_start_date: formattedCurrentDate,
+                investment_end_date: formattedEndDate
+            })
+            const transporter = await nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                  user: `${process.env.EMAIL}`,
+                  pass: `${process.env.password}`,
+                },
+              });
+              const mailOptions = await {
+                from: "investify180@gmail.com",
+                to: investor?.email,
+                subject: "Investify | Investee",
+                html: `<!DOCTYPE html>
+                <html>
+                <head>
+                <title>Update Listing</title>
+                <style>
+                    body {
+                    font-family: Arial, sans-serif;
+                    }
+          
+                    .container {
+                    max-width: 500px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    }
+          
+                    h2 {
+                    text-align: center;
+                    }
+          
+                    .btn {
+                    display: inline-block;
+                    background-color: #4CAF50;
+                    color: white;
+                    padding: 10px 20px;
+                    text-decoration: none;
+                    border-radius: 5px;
+                    }
+                </style>
+                </head>
+                <body>
+                <div class="container">
+                    <h2>Congratulations on your new investment.</h2>
+                    <p>Dear ${investor?.firstName},</p>
+                    <p>You have invested in a new business as you payment was successful you can now monitor the company profits from the investments tab of your dashboard. we wish you best of luck for future</p>
+                    <p>
+                    </p>
+                    <p>Thank you for choosing our platform. If you have any questions or need further assistance, please don't hesitate to contact our support team.</p>
+                    <p>Best regards,<br/>Investify Team</p>
+                </div>
+                </body>
+                </html>`,
+              };
+              await transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                  console.log("Error" + error);
+                } else {
+                  console.log("Email sent:" + info.response);
+                }
+              });
+            res.json({ message: "payment successful", status: true,});
+        }
+
+    } catch (error) {
+        res.json({ message: error.message, status: false });
+    }
+};
+// currently working
+exports.paymentFailure = async (req, res) => {
     try {
         const investor = await Investor.findOne({ _id: req.user })
         if (req.body.sessionId) {
