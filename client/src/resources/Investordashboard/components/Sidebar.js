@@ -191,7 +191,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
     document.title = "Investify | Investor-Home";
 
     getUser();
-    getChatCount()
+    // getChatCount()
  
   }, []);
   const isEmptyObject = (obj) => {

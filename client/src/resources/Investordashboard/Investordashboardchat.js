@@ -13,6 +13,8 @@ import {
   orderBy,
 } from "firebase/firestore";
 import useInvestor from '../../providers/investorStore';
+import { socket } from '../../utils/socket';
+
 
 
 const Investordashboardchat = () => {
@@ -24,83 +26,157 @@ const Investordashboardchat = () => {
   const investor = useInvestor((state) => state?.investors)
   const chatContainerRef = useRef(null);
   const roomId = `${id1}_${id2}`;
-  const [userStatus, setUserStatus] = useState(false);
-  const [name, setName] = useState('');
+  // const [userStatus, setUserStatus] = useState(false);
+  // const [name, setName] = useState('');
+  const [user2, setUser2] = useState('');
 
 
+  const getUser = () => {
+    try {
+      const token1 = window.localStorage.getItem('token1');
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/get-chat-user`, {
+        method: "POST",
+        body: JSON.stringify({
+          id2
+        }),
+        headers: {
+          'token': token1,
+          'Accept': "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status) {
+            // console.log(res.chatUser)
+            setUser2(res.chatUser);
+          }
+          else {
+            console.log("error")
+          }
+        })
+        .catch((err) => console.log(err));
+
+    } catch (error) {
+      console.log(error)
+    }
+  };
+  const getMessages = () => {
+    try {
+      const token1 = window.localStorage.getItem('token1');
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/chat/investor/get-messages/${roomId}`, {
+        method: "GET",
+        headers: {
+          'token': token1,
+          'Accept': "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status) {
+            // console.log(res.chatUser)
+            // setUser2(res.chatUser);
+            setMessages(res.message)
+          }
+          else {
+            console.log("error")
+          }
+        })
+        .catch((err) => console.log(err));
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const sendMessage = () => {
+    try {
+      const token1 = window.localStorage.getItem('token1');
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/chat/investor/send-message`, {
+        method: "POST",
+        body: JSON.stringify({
+          newMessage,
+          roomId
+        }),
+        headers: {
+          'token': token1,
+          'Accept': "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status) {
+            console.log("message sent")
+            setNewMessage('')
+            getMessages()
+          }
+          else {
+            console.log("error")
+          }
+        })
+        .catch((err) => console.log(err));
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
   useEffect(() => {
     if (window.localStorage.getItem('token1')) {
       document.title = 'Investify | Investor-chat';
-      const queryMessages = query(
-        messagesRef,
-        where("roomId", "==", roomId),
-        orderBy("createdAt")
-      );
-      const unsuscribe = onSnapshot(queryMessages, (snapshot) => {
-        let messages = [];
-        snapshot.forEach((doc) => {
-          messages.push({ ...doc.data(), id: doc.id });
-        });
-        // console.log(messages);
-        setMessages(messages);
-        const distinctName = new Set()
-        const chatStatus = new Set()
-
-
-        messages.map((message) => {
-          if (message.userId == id2) {
-            distinctName.add(message?.userName)
-            chatStatus.add(message?.online)
-            setName(distinctName)
-            setUserStatus([...chatStatus][0])
-            console.log(userStatus)
-
-            // const name=messages
-          }
-
-        });
+      getUser()
+      getMessages()
+      socket.connect()
+      socket.on('connect', console.log);
+      socket.on('disconnect', console.log);
+      socket.on(`${roomId}-new-message`, (message) => {
+        console.log('new message', message);
+        setMessages((prev) => [...prev, JSON.parse(message)])
       });
 
-      return () => unsuscribe();
+      return () => {
+        socket.off('connect', console.log);
+        socket.off('disconnect', console.log);
+      };
 
     } else {
       navigate('/user-login');
     }
   }, []);
 
-  useEffect(() => {
-    // Scroll to the bottom when new messages are added
-    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-  }, [messages]);
+  // useEffect(() => {
+  //   // Scroll to the bottom when new messages are added
+  //   chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+  // }, [messages]);
 
-  const handleSubmit = async () => {
-    if (investor?.firstName && investor?.lastName) {
-      if (newMessage === "") return;
-      await addDoc(messagesRef, {
-        text: newMessage,
-        createdAt: serverTimestamp(),
-        userId: id1,
-        userName: `${investor?.firstName} ${investor?.lastName}`,
-        roomId,
-      });
-      setNewMessage("");
-    }
-  };
+  // const handleSubmit = async () => {
+  //   if (investor?.firstName && investor?.lastName) {
+  //     if (newMessage === "") return;
+  //     await addDoc(messagesRef, {
+  //       text: newMessage,
+  //       createdAt: serverTimestamp(),
+  //       userId: id1,
+  //       userName: `${investor?.firstName} ${investor?.lastName}`,
+  //       roomId,
+  //     });
+  //     setNewMessage("");
+  //   }
+  // };
 
 
   return (
     <>
       <Sidebar>
         <Box p={4} borderWidth="1px" borderRadius="lg" bgColor={"white"}>
-        <Box marginLeft={5}>
-          <Text>{name}</Text>
-            {userStatus ? <Text color={"green"}>online</Text> : <Text color={"red"}>offline</Text>}
+          <Box marginLeft={5}>
+            <Text>{user2?.businessName}</Text>
+            {/* {userStatus ? <Text color={"green"}>online</Text> : <Text color={"red"}>offline</Text>} */}
           </Box>
           <Box height="300px" overflowY="scroll" p={6} borderWidth="1px" borderRadius="lg" ref={chatContainerRef} backgroundColor={""}>
             {/* Chat messages */}
             {messages.map((message) => (
-              <Text textAlign={message.userId == id1 ? "right" : "left"} padding={2}> <span style={{ padding: "8px", borderRadius: "10px", backgroundColor: message?.userId == id1 ? "#0096FF" : "#89CFF0", color: message?.userId == id1 ? "white" : "black" }}>{message.userId == id1 ? `${message?.text}` : `${message?.userName}: ${message?.text}`}</span></Text>
-
+              <Text textAlign={message?.investor_id?._id == id1 ? "right" : "left"} padding={2}> <span style={{ padding: "8px", borderRadius: "10px", backgroundColor: message?.userId == id1 ? "#0096FF" : "#89CFF0", color: message?.investor_id?._id== id1 ? "white" : "black" }}>{message?.investor_id?._id== id1 ? `${message?.message}` : ` ${message?.message}`}</span></Text>
+              // <Text>{message?.message}</Text>
             ))}
           </Box>
           <Input
@@ -109,12 +185,13 @@ const Investordashboardchat = () => {
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
-                handleSubmit()
+                // handleSubmit()
+                sendMessage()
               }
             }}
           />
-          <Button colorScheme="blue" mt={4} onClick={() => { handleSubmit() }}
-          
+          <Button colorScheme="blue" mt={4} onClick={() => { sendMessage() }}
+
           >
             Send
           </Button>

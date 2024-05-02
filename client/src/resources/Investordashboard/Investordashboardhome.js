@@ -52,7 +52,7 @@ const Investordashboardhome = () => {
       .then((res) => {
         if (res.status) {
           setInvestor(res.investor)
-          updateStatus(res.investor._id)
+          // updateStatus(res.investor._id)
 
           setLoading(false)
 
@@ -104,23 +104,23 @@ const Investordashboardhome = () => {
       })
       .catch((err) => console.log(err));
   };
-  const updateStatus = async (investorID) => {
-    console.log(investorID)
-    const queryMessages = query(
-      messagesRef,
-      where("userId", "==", investorID)
-    );
-    const querySnapshot = await getDocs(queryMessages);
-    // console.log(querySnapshot)
-    querySnapshot.forEach((document) => {
-      console.log(document.id)
-      const documentRef = doc(db, "messages", document.id);
-      updateDoc(documentRef, {
-        online: true
-      })
-    });
+  // const updateStatus = async (investorID) => {
+  //   console.log(investorID)
+  //   const queryMessages = query(
+  //     messagesRef,
+  //     where("userId", "==", investorID)
+  //   );
+  //   const querySnapshot = await getDocs(queryMessages);
+  //   // console.log(querySnapshot)
+  //   querySnapshot.forEach((document) => {
+  //     console.log(document.id)
+  //     const documentRef = doc(db, "messages", document.id);
+  //     updateDoc(documentRef, {
+  //       online: true
+  //     })
+  //   });
 
-  }
+  // }
   useEffect(() => {
     if (window.localStorage.getItem('token1')) {
       document.title = "Investify | Investor-Home";

@@ -11,8 +11,21 @@ const InvestorRouter = require('./routes/investorRoutes')
 const cron = require('node-cron');
 const Listing = require("./model/listing");
 
+const { Server } = require('socket.io');
+const { createServer } = require('node:http');
+const server = createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:3000',
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
 
-console.log(process.env.MONGO_URL)
+const ChatRouter = require('./routes/chatRoutes')(io)
+
+
+
 app.use(
   cors({
     origin: [`${process.env.ORIGIN_URL}`],
@@ -53,14 +66,17 @@ cron.schedule('0 0 * * *', async () => {
           isInvestmentEnded: true
         })
         console.log("done")
-      
       }
       // console.log(listing.investment_end_date)
-
     }
   })
 });
 
+io.on('connection', (socket) => {
+  console.log('a user connected' , socket.id);
+});
 
-app.listen(PORT, () => console.log(`Listening on http://127.0.0.1:${PORT}`));
+app.use('/api/chat' , ChatRouter )
+
+server.listen(PORT, () => console.log(`Listening on http://localhost:${PORT}`));
 

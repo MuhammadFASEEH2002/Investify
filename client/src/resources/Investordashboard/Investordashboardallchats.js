@@ -24,34 +24,35 @@ const Investordashboardallchats = () => {
 
   useEffect(() => {
     if (window.localStorage.getItem('token1')) {
-      document.title = 'Investify | Investor-All-Chats';
+      setLoading(false)
+      // document.title = 'Investify | Investor-All-Chats';
 
-      const queryMessages = query(messagesRef, orderBy('roomId'));
-      setLoading(true);
-      const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
+      // const queryMessages = query(messagesRef, orderBy('roomId'));
+      // setLoading(true);
+      // const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
 
-        const distinctRoomIds = new Set();
-        snapshot.forEach((doc) => {
-          const { roomId, userName } = doc.data();
-          if (roomId.split('_')[0] == investor?._id || roomId.split('_')[1] == investor?._id) {
-            if (userName.split(" ")[0] != investor?.firstName && userName.split(" ")[1] != investor?.lastName) {
-              const uniqueIdentifier = `${roomId}-${userName}`; // Combine roomId and userName
-              distinctRoomIds.add(uniqueIdentifier);
-            }
-          } else {
-            console.log('not same')
-          }
+      //   const distinctRoomIds = new Set();
+      //   snapshot.forEach((doc) => {
+      //     const { roomId, userName } = doc.data();
+      //     if (roomId.split('_')[0] == investor?._id || roomId.split('_')[1] == investor?._id) {
+      //       if (userName.split(" ")[0] != investor?.firstName && userName.split(" ")[1] != investor?.lastName) {
+      //         const uniqueIdentifier = `${roomId}-${userName}`; // Combine roomId and userName
+      //         distinctRoomIds.add(uniqueIdentifier);
+      //       }
+      //     } else {
+      //       console.log('not same')
+      //     }
 
-        });
-        console.log(distinctRoomIds);
-        const roomIds = Array.from(distinctRoomIds);
-        setRoomIdsArray(roomIds);
-        setLoading(false);
-      });
+      //   });
+      //   console.log(distinctRoomIds);
+      //   const roomIds = Array.from(distinctRoomIds);
+      //   setRoomIdsArray(roomIds);
+      //   setLoading(false);
+      // });
 
-      return () => {
-        unsubscribe();
-      };
+      // return () => {
+      //   unsubscribe();
+      // };
     } else {
       navigate('/user-login');
     }

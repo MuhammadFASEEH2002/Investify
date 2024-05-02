@@ -2,6 +2,8 @@ const Investor = require("../model/investorDB");
 const Investee = require("../model/investeeDB");
 const Listing = require("../model/listing");
 const Notification = require("../model/notification");
+const Chat = require("../model/chat");
+
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const emailValidator = require("deep-email-validator");
@@ -211,7 +213,7 @@ exports.paymentSuccess = async (req, res) => {
                   console.log("Email sent:" + info.response);
                 }
               });
-            res.json({ message: "payment successful", status: true,});
+            res.json({ message: "payment successful", status: true});
         }
 
     } catch (error) {
@@ -267,6 +269,22 @@ exports.getInvestments = async (req, res) => {
         res.json({ message: error.message, status: false });
     }
 };
+
+exports.getChatUser =async(req,res)=>{
+    try {
+        const chatUser=await Investee.findOne({_id:req.body.id2})
+        if(chatUser){
+            res.json({
+                status: true,
+                chatUser
+            });
+        }
+        
+    } catch (error) {
+        
+    }
+}
+
 
 
 

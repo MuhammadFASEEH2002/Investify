@@ -2,17 +2,17 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Box, Text, Input, Button } from '@chakra-ui/react';
 import Sidebar from './components/Sidebar';
 import { useNavigate, useParams } from 'react-router-dom';
-import { db } from '../../utils/firebase';
-import {
-  collection,
-  addDoc,
-  where,
-  serverTimestamp,
-  onSnapshot,
-  query,
-  orderBy,
-  updateDoc
-} from "firebase/firestore";
+// import { db } from '../../utils/firebase';
+// import {
+//   collection,
+//   addDoc,
+//   where,
+//   serverTimestamp,
+//   onSnapshot,
+//   query,
+//   orderBy,
+//   updateDoc
+// } from "firebase/firestore";
 import useInvestee from '../../providers/investeeStore';
 
 
@@ -25,48 +25,78 @@ const Investeedashboardchat = () => {
 
   const { id1, id2 } = useParams();
   const navigate = useNavigate();
-  const messagesRef = collection(db, "messages");
+  // const messagesRef = collection(db, "messages");
   const investee = useInvestee((state) => state?.investees)
   const chatContainerRef = useRef(null)
   const roomId = `${id1}_${id2}`
 
+  const getMessages = () => {
+    try {
+      const token = window.localStorage.getItem('token');
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/chat/investee/get-messages/${roomId}`, {
+        method: "GET",
+        headers: {
+          'token': token,
+          'Accept': "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status) {
+            // console.log(res.chatUser)
+            // setUser2(res.chatUser);
+            setMessages(res.message)
+          }
+          else {
+            console.log("error")
+          }
+        })
+        .catch((err) => console.log(err));
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const sendMessage = () => {
+    try {
+      const token1 = window.localStorage.getItem('token1');
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/chat/investee/send-message`, {
+        method: "POST",
+        body: JSON.stringify({
+          newMessage,
+          roomId
+        }),
+        headers: {
+          'token': token1,
+          'Accept': "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status) {
+            console.log("message sent")
+            setNewMessage('')
+            getMessages()
+          }
+          else {
+            console.log("error")
+          }
+        })
+        .catch((err) => console.log(err));
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
   useEffect(() => {
     if (window.localStorage.getItem('token')) {
       document.title = 'Investify | Investee-chat';
-      const queryMessages = query(
-        messagesRef,
-        where("roomId", "==", roomId),
-        orderBy("createdAt")
-      );
-      const unsuscribe = onSnapshot(queryMessages, (snapshot) => {
-        let messages = [];
-        snapshot.forEach((doc) => {
-          messages.push({ ...doc.data(), id: doc.id });
-        });
-        // console.log(messages);
-        setMessages(messages);
-
-        const distinctName = new Set()
-        const chatStatus = new Set()
-
-
-        messages.map((message) => {
-          if (message.userId == id1) {
-            distinctName.add(message?.userName)
-            chatStatus.add(message?.online)
-            setName(distinctName)
-            setUserStatus([...chatStatus][0])
-            console.log(userStatus)
-
-            // const name=messages
-          }
-
-        });
-      });
-
-      return () => unsuscribe();
+      getMessages()
+  
 
     } else {
       navigate('/user-login');
@@ -78,19 +108,6 @@ const Investeedashboardchat = () => {
     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
   }, [messages]);
 
-  const handleSubmit = async () => {
-    if (newMessage === "") return;
-    await addDoc(messagesRef, {
-      text: newMessage,
-      createdAt: serverTimestamp(),
-      userId: id2,
-      userName: investee?.businessName,
-      roomId,
-      online: true
-    });
-
-    setNewMessage("");
-  };
 
 
   return (
@@ -98,13 +115,13 @@ const Investeedashboardchat = () => {
       <Sidebar>
         <Box p={4} borderWidth="1px" borderRadius="lg" backgroundColor={"white"}>
           <Box marginLeft={5}>
-          <Text>{name}</Text>
-            {userStatus ? <Text color={"green"}>online</Text> : <Text color={"red"}>offline</Text>}
+          {/* <Text>{name}</Text>
+            {userStatus ? <Text color={"green"}>online</Text> : <Text color={"red"}>offline</Text>} */}
           </Box>
           <Box height="300px" overflowY="scroll" p={6} borderWidth="1px" borderRadius="lg" ref={chatContainerRef} backgroundColor={""}>
             {/* Chat messages */}
             {messages.map((message) => (
-              <Text textAlign={message?.userId == id2 ? "right" : "left"} padding={2}> <span style={{ padding: "8px", borderRadius: "10px", backgroundColor: message?.userId == id2 ? "#0096FF" : "#89CFF0",color: message?.userId == id2 ? "white" : "black" }}>{message.userId == id2 ? `${message?.text}` : `${message?.userName}: ${message?.text}`}</span></Text>
+              <Text textAlign={message?.investee_id?._id == id2 ? "right" : "left"} padding={2}> <span style={{ padding: "8px", borderRadius: "10px", backgroundColor: message?.investee_id?._id  == id2 ? "#0096FF" : "#89CFF0",color: message?.investee_id?._id  == id2 ? "white" : "black" }}>{message?.investee_id?._id == id2 ? `${message?.message}` : `${message?.message}`}</span></Text>
             ))}
           </Box>
           <Input
@@ -113,11 +130,13 @@ const Investeedashboardchat = () => {
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyDown={(event) => {
               if (event.key === "Enter") {
-                handleSubmit()
+                sendMessage()
+
               }
             }}
           />
-          <Button colorScheme="blue" mt={4} onClick={() => { handleSubmit() }}
+          <Button colorScheme="blue" mt={4} onClick={() => {      sendMessage()
+ }}
           >
             Send
           </Button>
