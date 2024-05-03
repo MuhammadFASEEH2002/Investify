@@ -16,7 +16,7 @@ const { createServer } = require('node:http');
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: `${process.env.ORIGIN_URL}`,
     methods: ["GET", "POST"],
     credentials: true
   }
