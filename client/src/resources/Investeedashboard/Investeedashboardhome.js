@@ -65,7 +65,7 @@ const Investeedashboardhome = () => {
       .then((res) => {
         if (res.status) {
           setInvestee(res.investee)
-      updateStatus(res.investee._id)
+      // updateStatus(res.investee._id)
     
 
 
@@ -118,23 +118,23 @@ const Investeedashboardhome = () => {
       })
       .catch((err) => console.log(err));
   };
-  const updateStatus = async (investeeID) => {
-    console.log(investeeID)
-    const queryMessages = query(
-      messagesRef,
-      where("userId", "==", investeeID)
-    );
-    const querySnapshot = await getDocs(queryMessages);
-    // console.log(querySnapshot)
-    querySnapshot.forEach((document) => {
-      console.log(document.id)
-      const documentRef = doc(db, "messages", document.id);
-      updateDoc(documentRef, {
-        online: true
-      })
-    });
+  // const updateStatus = async (investeeID) => {
+  //   console.log(investeeID)
+  //   const queryMessages = query(
+  //     messagesRef,
+  //     where("userId", "==", investeeID)
+  //   );
+  //   const querySnapshot = await getDocs(queryMessages);
+  //   // console.log(querySnapshot)
+  //   querySnapshot.forEach((document) => {
+  //     console.log(document.id)
+  //     const documentRef = doc(db, "messages", document.id);
+  //     updateDoc(documentRef, {
+  //       online: true
+  //     })
+  //   });
 
-  }
+  // }
   useEffect(() => {
     if (window.localStorage.getItem('token')) {
       document.title = "Investify | Investee-Home";

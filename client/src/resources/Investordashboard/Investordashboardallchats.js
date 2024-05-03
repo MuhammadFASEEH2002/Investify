@@ -2,60 +2,105 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
 import { Stack, Spinner, Text, Card, CardBody } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-import { db } from '../../utils/firebase';
-import {
-  collection,
-  addDoc,
-  where,
-  serverTimestamp,
-  onSnapshot,
-  query,
-  orderBy,
-} from 'firebase/firestore';
+
 import useInvestor from '../../providers/investorStore';
 
 const Investordashboardallchats = () => {
-  const messagesRef = collection(db, 'messages');
-  const [roomIdsArray, setRoomIdsArray] = useState([]);
+  const [messages, setMessages] = useState([]);
+  const [chats, setChats] = useState([]);
+
   const [loading, setLoading] = useState(false);
-  const investor = useInvestor((state) => state?.investors)
-  const navigate = useNavigate()
+  const investor = useInvestor((state) => state?.investors);
+  const navigate = useNavigate();
+  const getMessages = () => {
+      try {
+          const token1 = window.localStorage.getItem('token1');
+          fetch(`${process.env.REACT_APP_FETCH_URL_}/api/chat/investor/get-all-chats`, {
+              method: "GET",
+              headers: {
+                  'token': token1,
+                  'Accept': "application/json",
+                  "Content-Type": "application/json",
+              },
+          })
+              .then((res) => res.json())
+              .then((res) => {
+                  if (res.status) {
+                      // console.log(res.chatUser)
+                      // setUser2(res.chatUser);
+                      setMessages(res.message)
+                      getChats(res.message)
+                      // if(investee?._id) {
+                     
+                      // }
+                  }
+                  else {
+                      console.log("error")
+                  }
+              })
+              .catch((err) => console.log(err));
 
+      } catch (error) {
+          console.log(error)
+      }
+  }
+  const getChats = (messages) => {
+      const distinctChats = new Set();
+      messages.map((message) => {
+          //    console.log(message)
+          if (message.chat_id.split('_')[0] == investor?._id || message.chat_id.split('_')[1] == investor?._id) {
+              // if (message.investor_id?.businessName !== investee?.businessName) {
+                  // console.log(message?.investee_id?.firstName)
+                  let chatId = message?.chat_id
+                  let chatName = `${message?.investee_id?.businessName} `
+                  let uniqueIdentifier=`${chatId}-${chatName}`
+                  distinctChats.add( uniqueIdentifier )
+          
 
+          }
+
+      });
+      console.log(distinctChats)
+      const chatHeads = Array.from(distinctChats);
+              // console.log(chatHeads);
+              setChats(chatHeads);
+              console.log(chats)
+  }
   useEffect(() => {
-    if (window.localStorage.getItem('token1')) {
-      setLoading(false)
-      // document.title = 'Investify | Investor-All-Chats';
+      if (window.localStorage.getItem('token1')) {
+          document.title = 'Investify | Investor-All-Chats';
+          console.log(investor?._id);
+          getMessages();
 
-      // const queryMessages = query(messagesRef, orderBy('roomId'));
-      // setLoading(true);
-      // const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
+          // const queryMessages = query(messagesRef, orderBy('roomId'));
+          // setLoading(true);
+          // console.log(queryMessages)
+          // const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
+          //     const distinctRoomIds = new Set();
+          //     snapshot.forEach((doc) => {
+          //         const { roomId, userName } = doc.data();
+          //         if (roomId.split('_')[0] == investee?._id || roomId.split('_')[1] == investee?._id) {
+          //             if (userName != investee?.businessName) {
+          //                 // distinctRoomIds.add({ roomId, userName });
+          //                 const uniqueIdentifier = `${roomId}-${userName}`; // Combine roomId and userName
+          //                 distinctRoomIds.add(uniqueIdentifier);
+          //             }
+          //         } else {
+          //             console.log('not same')
+          //         }
+          //     });
+          //     const roomIds = Array.from(distinctRoomIds);
+          //     console.log(roomIds);
+          //     setRoomIdsArray(roomIds);
+          //     setLoading(false);
+          // });
+          // return () => {
+          //     unsubscribe();
+          // };
 
-      //   const distinctRoomIds = new Set();
-      //   snapshot.forEach((doc) => {
-      //     const { roomId, userName } = doc.data();
-      //     if (roomId.split('_')[0] == investor?._id || roomId.split('_')[1] == investor?._id) {
-      //       if (userName.split(" ")[0] != investor?.firstName && userName.split(" ")[1] != investor?.lastName) {
-      //         const uniqueIdentifier = `${roomId}-${userName}`; // Combine roomId and userName
-      //         distinctRoomIds.add(uniqueIdentifier);
-      //       }
-      //     } else {
-      //       console.log('not same')
-      //     }
-
-      //   });
-      //   console.log(distinctRoomIds);
-      //   const roomIds = Array.from(distinctRoomIds);
-      //   setRoomIdsArray(roomIds);
-      //   setLoading(false);
-      // });
-
-      // return () => {
-      //   unsubscribe();
-      // };
-    } else {
-      navigate('/user-login');
-    }
+      } else {
+          navigate('/user-login');
+      }
   }, []);
 
 
@@ -64,24 +109,24 @@ const Investordashboardallchats = () => {
       {loading ? (<>
         <><Stack minHeight={'100%'} width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack> </>
       </>) : (<>
-        {roomIdsArray.length > 0 ? (<>
-          <>
-            <Stack width={"100%"} alignItems={"center"} justifyContent={"center"}>
-              <Stack width={{ base: "100%", md: "80%", lg: "70%" }} flexDirection={"column"}>
-                {roomIdsArray.map((room, index) => (
-                  <Card onClick={() => {
-                    navigate(`/user/investor-dashboard/chat/${room?.split('-')[0].split('_')[0]}/${room?.split('-')[0].split('_')[1]}`);
-                  }} cursor={"pointer"} key={room} width={"100%"}>
-                    <CardBody>
-                      <Text fontSize={"1em"}>chat {index + 1}: {room.split('-')[1]} </Text>
-                    </CardBody>
-                  </Card>
-                ))}
-              </Stack>
-            </Stack>
-          </>
-
-        </>) : (<>No Chats</>)}
+        {chats.length > 0 ? 
+                (
+                    <>
+                        <Stack width={"100%"} alignItems={"center"} justifyContent={"center"}>
+                            <Stack width={{ base: "100%", md: "80%", lg: "70%" }} flexDirection={"column"}>
+                                {chats.map((chat,index) => (
+                                    <Card onClick={() => {
+                                        navigate(`/user/investor-dashboard/chat/${chat?.split('-')[0].split('_')[0]}/${chat?.split('-')[0].split('_')[1]}`);
+                                    }} cursor={"pointer"} key={index} width={"100%"}>
+                                        <CardBody>
+                                            <Text fontSize={"1em"}>chat {index + 1}: {chat.split('-')[1]} </Text>
+                                        </CardBody>
+                                    </Card>
+                                ))}
+                            </Stack>
+                        </Stack>
+                    </>
+                ) : (<>No Chats</>)}
 
 
       </>)}

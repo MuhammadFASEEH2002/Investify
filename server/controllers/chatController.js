@@ -9,7 +9,7 @@ exports.sendInvestorMessage =async(req,res,io)=>{
           });
           message = await Chat.findById(message._id).populate('investor_id');
           if(io){
-              io.emit(`${req.params.roomId}-new-message`, JSON.stringify(message));
+              io.emit(`${req.body.roomId}-new-message`, JSON.stringify(message));
           }
           res.json({
             status: true,
@@ -33,6 +33,20 @@ exports.getMessagesInvestor =async(req,res,io)=>{
         
     }
 }
+
+exports.getAllChatsInvestor =async(req,res)=>{
+    try {
+          message = await Chat.find({investee_id: { $exists: true }}).populate('investee_id')
+          res.json({
+            status: true,
+            message
+        });
+        
+    } catch (error) {
+        res.json({ message: error.message, status: false });
+        
+    }
+}
 exports.sendInvesteeMessage =async(req,res,io)=>{
     try {
         let message = await Chat.create({
@@ -42,7 +56,7 @@ exports.sendInvesteeMessage =async(req,res,io)=>{
           });
           message = await Chat.findById(message._id).populate('investee_id');
           if(io){
-              io.emit(`${req.params.roomId}-new-message`, JSON.stringify(message));
+              io.emit(`${req.body.roomId}-new-message`, JSON.stringify(message));
           }
           res.json({
             status: true,
@@ -68,7 +82,7 @@ exports.getMessagesInvestee =async(req,res,io)=>{
 }
 exports.getAllChatsInvestee =async(req,res)=>{
     try {
-          message = await Chat.find()
+          message = await Chat.find({investor_id: { $exists: true }}).populate('investor_id')
           res.json({
             status: true,
             message

@@ -2,18 +2,9 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Box, Text, Input, Button } from '@chakra-ui/react';
 import Sidebar from './components/Sidebar';
 import { useNavigate, useParams } from 'react-router-dom';
-// import { db } from '../../utils/firebase';
-// import {
-//   collection,
-//   addDoc,
-//   where,
-//   serverTimestamp,
-//   onSnapshot,
-//   query,
-//   orderBy,
-//   updateDoc
-// } from "firebase/firestore";
 import useInvestee from '../../providers/investeeStore';
+import { socket } from '../../utils/socket';
+
 
 
 const Investeedashboardchat = () => {
@@ -60,7 +51,7 @@ const Investeedashboardchat = () => {
   }
   const sendMessage = () => {
     try {
-      const token1 = window.localStorage.getItem('token1');
+      const token = window.localStorage.getItem('token');
       fetch(`${process.env.REACT_APP_FETCH_URL_}/api/chat/investee/send-message`, {
         method: "POST",
         body: JSON.stringify({
@@ -68,7 +59,7 @@ const Investeedashboardchat = () => {
           roomId
         }),
         headers: {
-          'token': token1,
+          'token': token,
           'Accept': "application/json",
           "Content-Type": "application/json",
         },
@@ -78,7 +69,7 @@ const Investeedashboardchat = () => {
           if (res.status) {
             console.log("message sent")
             setNewMessage('')
-            getMessages()
+            // getMessages()
           }
           else {
             console.log("error")
@@ -96,6 +87,18 @@ const Investeedashboardchat = () => {
     if (window.localStorage.getItem('token')) {
       document.title = 'Investify | Investee-chat';
       getMessages()
+      socket.connect()
+      socket.on('connect', console.log);
+      socket.on('disconnect', console.log);
+      socket.on(`${roomId}-new-message`, (message) => {
+        console.log('new message', message);
+        setMessages((prev) => [...prev, JSON.parse(message)])
+      });
+
+      return () => {
+        socket.off('connect', console.log);
+        socket.off('disconnect', console.log);
+      };
   
 
     } else {

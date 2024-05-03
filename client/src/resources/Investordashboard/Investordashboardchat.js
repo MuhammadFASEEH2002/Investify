@@ -2,16 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Box, Text, Input, Button } from '@chakra-ui/react';
 import Sidebar from './components/Sidebar';
 import { useNavigate, useParams } from 'react-router-dom';
-import { db } from '../../utils/firebase';
-import {
-  collection,
-  addDoc,
-  where,
-  serverTimestamp,
-  onSnapshot,
-  query,
-  orderBy,
-} from "firebase/firestore";
+
 import useInvestor from '../../providers/investorStore';
 import { socket } from '../../utils/socket';
 
@@ -22,7 +13,7 @@ const Investordashboardchat = () => {
   const [newMessage, setNewMessage] = useState('');
   const { id1, id2 } = useParams();
   const navigate = useNavigate();
-  const messagesRef = collection(db, "messages");
+  // const messagesRef = collection(db, "messages");
   const investor = useInvestor((state) => state?.investors)
   const chatContainerRef = useRef(null);
   const roomId = `${id1}_${id2}`;
@@ -109,7 +100,7 @@ const Investordashboardchat = () => {
           if (res.status) {
             console.log("message sent")
             setNewMessage('')
-            getMessages()
+            // getMessages()
           }
           else {
             console.log("error")
@@ -143,7 +134,10 @@ const Investordashboardchat = () => {
       navigate('/user-login');
     }
   }, []);
-
+  useEffect(() => {
+    // Scroll to the bottom when new messages are added
+    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+  }, [messages]);
   // useEffect(() => {
   //   // Scroll to the bottom when new messages are added
   //   chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -175,7 +169,7 @@ const Investordashboardchat = () => {
           <Box height="300px" overflowY="scroll" p={6} borderWidth="1px" borderRadius="lg" ref={chatContainerRef} backgroundColor={""}>
             {/* Chat messages */}
             {messages.map((message) => (
-              <Text textAlign={message?.investor_id?._id == id1 ? "right" : "left"} padding={2}> <span style={{ padding: "8px", borderRadius: "10px", backgroundColor: message?.userId == id1 ? "#0096FF" : "#89CFF0", color: message?.investor_id?._id== id1 ? "white" : "black" }}>{message?.investor_id?._id== id1 ? `${message?.message}` : ` ${message?.message}`}</span></Text>
+              <Text textAlign={message?.investor_id?._id == id1 ? "right" : "left"} padding={2}> <span style={{ padding: "8px", borderRadius: "10px", backgroundColor: message?.investor_id?._id == id1 ? "#0096FF" : "#89CFF0", color: message?.investor_id?._id== id1 ? "white" : "black" }}>{message?.investor_id?._id== id1 ? `${message?.message}` : ` ${message?.message}`}</span></Text>
               // <Text>{message?.message}</Text>
             ))}
           </Box>
