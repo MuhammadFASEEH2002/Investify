@@ -84,26 +84,28 @@ const Investeedashboardchat = () => {
 
 
   useEffect(() => {
+    const handleNewMessage = (message) => {
+      console.log('new message', message);
+      setMessages((prev) => [...prev, JSON.parse(message)]);
+    };
+  
     if (window.localStorage.getItem('token')) {
       document.title = 'Investify | Investee-chat';
-      getMessages()
-      socket.connect()
+      getMessages();
+      socket.connect();
       socket.on('connect', console.log);
       socket.on('disconnect', console.log);
-      socket.on(`${roomId}-new-message`, (message) => {
-        console.log('new message', message);
-        setMessages((prev) => [...prev, JSON.parse(message)])
-      });
-
-      return () => {
-        socket.off('connect', console.log);
-        socket.off('disconnect', console.log);
-      };
-  
-
+      socket.on(`${roomId}-new-message`, handleNewMessage);
     } else {
       navigate('/user-login');
     }
+  
+    return () => {
+      setMessages([]); // Clear the messages state
+      socket.off(`${roomId}-new-message`, handleNewMessage);
+      socket.off('connect', console.log);
+      socket.off('disconnect', console.log);
+    };
   }, []);
 
   useEffect(() => {
@@ -111,7 +113,10 @@ const Investeedashboardchat = () => {
     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
   }, [messages]);
 
-
+  const handleNewMessage = (message) => {
+    console.log('new message', message);
+    setMessages((prev) => [...prev, JSON.parse(message)]);
+  };
 
   return (
     <>

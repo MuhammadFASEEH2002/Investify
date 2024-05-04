@@ -113,26 +113,29 @@ const Investordashboardchat = () => {
     }
   }
   useEffect(() => {
-    if (window.localStorage.getItem('token1')) {
+    const handleNewMessage = (message) => {
+      console.log('new message', message);
+      setMessages((prev) => [...prev, JSON.parse(message)]);
+    };
+  
+    const token = window.localStorage.getItem('token1');
+    if (token) {
       document.title = 'Investify | Investor-chat';
-      getUser()
-      getMessages()
-      socket.connect()
+      getUser();
+      getMessages();
+      socket.connect();
       socket.on('connect', console.log);
       socket.on('disconnect', console.log);
-      socket.on(`${roomId}-new-message`, (message) => {
-        console.log('new message', message);
-        setMessages((prev) => [...prev, JSON.parse(message)])
-      });
-
-      return () => {
-        socket.off('connect', console.log);
-        socket.off('disconnect', console.log);
-      };
-
+      socket.on(`${roomId}-new-message`, handleNewMessage);
     } else {
       navigate('/user-login');
     }
+  
+    return () => {
+      socket.off(`${roomId}-new-message`, handleNewMessage);
+      socket.off('connect', console.log);
+      socket.off('disconnect', console.log);
+    };
   }, []);
   useEffect(() => {
     // Scroll to the bottom when new messages are added
