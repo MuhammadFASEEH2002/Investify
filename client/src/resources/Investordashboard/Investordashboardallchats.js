@@ -14,6 +14,7 @@ const Investordashboardallchats = () => {
   const navigate = useNavigate();
   const getMessages = () => {
       try {
+        setLoading(true)
           const token1 = window.localStorage.getItem('token1');
           fetch(`${process.env.REACT_APP_FETCH_URL_}/api/chat/investor/get-all-chats`, {
               method: "GET",
@@ -30,12 +31,15 @@ const Investordashboardallchats = () => {
                       // setUser2(res.chatUser);
                       setMessages(res.message)
                       getChats(res.message)
+                      setLoading(false)
                       // if(investee?._id) {
                      
                       // }
                   }
                   else {
                       console.log("error")
+                      setLoading(false)
+
                   }
               })
               .catch((err) => console.log(err));

@@ -20,6 +20,39 @@ const Investeedashboardchat = () => {
   const investee = useInvestee((state) => state?.investees)
   const chatContainerRef = useRef(null)
   const roomId = `${id1}_${id2}`
+  const [user1, setUser1] = useState('');
+
+
+  const getUser = () => {
+    try {
+      const token = window.localStorage.getItem('token');
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/get-chat-user`, {
+        method: "POST",
+        body: JSON.stringify({
+          id1
+        }),
+        headers: {
+          'token': token,
+          'Accept': "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status) {
+            // console.log(res.chatUser)
+            setUser1(res.chatUser);
+          }
+          else {
+            console.log("error")
+          }
+        })
+        .catch((err) => console.log(err));
+
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   const getMessages = () => {
     try {
@@ -91,6 +124,7 @@ const Investeedashboardchat = () => {
   
     if (window.localStorage.getItem('token')) {
       document.title = 'Investify | Investee-chat';
+      getUser()
       getMessages();
       socket.connect();
       socket.on('connect', console.log);
@@ -113,18 +147,15 @@ const Investeedashboardchat = () => {
     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
   }, [messages]);
 
-  const handleNewMessage = (message) => {
-    console.log('new message', message);
-    setMessages((prev) => [...prev, JSON.parse(message)]);
-  };
+
 
   return (
     <>
       <Sidebar>
         <Box p={4} borderWidth="1px" borderRadius="lg" backgroundColor={"white"}>
           <Box marginLeft={5}>
-          {/* <Text>{name}</Text>
-            {userStatus ? <Text color={"green"}>online</Text> : <Text color={"red"}>offline</Text>} */}
+          <Text>{user1?.firstName} {user1?.lastName}</Text>
+            {user1?.isOnline ? <Text color={"green"}>online</Text> : <Text color={"red"}>offline</Text>}  
           </Box>
           <Box height="300px" overflowY="scroll" p={6} borderWidth="1px" borderRadius="lg" ref={chatContainerRef} backgroundColor={""}>
             {/* Chat messages */}

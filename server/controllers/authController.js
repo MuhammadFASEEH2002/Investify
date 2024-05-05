@@ -349,6 +349,7 @@ exports.investorLogin = async (req, res) => {
       if (verify) {
         // const token = await jwt.sign({ id: Exist._doc._id }, "mysecurepassword");
         const token1 = await jwt.sign({ id: Exist._doc._id }, "Aeiou.123", { expiresIn: '1h' });
+      await Investor.findByIdAndUpdate({_id:Exist._id},{isOnline:true})
         res.json({
           token1,
           status: true,
@@ -377,7 +378,10 @@ exports.investeeLogin = async (req, res) => {
       // const verifyAccount= await bcrypt.compare(req.body.password, Exist._doc.password);
       if (Exist._doc.isVerified === true) {
         if (verifyPassword) {
+
           const token = await jwt.sign({ id: Exist._doc._id }, "Aeiou.123", { expiresIn: '1h' });
+      await Investee.findByIdAndUpdate({_id:Exist._id},{isOnline:true})
+
           res.json({
             token,
             status: true,

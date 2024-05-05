@@ -141,24 +141,6 @@ const Investordashboardchat = () => {
     // Scroll to the bottom when new messages are added
     chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
   }, [messages]);
-  // useEffect(() => {
-  //   // Scroll to the bottom when new messages are added
-  //   chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-  // }, [messages]);
-
-  // const handleSubmit = async () => {
-  //   if (investor?.firstName && investor?.lastName) {
-  //     if (newMessage === "") return;
-  //     await addDoc(messagesRef, {
-  //       text: newMessage,
-  //       createdAt: serverTimestamp(),
-  //       userId: id1,
-  //       userName: `${investor?.firstName} ${investor?.lastName}`,
-  //       roomId,
-  //     });
-  //     setNewMessage("");
-  //   }
-  // };
 
 
   return (
