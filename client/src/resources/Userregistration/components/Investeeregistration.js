@@ -443,7 +443,7 @@ const Investeeregistration = () => {
                   isRequired
                 >
                   <option value="Restaurant">Restaurant</option>
-                  <option value="Informmation Technology (IT)">
+                  <option value="Information Technology (IT)">
                     Information Technology (IT)
                   </option>
                   <option value="Retail Business">Retail Business</option>

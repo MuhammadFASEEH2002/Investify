@@ -149,7 +149,8 @@ const Investordashboardchat = () => {
         <Box p={4} borderWidth="1px" borderRadius="lg" bgColor={"white"}>
           <Box marginLeft={5}>
             <Text>{user2?.businessName}</Text>
-            {/* {userStatus ? <Text color={"green"}>online</Text> : <Text color={"red"}>offline</Text>} */}
+            {user2?.isOnline ? <Text color={"green"}>online</Text> : <Text color={"red"}>offline</Text>}  
+
           </Box>
           <Box height="300px" overflowY="scroll" p={6} borderWidth="1px" borderRadius="lg" ref={chatContainerRef} backgroundColor={""}>
             {/* Chat messages */}

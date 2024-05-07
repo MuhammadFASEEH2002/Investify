@@ -45,6 +45,9 @@ const listingSchema = new mongo.Schema({
   },
   isInvestmentEnded: {
     type: Boolean
+  },
+  amountReceived:{
+    type: String
   }
 },
   {
