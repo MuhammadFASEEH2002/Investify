@@ -10,6 +10,10 @@ const emailValidator = require("deep-email-validator");
 const nodemailer = require("nodemailer");
 const env = require('dotenv').config();
 const Stripe = require('stripe')
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
+// const { ref, uploadBytes, getDownloadURL } = require("@firebase/storage");
+// const { storage } = require("../uitls/firebase");
 
 exports.getMe = async (req, res) => {
     try {
@@ -90,7 +94,7 @@ exports.getStats = async (req, res) => {
 };
 exports.checkoutSession = async (req, res) => {
     try {
-       
+
         const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id");
         const investor = await Investor.findOne({ _id: req.user })
         const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
@@ -131,11 +135,10 @@ exports.checkoutSession = async (req, res) => {
 };
 exports.paymentSuccess = async (req, res) => {
     try {
+        const doc = new PDFDocument();
         const investor = await Investor.findOne({ _id: req.user })
         if (req.body.sessionId) {
-            const listing = await Listing.findOne({ payment_session_id: req.body.sessionId }).populate("investee_id");
-            console.log(listing)
-            // setting up current date
+            const listing = await Listing.findOne({ payment_session_id: req.body.sessionId }).populate("investee_id investor_id");
             const currentDate = new Date();
             const currentYear = currentDate.getFullYear();
             const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
@@ -147,18 +150,20 @@ exports.paymentSuccess = async (req, res) => {
             const endMonth = currentMonth;
             const endDay = currentDay;
             const formattedEndDate = `${endDay}-${endMonth}-${endYear}`;
-            await Listing.findByIdAndUpdate({ _id: listing?._id }, {
-                investor_id: investor._id, investment_start_date: formattedCurrentDate,
-                investment_end_date: formattedEndDate
-            })
+            // await Listing.findByIdAndUpdate({ _id: listing?._id }, {
+            //     investor_id: investor._id, investment_start_date: formattedCurrentDate,
+            //     investment_end_date: formattedEndDate
+            // })
+            console.log(listing)
+
             const transporter = await nodemailer.createTransport({
                 service: "gmail",
                 auth: {
-                  user: `${process.env.EMAIL}`,
-                  pass: `${process.env.password}`,
+                    user: `${process.env.EMAIL}`,
+                    pass: `${process.env.password}`,
                 },
-              });
-              const mailOptions = await {
+            });
+            const mailOptions = await {
                 from: "investify180@gmail.com",
                 to: investor?.email,
                 subject: "Investify | Investee",
@@ -205,15 +210,40 @@ exports.paymentSuccess = async (req, res) => {
                 </div>
                 </body>
                 </html>`,
-              };
-              await transporter.sendMail(mailOptions, (error, info) => {
+            };
+            await transporter.sendMail(mailOptions, (error, info) => {
                 if (error) {
-                  console.log("Error" + error);
+                    console.log("Error" + error);
                 } else {
-                  console.log("Email sent:" + info.response);
+                    console.log("Email sent:" + info.response);
                 }
-              });
-            res.json({ message: "payment successful", status: true});
+            });
+            const filename = `${Date.now()}-agreement.pdf`;
+            console.log(filename)
+            doc.pipe(fs.createWriteStream(filename));
+            doc.fontSize(25);
+
+
+            doc.text('Investify- Investment Agreement Deed between Investor and Investee/Business', { align: 'center' });
+            doc.text(`This is to certify that investor Mr/Mrs ${listing?.investor_id?.firstName} ${listing?.investor_id?.lastName} bearing CNIC number ${listing?.investor_id?.cnic} has invested Rs ${listing?.amount} in a business named as ${listing?.investee_id?.businessName} having CNIC number ${listing?.investee_id?.cnic}.`, { align: 'justify', });
+            doc.text(`This agreement will remain valid for a period of ${listing?.investmentDuration} years in which the investor will get ${listing?.profitPercentage}% share of profit from the business. In case of any violation of contration strict legal action will be taken.`, { align: 'justify' });
+            doc.text(`e-signed by ${listing?.investor_id?.firstName} ${listing?.investor_id?.lastName}`, { align: 'center' });
+            doc.text('Investor signature here', { align: 'center' });
+            doc.text(`e-signed by ${listing?.investee_id?.businessName}`, { align: 'center' });
+            doc.text('Investee signature here', { align: 'center' });
+            doc.end();
+            console.log(filename)
+
+
+            // const fileRef = ref(storage, `upload/verification_docs/${Date.now() + file.name}`);
+
+            // await uploadBytes(fileRef, file).then((snapshot) => {
+            //     getDownloadURL(snapshot.ref).then((url) => {
+            //       setUrl(url)
+            //     })
+
+            //   });
+            res.json({ message: "payment successful", status: true });
         }
 
     } catch (error) {
@@ -243,7 +273,7 @@ exports.paymentFailure = async (req, res) => {
                 investor_id: investor._id, investment_start_date: formattedCurrentDate,
                 investment_end_date: formattedEndDate
             })
-            res.json({ message: "payment successful", status: true,});
+            res.json({ message: "payment successful", status: true, });
         }
 
     } catch (error) {
@@ -270,18 +300,18 @@ exports.getInvestments = async (req, res) => {
     }
 };
 
-exports.getChatUser =async(req,res)=>{
+exports.getChatUser = async (req, res) => {
     try {
-        const chatUser=await Investee.findOne({_id:req.body.id2})
-        if(chatUser){
+        const chatUser = await Investee.findOne({ _id: req.body.id2 })
+        if (chatUser) {
             res.json({
                 status: true,
                 chatUser
             });
         }
-        
+
     } catch (error) {
-        
+
     }
 }
 

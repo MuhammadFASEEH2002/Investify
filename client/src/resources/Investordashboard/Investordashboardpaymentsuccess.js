@@ -1,11 +1,11 @@
-import { Stack, Card, CardHeader, CardBody, CardFooter, Text, Heading, Button, useToast,Spinner} from '@chakra-ui/react'
+import { Stack, Card, CardHeader, CardBody, CardFooter, Text, Heading, Button, useToast, Spinner } from '@chakra-ui/react'
 import { FaCircleCheck } from "react-icons/fa6";
-import React, { useEffect ,useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const Investordashboardpaymentsuccess = () => {
   const toast = useToast()
-  const navigate= useNavigate()
+  const navigate = useNavigate()
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const sessionId = searchParams.get('session_id');
@@ -30,8 +30,8 @@ const Investordashboardpaymentsuccess = () => {
         .then((res) => res.json())
         .then((res) => {
           if (res.status) {
-           console.log("pay success")
-           setLoading(false)
+            console.log("pay success")
+            setLoading(false)
 
           } else {
             setLoading(false)
@@ -49,17 +49,17 @@ const Investordashboardpaymentsuccess = () => {
       setLoading(false)
     }
   }
-useEffect(()=>{
-  if (window.localStorage.getItem('token1')) {
-    document.title = "Investify | Investor-Payment-Success";
-paymentSuccess()
-  } else {
-    navigate("/user-login");
-  }
-},[])
+  useEffect(() => {
+    if (window.localStorage.getItem('token1')) {
+      document.title = "Investify | Investor-Payment-Success";
+      paymentSuccess()
+    } else {
+      navigate("/user-login");
+    }
+  }, [])
   return (
     <Stack alignItems={"center"} jusitfyContent={"center"} height={"100vh"} width={"100vw"} backgroundColor={"#EAEDEF"}>
-         {loading ? (<>
+      {loading ? (<>
         <Stack alignItems={'center'} justifyContent={'center'}>
           <Spinner
             thickness='4px'
@@ -70,18 +70,18 @@ paymentSuccess()
           />
         </Stack>
       </>) : (<>
-      <Card size="lg" marginTop={10} border={"0.8px blue"}>
-        <CardHeader alignItems={"center"} justifyContent={"center"} display={"flex"}>
-        <FaCircleCheck  color='#00bfff' size={"4em"}/>
-        </CardHeader>
-        <CardBody>
-          <Heading textAlign={"center"}>Thank You</Heading>
-          <Text textAlign={"center"}>Payment Successful</Text>
-        </CardBody>
-        <CardFooter>
-          <Button colorScheme='blue' onClick={()=>{navigate("/user/investor-dashboard/home")}}>Return to Dashboard</Button>
-        </CardFooter>
-      </Card>
+        <Card size="lg" marginTop={10} border={"0.8px blue"}>
+          <CardHeader alignItems={"center"} justifyContent={"center"} display={"flex"}>
+            <FaCircleCheck color='#00bfff' size={"4em"} />
+          </CardHeader>
+          <CardBody>
+            <Heading textAlign={"center"}>Thank You</Heading>
+            <Text textAlign={"center"}>Payment Successful</Text>
+          </CardBody>
+          <CardFooter>
+            <Button colorScheme='blue' onClick={() => { navigate("/user/investor-dashboard/home") }}>Return to Dashboard</Button>
+          </CardFooter>
+        </Card>
       </>)}
     </Stack>
   )
