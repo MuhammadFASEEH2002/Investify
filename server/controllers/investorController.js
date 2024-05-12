@@ -12,8 +12,8 @@ const env = require('dotenv').config();
 const Stripe = require('stripe')
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
-// const { ref, uploadBytes, getDownloadURL } = require("@firebase/storage");
-// const { storage } = require("../uitls/firebase");
+const { ref, uploadBytes, getDownloadURL } = require("@firebase/storage");
+const { storage } = require("../utils/firebase");
 
 exports.getMe = async (req, res) => {
     try {
@@ -135,6 +135,7 @@ exports.checkoutSession = async (req, res) => {
 };
 exports.paymentSuccess = async (req, res) => {
     try {
+        var uploadedFileUrl=""
         const doc = new PDFDocument();
         const investor = await Investor.findOne({ _id: req.user })
         if (req.body.sessionId) {
@@ -150,10 +151,10 @@ exports.paymentSuccess = async (req, res) => {
             const endMonth = currentMonth;
             const endDay = currentDay;
             const formattedEndDate = `${endDay}-${endMonth}-${endYear}`;
-            // await Listing.findByIdAndUpdate({ _id: listing?._id }, {
-            //     investor_id: investor._id, investment_start_date: formattedCurrentDate,
-            //     investment_end_date: formattedEndDate
-            // })
+            await Listing.findByIdAndUpdate({ _id: listing?._id }, {
+                investor_id: investor._id, investment_start_date: formattedCurrentDate,
+                investment_end_date: formattedEndDate
+            })
             console.log(listing)
 
             const transporter = await nodemailer.createTransport({
@@ -218,12 +219,10 @@ exports.paymentSuccess = async (req, res) => {
                     console.log("Email sent:" + info.response);
                 }
             });
-            const filename = `${Date.now()}-agreement.pdf`;
-            console.log(filename)
+            const filename = `${listing?._id}-agreement.pdf`;
+            // console.log(filename)
             doc.pipe(fs.createWriteStream(filename));
             doc.fontSize(25);
-
-
             doc.text('Investify- Investment Agreement Deed between Investor and Investee/Business', { align: 'center' });
             doc.text(`This is to certify that investor Mr/Mrs ${listing?.investor_id?.firstName} ${listing?.investor_id?.lastName} bearing CNIC number ${listing?.investor_id?.cnic} has invested Rs ${listing?.amount} in a business named as ${listing?.investee_id?.businessName} having CNIC number ${listing?.investee_id?.cnic}.`, { align: 'justify', });
             doc.text(`This agreement will remain valid for a period of ${listing?.investmentDuration} years in which the investor will get ${listing?.profitPercentage}% share of profit from the business. In case of any violation of contration strict legal action will be taken.`, { align: 'justify' });
@@ -232,17 +231,19 @@ exports.paymentSuccess = async (req, res) => {
             doc.text(`e-signed by ${listing?.investee_id?.businessName}`, { align: 'center' });
             doc.text('Investee signature here', { align: 'center' });
             doc.end();
-            console.log(filename)
+            // console.log(fs.readFileSync(filename))
+            const fileRef = ref(storage, `upload/agreement_docs/${filename}-agreement.pdf`);
 
-
-            // const fileRef = ref(storage, `upload/verification_docs/${Date.now() + file.name}`);
-
-            // await uploadBytes(fileRef, file).then((snapshot) => {
-            //     getDownloadURL(snapshot.ref).then((url) => {
-            //       setUrl(url)
-            //     })
-
-            //   });
+            const snapshot = await uploadBytes(fileRef, fs.readFileSync(filename));
+            console.log('File uploaded successfully.');
+            const url = await getDownloadURL(snapshot.ref);
+            const uploadedFileUrl = url;
+            // console.log(uploadedFileUrl);
+          
+            await Listing.findByIdAndUpdate({ _id: listing?._id }, {
+              agreementDocument: uploadedFileUrl
+            });
+            fs.unlinkSync(filename);
             res.json({ message: "payment successful", status: true });
         }
 

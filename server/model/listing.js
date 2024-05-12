@@ -48,6 +48,8 @@ const listingSchema = new mongo.Schema({
   },
   amountReceived:{
     type: String
+  },agreementDocument:{
+    type: String
   }
 },
   {
