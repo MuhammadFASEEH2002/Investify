@@ -12,6 +12,8 @@ router.get('/get-stats' ,verifyInvestorToken, InvestorController.getStats)
 router.post('/checkout-session' ,verifyInvestorToken, InvestorController.checkoutSession)
 router.post('/payment-success' ,verifyInvestorToken, InvestorController.paymentSuccess)
 router.post('/get-chat-user' ,verifyInvestorToken, InvestorController.getChatUser)
+router.get('/logout' ,verifyInvestorToken, InvestorController.logout)
+
 // router.post('/send-message' ,verifyInvestorToken, InvestorController.sendMessage)
 
 

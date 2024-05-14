@@ -3,19 +3,7 @@ import Sidebar from "./components/Sidebar";
 import { Spinner, Stack } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
 import useInvestee from '../../providers/investeeStore';
-import { db } from '../../utils/firebase';
-import {
-    collection,
-    addDoc,
-    where,
-    serverTimestamp,
-    onSnapshot,
-    query,
-    orderBy,
-    updateDoc,
-    getDocs,
-    doc
-} from "firebase/firestore";
+
 
 const Investeedashboardlogout = () => {
     const navigate = useNavigate();
@@ -23,12 +11,34 @@ const Investeedashboardlogout = () => {
     const investee = useInvestee((state) => state?.investees)
     // const messagesRef = collection(db, 'messages');
 
+    const logout = async () => {
+        try {
+            const token = window.localStorage.getItem('token');
+            fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/logout`, {
+                method: "GET",
+                headers: {
+                    'token': token,
+                    'Accept': "application/json",
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((res) => res.json())
+                .then((res) => {
+                    if (res.status) {
+                        console.log("logout success")
+                        window.localStorage.removeItem('token');
+                        setInvestee(null)
+                        navigate("/user-login")
+                    } else {
+                        console.log("error")
+                    }
+                })
+                .catch((err) => console.log(err));
+        } catch (error) {
+            console.log(error)
+        }
 
-    const logout = () => {
-        window.localStorage.removeItem('token');
-        // updateStatus(investee?._id)
-        navigate("/user-login")
-    };
+    }
     // const updateStatus = async (investeeID) => {
     //     console.log(investeeID)
     //     const queryMessages = query(
@@ -44,10 +54,14 @@ const Investeedashboardlogout = () => {
     //             online: false
     //         })
     //     });
-    //     setInvestee(null)
     // }
     useEffect(() => {
-        document.title = "Investify | Investee-Logout";
+        if (window.localStorage.getItem('token')) {
+            document.title = "Investify | Investee-Logout";
+            logout();
+        } else {
+            navigate("/user-login");
+        }
         logout();
     }, []);
     return (

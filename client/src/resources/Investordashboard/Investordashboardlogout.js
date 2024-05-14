@@ -4,57 +4,52 @@ import { Spinner, Stack } from '@chakra-ui/react'
 import { useNavigate } from "react-router-dom";
 import useInvestor from '../../providers/investorStore';
 import useListing from '../../providers/listingStore';
-import { db } from '../../utils/firebase';
-import {
-    collection,
-    addDoc,
-    where,
-    serverTimestamp,
-    onSnapshot,
-    query,
-    orderBy,
-    updateDoc,
-    getDocs,
-    doc
-} from "firebase/firestore";
+
 
 
 const Investordashboardlogout = () => {
     const navigate = useNavigate();
     const setInvestor = useInvestor((state) => state?.setInvestor)
     const investor = useInvestor((state) => state?.investors)
-    const messagesRef = collection(db, 'messages');
     const setListing = useListing((state) => state?.setListing)
 
 
-    const logout = () => {
-        window.localStorage.removeItem('token1');
-        setListing(null)
-        updateStatus(investor?._id)
-
-        navigate("/user-login")
-    };
-    const updateStatus = async (investorID) => {
-        console.log(investorID)
-        const queryMessages = query(
-            messagesRef,
-            where("userId", "==", investorID)
-        );
-        const querySnapshot = await getDocs(queryMessages);
-        // console.log(querySnapshot)
-        querySnapshot.forEach((document) => {
-            console.log(document.id)
-            const documentRef = doc(db, "messages", document.id);
-            updateDoc(documentRef, {
-                online: false
+    const logout = async () => {
+        try {
+            const token1 = window.localStorage.getItem('token1');
+            fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/logout`, {
+                method: "GET",
+                headers: {
+                    'token': token1,
+                    'Accept': "application/json",
+                    "Content-Type": "application/json",
+                },
             })
-        });
-        setInvestor(null)
+                .then((res) => res.json())
+                .then((res) => {
+                    if (res.status) {
+                        console.log("logout success")
+                        window.localStorage.removeItem('token1');
+                        setListing(null)
+                        setInvestor(null)
+                        navigate("/user-login")
+                    } else {
+                        console.log("error")
+                    }
+                })
+                .catch((err) => console.log(err));
+        } catch (error) {
+            console.log(error)
+        }
 
     }
     useEffect(() => {
-        document.title = "Investify | Investor-Logout";
-        logout();
+        if (window.localStorage.getItem('token1')) {
+            document.title = "Investify | Investor-Logout";
+            logout();
+        } else {
+            navigate("/user-login");
+        }
     }, []);
     return (
         <>

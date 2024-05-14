@@ -495,3 +495,16 @@ exports.getChatUser =async(req,res)=>{
       
   }
 }
+exports.logout = async (req, res) => {
+  try {
+      await Investee.findByIdAndUpdate({ _id: req.user }, {
+        isOnline: false,
+      })
+      res.json({ message: "user logged out", status: true, });
+
+
+  } catch (error) {
+      res.json({ message: error.message, status: false });
+
+  }
+}

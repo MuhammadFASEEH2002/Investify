@@ -135,7 +135,6 @@ exports.checkoutSession = async (req, res) => {
 };
 exports.paymentSuccess = async (req, res) => {
     try {
-        var uploadedFileUrl=""
         const doc = new PDFDocument();
         const investor = await Investor.findOne({ _id: req.user })
         if (req.body.sessionId) {
@@ -151,24 +150,28 @@ exports.paymentSuccess = async (req, res) => {
             const endMonth = currentMonth;
             const endDay = currentDay;
             const formattedEndDate = `${endDay}-${endMonth}-${endYear}`;
-            await Listing.findByIdAndUpdate({ _id: listing?._id }, {
-                investor_id: investor._id, investment_start_date: formattedCurrentDate,
-                investment_end_date: formattedEndDate
-            })
-            console.log(listing)
+            if (listing?.investor_id) {
+                res.json({ message: "investment already done", status: false });
 
-            const transporter = await nodemailer.createTransport({
-                service: "gmail",
-                auth: {
-                    user: `${process.env.EMAIL}`,
-                    pass: `${process.env.password}`,
-                },
-            });
-            const mailOptions = await {
-                from: "investify180@gmail.com",
-                to: investor?.email,
-                subject: "Investify | Investee",
-                html: `<!DOCTYPE html>
+            } else {
+                await Listing.findByIdAndUpdate({ _id: listing?._id }, {
+                    investor_id: investor._id, investment_start_date: formattedCurrentDate,
+                    investment_end_date: formattedEndDate
+                })
+                console.log(listing)
+
+                const transporter = await nodemailer.createTransport({
+                    service: "gmail",
+                    auth: {
+                        user: `${process.env.EMAIL}`,
+                        pass: `${process.env.password}`,
+                    },
+                });
+                const mailOptions = await {
+                    from: "investify180@gmail.com",
+                    to: investor?.email,
+                    subject: "Investify | Investee",
+                    html: `<!DOCTYPE html>
                 <html>
                 <head>
                 <title>Update Listing</title>
@@ -211,40 +214,41 @@ exports.paymentSuccess = async (req, res) => {
                 </div>
                 </body>
                 </html>`,
-            };
-            await transporter.sendMail(mailOptions, (error, info) => {
-                if (error) {
-                    console.log("Error" + error);
-                } else {
-                    console.log("Email sent:" + info.response);
-                }
-            });
-            const filename = `${listing?._id}-agreement.pdf`;
-            // console.log(filename)
-            doc.pipe(fs.createWriteStream(filename));
-            doc.fontSize(25);
-            doc.text('Investify- Investment Agreement Deed between Investor and Investee/Business', { align: 'center' });
-            doc.text(`This is to certify that investor Mr/Mrs ${listing?.investor_id?.firstName} ${listing?.investor_id?.lastName} bearing CNIC number ${listing?.investor_id?.cnic} has invested Rs ${listing?.amount} in a business named as ${listing?.investee_id?.businessName} having CNIC number ${listing?.investee_id?.cnic}.`, { align: 'justify', });
-            doc.text(`This agreement will remain valid for a period of ${listing?.investmentDuration} years in which the investor will get ${listing?.profitPercentage}% share of profit from the business. In case of any violation of contration strict legal action will be taken.`, { align: 'justify' });
-            doc.text(`e-signed by ${listing?.investor_id?.firstName} ${listing?.investor_id?.lastName}`, { align: 'center' });
-            doc.text('Investor signature here', { align: 'center' });
-            doc.text(`e-signed by ${listing?.investee_id?.businessName}`, { align: 'center' });
-            doc.text('Investee signature here', { align: 'center' });
-            doc.end();
-            // console.log(fs.readFileSync(filename))
-            const fileRef = ref(storage, `upload/agreement_docs/${filename}-agreement.pdf`);
+                };
+                await transporter.sendMail(mailOptions, (error, info) => {
+                    if (error) {
+                        console.log("Error" + error);
+                    } else {
+                        console.log("Email sent:" + info.response);
+                    }
+                });
+                const filename = `${listing?._id}-agreement.pdf`;
+                // console.log(filename)
+                doc.pipe(fs.createWriteStream(filename));
+                doc.fontSize(25);
+                doc.text('Investify- Investment Agreement Deed between Investor and Investee/Business', { align: 'center' });
+                doc.text(`This is to certify that investor Mr/Mrs ${listing?.investor_id?.firstName} ${listing?.investor_id?.lastName} bearing CNIC number ${listing?.investor_id?.cnic} has invested Rs ${listing?.amount} in a business named as ${listing?.investee_id?.businessName} having CNIC number ${listing?.investee_id?.cnic}.`, { align: 'justify', });
+                doc.text(`This agreement will remain valid for a period of ${listing?.investmentDuration} years in which the investor will get ${listing?.profitPercentage}% share of profit from the business. In case of any violation of contration strict legal action will be taken.`, { align: 'justify' });
+                doc.text(`e-signed by ${listing?.investor_id?.firstName} ${listing?.investor_id?.lastName}`, { align: 'center' });
+                doc.text('Investor signature here', { align: 'center' });
+                doc.text(`e-signed by ${listing?.investee_id?.businessName}`, { align: 'center' });
+                doc.text('Investee signature here', { align: 'center' });
+                doc.end();
+                // console.log(fs.readFileSync(filename))
+                const fileRef = ref(storage, `upload/agreement_docs/${filename}-agreement.pdf`);
 
-            const snapshot = await uploadBytes(fileRef, fs.readFileSync(filename));
-            console.log('File uploaded successfully.');
-            const url = await getDownloadURL(snapshot.ref);
-            const uploadedFileUrl = url;
-            // console.log(uploadedFileUrl);
-          
-            await Listing.findByIdAndUpdate({ _id: listing?._id }, {
-              agreementDocument: uploadedFileUrl
-            });
-            fs.unlinkSync(filename);
-            res.json({ message: "payment successful", status: true });
+                const snapshot = await uploadBytes(fileRef, fs.readFileSync(filename));
+                console.log('File uploaded successfully.');
+                const url = await getDownloadURL(snapshot.ref);
+                const uploadedFileUrl = url;
+                // console.log(uploadedFileUrl);
+
+                await Listing.findByIdAndUpdate({ _id: listing?._id }, {
+                    agreementDocument: uploadedFileUrl
+                });
+                fs.unlinkSync(filename);
+                res.json({ message: "payment successful", status: true });
+            }
         }
 
     } catch (error) {
@@ -315,7 +319,19 @@ exports.getChatUser = async (req, res) => {
 
     }
 }
+exports.logout = async (req, res) => {
+    try {
+        await Investor.findByIdAndUpdate({ _id: req.user }, {
+          isOnline: false,
+        })
+        res.json({ message: "user logged out", status: true, });
 
+
+    } catch (error) {
+        res.json({ message: error.message, status: false });
+
+    }
+}
 
 
 
