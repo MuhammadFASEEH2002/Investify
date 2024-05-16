@@ -22,7 +22,10 @@ module.exports = (io) => {
     router.get('/investee/chat-support/get-messages/:roomId', verifyInvesteeToken, ChatController.getSupportMessagesInvestee)
     router.get('/investee/get-all-chats', verifyInvesteeToken, ChatController.getAllChatsInvestee)
 
-    router.get('/admin/get-all-chats', verifyAdminToken, ChatController.getAllChatsInvestor)
+    router.get('/admin/get-all-chats', verifyAdminToken, ChatController.getAllChatsAdmin)
+    router.post('/admin/chat-support/send-message', verifyAdminToken, (req, res) => ChatController.sendAdminSupportMessage(req, res, io))
+    router.get('/admin/chat-support/get-messages/:roomId', verifyAdminToken, ChatController.getSupportMessagesAdmin)
+
 
 
 

@@ -12,21 +12,20 @@ const ChatSchema = new mongo.Schema({
         required: [true, 'ProjectId is Required!!']
     },
     investor_id: {
-        // type: mongo.Types.ObjectId,
         type: String,
         ref: 'Investor',
-        // required: [true, 'Investor Id is Required!!']
     },
     investee_id: {
-        // type: mongo.Types.ObjectId,
         type: String,
         ref: 'Investee',
-        // required: [, 'Investee Id is Required!!']
     },
-    // files : {
-    //     type: Array,
-    //     default: []
-    // },
+    admin_id: {
+        type: String,
+        ref: 'Admin',
+    },
+    chatType:{
+        type:String
+    }
 } , {
     timestamps: true
   })

@@ -16,8 +16,8 @@ const Admindashboardallchats = () => {
     const getMessages = () => {
         try {
             setLoading(true)
-            const token = window.localStorage.getItem('token');
-            fetch(`${process.env.REACT_APP_FETCH_URL_}/api/chat/investee/get-all-chats`, {
+            const token = window.localStorage.getItem('adminToken');
+            fetch(`${process.env.REACT_APP_FETCH_URL_}/api/chat/admin/get-all-chats`, {
                 method: "GET",
                 headers: {
                     'token': token,
@@ -28,7 +28,7 @@ const Admindashboardallchats = () => {
                 .then((res) => res.json())
                 .then((res) => {
                     if (res.status) {                  
-                        setMessages(res.message)
+                        // setMessages(res.message)
                         getChats(res.message)
                         setLoading(false)
                      
@@ -49,16 +49,23 @@ const Admindashboardallchats = () => {
         const distinctChats = new Set();
         messages.map((message) => {
             //    console.log(message)
-            if (message.chat_id.split('_')[0] == investee?._id || message.chat_id.split('_')[1] == investee?._id) {
-                // if (message.investor_id?.businessName !== investee?.businessName) {
-                    // console.log(message?.investor_id?.firstName)
-                    let chatId = message?.chat_id
-                    let chatName = `${message?.investor_id?.firstName} ${message?.investor_id?.lastName}`
-                    let uniqueIdentifier=`${chatId}-${chatName}`
-                    distinctChats.add( uniqueIdentifier )
-            
-
-            }
+            if (message.chat_id.split('_')[0] === '65d88f93e5d99c47ee8df0dd' || message.chat_id.split('_')[1] === '65d88f93e5d99c47ee8df0dd') {
+                let chatId = message.chat_id;
+                let chatName = '';
+              
+                if (message.investor_id) {
+                  if (message.investor_id.firstName && message.investor_id.lastName) {
+                    chatName = `${message.investor_id.firstName} ${message.investor_id.lastName}`;
+                  }
+                } else if (message.investee_id && message.investee_id.businessName) {
+                  chatName = message.investee_id.businessName;
+                }
+              
+                if (chatName) {
+                  let uniqueIdentifier = `${chatId}-${chatName}`;
+                  distinctChats.add(uniqueIdentifier);
+                }
+              }
 
         });
         // console.log(distinctChats)
@@ -68,8 +75,8 @@ const Admindashboardallchats = () => {
                 // console.log(chats)
     }
     useEffect(() => {
-        if (window.localStorage.getItem('token')) {
-            document.title = 'Investify | Investor-All-Chats';
+        if (window.localStorage.getItem('adminToken')) {
+            document.title = 'Investify | Admin-All-Support-Chats';
             // console.log(investee?._id);
             getMessages();
 
@@ -91,7 +98,7 @@ const Admindashboardallchats = () => {
                             <Stack width={{ base: "100%", md: "80%", lg: "70%" }} flexDirection={"column"}>
                                 {chats.map((chat,index) => (
                                     <Card onClick={() => {
-                                        navigate(`/user/investee-dashboard/chat/${chat?.split('-')[0].split('_')[0]}/${chat?.split('-')[0].split('_')[1]}`);
+                                        navigate(`/admin/admin-dashboard/chat-support/${chat?.split('-')[0].split('_')[0]}/${chat?.split('-')[0].split('_')[1]}`);
                                     }} cursor={"pointer"} key={index} width={"100%"}>
                                         <CardBody>
                                             <Text fontSize={"1em"}>chat {index + 1}: {chat.split('-')[1]} </Text>
