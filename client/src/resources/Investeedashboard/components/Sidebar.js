@@ -255,6 +255,8 @@ const MobileNav = ({ onOpen, ...rest }) => {
                     <MenuItem><Link to={"#"}>Chats</Link></MenuItem>
                     <MenuItem><Link to={"/user/investee-dashboard/password-change"}>Change Password</Link></MenuItem>
                     <MenuItem><Link to={"/user/investee-dashboard/notifications"}>Notifications</Link></MenuItem>
+                    <MenuItem><Link to={`/user/investee-dashboard/chat-support/65d88f93e5d99c47ee8df0dd/${investee?._id}`}>Chat Support</Link></MenuItem>
+
                     <MenuItem><Link to={"/user/investee-dashboard/logout"}>Log Out</Link></MenuItem>
 
 

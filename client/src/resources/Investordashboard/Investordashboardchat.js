@@ -13,12 +13,9 @@ const Investordashboardchat = () => {
   const [newMessage, setNewMessage] = useState('');
   const { id1, id2 } = useParams();
   const navigate = useNavigate();
-  // const messagesRef = collection(db, "messages");
   const investor = useInvestor((state) => state?.investors)
   const chatContainerRef = useRef(null);
   const roomId = `${id1}_${id2}`;
-  // const [userStatus, setUserStatus] = useState(false);
-  // const [name, setName] = useState('');
   const [user2, setUser2] = useState('');
 
 
@@ -113,12 +110,12 @@ const Investordashboardchat = () => {
     }
   }
   useEffect(() => {
+    const token = window.localStorage.getItem('token1');
     const handleNewMessage = (message) => {
       console.log('new message', message);
       setMessages((prev) => [...prev, JSON.parse(message)]);
     };
   
-    const token = window.localStorage.getItem('token1');
     if (token) {
       document.title = 'Investify | Investor-chat';
       getUser();

@@ -28,11 +28,14 @@ import Investordashboardallchats from "./resources/Investordashboard/Investordas
 import Admindashboardallinvestees from "./resources/Admindashboard/Admindashboardallinvestees";
 import Admindashboardallinvestors from "./resources/Admindashboard/Admindashboardallinvestors";
 import Investordashboardinitiateinvestment from "./resources/Investordashboard/Investordashboardinitiateinvestment";
-// import Investordashboardpaymentsuccess from "./resources/Investordashboard/Investordashboardpaymentsuccess";
 import Investordashboardpaymentfailure from "./resources/Investordashboard/Investordashboardpaymentfailure";
 import Investordashboardpaymentsuccess from "./resources/Investordashboard/Investordashboardpaymentsuccess";
 import Investordashboardinvestmentspage from "./resources/Investordashboard/Investordashboardinvestmentspage";
 import Investeedashboardinvestmentspage from "./resources/Investeedashboard/Investeedashboardinvestmentspage";
+import Investeedashboardchatsupport from "./resources/Investeedashboard/Investeedashboardchatsupport";
+import Investordashboardchatsupport from "./resources/Investordashboard/Investordashboardchatsupport";
+import Admindashboardallchats from "./resources/Admindashboard/Admindashboardallchats";
+
 
 function App() {
   return (
@@ -46,8 +49,6 @@ function App() {
           <Route path="/admin/admin-dashboard/listing-verification" element={<Admindashboardlistingverification />} />
           <Route path="/admin/admin-dashboard/all-investees" element={<Admindashboardallinvestees />} />
           <Route path="/admin/admin-dashboard/all-investors" element={<Admindashboardallinvestors />} />
-
-
           <Route path="/admin/admin-dashboard/logout" element={<Admindashboardlogout />} />
           <Route path="/user-login" element={<Userlogin />} />
           <Route path="/user-registration/user-role" element={<Userrole />} />
@@ -89,6 +90,18 @@ function App() {
             element={<Investordashboardlogout />}
           />
           <Route
+            path="/user/investor-dashboard/chat"
+            element={<Investordashboardallchats />}
+          />
+          <Route
+            path="/user/investor-dashboard/chat/:id1/:id2"
+            element={<Investordashboardchat />}
+          />
+          <Route
+            path="/user/investor-dashboard/chat-support/:id1/:id2"
+            element={<Investordashboardchatsupport />}
+          />
+          <Route
             path="/user/investee-dashboard/home"
             element={<Investeedashboardhome />}
           />
@@ -117,14 +130,6 @@ function App() {
             element={<Investeedashboardallchats />}
           />
           <Route
-            path="/user/investor-dashboard/chat"
-            element={<Investordashboardallchats />}
-          />
-          <Route
-            path="/user/investor-dashboard/chat/:id1/:id2"
-            element={<Investordashboardchat />}
-          />
-          <Route
             path="/user/investee-dashboard/chat/:id1/:id2"
             element={<Investeedashboardchat />}
           />
@@ -132,9 +137,13 @@ function App() {
             path="/user/investee-dashboard/logout"
             element={<Investeedashboardlogout />}
           />
-           <Route
+          <Route
             path="/user/investee-dashboard/investments"
             element={<Investeedashboardinvestmentspage />}
+          />
+          <Route
+            path="/user/investee-dashboard/chat-support/:id1/:id2"
+            element={<Investeedashboardchatsupport />}
           />
         </Routes>
       </Router>

@@ -248,6 +248,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                     <MenuGroup title={`${investor?.firstName} ${investor?.lastName}`}>
                       <MenuItem><Link to={"#"}>Chats {roomIdsArray.length}</Link></MenuItem>
                       <MenuItem><Link to={"/user/investor-dashboard/notifications"}>Notifications</Link></MenuItem>
+                      <MenuItem><Link to={`/user/investor-dashboard/chat-support/65d88f93e5d99c47ee8df0dd/${investor?._id}`}>Chat Support</Link></MenuItem>
                       <MenuItem><Link to={"/user/investor-dashboard/logout"}>Log Out</Link></MenuItem>
 
                     </MenuGroup>
