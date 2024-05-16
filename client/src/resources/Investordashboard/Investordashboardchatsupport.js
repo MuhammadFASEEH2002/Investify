@@ -105,7 +105,8 @@ const Investordashboardchatsupport = () => {
       <Sidebar>
         <Box p={4} borderWidth="1px" borderRadius="lg" bgColor={"white"}>
           <Box marginLeft={5}>
-            <Text color={"green"}> Chat Support</Text>
+          <Text>Customer Chat Support</Text>
+            <Text color={"green"}>online</Text>
           </Box>
           <Box height="300px" overflowY="scroll" p={6} borderWidth="1px" borderRadius="lg" ref={chatContainerRef} backgroundColor={""}>
             {messages.map((message) => (

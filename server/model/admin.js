@@ -10,6 +10,9 @@ const adminSchema = new mongo.Schema({
     type: String,
     required: true,
   },
+  isOnline: {
+    type: Boolean
+},
 });
 
 const Admin = mongo.model("Admin", adminSchema);

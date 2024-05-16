@@ -150,16 +150,12 @@ exports.paymentSuccess = async (req, res) => {
             const endMonth = currentMonth;
             const endDay = currentDay;
             const formattedEndDate = `${endDay}-${endMonth}-${endYear}`;
+            await Listing.findByIdAndUpdate({ _id: listing?._id }, {
+                investor_id: investor._id, investment_start_date: formattedCurrentDate,
+                investment_end_date: formattedEndDate
+            })
+            console.log(listing)
             if (listing?.investor_id) {
-                res.json({ message: "investment already done", status: false });
-
-            } else {
-                await Listing.findByIdAndUpdate({ _id: listing?._id }, {
-                    investor_id: investor._id, investment_start_date: formattedCurrentDate,
-                    investment_end_date: formattedEndDate
-                })
-                console.log(listing)
-
                 const transporter = await nodemailer.createTransport({
                     service: "gmail",
                     auth: {
@@ -246,10 +242,14 @@ exports.paymentSuccess = async (req, res) => {
                 await Listing.findByIdAndUpdate({ _id: listing?._id }, {
                     agreementDocument: uploadedFileUrl
                 });
-                fs.unlinkSync(filename);
+                // fs.unlinkSync(filename);
                 res.json({ message: "payment successful", status: true });
+
+            } 
+
+  
             }
-        }
+        // }
 
     } catch (error) {
         res.json({ message: error.message, status: false });
