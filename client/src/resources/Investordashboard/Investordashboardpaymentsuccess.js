@@ -31,7 +31,7 @@ const Investordashboardpaymentsuccess = () => {
         .then((res) => {
           if (res.status) {
             console.log("pay success")
-            setLoading(false)
+            investmentAgreement(res?.listing?._id)
 
           } else {
             setLoading(false)
@@ -48,6 +48,33 @@ const Investordashboardpaymentsuccess = () => {
       });
       setLoading(false)
     }
+  }
+  const investmentAgreement = async (listingId) => {
+
+      const token1 = window.localStorage.getItem('token1');
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/investment-agreement`, {
+        method: "POST",
+        body: JSON.stringify({
+          listingId
+        }),
+        headers: {
+          'token': token1,
+          'Accept': "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status) {
+            setLoading(false)
+
+
+          } else {
+            setLoading(false)
+          }
+        })
+        .catch((err) => console.log(err));
+    
   }
   useEffect(() => {
     if (window.localStorage.getItem('token1')) {

@@ -135,7 +135,6 @@ exports.checkoutSession = async (req, res) => {
 };
 exports.paymentSuccess = async (req, res) => {
     try {
-        const doc = new PDFDocument();
         const investor = await Investor.findOne({ _id: req.user })
         if (req.body.sessionId) {
             const listing = await Listing.findOne({ payment_session_id: req.body.sessionId }).populate("investee_id investor_id");
@@ -155,103 +154,117 @@ exports.paymentSuccess = async (req, res) => {
                 investment_end_date: formattedEndDate
             })
             console.log(listing)
-            if (listing?.investor_id) {
-                const transporter = await nodemailer.createTransport({
-                    service: "gmail",
-                    auth: {
-                        user: `${process.env.EMAIL}`,
-                        pass: `${process.env.password}`,
-                    },
-                });
-                const mailOptions = await {
-                    from: "investify180@gmail.com",
-                    to: investor?.email,
-                    subject: "Investify | Investee",
-                    html: `<!DOCTYPE html>
-                <html>
-                <head>
-                <title>Update Listing</title>
-                <style>
-                    body {
-                    font-family: Arial, sans-serif;
-                    }
-          
-                    .container {
-                    max-width: 500px;
-                    margin: 0 auto;
-                    padding: 20px;
-                    border: 1px solid #ccc;
-                    border-radius: 5px;
-                    }
-          
-                    h2 {
-                    text-align: center;
-                    }
-          
-                    .btn {
-                    display: inline-block;
-                    background-color: #4CAF50;
-                    color: white;
-                    padding: 10px 20px;
-                    text-decoration: none;
-                    border-radius: 5px;
-                    }
-                </style>
-                </head>
-                <body>
-                <div class="container">
-                    <h2>Congratulations on your new investment.</h2>
-                    <p>Dear ${investor?.firstName},</p>
-                    <p>You have invested in a new business as you payment was successful you can now monitor the company profits from the investments tab of your dashboard. we wish you best of luck for future</p>
-                    <p>
-                    </p>
-                    <p>Thank you for choosing our platform. If you have any questions or need further assistance, please don't hesitate to contact our support team.</p>
-                    <p>Best regards,<br/>Investify Team</p>
-                </div>
-                </body>
-                </html>`,
-                };
-                await transporter.sendMail(mailOptions, (error, info) => {
-                    if (error) {
-                        console.log("Error" + error);
-                    } else {
-                        console.log("Email sent:" + info.response);
-                    }
-                });
-                const filename = `${listing?._id}-agreement.pdf`;
-                // console.log(filename)
-                doc.pipe(fs.createWriteStream(filename));
-                doc.fontSize(25);
-                doc.text('Investify- Investment Agreement Deed between Investor and Investee/Business', { align: 'center' });
-                doc.text(`This is to certify that investor Mr/Mrs ${listing?.investor_id?.firstName} ${listing?.investor_id?.lastName} bearing CNIC number ${listing?.investor_id?.cnic} has invested Rs ${listing?.amount} in a business named as ${listing?.investee_id?.businessName} having CNIC number ${listing?.investee_id?.cnic}.`, { align: 'justify', });
-                doc.text(`This agreement will remain valid for a period of ${listing?.investmentDuration} years in which the investor will get ${listing?.profitPercentage}% share of profit from the business. In case of any violation of contration strict legal action will be taken.`, { align: 'justify' });
-                doc.text(`e-signed by ${listing?.investor_id?.firstName} ${listing?.investor_id?.lastName}`, { align: 'center' });
-                doc.text('Investor signature here', { align: 'center' });
-                doc.text(`e-signed by ${listing?.investee_id?.businessName}`, { align: 'center' });
-                doc.text('Investee signature here', { align: 'center' });
-                doc.end();
-                // console.log(fs.readFileSync(filename))
-                const fileRef = ref(storage, `upload/agreement_docs/${filename}-agreement.pdf`);
-
-                const snapshot = await uploadBytes(fileRef, fs.readFileSync(filename));
-                console.log('File uploaded successfully.');
-                const url = await getDownloadURL(snapshot.ref);
-                const uploadedFileUrl = url;
-                // console.log(uploadedFileUrl);
-
-                await Listing.findByIdAndUpdate({ _id: listing?._id }, {
-                    agreementDocument: uploadedFileUrl
-                });
-                // fs.unlinkSync(filename);
-                res.json({ message: "payment successful", status: true });
-
-            } 
-
+        
+            
+            res.json({ message: "payment successful", status: true , listing});
   
             }
         // }
 
     } catch (error) {
+        res.json({ message: error.message, status: false });
+    }
+};
+exports.investmentAgreement = async (req, res) => {
+    try {
+        const doc = new PDFDocument();
+        const investor = await Investor.findOne({ _id: req.user })
+        const listing = await Listing.findOne({ _id:req.body.listingId }).populate("investee_id investor_id");
+
+        if (listing?.investor_id) {
+            const transporter = await nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: `${process.env.EMAIL}`,
+                    pass: `${process.env.password}`,
+                },
+            });
+            const mailOptions = await {
+                from: "investify180@gmail.com",
+                to: investor?.email,
+                subject: "Investify | Investee",
+                html: `<!DOCTYPE html>
+            <html>
+            <head>
+            <title>Update Listing</title>
+            <style>
+                body {
+                font-family: Arial, sans-serif;
+                }
+      
+                .container {
+                max-width: 500px;
+                margin: 0 auto;
+                padding: 20px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                }
+      
+                h2 {
+                text-align: center;
+                }
+      
+                .btn {
+                display: inline-block;
+                background-color: #4CAF50;
+                color: white;
+                padding: 10px 20px;
+                text-decoration: none;
+                border-radius: 5px;
+                }
+            </style>
+            </head>
+            <body>
+            <div class="container">
+                <h2>Congratulations on your new investment.</h2>
+                <p>Dear ${investor?.firstName},</p>
+                <p>You have invested in a new business as you payment was successful you can now monitor the company profits from the investments tab of your dashboard. we wish you best of luck for future</p>
+                <p>
+                </p>
+                <p>Thank you for choosing our platform. If you have any questions or need further assistance, please don't hesitate to contact our support team.</p>
+                <p>Best regards,<br/>Investify Team</p>
+            </div>
+            </body>
+            </html>`,
+            };
+            await transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log("Error" + error);
+                } else {
+                    console.log("Email sent:" + info.response);
+                }
+            });
+            const filename = `${listing?._id}-agreement.pdf`;
+            // console.log(filename)
+            doc.pipe(fs.createWriteStream(filename));
+            doc.fontSize(25);
+            doc.text('Investify- Investment Agreement Deed between Investor and Investee/Business', { align: 'center' });
+            doc.text(`This is to certify that investor Mr/Mrs ${listing?.investor_id?.firstName} ${listing?.investor_id?.lastName} bearing CNIC number ${listing?.investor_id?.cnic} has invested Rs ${listing?.amount} in a business named as ${listing?.investee_id?.businessName} having CNIC number ${listing?.investee_id?.cnic}.`, { align: 'justify', });
+            doc.text(`This agreement will remain valid for a period of ${listing?.investmentDuration} years in which the investor will get ${listing?.profitPercentage}% share of profit from the business. In case of any violation of contration strict legal action will be taken.`, { align: 'justify' });
+            doc.text(`e-signed by ${listing?.investor_id?.firstName} ${listing?.investor_id?.lastName}`, { align: 'center' });
+            doc.text('Investor signature here', { align: 'center' });
+            doc.text(`e-signed by ${listing?.investee_id?.businessName}`, { align: 'center' });
+            doc.text('Investee signature here', { align: 'center' });
+            doc.end();
+            // console.log(fs.readFileSync(filename))
+            const fileRef = ref(storage, `upload/agreement_docs/${filename}-agreement.pdf`);
+
+            const snapshot = await uploadBytes(fileRef, fs.readFileSync(filename));
+            console.log('File uploaded successfully.');
+            const url = await getDownloadURL(snapshot.ref);
+            const uploadedFileUrl = url;
+            // console.log(uploadedFileUrl);
+
+            await Listing.findByIdAndUpdate({ _id: listing?._id }, {
+                agreementDocument: uploadedFileUrl
+            });
+            // fs.unlinkSync(filename);
+            
+        } 
+        res.json({ message: "payment successful", status: true});
+        
+    } catch (error) {
+        console.log(error)
         res.json({ message: error.message, status: false });
     }
 };
