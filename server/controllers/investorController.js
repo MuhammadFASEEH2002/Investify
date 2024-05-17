@@ -3,7 +3,7 @@ const Investee = require("../model/investeeDB");
 const Listing = require("../model/listing");
 const Notification = require("../model/notification");
 const Chat = require("../model/chat");
-
+const Transaction = require("../model/transaction");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const emailValidator = require("deep-email-validator");
@@ -138,6 +138,7 @@ exports.paymentSuccess = async (req, res) => {
         const investor = await Investor.findOne({ _id: req.user })
         if (req.body.sessionId) {
             const listing = await Listing.findOne({ payment_session_id: req.body.sessionId }).populate("investee_id investor_id");
+            const amountreceived = (Number(listing?.amount) * 0.95)
             const currentDate = new Date();
             const currentYear = currentDate.getFullYear();
             const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
@@ -151,14 +152,28 @@ exports.paymentSuccess = async (req, res) => {
             const formattedEndDate = `${endDay}-${endMonth}-${endYear}`;
             await Listing.findByIdAndUpdate({ _id: listing?._id }, {
                 investor_id: investor._id, investment_start_date: formattedCurrentDate,
-                investment_end_date: formattedEndDate
+                investment_end_date: formattedEndDate, amountReceived: amountreceived,
+            })
+            await Transaction.create({
+                amount: listing?.amount,
+                from: `${investor?.firstName} ${investor?.lastName}`,
+                to: "Investify",
+                amountType: "incoming",
+                listingId: listing?._id,
+            })
+            await Transaction.create({
+                amount: amountreceived,
+                from: "Investify",
+                to: listing?.investee_id?.businessName,
+                amountType: "outgoing",
+                listingId: listing?._id,
             })
             console.log(listing)
-        
-            
-            res.json({ message: "payment successful", status: true , listing});
-  
-            }
+
+
+            res.json({ message: "payment successful", status: true, listing });
+
+        }
         // }
 
     } catch (error) {
@@ -169,7 +184,7 @@ exports.investmentAgreement = async (req, res) => {
     try {
         const doc = new PDFDocument();
         const investor = await Investor.findOne({ _id: req.user })
-        const listing = await Listing.findOne({ _id:req.body.listingId }).populate("investee_id investor_id");
+        const listing = await Listing.findOne({ _id: req.body.listingId }).populate("investee_id investor_id");
 
         if (listing?.investor_id) {
             const transporter = await nodemailer.createTransport({
@@ -234,8 +249,8 @@ exports.investmentAgreement = async (req, res) => {
                     console.log("Email sent:" + info.response);
                 }
             });
-            const filename = `${listing?._id}-agreement.pdf`;
-            // console.log(filename)
+            const filename = await `${listing?._id}-agreement.pdf`;
+
             doc.pipe(fs.createWriteStream(filename));
             doc.fontSize(25);
             doc.text('Investify- Investment Agreement Deed between Investor and Investee/Business', { align: 'center' });
@@ -246,28 +261,31 @@ exports.investmentAgreement = async (req, res) => {
             doc.text(`e-signed by ${listing?.investee_id?.businessName}`, { align: 'center' });
             doc.text('Investee signature here', { align: 'center' });
             doc.end();
-            // console.log(fs.readFileSync(filename))
-            const fileRef = ref(storage, `upload/agreement_docs/${filename}-agreement.pdf`);
 
-            const snapshot = await uploadBytes(fileRef, fs.readFileSync(filename));
-            console.log('File uploaded successfully.');
-            const url = await getDownloadURL(snapshot.ref);
-            const uploadedFileUrl = url;
-            // console.log(uploadedFileUrl);
+
+            const fileRef = ref(storage, `upload/agreement_docs/${filename}-agreement.pdf`);
+            const file = await fs.readFileSync(filename);
+            if (file) {
+
+                const snapshot = await uploadBytes(fileRef, file);
+                console.log('File uploaded successfully.');
+                const url = await getDownloadURL(snapshot.ref);
+                const uploadedFileUrl = url;
+            }
+
 
             await Listing.findByIdAndUpdate({ _id: listing?._id }, {
                 agreementDocument: uploadedFileUrl
             });
-            // fs.unlinkSync(filename);
-            
-        } 
-        res.json({ message: "payment successful", status: true});
-        
+            res.json({ message: "upload successful", status: true });
+        }
+
     } catch (error) {
         console.log(error)
         res.json({ message: error.message, status: false });
     }
 };
+// fs.unlinkSync(filename);
 // currently working
 exports.paymentFailure = async (req, res) => {
     try {
@@ -291,7 +309,7 @@ exports.paymentFailure = async (req, res) => {
                 investor_id: investor._id, investment_start_date: formattedCurrentDate,
                 investment_end_date: formattedEndDate
             })
-            res.json({ message: "payment successful", status: true, });
+            res.json({ message: "payment successful", status: true });
         }
 
     } catch (error) {
@@ -335,7 +353,7 @@ exports.getChatUser = async (req, res) => {
 exports.logout = async (req, res) => {
     try {
         await Investor.findByIdAndUpdate({ _id: req.user }, {
-          isOnline: false,
+            isOnline: false,
         })
         res.json({ message: "user logged out", status: true, });
 
