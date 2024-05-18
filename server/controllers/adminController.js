@@ -435,6 +435,20 @@ exports.getChatUser = async (req, res) => {
     res.json({ message: error.message, status: false });
   }
 };
+exports.getInvestment = async (req, res) => {
+  try {
+   const investments=await Listing.find({investor_id:{$exists:true}})
+if(investments){
+  res.json({
+    status: true,
+    investments,
+  })
+}
+    
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};
 
 
 

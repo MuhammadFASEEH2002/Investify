@@ -33,6 +33,8 @@ import { MdDomainVerification } from "react-icons/md";
 import { CiViewTable } from "react-icons/ci";
 import { BsChatRight } from "react-icons/bs";
 import { GrTransaction } from "react-icons/gr";
+import { FaDollarSign } from "react-icons/fa";
+
 
 const LinkItems = [
   { name: "Home", icon: IoHomeOutline, link: "/admin/admin-dashboard/home" },
@@ -41,6 +43,8 @@ const LinkItems = [
   { name: "Investee Data", icon: CiViewTable, link: "/admin/admin-dashboard/all-investees" },
   { name: "Investor Data", icon: CiViewTable, link: "/admin/admin-dashboard/all-investors" },
   { name: "Transactions", icon: GrTransaction, link: "/admin/admin-dashboard/transactions" },
+  { name: "Investments", icon: FaDollarSign, link: "/admin/admin-dashboard/investments" },
+
   { name: "Customer Support Chats", icon: BsChatRight, link: "/admin/admin-dashboard/all-support-chats" },
 
 

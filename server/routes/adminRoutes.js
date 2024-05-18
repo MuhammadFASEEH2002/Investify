@@ -16,6 +16,8 @@ router.get('/get-all-investees' ,verifyAdminToken, AdminController.getAllInveste
 router.get('/get-all-investors' ,verifyAdminToken, AdminController.getAllInvestors)
 router.get('/get-all-transactions' ,verifyAdminToken, AdminController.getAllTransactions)
 router.post('/get-chat-user' ,verifyAdminToken, AdminController.getChatUser)
+router.get('/get-investments' ,verifyAdminToken, AdminController.getInvestment)
+
 
 
 

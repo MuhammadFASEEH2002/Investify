@@ -37,6 +37,7 @@ import Investordashboardchatsupport from "./resources/Investordashboard/Investor
 import Admindashboardallchats from "./resources/Admindashboard/Admindashboardallchats";
 import Admindashboardchatsupport from "./resources/Admindashboard/Admindashboardchatsupport";
 import Admindashboardtransactions from "./resources/Admindashboard/Admindashboardtransactions";
+import Admindashboardinvestments from "./resources/Admindashboard/Admindashboardinvestments";
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
     <>
       <Router>
         <Routes>
+          {/* admin routes */}
           <Route exact path="/" element={<Homepage />} />
           <Route path="/admin-login" element={<Adminlogin />} />
           <Route path="/admin/admin-dashboard/home" element={<Admindashboardhome />} />
@@ -54,13 +56,13 @@ function App() {
           <Route path="/admin/admin-dashboard/all-support-chats" element={<Admindashboardallchats />} />
           <Route path="/admin/admin-dashboard/chat-support/:id1/:id2" element={<Admindashboardchatsupport />} />
           <Route path="/admin/admin-dashboard/transactions" element={<Admindashboardtransactions />} />
-
-
-
+          <Route path="/admin/admin-dashboard/investments" element={<Admindashboardinvestments />} />
           <Route path="/admin/admin-dashboard/logout" element={<Admindashboardlogout />} />
+          {/* auth routes */}
           <Route path="/user-login" element={<Userlogin />} />
           <Route path="/user-registration/user-role" element={<Userrole />} />
           <Route path="/user-registration" element={<Userregistration />} />
+          {/* investor routes */}
           <Route
             path="/user/investor-dashboard/home"
             element={<Investordashboardhome />}
@@ -109,6 +111,7 @@ function App() {
             path="/user/investor-dashboard/chat-support/:id1/:id2"
             element={<Investordashboardchatsupport />}
           />
+          {/* investee routes */}
           <Route
             path="/user/investee-dashboard/home"
             element={<Investeedashboardhome />}
