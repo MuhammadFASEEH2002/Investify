@@ -7,12 +7,51 @@ import { useNavigate, useParams } from 'react-router-dom';
 const Admindashboardchatsupport = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [user2, setUser2] = useState('');
+
   const chatContainerRef = useRef(null);
   const { id1, id2 } = useParams();
   const roomId = `${id1}_${id2}`;
   const navigate = useNavigate();
 
+  const getUser = () => {
+    try {
+      const admintoken = window.localStorage.getItem('adminToken');
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/admin/get-chat-user`, {
+        method: "POST",
+        body: JSON.stringify({
+          id2
+        }),
+        headers: {
+          'token': admintoken,
+          'Accept': "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status) {
+            // console.log(res.chatUser)
+            if (res.investee) {
+              setUser2(res.investee);
+              console.log(res.investee)
+            } else {
+              setUser2(res.investor)
+              console.log(res.investor)
 
+            }
+          }
+          else {
+            console.log("error")
+          }
+
+        })
+        .catch((err) => console.log(err));
+
+    } catch (error) {
+      console.log(error)
+    }
+  };
 
   const getMessages = () => {
     try {
@@ -86,6 +125,7 @@ const Admindashboardchatsupport = () => {
     if (token) {
       document.title = 'Investify | Investor-Chat Support';
       getMessages();
+      getUser()
       socket.connect();
       socket.on('connect', console.log);
       socket.on('disconnect', console.log);
@@ -104,13 +144,12 @@ const Admindashboardchatsupport = () => {
       <Sidebar>
 
         <Box p={4} borderWidth="1px" borderRadius="lg" bgColor={"white"}>
-
           <Box marginLeft={5}>
-            <Text color={"green"}> Chat Support</Text>
+            <Text>
+              {user2.firstName && user2.lastName ? `${user2.firstName} ${user2.lastName}` : user2.businessName}
+            </Text>
           </Box>
-
           <Box height="300px" overflowY="scroll" p={6} borderWidth="1px" borderRadius="lg" ref={chatContainerRef} backgroundColor={""}>
-
             {messages.map((message) => (
               <Text textAlign={message?.admin_id?._id == id1 ? "right" : "left"} padding={2}> <span style={{ padding: "8px", borderRadius: "10px", backgroundColor: message?.admin_id?._id == id1 ? "#0096FF" : "#89CFF0", color: message?.admin_id?._id == id1 ? "white" : "black" }}>{message?.admin_id?._id == id1 ? `${message?.message}` : ` ${message?.message}`}</span></Text>
             ))}

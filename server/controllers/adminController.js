@@ -10,16 +10,16 @@ const nodemailer = require("nodemailer");
 
 exports.getStatistics = async (req, res) => {
   try {
-    const allListingCount = await Listing.countDocuments() 
+    const allListingCount = await Listing.countDocuments()
     const activeListingCount = await Listing.countDocuments({ isActive: true })
     const verifiedListingCount = await Listing.countDocuments({ isVerified: true })
     const allInvesteeCount = await Investee.countDocuments()
     const approvedInvesteeCount = await Investee.countDocuments({ isVerified: true })
     const allInvestorCount = await Investor.countDocuments()
-      res.json({
-        status: true,
-        allListingCount, activeListingCount, verifiedListingCount, allInvesteeCount, approvedInvesteeCount, allInvestorCount
-      });
+    res.json({
+      status: true,
+      allListingCount, activeListingCount, verifiedListingCount, allInvesteeCount, approvedInvesteeCount, allInvestorCount
+    });
   } catch (error) {
     res.json({ message: error.message, status: false });
   }
@@ -78,7 +78,7 @@ exports.approveInvestees = async (req, res) => {
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user:  `${process.env.EMAIL}`,
+        user: `${process.env.EMAIL}`,
         pass: `${process.env.password}`,
       },
     });
@@ -150,7 +150,7 @@ exports.approveInvestees = async (req, res) => {
 
 exports.approveListing = async (req, res) => {
   try {
-    const listing=await Listing.findByIdAndUpdate(
+    const listing = await Listing.findByIdAndUpdate(
       { _id: req.body.listingId },
       { isVerified: true }
     );
@@ -158,7 +158,7 @@ exports.approveListing = async (req, res) => {
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user:  `${process.env.EMAIL}`,
+        user: `${process.env.EMAIL}`,
         pass: `${process.env.password}`,
       },
     });
@@ -235,7 +235,7 @@ exports.declineInvestees = async (req, res) => {
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user:  `${process.env.EMAIL}`,
+        user: `${process.env.EMAIL}`,
         pass: `${process.env.password}`,
       },
     });
@@ -305,7 +305,7 @@ exports.declineListing = async (req, res) => {
     const transporter = await nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user:  `${process.env.EMAIL}`,
+        user: `${process.env.EMAIL}`,
         pass: `${process.env.password}`,
       },
     });
@@ -363,11 +363,11 @@ exports.declineListing = async (req, res) => {
         res.status(201).json({ status: 201, info });
       }
     });
-    const listing=await Listing.findByIdAndDelete(req.body.listingId);
+    const listing = await Listing.findByIdAndDelete(req.body.listingId);
     await Notification.create({
       investeeId: listing.investee_id,
       message: `Dear Investee, unfortunately your listing cannot be approved because of incorrect or false information.`,
-      isRead:false
+      isRead: false
     })
     res.json({ message: "Listing Declined", status: true });
   } catch (error) {
@@ -415,6 +415,27 @@ exports.getAllTransactions = async (req, res) => {
     res.json({ message: error.message, status: false });
   }
 };
+exports.getChatUser = async (req, res) => {
+  try {
+    const investor = await Investor.findById(req.body.id2)
+    const investee = await Investee.findById(req.body.id2)
+    if (investor) {
+      res.json({
+        status: true,
+        investor,
+      })
+    } else {
+      res.json({
+        status: true,
+        investee,
+      })
+    }
+    
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};
+
 
 
 
