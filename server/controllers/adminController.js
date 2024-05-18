@@ -3,6 +3,7 @@ const Investee = require("../model/investeeDB");
 const Admin = require("../model/admin");
 const Listing = require("../model/listing");
 const Notification = require("../model/notification");
+const Transaction = require("../model/transaction");
 const env = require('dotenv').config()
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
@@ -400,6 +401,21 @@ exports.getAllInvestors = async (req, res) => {
     res.json({ message: error.message, status: false });
   }
 };
+exports.getAllTransactions = async (req, res) => {
+  try {
+    const transactions = await Transaction.find().populate("listingId");
+    if (transactions) {
+      console.log(transactions)
+      res.json({
+        status: true,
+        transactions,
+      });
+    }
+  } catch (error) {
+    res.json({ message: error.message, status: false });
+  }
+};
+
 
 
 

@@ -22,14 +22,8 @@ import {
   Button, MenuGroup,
 } from "@chakra-ui/react";
 import {
-  FiHome,
-  FiLogOut,
   FiMenu,
-  FiBell,
-  FiChevronDown,
   FiUserCheck,
-  FiList,
-  FiSlash
 } from "react-icons/fi";
 import { NavLink, useNavigate, Link} from 'react-router-dom';
 import Logo from "../../../components/Logo";
@@ -38,6 +32,7 @@ import { IoHomeOutline } from "react-icons/io5";
 import { MdDomainVerification } from "react-icons/md";
 import { CiViewTable } from "react-icons/ci";
 import { BsChatRight } from "react-icons/bs";
+import { GrTransaction } from "react-icons/gr";
 
 const LinkItems = [
   { name: "Home", icon: IoHomeOutline, link: "/admin/admin-dashboard/home" },
@@ -45,6 +40,7 @@ const LinkItems = [
   { name: "Listing Verification", icon: MdDomainVerification, link: "/admin/admin-dashboard/listing-verification" },
   { name: "Investee Data", icon: CiViewTable, link: "/admin/admin-dashboard/all-investees" },
   { name: "Investor Data", icon: CiViewTable, link: "/admin/admin-dashboard/all-investors" },
+  { name: "Transactions", icon: GrTransaction, link: "/admin/admin-dashboard/transactions" },
   { name: "Customer Support Chats", icon: BsChatRight, link: "/admin/admin-dashboard/all-support-chats" },
 
 

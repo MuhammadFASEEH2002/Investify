@@ -160,6 +160,7 @@ exports.paymentSuccess = async (req, res) => {
                 to: "Investify",
                 amountType: "incoming",
                 listingId: listing?._id,
+                status: 'successful'
             })
             await Transaction.create({
                 amount: amountreceived,
@@ -167,6 +168,7 @@ exports.paymentSuccess = async (req, res) => {
                 to: listing?.investee_id?.businessName,
                 amountType: "outgoing",
                 listingId: listing?._id,
+                status: 'successful'
             })
             console.log(listing)
 
@@ -249,35 +251,38 @@ exports.investmentAgreement = async (req, res) => {
                     console.log("Email sent:" + info.response);
                 }
             });
-            const filename = await `${listing?._id}-agreement.pdf`;
+            const filename = `${listing?._id}-agreement.pdf`;
 
-            doc.pipe(fs.createWriteStream(filename));
-            doc.fontSize(25);
-            doc.text('Investify- Investment Agreement Deed between Investor and Investee/Business', { align: 'center' });
-            doc.text(`This is to certify that investor Mr/Mrs ${listing?.investor_id?.firstName} ${listing?.investor_id?.lastName} bearing CNIC number ${listing?.investor_id?.cnic} has invested Rs ${listing?.amount} in a business named as ${listing?.investee_id?.businessName} having CNIC number ${listing?.investee_id?.cnic}.`, { align: 'justify', });
-            doc.text(`This agreement will remain valid for a period of ${listing?.investmentDuration} years in which the investor will get ${listing?.profitPercentage}% share of profit from the business. In case of any violation of contration strict legal action will be taken.`, { align: 'justify' });
-            doc.text(`e-signed by ${listing?.investor_id?.firstName} ${listing?.investor_id?.lastName}`, { align: 'center' });
-            doc.text('Investor signature here', { align: 'center' });
-            doc.text(`e-signed by ${listing?.investee_id?.businessName}`, { align: 'center' });
-            doc.text('Investee signature here', { align: 'center' });
-            doc.end();
-
-
-            const fileRef = ref(storage, `upload/agreement_docs/${filename}-agreement.pdf`);
-            const file = await fs.readFileSync(filename);
-            if (file) {
-
-                const snapshot = await uploadBytes(fileRef, file);
-                console.log('File uploaded successfully.');
-                const url = await getDownloadURL(snapshot.ref);
-                const uploadedFileUrl = url;
-            }
-
-
-            await Listing.findByIdAndUpdate({ _id: listing?._id }, {
-                agreementDocument: uploadedFileUrl
+            // Create and save the PDF
+            const pdfPromise = new Promise((resolve, reject) => {
+                const stream = fs.createWriteStream(filename);
+                doc.pipe(stream);
+                doc.fontSize(25);
+                doc.text('Investify- Investment Agreement Deed between Investor and Investee/Business', { align: 'center' });
+                doc.text(`This is to certify that investor Mr/Mrs ${listing?.investor_id?.firstName} ${listing?.investor_id?.lastName} bearing CNIC number ${listing?.investor_id?.cnic} has invested Rs ${listing?.amount} in a business named as ${listing?.investee_id?.businessName} having CNIC number ${listing?.investee_id?.cnic}.`, { align: 'justify' });
+                doc.text(`This agreement will remain valid for a period of ${listing?.investmentDuration} years in which the investor will get ${listing?.profitPercentage}% share of profit from the business. In case of any violation of contration strict legal action will be taken.`, { align: 'justify' });
+                doc.text(`e-signed by ${listing?.investor_id?.firstName} ${listing?.investor_id?.lastName}`, { align: 'center' });
+                doc.text('Investor signature here', { align: 'center' });
+                doc.text(`e-signed by ${listing?.investee_id?.businessName}`, { align: 'center' });
+                doc.text('Investee signature here', { align: 'center' });
+                doc.end();
+                stream.on('finish', resolve);
+                stream.on('error', reject);
             });
-            res.json({ message: "upload successful", status: true });
+
+            await pdfPromise;
+
+            // Upload the PDF after it's been fully created
+            const fileRef = ref(storage, `upload/agreement_docs/${filename}`);
+            const file = fs.readFileSync(filename);
+
+            const snapshot = await uploadBytes(fileRef, file);
+            console.log('File uploaded successfully.');
+            const url = await getDownloadURL(snapshot.ref);
+
+            // Update the listing with the URL
+            await Listing.findByIdAndUpdate(listing?._id, { agreementDocument: url });
+            res.json({ message: "Upload successful", status: true });
         }
 
     } catch (error) {

@@ -14,6 +14,8 @@ router.post('/verify-listing' ,verifyAdminToken, AdminController.approveListing)
 router.post('/decline-listing' ,verifyAdminToken, AdminController.declineListing)
 router.get('/get-all-investees' ,verifyAdminToken, AdminController.getAllInvestees)
 router.get('/get-all-investors' ,verifyAdminToken, AdminController.getAllInvestors)
+router.get('/get-all-transactions' ,verifyAdminToken, AdminController.getAllTransactions)
+
 
 
 
