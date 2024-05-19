@@ -38,6 +38,7 @@ import Admindashboardallchats from "./resources/Admindashboard/Admindashboardall
 import Admindashboardchatsupport from "./resources/Admindashboard/Admindashboardchatsupport";
 import Admindashboardtransactions from "./resources/Admindashboard/Admindashboardtransactions";
 import Admindashboardinvestments from "./resources/Admindashboard/Admindashboardinvestments";
+import Investordashboardinvestmentdetail from "./resources/Investordashboard/Investordashboardinvestmentdetail";
 
 
 function App() {
@@ -110,6 +111,10 @@ function App() {
           <Route
             path="/user/investor-dashboard/chat-support/:id1/:id2"
             element={<Investordashboardchatsupport />}
+          />
+            <Route
+            path="/user/investor-dashboard/investment-detail/:id"
+            element={<Investordashboardinvestmentdetail />}
           />
           {/* investee routes */}
           <Route

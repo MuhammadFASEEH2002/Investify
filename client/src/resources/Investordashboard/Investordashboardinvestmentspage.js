@@ -86,7 +86,7 @@ const Row = ({ investment }) => {
       cursor: 'pointer'
     }}
   >
-    <Td style={{ fontWeight: 'bold' }} color={"blue"}><Link to={`#`} >{investment?.investee_id?.businessName}</Link></Td>
+    <Td style={{ fontWeight: 'bold' }} color={"blue"}><Link to={`/user/investor-dashboard/investment-detail/${investment?._id}`} >{investment?.investee_id?.businessName}</Link></Td>
     <Td>{investment?.description.slice(0, 80)}... </Td>
     <Td>Rs {investment?.amount} /- </Td>
     <Td>{investment?.investmentDuration} years </Td>

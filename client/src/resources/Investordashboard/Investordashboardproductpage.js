@@ -8,7 +8,6 @@ import useListing from "../../providers/listingStore";
 const Investordashboardproductpage = () => {
     const { id } = useParams();
     const navigate = useNavigate()
-    // const [listing, setListing] = useState("")
     const setListing = useListing((state) => state?.setListing)
     const listing = useListing((state) => state?.listings)
     const [loading, setLoading] = useState(false)
