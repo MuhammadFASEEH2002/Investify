@@ -39,7 +39,7 @@ import Admindashboardchatsupport from "./resources/Admindashboard/Admindashboard
 import Admindashboardtransactions from "./resources/Admindashboard/Admindashboardtransactions";
 import Admindashboardinvestments from "./resources/Admindashboard/Admindashboardinvestments";
 import Investordashboardinvestmentdetail from "./resources/Investordashboard/Investordashboardinvestmentdetail";
-
+import Investeedashboardinvestmentdetail from "./resources/Investeedashboard/Investeedashboardinvestmentdetail";
 
 function App() {
   return (
@@ -112,7 +112,7 @@ function App() {
             path="/user/investor-dashboard/chat-support/:id1/:id2"
             element={<Investordashboardchatsupport />}
           />
-            <Route
+          <Route
             path="/user/investor-dashboard/investment-detail/:id"
             element={<Investordashboardinvestmentdetail />}
           />
@@ -160,6 +160,10 @@ function App() {
           <Route
             path="/user/investee-dashboard/chat-support/:id1/:id2"
             element={<Investeedashboardchatsupport />}
+          />
+          <Route
+            path="/user/investee-dashboard/investment-detail/:id"
+            element={<Investeedashboardinvestmentdetail />}
           />
         </Routes>
       </Router>

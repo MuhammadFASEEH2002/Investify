@@ -495,6 +495,16 @@ exports.getChatUser =async(req,res)=>{
       
   }
 }
+exports.getInvestmentDetail = async (req, res) => {
+  try {
+      const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id investor_id");
+      console.log(listing);
+      const investeeId = req.user
+      res.json({ status: true, listing, investeeId });
+  } catch (error) {
+      res.json({ status: false, message: error.message });
+  }
+};
 exports.logout = async (req, res) => {
   try {
       await Investee.findByIdAndUpdate({ _id: req.user }, {

@@ -17,7 +17,7 @@ router.get('/get-investment-detail' ,verifyInvestorToken, InvestorController.get
 router.post('/get-chat-user' ,verifyInvestorToken, InvestorController.getChatUser)
 router.get('/logout' ,verifyInvestorToken, InvestorController.logout)
 
-// router.post('/send-message' ,verifyInvestorToken, InvestorController.sendMessage)
+
 
 
 

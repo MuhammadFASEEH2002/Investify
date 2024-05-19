@@ -16,6 +16,8 @@ router.get("/get-notifications", verifyInvesteeToken, InvesteeController.getNoti
 router.put("/set-mark-as-read", verifyInvesteeToken, InvesteeController.setMarkAsRead)
 router.get("/get-stats", verifyInvesteeToken, InvesteeController.getStats)
 router.get('/get-investments' ,verifyInvesteeToken, InvesteeController.getInvestments)
+router.get('/get-investment-detail' ,verifyInvesteeToken, InvesteeController.getInvestmentDetail)
+
 router.post('/get-chat-user' ,verifyInvesteeToken, InvesteeController.getChatUser)
 router.get('/logout' ,verifyInvesteeToken, InvesteeController.logout)
 
