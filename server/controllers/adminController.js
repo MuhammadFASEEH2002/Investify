@@ -437,7 +437,7 @@ exports.getChatUser = async (req, res) => {
 };
 exports.getInvestment = async (req, res) => {
   try {
-   const investments=await Listing.find({investor_id:{$exists:true}})
+   const investments=await Listing.find({investor_id:{$exists:true}}).populate("investor_id investee_id");
 if(investments){
   res.json({
     status: true,
@@ -449,7 +449,16 @@ if(investments){
     res.json({ message: error.message, status: false });
   }
 };
-
+exports.getInvestmentDetail = async (req, res) => {
+  try {
+      const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id investor_id");
+      console.log(listing);
+      // const investeeId = req.user
+      res.json({ status: true, listing });
+  } catch (error) {
+      res.json({ status: false, message: error.message });
+  }
+};
 
 
 

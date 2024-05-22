@@ -40,6 +40,7 @@ import Admindashboardtransactions from "./resources/Admindashboard/Admindashboar
 import Admindashboardinvestments from "./resources/Admindashboard/Admindashboardinvestments";
 import Investordashboardinvestmentdetail from "./resources/Investordashboard/Investordashboardinvestmentdetail";
 import Investeedashboardinvestmentdetail from "./resources/Investeedashboard/Investeedashboardinvestmentdetail";
+import Admindashboardinvestmentdetail from "./resources/Admindashboard/Admindashboardinvestmentdetail";
 
 function App() {
   return (
@@ -58,6 +59,10 @@ function App() {
           <Route path="/admin/admin-dashboard/chat-support/:id1/:id2" element={<Admindashboardchatsupport />} />
           <Route path="/admin/admin-dashboard/transactions" element={<Admindashboardtransactions />} />
           <Route path="/admin/admin-dashboard/investments" element={<Admindashboardinvestments />} />
+          <Route
+            path="/admin/admin-dashboard/investment-detail/:id"
+            element={<Admindashboardinvestmentdetail />}
+          />
           <Route path="/admin/admin-dashboard/logout" element={<Admindashboardlogout />} />
           {/* auth routes */}
           <Route path="/user-login" element={<Userlogin />} />
