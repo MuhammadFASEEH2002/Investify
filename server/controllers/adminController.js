@@ -459,6 +459,13 @@ exports.getInvestmentDetail = async (req, res) => {
       res.json({ status: false, message: error.message });
   }
 };
+exports.payProfits = async (req, res) => {
+  try {
+     console.log(req.body.investment)
+  } catch (error) {
+      res.json({ status: false, message: error.message });
+  }
+};
 
 
 
