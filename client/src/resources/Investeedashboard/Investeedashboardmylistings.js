@@ -239,8 +239,9 @@ const Investeedashboardmylistings = () => {
                     </Modal>
                     <Text>
                       <span style={{ fontWeight: "bold" }}>Amount Required: </span>
-                      Rs {item?.amount}
+                      Rs {Number(item?.amount).toLocaleString('en-IN')}
                     </Text>
+
                     <Text>
                       <span style={{ fontWeight: "bold" }}>Profit Percentage: </span>
                       {item?.profitPercentage}%

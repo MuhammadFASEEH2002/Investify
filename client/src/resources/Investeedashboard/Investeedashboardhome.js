@@ -144,67 +144,7 @@ const Investeedashboardhome = () => {
       navigate("/user-login");
     }
   }, []);
-  // const openEditModal = (investee) => {
-  //   setAddress(investee?.address);
-  //   setZipcode(investee?.zipcode);
-  //   onFirstModalOpen();
-  // };
-  // const updateProfile = () => {
-  //   const token = window.localStorage.getItem("token");
 
-  //   if (
-  //     address && zipcode
-  //   ) {
-  //     fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/edit-user`, {
-  //       method: "PUT",
-  //       body: JSON.stringify({
-  //         address, zipcode
-  //       }),
-  //       headers: {
-  //         token: token,
-  //         'Accept': "application/json",
-  //         "Content-Type": "application/json",
-  //       },
-  //     })
-  //       .then((res) => {
-  //         return res.json();
-  //       })
-  //       .then((res) => {
-  //         if (res.status) {
-  //           toast({
-  //             title: "Profile Updated",
-  //             description: "Waiting for Admin to verify your profile",
-  //             status: "success",
-  //             duration: 9000,
-  //             isClosable: true,
-  //             position: "top",
-  //           });
-  //           navigate("/user/investee-dashboard/logout");
-  //         } else {
-  //           // alert(res.message);
-  //           toast({
-  //             title: "Authentication Error",
-  //             description: res.message,
-  //             status: "error",
-  //             duration: 9000,
-  //             isClosable: true,
-  //             position: "top",
-  //           });
-  //         }
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  //   else {
-  //     toast({
-  //       title: "Fields Are Empty",
-  //       description: "Kindly fill all the fields with correct data",
-  //       status: "error",
-  //       duration: 9000,
-  //       isClosable: true,
-  //       position: "top",
-  //     });
-  //   }
-  // };
   return (
     <>
       <Sidebar>

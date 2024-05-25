@@ -59,9 +59,22 @@ const Admindashboardtransactions = () => {
             <Sidebar>
                 <HStack justifyContent={'space-evenly'} my={5} flexWrap={"wrap"}>
 
-                    <StatCard colorscheme="blue" title="Total Incoming Amount" listings={`Rs ${incomingAmount}`} />
-                    <StatCard colorscheme="red" title="Total Outgoing Amount" listings={`Rs ${outgoingAmount}`} />
-                    <StatCard colorscheme="green" title="Remaining Amount" listings={`Rs ${Number(incomingAmount)-Number(outgoingAmount)}`} />
+                    <StatCard
+                        colorscheme="blue"
+                        title="Total Incoming Amount"
+                        listings={`Rs ${Number(incomingAmount).toLocaleString('en-IN')}`}
+                    />
+                    <StatCard
+                        colorscheme="red"
+                        title="Total Outgoing Amount"
+                        listings={`Rs ${Number(outgoingAmount).toLocaleString('en-IN')}`}
+                    />
+                    <StatCard
+                        colorscheme="green"
+                        title="Remaining Amount"
+                        listings={`Rs ${(Number(incomingAmount) - Number(outgoingAmount)).toLocaleString('en-IN')}`}
+                    />
+
 
 
                 </HStack>
@@ -86,7 +99,7 @@ const Row = ({ index, transactions }) => {
         }}
     >
         <Td style={{ fontWeight: 'bold' }} >{index} </Td>
-        <Td>Rs {transactions?.amount}</Td>
+        <Td>Rs {Number(transactions?.amount).toLocaleString('en-IN')}</Td>
         <Td>{transactions?.amountType}</Td>
         <Td>{transactions?.listingId?._id}</Td>
         <Td>{transactions?.from}</Td>

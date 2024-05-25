@@ -64,7 +64,7 @@ const Investeedashboardinvestmentspage = () => {
         {investment.length > 0 ? (
           <JTable
             tableData={investment}
-            tableHeads={['Business Name', 'Amount Given', 'Investment Duration', 'Profit Share Percentage','Investment Start Date', 'Investment End Date','Investment Status']}
+            tableHeads={['Business Name', 'Amount Received', 'Investment Duration', 'Profit Share Percentage','Investment Status']}
             tableRender={(index, investment) => {
               return <Row key={index} investment={investment} />;
             }}
@@ -87,23 +87,12 @@ const Row = ({ investment }) => {
     }}
   >
     <Td style={{ fontWeight: 'bold' }} color={"blue"}><Link to={`/user/investee-dashboard/investment-detail/${investment?._id}`} >{investment?.investee_id?.businessName}</Link></Td>
-    {/* <Td>{investment?.description.slice(0, 80)}... </Td> */}
-    <Td>Rs {investment?.amount} /- </Td>
+
+    <Td>Rs {Number(investment?.amount).toLocaleString('en-IN')} /- </Td>
     <Td>{investment?.investmentDuration} years </Td>
     <Td>{investment?.profitPercentage} % </Td>
-    <Td>{investment?.investment_start_date}  </Td>
-    <Td>{investment?.investment_end_date}  </Td>
-    {/* <Td>{investment?.isInvestmentEnded} % </Td> */}
-
-
-
-
-
-
-    {/* <Td>{investor?.email}</Td>
-      <Td>{investor?.phoneNumber}</Td>
-      <Td>{investor?.cnic}</Td> */}
-    {/* <Td>{investee?.isVerified?"verified":"not verified"}</Td> */}
+    {/* <Td>{investment?.investment_start_date}  </Td>
+    <Td>{investment?.investment_end_date}  </Td> */}
   </Tr>
 }
 

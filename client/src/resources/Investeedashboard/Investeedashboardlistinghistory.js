@@ -31,9 +31,9 @@ const Investeedashboardlistinghistory = () => {
   useEffect(() => {
     if (window.localStorage.getItem('token')) {
       document.title = "Investify | Investee Listing History";
-    
+
       getMyListing();
-     
+
     } else {
       navigate("/user-login");
     }
@@ -51,7 +51,7 @@ const Investeedashboardlistinghistory = () => {
     })
       .then((res) => res.json())
       .then((res) => {
-        if(res.status) {
+        if (res.status) {
           setListing(res.listing)
           setIsLoading(false)
         } else {
@@ -132,8 +132,9 @@ const Investeedashboardlistinghistory = () => {
                     </Modal>
                     <Text>
                       <span style={{ fontWeight: "bold" }}>Amount: </span>
-                      {item?.amount}
+                      Rs {Number(item?.amount).toLocaleString('en-IN')}
                     </Text>
+
                     <Text>
                       <span style={{ fontWeight: "bold" }}>Email : </span>
                       {item?.investee_id?.email}

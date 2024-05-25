@@ -101,7 +101,7 @@ const Admindashboardallchats = () => {
                                         navigate(`/admin/admin-dashboard/chat-support/${chat?.split('-')[0].split('_')[0]}/${chat?.split('-')[0].split('_')[1]}`);
                                     }} cursor={"pointer"} key={index} width={"100%"}>
                                         <CardBody>
-                                            <Text fontSize={"1em"}>chat {index + 1}: {chat.split('-')[1]} </Text>
+                                            <Text fontSize={"1em"}>{chat.split('-')[1]} </Text>
                                         </CardBody>
                                     </Card>
                                 ))}

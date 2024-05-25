@@ -256,7 +256,9 @@ const Row = ({ investment }) => {
         }}
       >
         <Td style={{ fontWeight: 'bold' }} color={"blue"}><Link to={`/admin/admin-dashboard/investment-detail/${investment?._id}`} >{investment?.investee_id?.businessName}</Link></Td>
-        <Td>Rs {investment?.amount} /- </Td>
+        <Td>Rs {investment?.amount ? Number(investment.amount).toLocaleString('en-IN') : 'N/A'} /- </Td>
+
+
         <Td>{investment?.investmentDuration} years </Td>
         <Td>{investment?.profitPercentage} % </Td>
         <Td>{investment?.investment_start_date} </Td>

@@ -154,15 +154,24 @@ const Investeedashboardinvestmentdetail = () => {
                 <Stack fontSize={{ base: "10", md: "15", lg: "15" }}>
                   <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
                     <Text color={"blue.400"}>Investment Amount: </Text>
-                    <Text>Rs {listing?.amount}</Text>
+                    <Text>Rs {Number(listing?.amount).toLocaleString('en-IN')}</Text>
                   </HStack>
                   <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
-                    <Text color={"blue.400"}>Investment Amount Given after Commission: </Text>
-                    <Text>Rs {listing?.amountReceived}</Text>
+                    <Text color={"blue.400"}>Investment Amount Received after Commission: </Text>
+                    <Text>Rs {Number(listing?.amountReceived).toLocaleString('en-IN')}</Text>
                   </HStack>
+
                   <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
                     <Text color={"blue.400"}>Duration of Investment: </Text>
                     <Text>{listing?.investmentDuration} years</Text>
+                  </HStack>
+                  <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                    <Text color={"blue.400"}>Start Date: </Text>
+                    <Text>{listing?.investment_start_date} </Text>
+                  </HStack>
+                  <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                    <Text color={"blue.400"}>End Date: </Text>
+                    <Text>{listing?.investment_end_date}</Text>
                   </HStack>
                   <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
                     <Text color={"blue.400"}>Profit Share: </Text>
@@ -171,7 +180,7 @@ const Investeedashboardinvestmentdetail = () => {
                   <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
                     <Text color={"blue.400"}>Investment Agreement: </Text>
                     <Link to={`${listing?.agreementDocument}`} color='blue' >
-                      <FiDownload color='blue' size={'20px'}/>
+                      <FiDownload color='blue' size={'20px'} />
                     </Link>
                   </HStack>
                 </Stack>
