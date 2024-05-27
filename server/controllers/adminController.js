@@ -4,6 +4,7 @@ const Admin = require("../model/admin");
 const Listing = require("../model/listing");
 const Notification = require("../model/notification");
 const Transaction = require("../model/transaction");
+const Profit=require("../model/profit");
 const env = require('dotenv').config()
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
@@ -462,6 +463,9 @@ exports.getInvestmentDetail = async (req, res) => {
 exports.payProfits = async (req, res) => {
   try {
      console.log(req.body.investment)
+     await Profit.create({profitAmount:req.body.profitToGive, profitProof: req.body.url, listingId: req.body.investment._id})
+     res.json({ status: true });
+
   } catch (error) {
       res.json({ status: false, message: error.message });
   }

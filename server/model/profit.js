@@ -1,7 +1,7 @@
 const mongo = require('mongoose');
 
 const ProfitSchema = new mongo.Schema({
-    amount: {
+    profitAmount: {
         type: String,
     },
 profitProof:{
