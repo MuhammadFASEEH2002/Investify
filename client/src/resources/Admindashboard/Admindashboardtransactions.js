@@ -3,6 +3,7 @@ import Sidebar from './components/Sidebar'
 import { useToast, Tr, Td, Switch, FormControl, Card, HStack, Text, Button, Heading } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import JTable from './components/JTable';
+import { FaDollarSign } from "react-icons/fa";
 
 const Admindashboardtransactions = () => {
     const [isLoading, setIsLoading] = useState(true);
@@ -57,27 +58,35 @@ const Admindashboardtransactions = () => {
     return (
         <>
             <Sidebar>
+            <Heading textAlign={"center"}>All Transactions</Heading>
+
                 <HStack justifyContent={'space-evenly'} my={5} flexWrap={"wrap"}>
 
                     <StatCard
                         colorscheme="blue"
                         title="Total Incoming Amount"
                         listings={`Rs ${Number(incomingAmount).toLocaleString('en-IN')}`}
+                        icon={<FaDollarSign/>}
                     />
                     <StatCard
                         colorscheme="red"
                         title="Total Outgoing Amount"
                         listings={`Rs ${Number(outgoingAmount).toLocaleString('en-IN')}`}
+                        icon={<FaDollarSign/>}
+
                     />
                     <StatCard
                         colorscheme="green"
                         title="Remaining Amount"
                         listings={`Rs ${(Number(incomingAmount) - Number(outgoingAmount)).toLocaleString('en-IN')}`}
+                        icon={<FaDollarSign/>}
+
                     />
 
 
 
                 </HStack>
+
                 {transactions.length > 0 && <JTable
                     tableData={transactions}
                     tableHeads={['S.No', 'Amount', 'Type', 'Listing ID', 'From', 'To', 'Status']}

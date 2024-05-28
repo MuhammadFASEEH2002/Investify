@@ -164,7 +164,8 @@ exports.getAllChatsInvestee =async(req,res)=>{
 }
 exports.getAllChatsAdmin =async(req,res)=>{
     try {
-          message = await Chat.find({chatType:'support'}).populate('investor_id investee_id')
+          message = await Chat.find({chatType:'support'}).populate('investor_id investee_id').sort({ createdAt: -1 });
+          console.log(message)
           res.json({
             status: true,
             message

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
-import { Stack, Spinner, Card, CardBody, Text } from '@chakra-ui/react';
+import { Stack, Spinner, Card, CardBody, Text, Heading } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import useInvestee from '../../providers/investeeStore';
 
@@ -95,6 +95,7 @@ const Admindashboardallchats = () => {
                 (
                     <>
                         <Stack width={"100%"} alignItems={"center"} justifyContent={"center"}>
+                    <Heading>Customer Support Chats</Heading>
                             <Stack width={{ base: "100%", md: "80%", lg: "70%" }} flexDirection={"column"}>
                                 {chats.map((chat,index) => (
                                     <Card onClick={() => {

@@ -148,6 +148,8 @@ const Investeedashboardhome = () => {
   return (
     <>
       <Sidebar>
+      <Heading textAlign={"center"}>Dashboard</Heading>
+
         {loading ? (<><Stack minHeight={'100%'} width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack> </>) : (<>
           <HStack justifyContent={'space-evenly'} my={5} flexWrap={"wrap"} >
 

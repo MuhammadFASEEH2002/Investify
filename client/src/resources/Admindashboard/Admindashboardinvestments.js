@@ -72,6 +72,8 @@ const Admindashboardinvestments = () => {
         </>) : (<>
           {investment.length > 0 ? (
             <>
+                    <Heading textAlign={"center"}>All Investments</Heading>
+
               <JTable
                 tableData={investment}
                 tableHeads={['Business Name', 'Amount Given', 'Investment Duration', 'Profit Share Percentage', 'Investment Start Date', 'Investment End Date', 'Investment Status', 'Profit Status']}

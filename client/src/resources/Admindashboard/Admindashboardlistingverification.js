@@ -38,7 +38,6 @@ const Admindashboardlistingverification = () => {
   };
   const [listing, setListing] = useState([]);
   useEffect(() => {
-
     if(window.localStorage.getItem('adminToken')){
       document.title = "Investify | Admin Listing Verification";
       setIsLoading(true);
@@ -133,6 +132,8 @@ const Admindashboardlistingverification = () => {
   return (
     <>
       <Sidebar>
+      <Heading textAlign={"center"}>Listing Verification</Heading>
+
         <Box
           style={{
             display: "flex",

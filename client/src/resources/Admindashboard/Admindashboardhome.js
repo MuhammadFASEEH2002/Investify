@@ -62,6 +62,8 @@ const Admindashboardhome = () => {
   return (
     <>
       <Sidebar>
+      <Heading textAlign={"center"}>Dashboard</Heading>
+
         <HStack spacing='4' flexWrap="wrap" justifyContent="center" alignItems="flex-start">
           {isLoading ? (
             <Stack alignItems={'center'} justifyContent={'center'}>

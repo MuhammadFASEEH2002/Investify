@@ -80,6 +80,8 @@ const Investeedashboardlistinghistory = () => {
   return (
     <>
       <Sidebar>
+      <Heading textAlign={"center"}>In-active Listings</Heading>
+
         <Box
           style={{
             display: "flex",

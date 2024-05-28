@@ -9,7 +9,8 @@ import {
   Input,
   useToast,
   Textarea,
-  Spinner
+  Spinner,
+  Heading
 } from "@chakra-ui/react";
 
 
@@ -100,6 +101,8 @@ const Investeedashboardlistingcreation = () => {
   return (
     <>
       <Sidebar>
+      <Heading textAlign={"center"}>Create Listing</Heading>
+
         {loading ? (<><Stack minHeight={'100%'} width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack> </>):(<>
           <HStack
             width={"100%"}

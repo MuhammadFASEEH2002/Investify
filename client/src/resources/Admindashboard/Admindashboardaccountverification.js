@@ -117,6 +117,8 @@ const Admindashboardaccountverification = () => {
 
     <>
       <Sidebar>
+      <Heading textAlign={"center"}>Account Verification</Heading>
+
         <Box
           style={{
             display: "flex",

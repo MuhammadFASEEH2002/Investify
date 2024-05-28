@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
-import { useToast, Tr, Td, Switch, FormControl } from '@chakra-ui/react';
+import { useToast, Tr, Td, Switch, FormControl, Heading } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import JTable from './components/JTable';
 
@@ -39,6 +39,8 @@ const Admindashboardallinvestees = () => {
     return (
         <>
             <Sidebar>
+            <Heading textAlign={"center"}>All Investees</Heading>
+
                 {investee.length > 0 && <JTable
                     tableData={investee}
                     tableHeads={['Business Name', 'Email', 'Phone Number', 'CNIC', 'Verification Status']}
