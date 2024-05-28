@@ -290,8 +290,6 @@ exports.investmentAgreement = async (req, res) => {
         res.json({ message: error.message, status: false });
     }
 };
-// fs.unlinkSync(filename);
-// currently working
 exports.paymentFailure = async (req, res) => {
     try {
         const investor = await Investor.findOne({ _id: req.user })

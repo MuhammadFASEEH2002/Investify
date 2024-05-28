@@ -4,7 +4,7 @@ const Admin = require("../model/admin");
 const Listing = require("../model/listing");
 const Notification = require("../model/notification");
 const Transaction = require("../model/transaction");
-const Profit=require("../model/profit");
+const Profit = require("../model/profit");
 const env = require('dotenv').config()
 const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
@@ -431,43 +431,47 @@ exports.getChatUser = async (req, res) => {
         investee,
       })
     }
-    
+
   } catch (error) {
     res.json({ message: error.message, status: false });
   }
 };
 exports.getInvestment = async (req, res) => {
   try {
-   const investments=await Listing.find({investor_id:{$exists:true}}).populate("investor_id investee_id");
-if(investments){
-  res.json({
-    status: true,
-    investments,
-  })
-}
-    
+    const investments = await Listing.find({ investor_id: { $exists: true } }).populate("investor_id investee_id");
+    if (investments) {
+      res.json({
+        status: true,
+        investments,
+      })
+    }
+
   } catch (error) {
     res.json({ message: error.message, status: false });
   }
 };
 exports.getInvestmentDetail = async (req, res) => {
   try {
-      const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id investor_id");
-      console.log(listing);
-      // const investeeId = req.user
-      res.json({ status: true, listing });
+    const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id investor_id");
+    console.log(listing);
+    // const investeeId = req.user
+    res.json({ status: true, listing });
   } catch (error) {
-      res.json({ status: false, message: error.message });
+    res.json({ status: false, message: error.message });
   }
 };
 exports.payProfits = async (req, res) => {
   try {
-     console.log(req.body.investment)
-     await Profit.create({profitAmount:req.body.profitToGive, profitProof: req.body.url, listingId: req.body.investment._id})
-     res.json({ status: true });
+    console.log(req.body.investment)
+    const profitData = await Profit.create({ profitAmount: req.body.profitToGive, profitProof: req.body.url, listingId: req.body.investment?._id })
+    // await trasaction.create({amount:req.body.profitToGive, transactionType: "Profit", listingId: req.body.investment._id})
+    if (Profit) {
+      await Listing.findByIdAndUpdate(req.body.investment?._id, { profit: profitData._id });
+    }
+    res.json({ status: true });
 
   } catch (error) {
-      res.json({ status: false, message: error.message });
+    res.json({ status: false, message: error.message });
   }
 };
 

@@ -50,6 +50,10 @@ const listingSchema = new mongo.Schema({
     type: String
   },agreementDocument:{
     type: String
+  },
+  profit:{
+    type: String,
+    ref: "Profit"
   }
 },
   {

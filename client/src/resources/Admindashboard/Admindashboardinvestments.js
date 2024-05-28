@@ -125,95 +125,40 @@ const Row = ({ investment }) => {
 
   async function payProfits(investment) {
     const token = window.localStorage.getItem('adminToken');
-
-    if (
-      file &&
-      totalProfit &&
-      profitToGive
-    ) {
-      setLoading(true)
-      // console.log(formData)
-      // if (!emailRegex.test(email)) {
-
-      //   toast({
-      //     title: "Invalid Email Address Format",
-      //     status: "error",
-      //     duration: 9000,
-      //     isClosable: true,
-      //     position: "top",
-      //   });
-      //   setLoading(false)
-      //   return
-      // }
-      // if (!cnicRegex.test(cnic)) {
-      //   toast({
-      //     title: "Invalid Format of CNIC or not in 13 digits",
-      //     status: "error",
-      //     duration: 9000,
-      //     isClosable: true,
-      //     position: "top",
-      //   });
-      //   setLoading(false)
-      //   return
-      // }
-      // if (!phoneNumberRegex.test(phoneNumber)) {
-      //   toast({
-      //     title: "Invalid Phone Number",
-      //     status: "error",
-      //     duration: 9000,
-      //     isClosable: true,
-      //     position: "top",
-      //   });
-      //   setLoading(false)
-
-      //   return
-      // }
-      // if (!zipcodeRegex.test(zipcode)) {
-      //   toast({
-      //     title: "Invalid Zipcode.",
-      //     status: "error",
-      //     duration: 9000,
-      //     isClosable: true,
-      //     position: "top",
-      //   });
-      //   setLoading(false)
-
-      //   return
-      // }
-      // if (!businessNameRegex.test(businessName)) {
-      //   toast({
-      //     title: "Inappropriate name for a business",
-      //     status: "error",
-      //     duration: 9000,
-      //     isClosable: true,
-      //     position: "top",
-      //   });
-      //   setLoading(false)
-
-      //   return
-      // }
-      // if (!passwordRegex.test(password) || !passwordRegex.test(confirmPassword)) {
-      //   toast({
-      //     title: "Password should have minimum 8 characters. No spaces allowed and at least 1 alphabet or letter is compulsory",
-      //     status: "error",
-      //     duration: 9000,
-      //     isClosable: true,
-      //     position: "top",
-      //   });
-      //   setLoading(false)
-
-      //   return
-      // }
-
+  
+    // Define regex for numeric validation (allows integers and decimals)
+    const numericRegex = /^[0-9]+(\.[0-9]+)?$/;
+  
+    // Check if file, totalProfit, and profitToGive are provided
+    if (file && totalProfit && profitToGive) {
+      // Validate that totalProfit and profitToGive match the numeric regex
+      const isTotalProfitNumeric = numericRegex.test(totalProfit);
+      const isProfitToGiveNumeric = numericRegex.test(profitToGive);
+  
+      if (!isTotalProfitNumeric || !isProfitToGiveNumeric) {
+        toast({
+          title: "Invalid Input",
+          description: "Total Profit and Profit to Give must be numeric values.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top",
+        });
+        return;
+      }
+  
       const fileRef = ref(storage, `upload/profit_verification_docs/${Date.now() + file.name}`);
-      // formData.append('fileRef', url);
+  
       await uploadBytes(fileRef, file).then((snapshot) => {
         getDownloadURL(snapshot.ref).then((url) => {
-          setUrl(url)
+          setUrl(url);
           fetch(`${process.env.REACT_APP_FETCH_URL_}/api/admin/pay-profits`, {
             method: "POST",
             body: JSON.stringify({
-              url, profitToGive, totalProfit, investment
+              url,
+              profitToGive: parseFloat(profitToGive),
+              totalProfit: parseFloat(totalProfit),
+              investment
             }),
             headers: {
               'token': token,
@@ -221,19 +166,15 @@ const Row = ({ investment }) => {
               "Content-Type": "application/json",
             },
           })
-            .then((res) => {
-              return res.json();
-            })
+            .then((res) => res.json())
             .then((res) => {
               if (res.status) {
-
+                // Handle success response if needed
               }
             })
             .catch((err) => console.log(err));
         });
-
       });
-
     } else {
       toast({
         title: "Fields Are Empty",
@@ -243,10 +184,9 @@ const Row = ({ investment }) => {
         isClosable: true,
         position: "top",
       });
-      setLoading(false)
-
     }
-  };
+  }
+  
   return (
     <>
       <Tr
@@ -265,16 +205,28 @@ const Row = ({ investment }) => {
         <Td>{investment?.investment_end_date}  </Td>
 
         <Td>{investment?.isInvestmentEnded ? 'Ended' : 'Not Ended'}</Td>
-        {investment?.isInvestmentEnded && (
-          <Td>
-            <Button onClick={() => onOpen()} colorScheme="teal" variant="solid">
-              pay profits
-            </Button>
-          </Td>
-        )}
+        <Td>
+          {investment?.isInvestmentEnded ? (
+            <>
+              {investment?.profit ? (
+                // Render something if profit exists, e.g., a message or the profit amount
+                <div>Profit amount already given</div>
+              ) : (
+                <Button onClick={() => onOpen()} colorScheme="teal" variant="solid">
+                  Pay Profits
+                </Button>
+              )}
+            </>
+          ) : (
+            <div>Profit will be given after the investment period ends</div>
+          )}
+        </Td>
 
 
-      </Tr>
+
+
+
+      </Tr >
       <Modal onClose={onClose} isOpen={isModalOpen} isCentered>
         <ModalOverlay />
         <ModalContent>

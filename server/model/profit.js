@@ -7,10 +7,10 @@ const ProfitSchema = new mongo.Schema({
 profitProof:{
     type:String
 },
-    listingId: {
-        type: String,
-        ref: 'Listing'
-    }
+    // listingId: {
+    //     type: String,
+    //     ref: 'Listing'
+    // }
 },
     {
         timestamps: true
