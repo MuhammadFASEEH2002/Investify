@@ -99,7 +99,7 @@ const Row = ({ investment }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [file, setFile] = useState(null);
   const toast = useToast()
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const handleInputChange = (event, setState) => {
     setState(event.target.value);
   };
@@ -172,6 +172,8 @@ const Row = ({ investment }) => {
             .then((res) => {
               if (res.status) {
                 // Handle success response if needed
+                window.location.reload();
+
               }
             })
             .catch((err) => console.log(err));
