@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
-import { Stack, Spinner, Card, CardBody, Text } from '@chakra-ui/react';
+import { Stack, Spinner, Card, CardBody, Text, Heading } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
-// import { db } from '../../utils/firebase';
-// import {
-//     collection,
-//     onSnapshot,
-//     query,
-//     orderBy,
-// } from 'firebase/firestore';
 import useInvestee from '../../providers/investeeStore';
 
 
@@ -88,6 +81,8 @@ const Investeedashboardallchats = () => {
 
     return (
         <Sidebar>
+      <Heading textAlign={"center"}>All Chats</Heading>
+
             {loading ? (<>
                 <><Stack minHeight={'100%'} width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack> </>
             </>) : (<>

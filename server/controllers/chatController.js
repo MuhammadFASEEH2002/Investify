@@ -71,7 +71,7 @@ exports.getSupportMessagesInvestor =async(req,res,io)=>{
 }
 exports.getAllChatsInvestor =async(req,res)=>{
     try {
-          message = await Chat.find({investee_id: { $exists: true }}).populate('investee_id')
+          message = await Chat.find({investee_id: { $exists: true }}).populate('investee_id').sort({ createdAt: -1 });
           res.json({
             status: true,
             message
@@ -151,7 +151,7 @@ exports.getSupportMessagesInvestee =async(req,res,io)=>{
 }
 exports.getAllChatsInvestee =async(req,res)=>{
     try {
-          message = await Chat.find({investor_id: { $exists: true }}).populate('investor_id')
+          message = await Chat.find({investor_id: { $exists: true }}).populate('investor_id').sort({ createdAt: -1 });
           res.json({
             status: true,
             message

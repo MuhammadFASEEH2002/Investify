@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
-import { Spinner, Stack, useToast, Tr, Td, } from "@chakra-ui/react";
+import { Spinner, Stack, useToast, Tr, Td, Heading } from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import JTable from './components/JTable';
 
@@ -50,6 +50,8 @@ const Investeedashboardinvestmentspage = () => {
 
   return (
     <Sidebar>
+      <Heading textAlign={"center"}>All Fundings</Heading>
+
       {loading ? (<>
         <Stack alignItems={'center'} justifyContent={'center'}>
           <Spinner

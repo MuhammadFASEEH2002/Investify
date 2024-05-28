@@ -436,7 +436,7 @@ exports.getStats = async (req, res) => {
   try {
     const investee = await Investee.findOne({ _id: req.user });
     const TotalListingCount = await Listing.countDocuments({ investee_id: req.user })
-    const ActiveListingCount = await Listing.countDocuments({ investee_id: req.user, isActive: true, isVerified: true })
+    const ActiveListingCount = await Listing.countDocuments({ investee_id: req.user, isActive: true, isInvestmentEnded: false })
     const DeletedListingCount = await Listing.countDocuments({
       investee_id: req.user,
       $and: [
