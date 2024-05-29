@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
-import { Stack, Spinner, Text, Card, CardBody } from '@chakra-ui/react';
+import { Stack, Spinner, Text, Card, CardBody,Heading } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 import useInvestor from '../../providers/investorStore';
@@ -117,13 +117,15 @@ const Investordashboardallchats = () => {
                 (
                     <>
                         <Stack width={"100%"} alignItems={"center"} justifyContent={"center"}>
+                    <Heading textAlign={"center"}>All Chats</Heading>
+
                             <Stack width={{ base: "100%", md: "80%", lg: "70%" }} flexDirection={"column"}>
                                 {chats.map((chat,index) => (
                                     <Card onClick={() => {
                                         navigate(`/user/investor-dashboard/chat/${chat?.split('-')[0].split('_')[0]}/${chat?.split('-')[0].split('_')[1]}`);
                                     }} cursor={"pointer"} key={index} width={"100%"}>
                                         <CardBody>
-                                            <Text fontSize={"1em"}>chat {index + 1}: {chat.split('-')[1]} </Text>
+                                            <Text fontSize={"1em"}> {chat.split('-')[1]} </Text>
                                         </CardBody>
                                     </Card>
                                 ))}

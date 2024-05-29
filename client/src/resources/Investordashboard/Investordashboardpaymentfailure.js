@@ -1,8 +1,89 @@
-import React from 'react'
+import { Stack, Card, CardHeader, CardBody, CardFooter, Text, Heading, Button, useToast, Spinner } from '@chakra-ui/react'
+import React, { useEffect, useState } from 'react'
+import { MdCancel } from "react-icons/md";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Investordashboardpaymentfailure = () => {
+  const toast = useToast()
+  const navigate = useNavigate()
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const sessionId = searchParams.get('session_id');
+  const [loading, setLoading] = useState(true)
+  const paymentFailed = async () => {
+    setLoading(true)
+    console.log(sessionId)
+    if (sessionId) {
+      const token1 = window.localStorage.getItem('token1');
+      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/payment-failure`, {
+        method: "POST",
+        body: JSON.stringify({
+          sessionId
+        }),
+        headers: {
+          'token': token1,
+          'Accept': "application/json",
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status) {
+            console.log("payment failed")
+            setLoading(false)
+            // investmentAgreement(res?.listing?._id)
+
+          } else {
+            setLoading(false)
+          }
+        })
+        .catch((err) => console.log(err));
+    } else {
+      toast({
+        title: "Cannot get Session Id",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+        position: "top",
+      });
+      setLoading(false)
+    }
+  }
+  useEffect(() => {
+    if (window.localStorage.getItem('token1')) {
+      document.title = "Investify | Investor-Payment-Success";
+      paymentFailed()
+    } else {
+      navigate("/user-login");
+    }
+  }, [])
   return (
-    <div>Investordasboardp</div>
+    <Stack alignItems={"center"} jusitfyContent={"center"} height={"100vh"} width={"100vw"} backgroundColor={"#EAEDEF"}>
+      {loading ? (<>
+        <Stack alignItems={'center'} justifyContent={'center'}>
+          <Spinner
+            thickness='4px'
+            speed='0.65s'
+            emptyColor='gray.200'
+            color='blue.500'
+            size='xl'
+          />
+        </Stack>
+      </>) : (<>
+        <Card size="lg" marginTop={10} border={"0.8px blue"}>
+          <CardHeader alignItems={"center"} justifyContent={"center"} display={"flex"}>
+            <MdCancel color='red' size={"4em"} />
+          </CardHeader>
+          <CardBody>
+            <Heading textAlign={"center"}>Error</Heading>
+            <Text textAlign={"center"}>Payment Failed</Text>
+          </CardBody>
+          <CardFooter>
+            <Button colorScheme='blue' onClick={() => { navigate("/user/investor-dashboard/home") }}>Return to Dashboard</Button>
+          </CardFooter>
+        </Card>
+      </>)}
+    </Stack>
   )
 }
 

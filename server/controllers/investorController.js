@@ -118,7 +118,7 @@ exports.checkoutSession = async (req, res) => {
                     },
                 ],
                 success_url: `${process.env.ORIGIN_URL}/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-success?session_id={CHECKOUT_SESSION_ID}`,
-                cancel_url: `${process.env.ORIGIN_URL}/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-failure`,
+                cancel_url: `${process.env.ORIGIN_URL}/user/investor-dashboard/business-catalog/product-page/initiate-investment/payment-failure?session_id={CHECKOUT_SESSION_ID}`,
             })
             await Listing.findByIdAndUpdate({ _id: listing?._id }, {
                 payment_session_id: session?.id
@@ -171,12 +171,28 @@ exports.paymentSuccess = async (req, res) => {
                 status: 'successful'
             })
             console.log(listing)
-
-
+            
+            
             res.json({ message: "payment successful", status: true, listing });
-
+            
         }
         // }
+        
+    } catch (error) {
+        res.json({ message: error.message, status: false });
+    }
+};
+exports.paymentFailure = async (req, res) => {
+    try {
+        // const investor = await Investor.findOne({ _id: req.user })
+        if (req.body.sessionId) {
+            const listing = await Listing.findOne({ payment_session_id: req.body.sessionId }).populate("investee_id investor_id");
+          
+            await Listing.findByIdAndUpdate({ _id: listing?._id }, {
+                $unset: { payment_session_id: "" }
+            })
+            res.json({ message: "payment failed", status: true });
+        }
 
     } catch (error) {
         res.json({ message: error.message, status: false });
@@ -235,7 +251,7 @@ exports.investmentAgreement = async (req, res) => {
             <div class="container">
                 <h2>Congratulations on your new investment.</h2>
                 <p>Dear ${investor?.firstName},</p>
-                <p>You have invested in a new business as you payment was successful you can now monitor the company profits from the investments tab of your dashboard. we wish you best of luck for future</p>
+                <p>You have invested in a new business as your payment was successful hoping that your selected business will reach new height and the profits will be shared with you after the investment period is ended. we wish you best of luck for future</p>
                 <p>
                 </p>
                 <p>Thank you for choosing our platform. If you have any questions or need further assistance, please don't hesitate to contact our support team.</p>
@@ -287,35 +303,6 @@ exports.investmentAgreement = async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        res.json({ message: error.message, status: false });
-    }
-};
-exports.paymentFailure = async (req, res) => {
-    try {
-        const investor = await Investor.findOne({ _id: req.user })
-        if (req.body.sessionId) {
-            const listing = await Listing.findOne({ payment_session_id: req.body.sessionId }).populate("investee_id");
-            console.log(listing)
-            // setting up current date
-            const currentDate = new Date();
-            const currentYear = currentDate.getFullYear();
-            const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');
-            const currentDay = currentDate.getDate().toString().padStart(2, '0');
-            const formattedCurrentDate = `${currentDay}-${currentMonth}-${currentYear}`;
-            // setting up end date
-            const investmentDuration = listing?.investmentDuration // Assuming the investment duration is 1 year
-            const endYear = parseInt(currentYear) + parseInt(investmentDuration);
-            const endMonth = currentMonth;
-            const endDay = currentDay;
-            const formattedEndDate = `${endDay}-${endMonth}-${endYear}`;
-            await Listing.findByIdAndUpdate({ _id: listing?._id }, {
-                investor_id: investor._id, investment_start_date: formattedCurrentDate,
-                investment_end_date: formattedEndDate
-            })
-            res.json({ message: "payment successful", status: true });
-        }
-
-    } catch (error) {
         res.json({ message: error.message, status: false });
     }
 };

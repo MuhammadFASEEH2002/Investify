@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Sidebar from './components/Sidebar'
-import { Center, HStack, Input, Text, Box, Card, CardHeader, Heading, CardBody, CardFooter, Button, InputRightAddon, InputGroup, Spinner, Stack, useToast, Tr, Td, } from "@chakra-ui/react";
+import { Center, HStack, Input, Text, Box, Card, CardHeader, Heading, CardBody, CardFooter, Button, InputRightAddon, InputGroup, Spinner, Stack, useToast, Tr, Td} from "@chakra-ui/react";
 import { IoMdSearch } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import JTable from './components/JTable';
@@ -54,6 +54,8 @@ const Investordashboardbusinesscatalog = () => {
     <>
 
       <Sidebar>
+      <Heading textAlign={"center"}>Business Catalog</Heading>
+
         {loading ? (<>
           <Stack alignItems={'center'} justifyContent={'center'}>
             <Spinner
