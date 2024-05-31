@@ -27,7 +27,7 @@ import {
 import { IoHomeOutline } from "react-icons/io5";
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import Logo from "../../../components/Logo";
-import { useEffect} from "react";
+import { useEffect, useState } from "react";
 import { BsChatRight } from "react-icons/bs";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import useInvestee from "../../../providers/investeeStore";
@@ -163,6 +163,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
   // const [investee, setInvestee] = useState([]);
   const setInvestee = useInvestee((state) => state?.setInvestee)
   const investee = useInvestee((state) => state?.investees)
+  const [totalNotifications, setTotalNotifications] = useState('');
 
   const toast = useToast()
   const navigate = useNavigate();
@@ -196,12 +197,49 @@ const MobileNav = ({ onOpen, ...rest }) => {
     }
 
   };
+  const getStats = () => {
+    // setLoading(true)
+
+    const token = window.localStorage.getItem('token');
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/get-stats`, {
+      method: "GET",
+      headers: {
+        'token': token,
+        'Accept': "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status) {
+          // setTotalListingCount(res.TotalListingCount)
+          // setActiveListingCount(res.ActiveListingCount)
+          // setDeletedListingCount(res.DeletedListingCount)
+          // setLoading(false)
+          setTotalNotifications(res.TotalUnreadNotifications)
+
+
+        } else {
+          toast({
+            title: "Network Error, Reload Again",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top",
+          });
+          // setLoading(false)
+
+        }
+      })
+      .catch((err) => console.log(err));
+  };
   useEffect(() => {
-    document.title = "Investify | Investee-Home";
-    try {
-      getUser();
-    } catch (error) {
-      navigate("/")
+    if (window.localStorage.getItem('token')) {
+      document.title = "Investify | Investee-Home";
+      getUser()
+      getStats()
+    } else {
+      navigate("/user-login");
     }
   }, []);
   const isEmptyObject = (obj) => {
@@ -252,9 +290,19 @@ const MobileNav = ({ onOpen, ...rest }) => {
                 </MenuButton>
                 <MenuList>
                   <MenuGroup title={investee?.businessName}>
-                    <MenuItem><Link to={"#"}>Chats</Link></MenuItem>
+                    <MenuItem><Link to={"#"}>Chats </Link></MenuItem>
                     <MenuItem><Link to={"/user/investee-dashboard/password-change"}>Change Password</Link></MenuItem>
-                    <MenuItem><Link to={"/user/investee-dashboard/notifications"}>Notifications</Link></MenuItem>
+                    <MenuItem><Link to={"/user/investee-dashboard/notifications"}>Notifications  <span style={{
+                      color: 'white',
+                      backgroundColor: 'red',
+                      borderRadius: '50%',
+                      padding: '4px 8px',
+                      display: 'inline-block',
+                      textAlign: 'center',
+                      minWidth: '20px'
+                    }}>
+                      {totalNotifications}
+                    </span></Link></MenuItem>
                     <MenuItem><Link to={`/user/investee-dashboard/chat-support/65d88f93e5d99c47ee8df0dd/${investee?._id}`}>Chat Support</Link></MenuItem>
 
                     <MenuItem><Link to={"/user/investee-dashboard/logout"}>Log Out</Link></MenuItem>

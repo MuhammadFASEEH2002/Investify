@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from './components/Sidebar';
-import { Stack, Spinner, Card, CardBody, Text, Heading } from '@chakra-ui/react';
+import { Stack, Spinner, Card, CardBody, Text, Heading ,Flex,Box,Spacer} from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import useInvestee from '../../providers/investeeStore';
 
@@ -27,11 +27,11 @@ const Investeedashboardallchats = () => {
             })
                 .then((res) => res.json())
                 .then((res) => {
-                    if (res.status) {                  
+                    if (res.status) {
                         setMessages(res.message)
                         getChats(res.message)
                         setLoading(false)
-                     
+
                     }
                     else {
                         console.log("error")
@@ -45,28 +45,52 @@ const Investeedashboardallchats = () => {
             console.log(error)
         }
     }
+    // const getChats = (messages) => {
+    //     const distinctChats = new Set();
+    //     messages.map((message) => {
+    //         //    console.log(message)
+    //         if (message.chat_id.split('_')[0] == investee?._id || message.chat_id.split('_')[1] == investee?._id) {
+    //             // if (message.investor_id?.businessName !== investee?.businessName) {
+    //             // console.log(message?.investor_id?.firstName)
+    //             let chatId = message?.chat_id
+    //             let chatName = `${message?.investor_id?.firstName} ${message?.investor_id?.lastName}`
+    //             let chatTime = message?.createdAt
+    //             let uniqueIdentifier = `${chatId}-${chatName}`
+    //             distinctChats.add(uniqueIdentifier)
+
+
+    //         }
+
+    //     });
+    //     // console.log(distinctChats)
+    //     const chatHeads = Array.from(distinctChats);
+    //     // console.log(chatHeads);
+    //     setChats(chatHeads);
+    //     // console.log(chats)
+    // }
     const getChats = (messages) => {
-        const distinctChats = new Set();
-        messages.map((message) => {
-            //    console.log(message)
-            if (message.chat_id.split('_')[0] == investee?._id || message.chat_id.split('_')[1] == investee?._id) {
-                // if (message.investor_id?.businessName !== investee?.businessName) {
-                    // console.log(message?.investor_id?.firstName)
-                    let chatId = message?.chat_id
-                    let chatName = `${message?.investor_id?.firstName} ${message?.investor_id?.lastName}`
-                    let uniqueIdentifier=`${chatId}-${chatName}`
-                    distinctChats.add( uniqueIdentifier )
-            
+        const distinctChats = new Map();
 
+        messages.forEach((message) => {
+            if (message.chat_id.split('_')[0] === investee?._id || message.chat_id.split('_')[1] === investee?._id) {
+                let chatId = message?.chat_id;
+                let chatName = `${message?.investor_id?.firstName} ${message?.investor_id?.lastName}`;
+                let chatTime = message?.createdAt;
+                let uniqueIdentifier = `${chatId}-${chatName}`;
+
+                // If the uniqueIdentifier is not in the map or the current message is newer, update the map
+                if (!distinctChats.has(uniqueIdentifier) || new Date(chatTime) > new Date(distinctChats.get(uniqueIdentifier).createdAt)) {
+                    distinctChats.set(uniqueIdentifier, message);
+                }
             }
-
         });
-        // console.log(distinctChats)
-        const chatHeads = Array.from(distinctChats);
-                // console.log(chatHeads);
-                setChats(chatHeads);
-                // console.log(chats)
-    }
+
+        // Convert the map values to an array of distinct messages
+        const chatHeads = Array.from(distinctChats.values());
+        setChats(chatHeads);
+    };
+
+
     useEffect(() => {
         if (window.localStorage.getItem('token')) {
             document.title = 'Investify | Investor-All-Chats';
@@ -81,29 +105,56 @@ const Investeedashboardallchats = () => {
 
     return (
         <Sidebar>
-      <Heading textAlign={"center"}>All Chats</Heading>
+            <Heading textAlign={"center"}>All Chats</Heading>
 
             {loading ? (<>
                 <><Stack minHeight={'100%'} width={'100%'} alignItems={"center"} justifyContent={"center"} ><Spinner size='xl' /></Stack> </>
             </>) : (<>
-                {chats.length > 0 ? 
-                (
-                    <>
-                        <Stack width={"100%"} alignItems={"center"} justifyContent={"center"}>
-                            <Stack width={{ base: "100%", md: "80%", lg: "70%" }} flexDirection={"column"}>
-                                {chats.map((chat,index) => (
-                                    <Card onClick={() => {
-                                        navigate(`/user/investee-dashboard/chat/${chat?.split('-')[0].split('_')[0]}/${chat?.split('-')[0].split('_')[1]}`);
-                                    }} cursor={"pointer"} key={index} width={"100%"}>
-                                        <CardBody>
-                                            <Text fontSize={"1em"}>chat {index + 1}: {chat.split('-')[1]} </Text>
-                                        </CardBody>
-                                    </Card>
-                                ))}
+                {chats.length > 0 ?
+                    (
+                        <>
+                            <Stack width={"100%"} alignItems={"center"} justifyContent={"center"}>
+                                <Stack width={{ base: "100%", md: "80%", lg: "70%" }} flexDirection={"column"}>
+                                    {chats.map((chat, index) => (
+                                        <Card
+                                            onClick={() => {
+                                                const chatIdParts = chat.chat_id.split('_');
+                                                navigate(`/user/investee-dashboard/chat/${chatIdParts[0]}/${chatIdParts[1]}`);
+                                            }}
+                                            cursor="pointer"
+                                            key={index}
+                                            width="100%"
+                                            mb={4}
+                                            boxShadow="md"
+                                            borderRadius="md"
+                                            _hover={{ boxShadow: "lg", transform: "scale(1.02)", transition: "all 0.2s" }}
+                                        >
+                                            <CardBody>
+                                                <Flex alignItems="center">
+                                                    <Box>
+                                                        <Text fontSize="1.2em" fontWeight="bold">
+                                                            {`${chat.investor_id.firstName} ${chat.investor_id.lastName}`}
+                                                        </Text>
+                                                        {/* <Text color="gray.500" fontSize="0.9em">
+                                                            {chat.investor_id.businessName || "No Business Name"}
+                                                        </Text> */}
+                                                    </Box>
+                                                    <Spacer />
+                                                    <Box textAlign="right">
+                                                        <Text color="gray.400" fontSize="0.8em">
+                                                            {new Date(chat.createdAt).toLocaleString()}
+                                                        </Text>
+                                                    </Box>
+                                                </Flex>
+                                            </CardBody>
+                                        </Card>
+                                    ))}
+
+
+                                </Stack>
                             </Stack>
-                        </Stack>
-                    </>
-                ) : (<>No Chats</>)}
+                        </>
+                    ) : (<>No Chats</>)}
             </>)}
         </Sidebar>
     );

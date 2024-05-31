@@ -64,9 +64,11 @@ const Investordashboardnotification = () => {
         .then((res) => {
           if (res.status) {
             try {
+              setNotifications(null)
+              setLoading(true)
 
               const token = window.localStorage.getItem('token1');
-              fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investee/get-notifications`, {
+              fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/get-notifications`, {
                 method: "GET",
                 headers: {
                   'token': token,
@@ -78,6 +80,7 @@ const Investordashboardnotification = () => {
                 .then((res) => {
                   if (res.status) {
                     setNotifications(res.notifications)
+                    setLoading(false)
 
                   } else {
                     toast({
@@ -87,6 +90,8 @@ const Investordashboardnotification = () => {
                       isClosable: true,
                       position: "top",
                     });
+            setLoading(false)
+
                   }
                 })
                 .catch((err) => console.log(err));

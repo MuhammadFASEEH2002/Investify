@@ -81,12 +81,14 @@ exports.setMarkAsRead = async (req, res) => {
 exports.getStats = async (req, res) => {
     try {
         const TotalNotifications = await Notification.countDocuments({ investorId: req.user })
+        const TotalUnreadNotifications = await Notification.countDocuments({ investorId: req.user, isRead: false })
+        
         const listing = await Listing.find({ investor_id: req.user })
         console.log(listing)
         const totalAmount = listing.map(item => parseInt(item.amount)).reduce((acc, curr) => acc + curr, 0);
 
         console.log("Total amount:", totalAmount);
-        res.json({ status: true, TotalNotifications, totalAmount });
+        res.json({ status: true, TotalNotifications, totalAmount ,TotalUnreadNotifications});
 
     } catch (error) {
         res.json({ message: error.message, status: false });

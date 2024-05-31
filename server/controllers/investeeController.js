@@ -454,9 +454,11 @@ exports.getStats = async (req, res) => {
         }
       ]
     })
-    console.log(DeletedListingCount)
+    const TotalUnreadNotifications = await Notification.countDocuments({ investeeId: req.user, isRead: false })
 
-    res.json({ status: true, TotalListingCount, ActiveListingCount, DeletedListingCount });
+    // console.log(DeletedListingCount)
+
+    res.json({ status: true, TotalListingCount, ActiveListingCount, DeletedListingCount,TotalUnreadNotifications });
 
   } catch (error) {
     res.json({ message: error.message, status: false });

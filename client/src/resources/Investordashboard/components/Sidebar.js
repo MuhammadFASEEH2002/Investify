@@ -24,7 +24,7 @@ import {
   FiList
 } from "react-icons/fi";
 import { IconType } from "react-icons";
-import { NavLink, Link} from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import Logo from "../../../components/Logo";
 import { useEffect, useState } from "react";
 import { BsChatRight } from "react-icons/bs";
@@ -121,78 +121,93 @@ const NavItem = ({ icon, children, link, ...rest }) => {
 
 const MobileNav = ({ onOpen, ...rest }) => {
   const messagesRef = collection(db, 'messages');
-
+  const navigate = useNavigate()
   const setInvestor = useInvestor((state) => state?.setInvestor)
   const investor = useInvestor((state) => state?.investors)
-  const [roomIdsArray, setRoomIdsArray] = useState([]);
+  const [totalNotifications, setTotalNotifications] = useState('');
 
   const getUser = () => {
-  try {
-    console.log(investor)
-    if(isEmptyObject(investor)){
-      const token1 = window.localStorage.getItem('token1');
-      fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/get-user`, {
-        method: "GET",
-        headers: {
-          'token': token1,
-          'Accept': "application/json",
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((res) => {  
-          if(res.status){
-            setInvestor(res.investor);
-          }
-         else{
-            console.log("error")
-          }
+    try {
+      console.log(investor)
+      if (isEmptyObject(investor)) {
+        const token1 = window.localStorage.getItem('token1');
+        fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/get-user`, {
+          method: "GET",
+          headers: {
+            'token': token1,
+            'Accept': "application/json",
+            "Content-Type": "application/json",
+          },
         })
-        .catch((err) => console.log(err));
-    } else{
-      console.log("investor data is present")
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.status) {
+              setInvestor(res.investor);
+            }
+            else {
+              console.log("error")
+            }
+          })
+          .catch((err) => console.log(err));
+      } else {
+        console.log("investor data is present")
+      }
+    } catch (error) {
+      console.log(error)
     }
-  } catch (error) {
-    console.log(error)
-  }
-  
+
   };
-  const getChatCount =()=>{
-    const queryMessages = query(messagesRef, orderBy('roomId'));
-    const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
+  const getStats = () => {
+    // setLoading(true)
 
-      const distinctRoomIds = new Set();
-      snapshot.forEach((doc) => {
-        console.log(doc.data())
-        const { roomId, userName } = doc.data();
-        if (roomId.split('_')[0] == investor?._id || roomId.split('_')[1] == investor?._id) {
-          // distinctRoomIds.add(roomId);
-          if (userName.split(" ")[0] != investor?.firstName && userName.split(" ")[1] != investor?.lastName) {
+    const token = window.localStorage.getItem('token1');
+    fetch(`${process.env.REACT_APP_FETCH_URL_}/api/investor/get-stats`, {
+      method: "GET",
+      headers: {
+        'token': token,
+        'Accept': "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status) {
+          // setTotalListingCount(res.TotalListingCount)
+          // setActiveListingCount(res.ActiveListingCount)
+          // setTotalAmount(res.totalAmount)
+          // setTotalNotifications(res.TotalNotifications)
+          // setLoading(false)
+          setTotalNotifications(res.TotalUnreadNotifications)
 
-            const uniqueIdentifier = `${roomId}-${userName}`; // Combine roomId and userName
-            distinctRoomIds.add(uniqueIdentifier);
-          }
         } else {
-          console.log('not same')
-        }
-      });
-      // console.log(distinctRoomIds.length);
-      const roomIds = Array.from(distinctRoomIds);
-      setRoomIdsArray(roomIds);
-      
-      // setLoading(false);
-    });
-  
-    return () => {
-      unsubscribe();
-    };
-  }
-  useEffect(() => {
-    document.title = "Investify | Investor-Home";
+          // toast({
+          //   title: "Network Error, Reload Again",
+          //   status: "error",
+          //   duration: 9000,
+          //   isClosable: true,
+          //   position: "top",
+          // });
+          // setLoading(false)
 
-    getUser();
-    // getChatCount()
- 
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+  // useEffect(() => {
+  //   document.title = "Investify | Investor-Home";
+
+  //   getUser();
+  //   // getChatCount()
+
+  // }, []);
+  useEffect(() => {
+    if (window.localStorage.getItem('token1')) {
+      document.title = "Investify | Investor-Home";
+      getUser();
+      getStats()
+    } else {
+      navigate("/user-login");
+    }
   }, []);
   const isEmptyObject = (obj) => {
     return obj ? Object.keys(obj).length === 0 : true;
@@ -235,29 +250,39 @@ const MobileNav = ({ onOpen, ...rest }) => {
         /> */}
         <Flex alignItems={"center"}>
           <Menu>
-           
-              <HStack>
-                <Menu>
-                  <MenuButton as={Button} >
-                    <Avatar
-                      size={"sm"}
-                      src={"/images/investor_image.png"}
-                    />
-                  </MenuButton>
-                  <MenuList>
-                    <MenuGroup title={`${investor?.firstName} ${investor?.lastName}`}>
-                      <MenuItem><Link to={"#"}>Chats {roomIdsArray.length}</Link></MenuItem>
-                      <MenuItem><Link to={"/user/investor-dashboard/notifications"}>Notifications</Link></MenuItem>
-                      <MenuItem><Link to={`/user/investor-dashboard/chat-support/65d88f93e5d99c47ee8df0dd/${investor?._id}`}>Chat Support</Link></MenuItem>
-                      <MenuItem><Link to={"/user/investor-dashboard/logout"}>Log Out</Link></MenuItem>
 
-                    </MenuGroup>
-                  </MenuList>
-                </Menu>
-                <Box display={{ base: "none", md: "flex" }}>
-                </Box>
-              </HStack>
-          
+            <HStack>
+              <Menu>
+                <MenuButton as={Button} >
+                  <Avatar
+                    size={"sm"}
+                    src={"/images/investor_image.png"}
+                  />
+                </MenuButton>
+                <MenuList>
+                  <MenuGroup title={`${investor?.firstName} ${investor?.lastName}`}>
+                    <MenuItem><Link to={"#"}>Chats</Link></MenuItem>
+                    <MenuItem><Link to={"/user/investor-dashboard/notifications"}>Notifications   <span style={{
+                      color: 'white',
+                      backgroundColor: 'red',
+                      borderRadius: '50%',
+                      padding: '4px 8px',
+                      display: 'inline-block',
+                      textAlign: 'center',
+                      minWidth: '20px'
+                    }}>
+                      {totalNotifications}
+                    </span></Link></MenuItem>
+                    <MenuItem><Link to={`/user/investor-dashboard/chat-support/65d88f93e5d99c47ee8df0dd/${investor?._id}`}>Chat Support</Link></MenuItem>
+                    <MenuItem><Link to={"/user/investor-dashboard/logout"}>Log Out</Link></MenuItem>
+
+                  </MenuGroup>
+                </MenuList>
+              </Menu>
+              <Box display={{ base: "none", md: "flex" }}>
+              </Box>
+            </HStack>
+
 
           </Menu>
         </Flex>
@@ -284,7 +309,7 @@ const Sidebar = ({ children }) => {
         size="full"
       >
         <DrawerContent>
-          <SidebarContent onClose={onClose}/>
+          <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
