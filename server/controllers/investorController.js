@@ -297,9 +297,19 @@ exports.investmentAgreement = async (req, res) => {
             const snapshot = await uploadBytes(fileRef, file);
             console.log('File uploaded successfully.');
             const url = await getDownloadURL(snapshot.ref);
-
+            await Notification.create({
+                investeeId: listing?.investee_id?._id,
+                message: `Dear ${listing?.investee_id.businessName}, congratulaions on securing investment from ${listing?.investor_id.firstName} ${listing?.investor_id.lastName} on of your active listings. We hope that this funding will open new opportunities for your business and it will reach new heights`,
+                isRead: false
+              })
+              await Notification.create({
+                investorId: listing?.investor_id?._id,
+                message: `Dear ${listing?.investor_id.firstName}, congratulations on investing in ${listing?.investee_id.businessName}. We hope you will gain huge profits from this investment. incase of any problem contact our support team. `,
+                isRead: false
+              })
             // Update the listing with the URL
             await Listing.findByIdAndUpdate(listing?._id, { agreementDocument: url });
+
             res.json({ message: "Upload successful", status: true });
         }
 
