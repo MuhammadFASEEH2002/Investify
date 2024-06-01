@@ -19,13 +19,13 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  Button, MenuGroup,
+  Button, MenuGroup,Stack
 } from "@chakra-ui/react";
 import {
   FiMenu,
   FiUserCheck,
 } from "react-icons/fi";
-import { NavLink, useNavigate, Link} from 'react-router-dom';
+import { NavLink, useNavigate, Link } from 'react-router-dom';
 import Logo from "../../../components/Logo";
 import { useEffect, useState } from "react";
 import { IoHomeOutline } from "react-icons/io5";
@@ -168,22 +168,31 @@ const MobileNav = ({ onOpen, ...rest }) => {
       >
         < Logo />
       </Text>
-
+      <Stack width={{ base: "none", md: "80%", lg: "100%" }}
+        height={{ base: "none", md: "80%", lg: "100%" }} alignItems={"center"} justifyContent={"center"} display={{ base: "none", md: "flex" }}
+      >
+        <Stack
+          height={{ base: "none", md: "none", lg: "100%" }}
+          width={{ base: "none", md: "none", lg: "70%" }}
+          backgroundImage="url('/images/navbartagline.png')"
+          backgroundSize={"100% 100%"}
+        ></Stack>
+      </Stack>
       <HStack spacing={{ base: "0", md: "6" }}>
 
         <Flex alignItems={"center"}>
           <Menu>
 
             <HStack>
-          
+
               <Menu>
                 <MenuButton as={Button} >
-                <Avatar
-                size={"sm"}
-                src={
-                  "https://icons.veryicon.com/png/o/application/cloud-supervision-platform-vr10/admin-5.png"
-                }
-              />
+                  <Avatar
+                    size={"sm"}
+                    src={
+                      "https://icons.veryicon.com/png/o/application/cloud-supervision-platform-vr10/admin-5.png"
+                    }
+                  />
                 </MenuButton>
                 <MenuList>
                   <MenuGroup title="Admin">

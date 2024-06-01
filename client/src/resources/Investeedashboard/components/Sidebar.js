@@ -17,7 +17,7 @@ import {
   MenuGroup,
   MenuList,
   MenuItem,
-  useToast
+  useToast,Stack
 } from "@chakra-ui/react";
 import {
   FiMenu,
@@ -273,7 +273,16 @@ const MobileNav = ({ onOpen, ...rest }) => {
       >
         < Logo />
       </Text>
-
+      <Stack width={{ base: "none", md: "80%", lg: "100%" }}
+        height={{ base: "none", md: "80%", lg: "100%" }} alignItems={"center"} justifyContent={"center"} display={{ base: "none", md: "flex" }}
+      >
+        <Stack
+          height={{ base: "none", md: "none", lg: "100%" }}
+          width={{ base: "none", md: "none", lg: "70%" }}
+          backgroundImage="url('/images/navbartagline.png')"
+          backgroundSize={"100% 100%"}
+        ></Stack>
+      </Stack>
       <HStack spacing={{ base: "0", md: "6" }}>
 
         <Flex alignItems={"center"}>

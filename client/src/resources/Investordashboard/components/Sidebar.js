@@ -15,7 +15,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
-  Button, MenuGroup,
+  Button, MenuGroup, Stack
 } from "@chakra-ui/react";
 import {
   FiHome,
@@ -193,13 +193,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       })
       .catch((err) => console.log(err));
   };
-  // useEffect(() => {
-  //   document.title = "Investify | Investor-Home";
 
-  //   getUser();
-  //   // getChatCount()
-
-  // }, []);
   useEffect(() => {
     if (window.localStorage.getItem('token1')) {
       document.title = "Investify | Investor-Home";
@@ -240,6 +234,16 @@ const MobileNav = ({ onOpen, ...rest }) => {
       >
         < Logo />
       </Text>
+      <Stack width={{ base: "none", md: "80%", lg: "100%" }}
+        height={{ base: "none", md: "80%", lg: "100%" }} alignItems={"center"} justifyContent={"center"} display={{ base: "none", md: "flex" }}
+      >
+        <Stack
+          height={{ base: "none", md: "none", lg: "100%" }}
+          width={{ base: "none", md: "none", lg: "70%" }}
+          backgroundImage="url('/images/navbartagline.png')"
+          backgroundSize={"100% 100%"}
+        ></Stack>
+      </Stack>
 
       <HStack spacing={{ base: "0", md: "6" }}>
         {/* <IconButton
