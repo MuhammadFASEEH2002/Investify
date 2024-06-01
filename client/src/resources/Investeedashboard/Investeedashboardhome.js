@@ -31,6 +31,8 @@ const Investeedashboardhome = () => {
   const [zipcode, setZipcode] = useState("");
   const [loading, setLoading] = useState(false);
   const [totalListingCount, setTotalListingCount] = useState("");
+  const [totalFundingAmount, setTotalFundingAmount] = useState("");
+
   const [activeListingCount, setActiveListingCount] = useState("");
   const [deletedListingCount, setDeletedListingCount] = useState("");
   const messagesRef = collection(db, 'messages');
@@ -102,6 +104,7 @@ const Investeedashboardhome = () => {
           setTotalListingCount(res.TotalListingCount)
           setActiveListingCount(res.ActiveListingCount)
           setDeletedListingCount(res.DeletedListingCount)
+          setTotalFundingAmount(res.TotalFundingAmount)
           setLoading(false)
 
         } else {
@@ -155,7 +158,7 @@ const Investeedashboardhome = () => {
 
             <StatCard colorscheme="blue" title="Total Listings" listings={totalListingCount} icon={<FiList />} />
             <StatCard colorscheme="green" title="Active Listings" listings={activeListingCount} icon={<FaCheckCircle />} />
-            <StatCard colorscheme="red" title="Deleted Listings" listings={deletedListingCount} icon={<MdDelete />} />
+            <StatCard colorscheme="red" title="Total Fundings" listings={`Rs ${Number(totalFundingAmount).toLocaleString('en-IN')}`} icon={<MdDelete />} />
 
 
 

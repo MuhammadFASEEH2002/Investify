@@ -455,10 +455,16 @@ exports.getStats = async (req, res) => {
       ]
     })
     const TotalUnreadNotifications = await Notification.countDocuments({ investeeId: req.user, isRead: false })
+    const FundingAmount = await Listing.find({ isVerified: true, investee_id: investee._id, payment_session_id: { $exists: true }, investor_id: { $exists: true } }).populate( //correct it
+      "investee_id investor_id"
+    );
+    const TotalFundingAmount = FundingAmount.reduce((acc, amount) => {
+      return acc + (Number(amount?.amountReceived) || 0);
+    }, 0);
+    console.log(TotalFundingAmount)
 
-    // console.log(DeletedListingCount)
 
-    res.json({ status: true, TotalListingCount, ActiveListingCount, DeletedListingCount,TotalUnreadNotifications });
+    res.json({ status: true, TotalListingCount, ActiveListingCount, DeletedListingCount, TotalUnreadNotifications, TotalFundingAmount });
 
   } catch (error) {
     res.json({ message: error.message, status: false });
@@ -468,8 +474,8 @@ exports.getInvestments = async (req, res) => {
   try {
     const investee = await Investee.findOne({ _id: req.user })
     console.log(investee._id)
-    const listing = await Listing.find({ isVerified: true, investee_id: investee._id, payment_session_id: { $exists: true }, investor_id:{$exists:true} }).populate( //correct it
-      "investee_id investor_id"  
+    const listing = await Listing.find({ isVerified: true, investee_id: investee._id, payment_session_id: { $exists: true }, investor_id: { $exists: true } }).populate( //correct it
+      "investee_id investor_id"
     );
     console.log(listing)
     if (listing) {
@@ -483,40 +489,40 @@ exports.getInvestments = async (req, res) => {
   }
 };
 
-exports.getChatUser =async(req,res)=>{
+exports.getChatUser = async (req, res) => {
   try {
-      const chatUser=await Investor.findOne({_id:req.body.id1})
-      if(chatUser){
-          res.json({
-              status: true,
-              chatUser
-          });
-      }
-      
+    const chatUser = await Investor.findOne({ _id: req.body.id1 })
+    if (chatUser) {
+      res.json({
+        status: true,
+        chatUser
+      });
+    }
+
   } catch (error) {
-      
+
   }
 }
 exports.getInvestmentDetail = async (req, res) => {
   try {
-      const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id investor_id");
-      console.log(listing);
-      const investeeId = req.user
-      res.json({ status: true, listing, investeeId });
+    const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id investor_id");
+    console.log(listing);
+    const investeeId = req.user
+    res.json({ status: true, listing, investeeId });
   } catch (error) {
-      res.json({ status: false, message: error.message });
+    res.json({ status: false, message: error.message });
   }
 };
 exports.logout = async (req, res) => {
   try {
-      await Investee.findByIdAndUpdate({ _id: req.user }, {
-        isOnline: false,
-      })
-      res.json({ message: "user logged out", status: true, });
+    await Investee.findByIdAndUpdate({ _id: req.user }, {
+      isOnline: false,
+    })
+    res.json({ message: "user logged out", status: true, });
 
 
   } catch (error) {
-      res.json({ message: error.message, status: false });
+    res.json({ message: error.message, status: false });
 
   }
 }
