@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Box, Text, Input, Button } from '@chakra-ui/react';
+import { Box, Text, Input, Button,Flex } from '@chakra-ui/react';
 import Sidebar from './components/Sidebar';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -151,10 +151,31 @@ const Investordashboardchat = () => {
           </Box>
           <Box height="300px" overflowY="scroll" p={6} borderWidth="1px" borderRadius="lg" ref={chatContainerRef} backgroundColor={""}>
             {/* Chat messages */}
-            {messages.map((message) => (
-              <Text textAlign={message?.investor_id?._id == id1 ? "right" : "left"} padding={2}> <span style={{ padding: "8px", borderRadius: "10px", backgroundColor: message?.investor_id?._id == id1 ? "#0096FF" : "#89CFF0", color: message?.investor_id?._id== id1 ? "white" : "black" }}>{message?.investor_id?._id== id1 ? `${message?.message}` : ` ${message?.message}`}</span></Text>
-              // <Text>{message?.message}</Text>
-            ))}
+            {messages.map((message, index) => (
+  <Flex
+    key={index}
+    justify={message?.investor_id?._id === id1 ? "flex-end" : "flex-start"}
+    mb={4}
+  >
+    <Box
+      maxW="80%"
+      bg={message?.investor_id?._id === id1 ? "blue.500" : "gray.200"}
+      color={message?.investor_id?._id === id1 ? "white" : "gray.800"}
+      px={4}
+      py={2}
+      rounded="lg"
+      roundedBottomRight={message?.investor_id?._id === id1 ? "none" : "lg"}
+      roundedBottomLeft={message?.investor_id?._id !== id1 ? "none" : "lg"}
+      style={{
+        "@media (max-width: 768px)": {
+          maxWidth: "100%",
+        },
+      }}
+    >
+      <Text>{message?.message}</Text>
+    </Box>
+  </Flex>
+))}
           </Box>
           <Input
             placeholder="Enter message"
