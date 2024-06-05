@@ -31,7 +31,7 @@ const Admindashboardinvestmentdetail = () => {
         if (res.status) {
 
           setListing(res.listing)
-        //   setInvestorId(res.investorId)
+          //   setInvestorId(res.investorId)
           setLoading(false)
         }
         else {
@@ -52,11 +52,11 @@ const Admindashboardinvestmentdetail = () => {
       });
   }
   useEffect(() => {
-    if (window.localStorage.getItem('token')) {
+    if (window.localStorage.getItem('adminToken')) {
       document.title = "Investify | Admin-Investment-Detail";
       getInvestment();
     } else {
-      navigate("/user-login");
+      navigate("/admin-login");
     }
   }, []);
   return (
@@ -146,37 +146,72 @@ const Admindashboardinvestmentdetail = () => {
             <Stack width={"100%"} justifyContent={"center"} alignItems={"center"} marginTop={"10px"}>
             </Stack>
             <CardFooter>
-              <CardBody width={"100%"}>
-                < Heading fontSize={"2xl"} color={"blue.400"} >
-                  Investment Terms & Conditions
-                </Heading>
-                <Divider marginBottom={"10px"} />
-                <Stack fontSize={{ base: "10", md: "15", lg: "15" }}>
-                  <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
-                    <Text color={"blue.400"}>Investment Amount: </Text>
-                    <Text>Rs {listing?.amount}</Text>
-                  </HStack>
-                  <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
-                    <Text color={"blue.400"}>Investment Amount Given after Commission: </Text>
-                    <Text>Rs {listing?.amountReceived}</Text>
-                  </HStack>
-                  <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
-                    <Text color={"blue.400"}>Duration of Investment: </Text>
-                    <Text>{listing?.investmentDuration} years</Text>
-                  </HStack>
-                  <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
-                    <Text color={"blue.400"}>Profit Share: </Text>
-                    <Text>{listing?.profitPercentage}% of profit will be shared with the investor after investment period is completed.</Text>
-                  </HStack>
-                  <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
-                    <Text color={"blue.400"}>Investment Agreement: </Text>
-                    <Link to={`${listing?.agreementDocument}`} color='blue' >
-                      <FiDownload color='blue' size={'20px'}/>
-                    </Link>
-                  </HStack>
-                </Stack>
+              <Stack width={{ base: "100%", md: "95%", lg: "95%" }} alignItems={"flex-start"} justifyContent={"center"} flexDirection={{ base: "column", md: "column", lg: "row" }}>
+                <Stack width={{ base: "100%", md: "100%", lg: "60%" }}>
+                  <CardBody width={"100%"}>
+                    < Heading fontSize={"2xl"} color={"blue.400"} >
+                      Investment Terms & Conditions
+                    </Heading>
+                    <Divider marginBottom={"10px"} />
+                    <Stack fontSize={{ base: "10", md: "15", lg: "15" }}>
+                      <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                        <Text color={"blue.400"}>Investment Amount: </Text>
+                        <Text>Rs {listing?.amount}</Text>
+                      </HStack>
+                      <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                        <Text color={"blue.400"}>Investment Amount Given after Commission: </Text>
+                        <Text>Rs {listing?.amountReceived}</Text>
+                      </HStack>
+                      <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                        <Text color={"blue.400"}>Duration of Investment: </Text>
+                        <Text>{listing?.investmentDuration} years</Text>
+                      </HStack>
+                      <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                        <Text color={"blue.400"}>Investment Status: </Text>
+                        <Text>{listing?.isInvestmentEnded ? 'Ended' : 'Not Ended'}</Text>
+                      </HStack>
+                      <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                        <Text color={"blue.400"}>Profit Share: </Text>
+                        <Text>{listing?.profitPercentage}% of profit will be shared with the investor after investment period is completed.</Text>
+                      </HStack>
 
-              </CardBody>
+                      <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                        <Text color={"blue.400"}>Investment Agreement: </Text>
+                        <Link to={`${listing?.agreementDocument}`} color='blue' >
+                          <FiDownload color='blue' size={'20px'} />
+                        </Link>
+                      </HStack>
+                    </Stack>
+
+                  </CardBody>
+              
+                </Stack>
+                <Stack width={{ base: "100%", md: "100%", lg: "40%" }}>
+                 
+                  {listing?.profit && (
+                    <CardBody width={"100%"}>
+                      <Heading fontSize={"2xl"} color={"blue.400"}>
+                        Profit Return
+                      </Heading>
+                      <Divider marginBottom={"10px"} />
+                      <Stack fontSize={{ base: "10", md: "15", lg: "15" }}>
+                        <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                          <Text color={"blue.400"}>Profit Amount: </Text>
+                          <Text>Rs {listing?.profit?.profitAmount}</Text>
+                        </HStack>
+                        
+
+                        <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                          <Text color={"blue.400"}>Profit Return Proof: </Text>
+                          <Link to={`${listing?.profit?.profitProof}`} color='blue' target='blank' >
+                            <FiDownload color='blue' size={'20px'} />
+                          </Link>
+                        </HStack>
+                      </Stack>
+                    </CardBody>
+                  )}
+                </Stack>
+              </Stack>
             </CardFooter>
           </Card>
         </>)}

@@ -452,7 +452,7 @@ exports.getInvestment = async (req, res) => {
 };
 exports.getInvestmentDetail = async (req, res) => {
   try {
-    const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id investor_id");
+    const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id investor_id profit");
     console.log(listing);
     // const investeeId = req.user
     res.json({ status: true, listing });
