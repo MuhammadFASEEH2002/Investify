@@ -116,7 +116,7 @@ const Investeedashboardlistingcreation = () => {
                 <Stack width={"100%"}>
                   <Text>Business Description</Text>
                   <Textarea
-                    placeholder="Describe your business in not more than 200 words."
+                    placeholder="Describe your business in not more than 200 words. Details should include about past months profit, your future goals like where this investment will be used."
                     width={"90%"}
                     variant={"filled"}
                     border={"0.5px solid grey"}

@@ -139,7 +139,9 @@ const Investordashboardhome = () => {
           <HStack justifyContent={'space-evenly'} my={5} flexWrap={"wrap"}>
 
             {/* <StatCard colorscheme="blue" title="Notifications" listings={totalNotifications} icon={<IoIosNotifications />} /> */}
-            <StatCard colorscheme="red" title="Total Amount Invested" listings={`Rs ${totalAmount}`} icon={<IoIosNotifications />} />
+            <StatCard colorscheme="red" title="Total Amount Invested" listings={`Rs ${Number(totalAmount).toLocaleString()}`} icon={<IoIosNotifications />} />
+            {/* <Text>Rs {Number(listing?.profit.profitAmount).toLocaleString('en-IN')}</Text> */}
+
 
           </HStack>
           <Card >

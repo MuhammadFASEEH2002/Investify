@@ -475,7 +475,7 @@ exports.getInvestments = async (req, res) => {
     const investee = await Investee.findOne({ _id: req.user })
     console.log(investee._id)
     const listing = await Listing.find({ isVerified: true, investee_id: investee._id, payment_session_id: { $exists: true }, investor_id: { $exists: true } }).populate( //correct it
-      "investee_id investor_id"
+      "investee_id investor_id profit"
     );
     console.log(listing)
     if (listing) {
@@ -505,7 +505,7 @@ exports.getChatUser = async (req, res) => {
 }
 exports.getInvestmentDetail = async (req, res) => {
   try {
-    const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id investor_id");
+    const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id investor_id profit");
     console.log(listing);
     const investeeId = req.user
     res.json({ status: true, listing, investeeId });

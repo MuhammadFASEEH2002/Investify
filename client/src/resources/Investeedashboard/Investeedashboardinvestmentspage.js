@@ -93,6 +93,7 @@ const Row = ({ investment }) => {
     <Td>Rs {Number(investment?.amount).toLocaleString('en-IN')} /- </Td>
     <Td>{investment?.investmentDuration} years </Td>
     <Td>{investment?.profitPercentage} % </Td>
+    {investment?.isInvestmentEnded? <Td>Ended</Td> : <Td>Ongoing</Td>}
     {/* <Td>{investment?.investment_start_date}  </Td>
     <Td>{investment?.investment_end_date}  </Td> */}
   </Tr>

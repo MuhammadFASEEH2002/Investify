@@ -186,6 +186,32 @@ const Investeedashboardinvestmentdetail = () => {
                 </Stack>
 
               </CardBody>
+              <Stack width={{ base: "100%", md: "100%", lg: "40%" }}>
+                {listing?.profit && (
+                  <CardBody width={"100%"}>
+                    <Heading fontSize={"2xl"} color={"blue.400"}>
+                      Profit Return
+                    </Heading>
+                    <Divider marginBottom={"10px"} />
+                    <Stack fontSize={{ base: "10", md: "15", lg: "15" }}>
+                      <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                        <Text color={"blue.400"}>Profit Amount: </Text>
+                        {/* <Text>Rs {listing?.profit?.profitAmount}</Text> */}
+                        <Text>Rs {Number(listing?.profit.profitAmount).toLocaleString('en-IN')}</Text>
+
+                      </HStack>
+
+
+                      <HStack justifyContent={"flex-start"} alignItems={"flex-start"}>
+                        <Text color={"blue.400"}>Profit Return Proof: </Text>
+                        <Link to={`${listing?.profit?.profitProof}`} color='blue' target='blank' >
+                          <FiDownload color='blue' size={'20px'} />
+                        </Link>
+                      </HStack>
+                    </Stack>
+                  </CardBody>
+                )}
+              </Stack>
             </CardFooter>
           </Card>
         </>)}

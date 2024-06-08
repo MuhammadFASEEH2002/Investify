@@ -324,7 +324,7 @@ exports.getInvestments = async (req, res) => {
         const investor = await Investor.findOne({ _id: req.user })
         console.log(investor._id)
         const listing = await Listing.find({ isVerified: true, investor_id: investor._id }).populate(
-            "investee_id investor_id"
+            "investee_id investor_id profit"
         );
         // console.log(listing)
         if (listing) {
@@ -367,7 +367,7 @@ exports.logout = async (req, res) => {
 }
 exports.getInvestmentDetail = async (req, res) => {
     try {
-        const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id investor_id");
+        const listing = await Listing.findOne({ _id: req.headers.id }).populate("investee_id investor_id profit");
         console.log(listing);
         const investorId = req.user
         res.json({ status: true, listing, investorId });
