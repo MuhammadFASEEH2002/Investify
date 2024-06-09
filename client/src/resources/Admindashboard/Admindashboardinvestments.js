@@ -115,7 +115,8 @@ const Row = ({ investment }) => {
   const handleProfitChange = (event) => {
     const profit = event.target.value;
     setTotalProfit(profit);
-    const calculatedProfit = profit ? (parseFloat(profit) * 0.05).toFixed(2) : '';
+    const profitPercentage = investment.profitPercentage;
+    const calculatedProfit = profit ? (parseFloat(profit) * Number(profitPercentage)/100).toFixed(2) : '';
     setProfitToGive(calculatedProfit);
   };
   const onOpen = () => {
