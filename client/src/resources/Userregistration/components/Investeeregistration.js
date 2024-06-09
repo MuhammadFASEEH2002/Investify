@@ -11,7 +11,8 @@ import {
   Select,
   Checkbox,
   useToast,
-  Spinner
+  Spinner,
+  Tooltip
 } from "@chakra-ui/react";
 import {
   ref,
@@ -450,15 +451,17 @@ const Investeeregistration = () => {
                 </Select>
               </Stack>
               <Stack width={"50%"}>
-                <Text>Upload Supporting Documents</Text>
-                <Input
-                  size="md"
-                  type="file"
-                  width={"90%"}
-                  accept=".pdf"
-                  onChange={handleFileChange}
-                />
-              </Stack>
+  <Text>Supporting Documents</Text>
+  <Tooltip label="Please upload a PDF file combing all business related supporting documents for making you approval case strong" aria-label="A tooltip">
+    <Input
+      size="md"
+      type="file"
+      width={"90%"}
+      accept=".pdf"
+      onChange={handleFileChange}
+    />
+  </Tooltip>
+</Stack>
             </HStack>
           </Stack>
         </HStack>
