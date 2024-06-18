@@ -161,7 +161,8 @@ const Investordashboardallchats = () => {
                                 </Stack>
                             </Stack>
                         </>
-                    ) : (<>No Chats</>)}
+                    ) : (          <Text textAlign={"center"}>No Chats Found.</Text>
+                    )}
 
 
             </>)}

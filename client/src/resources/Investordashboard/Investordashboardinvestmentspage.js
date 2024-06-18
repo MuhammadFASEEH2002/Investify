@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Sidebar from './components/Sidebar'
-import { Spinner, Stack, useToast, Tr, Td, Heading} from "@chakra-ui/react";
+import { Spinner, Stack, useToast, Tr, Td, Heading,Text} from "@chakra-ui/react";
 import { Link, useNavigate } from "react-router-dom";
 import JTable from './components/JTable';
 
@@ -73,7 +73,7 @@ const Investordashboardinvestmentspage = () => {
             bg='white'
           />
         ) : (
-          <p>No investments found.</p>
+          <Text textAlign={"center"}>No investments found.</Text>
         )}
       </>)}
 
